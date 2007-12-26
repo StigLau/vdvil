@@ -29,8 +29,8 @@ public class TopicMapInstructions extends Instructions {
 
 		Collections.sort( parts, new Comparator<Event>() {
 			public int compare( Event a, Event b) {
-				return a.getStartTime() - b.getStartTime();
-			}  } );
+                return (int) (a.getStartTime() - b.getStartTime());
+            }  } );
 		
 		for ( Event part : parts ) {
 			//addTopicMapInstruction( part ); TODO undo commenting!!!

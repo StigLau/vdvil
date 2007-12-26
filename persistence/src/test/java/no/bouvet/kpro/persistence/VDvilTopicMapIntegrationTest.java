@@ -57,40 +57,4 @@ public class VDvilTopicMapIntegrationTest {
         assertEquals(1, resutl.size());
     }
 
-    @Test
-    public void testSomething() throws InvalidQueryException {
-        VaudevilleTopicMap tm2 = new VaudevilleTopicMap("opera.ltm");
-        String tologQuery2 = "vdvil:media-event($MEDIA : vdvil:media, $EVENT : vdvil:event)?";
-        String tologQuery = "instance-of($MEDIA, %EVENT%)?";
-        String fieldName = "EVENT";
-        Map arguments = new HashMap();
-        //arguments.put("EVENT", tm.getTopicDAOByPSI("https://wiki.bouvet.no/snap-rythm_is_a_dancer").getTopicIF());
-        arguments.put("EVENT", tm.getTopicDAOByPSI("http://en.wikipedia.org/wiki/Puccini").getTopicIF());
-        List result = new ArrayList();
-
-        DeclarationContextIF dcontext = QueryUtils.parseDeclarations(tm2.getInterface(), prefixes);
-
-        QueryProcessorIF queryProcessor = QueryUtils.getQueryProcessor(tm2.getInterface());
-        QueryResultIF queryResult = queryProcessor.execute(tologQuery, arguments, dcontext);
-
-        while (queryResult.next()) {
-            result.add(queryResult.getValue(fieldName));
-        }
-
-
-
-
-
-        assertEquals(1, result.size());
-    }
-
-
-    static String prefixes = "  using ont   for i\"http://psi.ontopia.net/#\""
-			+ "  using onto  for i\"http://psi.ontopia.net/ontology/\""
-			+ "  using purl  for i\"http://purl.org/dc/elements/1.1/\""
-			+ "  using xtm   for i\"http://www.topicmaps.org/xtm/1.0/core.xtm#\""
-			+ "  using tech  for i\"http://www.techquila.com/psi/thesaurus/#\""
-			+ "  import \"http://psi.ontopia.net/tolog/string/\" as str "
-            + "  using vdvil  for i\"https://wiki.bouvet.no/\"";
-
 }
