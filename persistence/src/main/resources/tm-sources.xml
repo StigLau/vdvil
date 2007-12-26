@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config>
+    <storage id="default">
+        <source class="net.ontopia.topicmaps.xml.XTMPathTopicMapSource">
+            <param name="path" value="${CWD}/topicmaps"/>
+            <param name="suffix" value=".xtm"/>
+            <param name="duplicateSuppression" value="false"/>
+            <param name="validation" value="true"/>
+        </source>
+        <source class="net.ontopia.topicmaps.utils.ltm.LTMPathTopicMapSource">
+            <param name="path" value="${CWD}/topicmaps"/>
+            <param name="suffix" value=".ltm"/>
+            <param name="duplicateSuppression" value="false"/>
+            <!-- <param name="validation" value="true"/> -->
+        </source>
+    </storage>
+    <!-- ${CWD} -->
+</config>

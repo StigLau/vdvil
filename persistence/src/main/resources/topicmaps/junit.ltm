@@ -1,0 +1,473 @@
+@"utf-8"
+#VERSION "1.3"
+/*
+   Generator: Ontopia Knowledge Suite (OKS)
+   Date:      2007-11-15 15:36
+*/
+
+/* ----------------- TOPIC MAP ----------------- */
+
+#TOPICMAP ~ id76
+[id76 = "EventDrivenMusicMeta"]
+   {id76, id59, [[1.2]]}
+
+/* ----------------- ONTOLOGY ------------------ */
+
+/* ----------------- Topic Types --------------- */
+
+
+/* -- TT: id23 -- */
+[event : id23 id28 id31 = "Event"
+    @"https://wiki.bouvet.no/display/KPRO2007/EVENT"]
+   {event, id4, [[Something that happens at a given time]]}
+   {event, id8, [[000000001]]} / id29
+   {event, id8, [[000000002]]} / start-time
+   {event, id8, [[000000003]]} / stop-time
+   {event, id8, [[000000004]]} / part part-of
+   {event, id8, [[000000006]]} / bpm
+   {event, id8, [[000000007]]} / id4
+   {event, id8, [[000000008]]} / containee contains
+   {event, id8, [[000000009]]} / container contains
+[media : id23 id28 id41 = "Media"
+    @"https://wiki.bouvet.no/display/KPRO2007/MEDIA"]
+   {media, id4, [[A media file]]}
+   {media, id8, [[000000001]]} / id29
+   {media, id8, [[000000003]]} / media part-of
+   {media, id8, [[000000004]]} / id70
+   {media, id8, [[000000006]]}
+
+/* -- TT: id36 -- */
+[id16 : id36 id48 id80 = "Occurrence type"
+    @"http://psi.ontopia.net/ontology/occurrence-type"]
+[id23 : id36 id48 id80 = "Association role type"
+    @"http://psi.ontopia.net/ontology/role-type"]
+[id28 : id36 id80 = "Topic type"
+    @"http://psi.ontopia.net/ontology/topic-type"]
+[id67 : id36 id48 id80 = "Association type"
+    @"http://psi.ontopia.net/ontology/association-type"]
+[id68 : id36 id48 id80 = "Name type"
+    @"http://psi.ontopia.net/ontology/name-type"]
+
+/* -- TT: id48 -- */
+[id82 : id48 id80 = "Identity field"
+    @"http://psi.ontopia.net/ontology/identity-field"]
+
+/* -- TT: id80 -- */
+[id22 : id80 = "Interface control"
+    @"http://psi.ontopia.net/ontology/interface-control"]
+[id30 : id80 = "Hierarchical Relation Type"
+    @"http://www.techquila.com/psi/hierarchy/#hierarchical-relation-type"]
+[id31 : id80 = "Subordinate Role Type"
+    @"http://www.techquila.com/psi/hierarchy/#subordinate-role-type"]
+[id36 : id80 = "Ontology Topic type"
+    @"http://psi.ontopia.net/ontology/ontology-topic-type"]
+[id41 : id80 = "Superordinate Role Type"
+    @"http://www.techquila.com/psi/hierarchy/#superordinate-role-type"]
+[id48 : id80 = "Field Type"
+    @"http://psi.ontopia.net/ontology/field-type"]
+[id60 : id80 = "Cardinality"
+    @"http://psi.ontopia.net/ontology/cardinality"]
+[id78 : id80 = "Datatype"
+    @"http://psi.ontopia.net/ontology/datatype"]
+
+/* -- TT: (untyped) -- */
+[id80 = "System topic"
+    @"http://psi.ontopia.net/ontology/system-topic"]
+
+/* ----------------- Type Hierarchy ------------ */
+
+id38( id11 : id45, id16 : id39 )
+id38( id11 : id45, id23 : id39 )
+id38( id11 : id45, id67 : id39 )
+id38( id11 : id45, id68 : id39 )
+id38( id11 : id45, id82 : id39 )
+id38( id28 : id45, id36 : id39 )
+
+/* ----------------- Role Types ---------------- */
+
+
+/* -- TT: id23 -- */
+[container : id23 id31 = "container"
+    @"http://wiki.bouvet.no/KPRO2007/container"]
+[containee : id23 id41 = "containee"
+    @"http://wiki.bouvet.no/KPRO20007/containee"]
+[id39 : id23 id31 id80 = "Subclass"
+    @"http://www.topicmaps.org/xtm/1.0/core.xtm#subclass"]
+[id45 : id23 id41 id80 = "Superclass"
+    @"http://www.topicmaps.org/xtm/1.0/core.xtm#superclass"]
+[part : id23 = "Part"
+    @"http://en.wikipedia.org/wiki/Song_structure_(popular_music)"]
+   {part, id4, [[Part of a musical piece.]]}
+
+/* -- TT: id48 -- */
+[id11 : id48 id80 = "Field"
+    @"http://psi.ontopia.net/ontology/field"]
+
+/* ----------------- Association Types --------- */
+
+
+/* -- TT: id30 -- */
+[contains : id30 id67 = "contains"
+                      = "contained" / container
+                      = "contains" / containee
+    @"http://wiki.bouvet.no/kpro2007/contains"]
+[id38 : id30 id67 id80 = "Superclass/subclass"
+                       = "Subclass of" / id39
+                       = "Superclass of" / id45
+    @"http://www.topicmaps.org/xtm/1.0/core.xtm#superclass-subclass"]
+
+/* -- TT: id67 -- */
+[id17 : id67 id80 = "Has cardinality"
+    @"http://psi.ontopia.net/ontology/has-cardinality"]
+[id24 : id67 id80 = "Default Cardinality"
+    @"http://psi.ontopia.net/ontology/default-cardinality"]
+[id35 : id67 id80 = "Has field"
+    @"http://psi.ontopia.net/ontology/has-field"]
+[id43 : id67 id80 = "Is hidden"
+    @"http://psi.ontopia.net/ontology/is-hidden"]
+[id49 : id67 id80 = "Uses interface control"
+    @"http://psi.ontopia.net/ontology/use-control"]
+[id5 : id67 id80 = "Has role"
+    @"http://psi.ontopia.net/ontology/has-role"]
+[id9 : id67 id80 = "Has datatype"
+    @"http://psi.ontopia.net/ontology/has-datatype"]
+[part-of : id67 = "Part of"
+                = "contains" / media
+                = "occurs in" / part]
+
+/* ----------------- Occurrence Types ---------- */
+
+
+/* -- TT: id16 -- */
+[file : id16 = "mediafile"]
+[bpm : id16 = "bpm"]
+[id4 : id16 = "Description"
+    @"http://purl.org/dc/elements/1.1/description"]
+[start-time : id16 = "start time"]
+   {start-time, id4, [[ms offset]]}
+[id56 : id16 id80 = "Pattern"
+    @"http://psi.ontopia.net/ontology/pattern"]
+[stop-time : id16 = "stop time"]
+   {stop-time, id4, [[ms offset]]}
+[id8 : id16 id80 = "Field order"
+    @"http://psi.ontopia.net/ontology/field-order"]
+
+/* ----------------- INSTANCES ----------------- */
+
+/* ----------------- Topics -------------------- */
+
+
+/* -- TT: event -- */
+[id1 : event = "is killing me"]
+   {id1, start-time, [[11000]]}
+   {id1, stop-time, [[16000]]}
+[id13 : event = "Chorus"]
+   {id13, start-time, [[20000]]}
+   {id13, stop-time, [[40000]]}
+[id2 : event = "Snap starting out"]
+   {id2, id4, [[<audioInstruction song="Snap - Rhythm is a Dancer.mp3" cue="12.600453" duration="31.309206" rate="0.98154193" volume="1"/>]]}
+   {id2, start-time, [[0]]}
+   {id2, stop-time, [[31902.382]]}
+[id21 : event = "Snap final solo"]
+   {id21, id4, [[<audioInstruction song="Snap - Rhythm is a Dancer.mp3" cue="198.73102" duration="28.648209" rate="0.98154193" volume="1"/>]]}
+   {id21, start-time, [[134.68431]]}
+   {id21, stop-time, [[163.87529]]}
+[id26 : event = "Corona fades out"]
+   {id26, id4, [[<audioInstruction song="Corona - Baby Baby.mp3" cue="177.3591" duration="14.471598" rate="1.0184354" volume1="1" volume2="0"/>]]}
+   {id26, start-time, [[120474.67]]}
+   {id26, stop-time, [[134684.31]]}
+[id27 : event = "Snap enters again"]
+   {id27, id4, [[<audioInstruction song="Snap - Rhythm is a Dancer.mp3" cue="184.78368" duration="13.947347" rate="0.98154193" volume1="0" volume2="1"/>]]}
+   {id27, start-time, [[120474.67]]}
+   {id27, stop-time, [[134684.31]]}
+[id32 : event = "give me a sign"]
+   {id32, start-time, [[42456]]}
+   {id32, stop-time, [[45890]]}
+[id34 : event = "Outro"]
+   {id34, start-time, [[60000]]}
+   {id34, stop-time, [[67000]]}
+[id40 : event = "my lonelyness"]
+   {id40, start-time, [[8000]]}
+   {id40, stop-time, [[11000]]}
+[id46 : event = "and AAAI"]
+   {id46, start-time, [[16000]]}
+   {id46, stop-time, [[20000]]}
+[id47 : event = "intro baby"]
+   {id47, bpm, [[120]]}
+   {id47, id4, [[Introduction part of hit me baby one more time]]}
+   {id47, start-time, [[0]]}
+   {id47, stop-time, [[3000]]}
+[id50 : event = "one more time"]
+   {id50, start-time, [[54569]]}
+   {id50, stop-time, [[56000]]}
+[id52 : event = "Verse1"]
+   {id52, start-time, [[8000]]}
+   {id52, stop-time, [[20000]]}
+[id53 : event = "Intro"]
+   {id53, bpm, [[100]]}
+   {id53, id4, [[intro for hit me baby one more time, bassbeat]]}
+   {id53, start-time, [[0]]}
+   {id53, stop-time, [[832]]}
+[id54 : event = "Corona begins"]
+   {id54, id4, [[<audioInstruction song="Corona - Baby Baby.mp3" cue="87.159004" duration="14.414353" rate="1.0184354" volume1="0" volume2="1"/>]]}
+   {id54, start-time, [[31902.382]]}
+   {id54, stop-time, [[46055.83]]}
+[id61 : event = "Verse2"]
+   {id61, start-time, [[40000]]}
+   {id61, stop-time, [[60000]]}
+[id62 : event = "Oh baby baby.."]
+   {id62, start-time, [[100]]}
+   {id62, stop-time, [[435]]}
+[id66 : event = "..to know"]
+   {id66, start-time, [[534]]}
+   {id66, stop-time, [[797]]}
+[id71 : event = "Snap ends"]
+   {id71, id4, [[<audioInstruction song="Snap - Rhythm is a Dancer.mp3" cue="43.90966" duration="13.892202" rate="0.98154193" volume1="1" volume2="0"/>]]}
+   {id71, start-time, [[31902.382]]}
+   {id71, stop-time, [[46055.83]]}
+[id83 : event = "Corona solo"]
+   {id83, id4, [[<audioInstruction song="Corona - Baby Baby.mp3" cue="101.57336" duration="75.785736" rate="1.0184354" volume="1"/>]]}
+   {id83, start-time, [[46055.83]]}
+   {id83, stop-time, [[120474.67]]}
+[id84 : event = "First verse baby"]
+   {id84, bpm, [[123]]}
+   {id84, id4, [[First verse of hit me baby one more time]]}
+   {id84, start-time, [[3000]]}
+   {id84, stop-time, [[13000]]}
+
+/* -- TT: id16 -- */
+[id6 : id16 = "Creator"
+    @"http://purl.org/dc/elements/1.1/creator"]
+[id63 : id16 id80 = "Height"
+    @"http://psi.ontopia.net/ontology/height"]
+[id69 : id16 id80 = "Width"
+    @"http://psi.ontopia.net/ontology/width"]
+[id77 : id16 = "Version"
+    @"http://purl.org/dc/elements/1.1/version"]
+
+/* -- TT: id22 -- */
+[id12 : id22 = "Browse dialog"
+    @"http://psi.ontopia.net/ontology/browse-dialog"]
+[id51 : id22 = "Search dialog"
+    @"http://psi.ontopia.net/ontology/search-dialog"]
+[id7 : id22 = "Drop-down list"
+    @"http://psi.ontopia.net/ontology/drop-down-list"]
+
+/* -- TT: id60 -- */
+[id15 : id60 = "One or more"
+    @"http://psi.ontopia.net/ontology/cardinality-1-M"]
+[id3 : id60 = "Exactly one"
+    @"http://psi.ontopia.net/ontology/cardinality-1-1"]
+[id58 : id60 = "Zero or more"
+    @"http://psi.ontopia.net/ontology/cardinality-0-M"]
+[id81 : id60 = "Zero or one"
+    @"http://psi.ontopia.net/ontology/cardinality-0-1"]
+
+/* -- TT: id67 -- */
+[id10 : id67 id80 = "Is hierarchical"
+    @"http://psi.ontopia.net/ontology/is-hierarchical"]
+[id33 : id67 id80 = "Is symmetric"
+    @"http://psi.ontopia.net/ontology/is-symmetric"]
+[id57 : id67 id80 = "Forms hierarchy for"
+                  = "Hierarchy" / id28
+                  = "Forms hierarchy for" / id67
+    @"http://psi.ontopia.net/ontology/forms-hierarchy-for"]
+[id64 : id67 id80 = "Has large instance set"
+    @"http://psi.ontopia.net/ontology/has-large-instance-set"]
+[id65 : id67 id80 = "Is read-only"
+    @"http://psi.ontopia.net/ontology/is-readonly"]
+[id79 : id67 id80 = "Is abstract"
+    @"http://psi.ontopia.net/ontology/is-abstract"]
+
+/* -- TT: id68 -- */
+[id29 : id68 = "Name"
+    @"http://psi.ontopia.net/ontology/untyped-name"]
+[id75 : id68 = "abbrevation"]
+
+/* -- TT: id78 -- */
+[id19 : id78 = "URI"
+    @"http://www.w3.org/2001/XMLSchema#anyURI"]
+[id20 : id78 = "String"
+    @"http://www.w3.org/2001/XMLSchema#string"]
+[id42 : id78 = "Date"
+    @"http://www.w3.org/2001/XMLSchema#date"]
+   {id42, id56, [[YYYY-MM-DD]]}
+[id55 : id78 = "Datetime"
+    @"http://www.w3.org/2001/XMLSchema#dateTime"]
+   {id55, id56, [[YYYY-MM-DD HH:MM:SS]]}
+[id72 : id78 = "Number"
+    @"http://www.w3.org/2001/XMLSchema#decimal"]
+
+/* -- TT: id80 -- */
+[id59 : id80 = "Ontology Version"
+    @"http://psi.ontopia.net/ontology/ted-ontology-version"]
+
+/* -- TT: id82 -- */
+[id25 : id82 = "Subject identifier"
+    @"http://psi.ontopia.net/ontology/subject-identifier"]
+[id74 : id82 = "Subject locator"
+    @"http://psi.ontopia.net/ontology/subject-locator"]
+
+/* -- TT: media -- */
+[babybaby : media = "oh baby baby"]
+   {babybaby, file, "http://wiki.bouvet.no/babybaby.mp3"}
+[hit_me : media = "Hit me baby one more time"]
+   {hit_me, file, "http://wiki.bouvet.no/hitme.mp3"}
+[id14 : media = "Snap vs Corona"]
+   {id14, file, "file://myMusic/snap_vs_corona.mp3"}
+[id18 : media = "Rythm is a Dancer"]
+   {id18, file, "file://music/Snap%20-%20Rhythm%20is%20a%20Dancer.mp3"}
+
+/* -- TT: (untyped) -- */
+[id70]
+
+/* ----------------- Associations -------------- */
+
+/* -- AT: contains */
+contains( id52 : container, id1 : containee )
+contains( id52 : container, id40 : containee )
+contains( id52 : container, id46 : containee )
+contains( id53 : container, id62 : containee )
+contains( id53 : container, id66 : containee )
+contains( id61 : container, id32 : containee )
+contains( id61 : container, id50 : containee )
+
+/* -- AT: id17 */
+id17( event : id28,
+      id3 : id60,
+      start-time : id11 )
+id17( event : id28,
+      id3 : id60,
+      stop-time : id11 )
+id17( event : id28,
+      id81 : id60,
+      id29 : id11 )
+id17( event : id28,
+      id81 : id60,
+      bpm : id11 )
+id17( event : id28,
+      id81 : id60,
+      id4 : id11 )
+id17( media : id28,
+      id3 : id60,
+      file : id11 )
+id17( media : id28,
+      id3 : id60,
+      id29 : id11 )
+id17( event : id28,
+      id58 : id60,
+      container : id23,
+      contains : id11 )
+id17( event : id28,
+      id81 : id60,
+      containee : id23,
+      contains : id11 )
+id17( event : id28,
+      id81 : id60,
+      part : id23,
+      part-of : id11 )
+id17( media : id28,
+      id58 : id60,
+      media : id23,
+      part-of : id11 )
+
+/* -- AT: id24 */
+id24( id29 : id11, id3 : id60 )
+id24( id74 : id11, id3 : id60 )
+id24( id15 : id60, id82 : id48 )
+id24( id58 : id60, id23 : id48 )
+id24( id58 : id60, id67 : id48 )
+id24( id81 : id60, id16 : id48 )
+id24( id81 : id60, id68 : id48 )
+
+/* -- AT: id35 */
+id35( event : id28,
+      id29 : id11 )
+id35( event : id28,
+      bpm : id11 )
+id35( event : id28,
+      id4 : id11 )
+id35( event : id28,
+      start-time : id11 )
+id35( event : id28,
+      stop-time : id11 )
+id35( media : id28,
+      file : id11 )
+id35( media : id28,
+      id29 : id11 )
+id35( event : id28,
+      container : id23,
+      contains : id11 )
+id35( event : id28,
+      containee : id23,
+      contains : id11 )
+id35( event : id28,
+      part : id23,
+      part-of : id11 )
+id35( media : id28,
+      media : id23,
+      part-of : id11 )
+
+/* -- AT: id43 */
+id43( id17 : id48 )
+id43( id24 : id48 )
+id43( id33 : id48 )
+id43( id35 : id48 )
+id43( id38 : id48 )
+id43( id43 : id48 )
+id43( id49 : id48 )
+id43( id5 : id48 )
+id43( id56 : id48 )
+id43( id63 : id48 )
+id43( id64 : id48 )
+id43( id65 : id48 )
+id43( id69 : id48 )
+id43( id79 : id48 )
+id43( id8 : id48 )
+id43( id9 : id48 )
+
+/* -- AT: id49 */
+id49( id12 : id22,
+      contains : id67,
+      container : id23 )
+id49( id12 : id22,
+      contains : id67,
+      containee : id23 )
+id49( id12 : id22,
+      part-of : id67,
+      media : id23 )
+id49( id12 : id22,
+      part-of : id67,
+      part : id23 )
+
+/* -- AT: id5 */
+id5( contains : id67, container : id23 )
+id5( contains : id67, containee : id23 )
+id5( part-of : id67, media : id23 )
+id5( part-of : id67, part : id23 )
+
+/* -- AT: id9 */
+id9( id19 : id78, file : id11 )
+id9( id19 : id78, id25 : id11 )
+id9( id19 : id78, id74 : id11 )
+id9( id20 : id78, id4 : id11 )
+id9( id20 : id78, id6 : id11 )
+id9( id20 : id78, id77 : id11 )
+id9( id72 : id78, bpm : id11 )
+id9( id72 : id78, start-time : id11 )
+id9( id72 : id78, stop-time : id11 )
+
+/* -- AT: part-of */
+part-of( hit_me : media, id13 : part )
+part-of( hit_me : media, id34 : part )
+part-of( hit_me : media, id52 : part )
+part-of( hit_me : media, id53 : part )
+part-of( hit_me : media, id61 : part )
+part-of( id14 : media, id2 : part )
+part-of( id14 : media, id21 : part )
+part-of( id14 : media, id26 : part )
+part-of( id14 : media, id27 : part )
+part-of( id14 : media, id54 : part )
+part-of( id14 : media, id71 : part )
+part-of( id14 : media, id83 : part )
+
