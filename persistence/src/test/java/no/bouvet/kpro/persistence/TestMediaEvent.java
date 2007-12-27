@@ -2,10 +2,16 @@ package no.bouvet.kpro.persistence;
 
 import no.bouvet.kpro.model.stigstest.Event;
 import no.bouvet.kpro.model.stigstest.Media;
+import no.bouvet.topicmap.query.ITologQuery;
+import no.bouvet.topicmap.query.SimpleTologQueryString;
+import no.bouvet.topicmap.query.SimpleTopicParameterFactory;
+import no.bouvet.topicmap.core.TopicMap;
 import org.junit.Test;
 import org.junit.BeforeClass;
 import static org.junit.Assert.assertEquals;
 import java.util.List;
+
+import net.ontopia.topicmaps.core.TopicIF;
 
 
 public class TestMediaEvent {
@@ -48,13 +54,24 @@ public class TestMediaEvent {
         assertEquals(6, children.size());
     }
 
-    @Test  // TODO: Problem - child.getparent returns 0 entries from the TopicMap
+    @Test
     public void testGetParent() {
-        System.out.println("Parent");
         Event babyBaby = rythmMp3.getEvents().get(0);
         Event child = babyBaby.getChildren().get(0);
-        System.out.println("Woot" + child.getName());
         Event parent = child.getParent();
-        assertEquals("Baby Baby", parent.getName());
+        assertEquals("Snap - Rythm is a Dancer", parent.getName());
     }
+
+    @Test
+    public void testMediaEventAssociation2() {
+        Event babyBaby = rythmMp3.getEvents().get(0);
+        Event child = babyBaby.getChildren().get(0);
+        TopicMap tm = new VaudevilleTopicMap("musikk.xtm");
+        ITologQuery tologQuery = new SimpleTologQueryString("vdvil:part-whole($WHOLE : vdvil:whole, %PART% : vdvil:part)?", child, "PART");
+        List<TopicIF> resutl = tm.queryForList(tologQuery, SimpleTopicParameterFactory.create("WHOLE"));
+        assertEquals(1, resutl.size());
+        Event event = new Event(resutl.get(0));
+        assertEquals("Snap - Rythm is a Dancer", event.getName());
+    }
+
 }

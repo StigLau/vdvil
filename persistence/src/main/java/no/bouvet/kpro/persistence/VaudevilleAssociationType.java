@@ -14,9 +14,8 @@ public enum VaudevilleAssociationType implements ITologFragment {
         return createAssociationString("vdvil:part-whole", new String[]{"vdvil:whole", ""}, parameters);
     }
     },
-    PART_WHOLE2 {public String[] tologQuery(ITopicParameter... parameters) {
-        //return createAssociationString("vdvil:part-whole", new String[]{"vdvil:whole", "vdvil:part"}, parameters);
-        return createAssociationString("vdvil:part-whole", new String[]{"", ""}, parameters);
+    WHOLE_PART {public String[] tologQuery(ITopicParameter... parameters) {
+        return createAssociationString("vdvil:part-whole", new String[]{"vdvil:part", "vdvil:whole"}, parameters);
     }
     },
     MEDIA_EVENT {public String[] tologQuery(ITopicParameter... parameters) {

@@ -30,7 +30,9 @@ public class Event extends TopicDAO {
 
 
     public Event getParent() {
-        TologQuery tologQuery = new TologQuery(VaudevilleAssociationType.PART_WHOLE, new StandardTopicParameter(VaudevilleTopicType.WHOLE), new StandardTopicParameter(this));
+        TologQuery tologQuery = new TologQuery(VaudevilleAssociationType.WHOLE_PART, new StandardTopicParameter(this), new StandardTopicParameter(VaudevilleTopicType.WHOLE));
+//        assertEquals("select $WHOLE from\nvdvil:part-whole($WHOLE : vdvil:whole, %PART% : vdvil:part)?\n" +
+//                "Argument: PART : Intro", tologQuery.toString());
         TopicIF topic = tm.queryForSingleValue(tologQuery, new StandardTopicParameter(VaudevilleTopicType.WHOLE));
         return new Event(topic);
     }
