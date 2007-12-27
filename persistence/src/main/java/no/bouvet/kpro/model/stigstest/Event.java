@@ -16,8 +16,12 @@ public class Event extends TopicDAO {
 
     enum OccurrenceTypes {START, LENGTH}
 
-    public Event() {
-        super(null);
+    static {
+        tm = new VaudevilleTopicMap("musikk.xtm");
+    }
+
+    public Event(String psi) {
+        super(tm.getTopicDAOByPSI(psi).getTopicIF());
     }
 
     public Event(TopicIF topicIF) {
@@ -79,12 +83,12 @@ public class Event extends TopicDAO {
 
     public Float getRate() {
         System.err.println("Not implemented yet - Event.getRate()");
-        return 0F;
+        return 1F;
     }
 
     public Float getVolume() {
         System.err.println("Not implemented yet - Event.getVolume()");
-        return 0F;
+        return 1F;
     }
 
     public TopicType getTopicType() {

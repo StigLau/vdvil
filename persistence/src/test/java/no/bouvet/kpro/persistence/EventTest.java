@@ -13,7 +13,6 @@ public class EventTest {
         Media rythmMp3 = new Media("https://wiki.bouvet.no/snap-rythm_is_a_dancer");
         List<Event> topEvent = rythmMp3.getEvents();
         assertEquals(0D, topEvent.get(0).getStartTime());
-        assertEquals(130, topEvent.get(0).getBPM());
-        assertEquals(123123123123D, topEvent.get(0).getLength());
+        assertEquals(31902.382D, topEvent.get(0).getLength());
     }
 }

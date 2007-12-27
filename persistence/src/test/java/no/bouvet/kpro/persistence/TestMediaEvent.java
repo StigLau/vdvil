@@ -29,43 +29,46 @@ public class TestMediaEvent {
     }
 
     @Test
-    public void testGetParentEventName() {
+    public void testGetAllEventsOfSnap() {
         List<Event> events = rythmMp3.getEvents();
-        assertEquals(1, events.size());
-        Event babyBaby = events.get(0);
-        assertEquals("Snap - Rythm is a Dancer", babyBaby.getName());
+        assertEquals(5, events.size());
+    }
+    
+    @Test
+    public void testGetParentEventName() {
+        Event rythm = new Event("oid:snap-rythm");
+        assertEquals("Snap - Rythm is a Dancer", rythm.getName());
     }
 
     @Test
     public void testGetMediaFromEventName() {
-        List<Event> events = rythmMp3.getEvents();
-        Event singleEvent = events.get(0);
-        Media media = singleEvent.getMedia();
+        Event rythm = new Event("oid:snap-rythm");
+        Media media = rythm.getMedia();
         assertEquals("Snap - Rhythm is a Dancer.mp3", media.getName());
     }
 
     @Test
     public void testGetChildren() {
-        Event babyBaby = rythmMp3.getEvents().get(0);
-        List<Event> children = babyBaby.getChildren();
+        Event rythm = new Event("oid:snap-rythm");
+        List<Event> children = rythm.getChildren();
         for (Event child : children) {
             System.out.println(child.getName());
         }
-        assertEquals(6, children.size());
+        assertEquals(5, children.size());
     }
 
     @Test
     public void testGetParent() {
-        Event babyBaby = rythmMp3.getEvents().get(0);
-        Event child = babyBaby.getChildren().get(0);
+        Event rythm = new Event("oid:snap-rythm");
+        Event child = rythm.getChildren().get(0);
         Event parent = child.getParent();
         assertEquals("Snap - Rythm is a Dancer", parent.getName());
     }
 
     @Test
     public void testMediaEventAssociation2() {
-        Event babyBaby = rythmMp3.getEvents().get(0);
-        Event child = babyBaby.getChildren().get(0);
+        Event rythm = new Event("oid:snap-rythm");
+        Event child = rythm.getChildren().get(0);
         TopicMap tm = new VaudevilleTopicMap("musikk.xtm");
         ITologQuery tologQuery = new SimpleTologQueryString("vdvil:part-whole($WHOLE : vdvil:whole, %PART% : vdvil:part)?", child, "PART");
         List<TopicIF> resutl = tm.queryForList(tologQuery, SimpleTopicParameterFactory.create("WHOLE"));

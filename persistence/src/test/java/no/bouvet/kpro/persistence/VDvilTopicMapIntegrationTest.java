@@ -32,7 +32,7 @@ public class VDvilTopicMapIntegrationTest {
     public void testPartWholeAssociation() {
         TologQuery tologQuery = new TologQuery(VaudevilleAssociationType.PART_WHOLE, PART, WHOLE);
         List resutl = tm.queryForList(tologQuery, WHOLE);
-        assertEquals(1, resutl.size());
+        assertEquals(6, resutl.size());
     }
     
     @Test

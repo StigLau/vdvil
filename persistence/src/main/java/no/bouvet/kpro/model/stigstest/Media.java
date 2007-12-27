@@ -20,8 +20,8 @@ public class Media extends TopicDAO {
         tm = new VaudevilleTopicMap("musikk.xtm");
     }
 
-    public Media(String mediaFile) {
-        super(tm.getTopicDAOByPSI(mediaFile).getTopicIF());
+    public Media(String psi) {
+        super(tm.getTopicDAOByPSI(psi).getTopicIF());
     }
 
     public Media(TopicIF topicIF) {
