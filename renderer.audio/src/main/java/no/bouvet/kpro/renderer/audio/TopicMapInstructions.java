@@ -2,10 +2,8 @@ package no.bouvet.kpro.renderer.audio;
 
 import java.io.File;
 import java.util.*;
-import no.bouvet.kpro.model.Part;
 import no.bouvet.kpro.model.stigstest.Media;
 import no.bouvet.kpro.model.stigstest.Event;
-import no.bouvet.kpro.persistence.Storage;
 import no.bouvet.kpro.renderer.*;
 
 
@@ -16,24 +14,19 @@ import no.bouvet.kpro.renderer.*;
 public class TopicMapInstructions extends Instructions {
 	
 	protected Media		_media;
-	protected File		_basePath; //Not to be used
 	protected HashMap<String, AudioSource> _sources = new HashMap<String, AudioSource>();
 	
-	/**
-	 * @author Michael Stokes
-	 */
-	public TopicMapInstructions( Event mainEvent, File basePath ) throws Exception {
+	public TopicMapInstructions( Event mainEvent) throws Exception {
 		
-		_basePath = basePath;
         List<Event> parts = mainEvent.getChildren();
 
-		Collections.sort( parts, new Comparator<Event>() {
+        Collections.sort( parts, new Comparator<Event>() {
 			public int compare( Event a, Event b) {
                 return (int) (a.getStartTime() - b.getStartTime());
             }  } );
 		
 		for ( Event part : parts ) {
-			//addTopicMapInstruction( part ); TODO undo commenting!!!
+            addTopicMapInstruction( part );
 		}
 	}
 	
@@ -52,16 +45,19 @@ public class TopicMapInstructions extends Instructions {
 		_sources.clear();
 	}
 	
-	protected void addTopicMapInstruction( Part part ) throws Exception {
-		
-		int start		= (int)( (long)part.getStartTime() * 441 / 10 );
-		int end			= (int)( (long)part.getStopTime() * 441 / 10 );
+	protected void addTopicMapInstruction( Event part ) throws Exception {
+
+        double startTime = part.getStartTime();
+        double stopTime = part.getStartTime() + part.getLength();
+
+        int start		= (int)startTime * 441 / 10;
+		int end			= (int)stopTime * 441 / 10;
 		String desc		= part.getDescription();
-		String song		= extract( desc, "song" ).replace( '\\', '/' );
-		int	cue			= (int)( Float.parseFloat( extract( desc, "cue" ) ) * 44100 );
-		int	duration	= (int)( Float.parseFloat( extract( desc, "duration" ) ) * 44100 );
+		int	cue			= 0;
+		//int	cue			= (int)( Float.parseFloat( extract( desc, "cue" ) ) * 44100 );
+		int	duration	= (int)( stopTime - startTime * 44100 );
 		
-		AudioSource source = findSource( song );
+		AudioSource source = findSource(part.getMedia());
 		
 		AudioInstruction instruction = new AudioInstruction( start, end, source, cue, duration );
 		
@@ -100,9 +96,9 @@ public class TopicMapInstructions extends Instructions {
 		return value.substring( 0, pos );
 	}
 	
-	protected AudioSource findSource( String file ) throws Exception {
+	protected AudioSource findSource( Media media ) throws Exception {
 		
-		File path = new File( _basePath, file );
+		File path = new File(media.getSubjectLocator());
 		
 		AudioSource source = _sources.get( path.getPath() );
 		

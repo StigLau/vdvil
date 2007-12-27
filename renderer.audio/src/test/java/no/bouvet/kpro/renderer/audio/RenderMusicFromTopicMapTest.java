@@ -1,14 +1,11 @@
 package no.bouvet.kpro.renderer.audio;
 
-import no.bouvet.kpro.model.Media;
 import no.bouvet.kpro.model.stigstest.Event;
-import no.bouvet.kpro.persistence.Storage;
+import no.bouvet.kpro.model.stigstest.Media;
 import no.bouvet.kpro.renderer.Renderer;
-
-import java.net.URI;
 import java.io.File;
 
-import org.junit.Test;
+import org.junit.Test;import static org.junit.Assert.assertEquals;
 
 
 public class RenderMusicFromTopicMapTest {
@@ -16,9 +13,10 @@ public class RenderMusicFromTopicMapTest {
     @Test
     public void testFullRendering() throws Exception {
 
-		Media media = Storage.getInstance().getMediaByURI( new URI( "file://myMusic/snap_vs_corona.mp3" ) );
+        Media media = new Media("https://wiki.bouvet.no/snap-rythm_is_a_dancer");
+        Event mainEvent = media.getEvents().get(0);
 
-		TopicMapInstructions instructions = new TopicMapInstructions(new Event(), new File( "/Volumes/McFeasty/Users/Stig/jobb/utvikling/privat/kpro2007/renderer.audio/music/" ) );
+        TopicMapInstructions instructions = new TopicMapInstructions(mainEvent);
 
 		AudioTarget target = new AudioPlaybackTarget();
 		Renderer renderer	= null;
