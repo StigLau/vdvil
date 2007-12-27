@@ -2,9 +2,7 @@ package no.bouvet.kpro.model.stigstest;
 
 import no.bouvet.topicmap.dao.TopicDAO;
 import no.bouvet.topicmap.dao.TopicType;
-import no.bouvet.topicmap.query.TologQuery;
-import no.bouvet.topicmap.query.StandardTopicParameter;
-import no.bouvet.topicmap.query.ITopicParameter;
+import no.bouvet.topicmap.query.*;
 import no.bouvet.kpro.persistence.VaudevilleTopicMap;
 import no.bouvet.kpro.persistence.VaudevilleAssociationType;
 import no.bouvet.kpro.persistence.VaudevilleTopicType;
@@ -14,10 +12,6 @@ import java.util.ArrayList;
 import net.ontopia.topicmaps.core.TopicIF;
 
 public class Media extends TopicDAO {
-    public String psi;
-
-    public String uri;
-
     private static VaudevilleTopicMap tm;
 
     private static final ITopicParameter EVENT = new StandardTopicParameter(VaudevilleTopicType.EVENT);
@@ -28,7 +22,6 @@ public class Media extends TopicDAO {
 
     public Media(String mediaFile) {
         super(tm.getTopicDAOByPSI(mediaFile).getTopicIF());
-        this.psi = mediaFile;
     }
 
     public Media(TopicIF topicIF) {
@@ -47,5 +40,9 @@ public class Media extends TopicDAO {
 
     public TopicType getTopicType() {
         return VaudevilleTopicType.MEDIA;
+    }
+
+    public String getSubjectLocator() {
+        return super.getTopicIF().getSubject().getAddress();
     }
 }

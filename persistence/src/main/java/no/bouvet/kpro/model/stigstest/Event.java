@@ -48,7 +48,10 @@ public class Event extends TopicDAO {
     public Media getMedia() {
         TologQuery tologQuery = new TologQuery(VaudevilleAssociationType.MEDIA_EVENT, new StandardTopicParameter(VaudevilleTopicType.MEDIA), new StandardTopicParameter(this));
         TopicIF topicIF = tm.queryForSingleValue(tologQuery, new StandardTopicParameter(VaudevilleTopicType.MEDIA));
-        return new Media(topicIF);
+        if(topicIF != null)
+            return new Media(topicIF);
+        else
+            return getParent().getMedia();
     }
 
     public double getStartTime() {
@@ -67,6 +70,21 @@ public class Event extends TopicDAO {
         ITologQuery tologQuery = new SimpleTologQueryString("vdvil:bpm(%TOPIC%, $BPM)?", this, "TOPIC");
         String result = tm.queryForSingleValue(tologQuery, SimpleTopicParameterFactory.create("BPM"));
         return Integer.valueOf(result);
+    }
+
+    public String getDescription() {
+        ITologQuery tologQuery = new SimpleTologQueryString("purl:description(%TOPIC%, $DESCRIPTION)?", this, "TOPIC");
+        return tm.queryForSingleValue(tologQuery, SimpleTopicParameterFactory.create("DESCRIPTION"));
+    }
+
+    public Float getRate() {
+        System.err.println("Not implemented yet - Event.getRate()");
+        return 0F;
+    }
+
+    public Float getVolume() {
+        System.err.println("Not implemented yet - Event.getVolume()");
+        return 0F;
     }
 
     public TopicType getTopicType() {

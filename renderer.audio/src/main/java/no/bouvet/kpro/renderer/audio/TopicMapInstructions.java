@@ -2,6 +2,7 @@ package no.bouvet.kpro.renderer.audio;
 
 import java.io.File;
 import java.util.*;
+import java.net.URI;
 import no.bouvet.kpro.model.stigstest.Media;
 import no.bouvet.kpro.model.stigstest.Event;
 import no.bouvet.kpro.renderer.*;
@@ -56,34 +57,35 @@ public class TopicMapInstructions extends Instructions {
 		int	cue			= 0;
 		//int	cue			= (int)( Float.parseFloat( extract( desc, "cue" ) ) * 44100 );
 		int	duration	= (int)( stopTime - startTime * 44100 );
-		
+
 		AudioSource source = findSource(part.getMedia());
 		
 		AudioInstruction instruction = new AudioInstruction( start, end, source, cue, duration );
 		
-		if ( extract( desc, "rate" ) != null )
+		if ( part.getRate() != null )
 		{
-			float rate = Float.parseFloat( extract( desc, "rate" ) );
+			float rate = part.getRate();
 			instruction.setConstantRate( rate );
 		}
+		/* TODO What is this for?
 		else
 		{
 			float rate1 = Float.parseFloat( extract( desc, "rate1" ) );
 			float rate2 = Float.parseFloat( extract( desc, "rate2" ) );
 			instruction.setInterpolatedRate( rate1, rate2 );
-		}
+		}*/
 		
-		if ( extract( desc, "volume" ) != null )
+		if ( part.getVolume() != null )
 		{
-			float volume = Float.parseFloat( extract( desc, "volume" ) );
+			float volume = part.getVolume();
 			instruction.setConstantVolume( volume );
-		}
+		}/* Todo same suspicious code - possibly for interpolating two songs
 		else
 		{
 			float volume1 = Float.parseFloat( extract( desc, "volume1" ) );
 			float volume2 = Float.parseFloat( extract( desc, "volume2" ) );
 			instruction.setInterpolatedVolume( volume1, volume2 );
-		}
+		}*/
 		
 		append( instruction );
 	}
@@ -97,8 +99,8 @@ public class TopicMapInstructions extends Instructions {
 	}
 	
 	protected AudioSource findSource( Media media ) throws Exception {
-		
-		File path = new File(media.getSubjectLocator());
+
+        File path = new File(new URI(media.getSubjectLocator()));
 		
 		AudioSource source = _sources.get( path.getPath() );
 		

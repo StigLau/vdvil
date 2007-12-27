@@ -3,9 +3,9 @@ package no.bouvet.kpro.renderer.audio;
 import no.bouvet.kpro.model.stigstest.Event;
 import no.bouvet.kpro.model.stigstest.Media;
 import no.bouvet.kpro.renderer.Renderer;
-import java.io.File;
 
-import org.junit.Test;import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 
 public class RenderMusicFromTopicMapTest {
