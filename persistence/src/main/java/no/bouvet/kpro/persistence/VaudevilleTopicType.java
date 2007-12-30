@@ -37,6 +37,14 @@ public enum VaudevilleTopicType implements TopicType {
 		public String psi() {
 			return "https://wiki.bouvet.no/whole";
 		}
+	},LYRIC {
+		public String tologBinding() {
+			return "vdvil:lyric";
+		}
+
+		public String psi() {
+			return "https://wiki.bouvet.no/lyric";
+		}
 	},
 	/**
 	 * In case no topicmap was found
@@ -50,5 +58,5 @@ public enum VaudevilleTopicType implements TopicType {
 			return null;
 		}
 
-	};
+	}
 }

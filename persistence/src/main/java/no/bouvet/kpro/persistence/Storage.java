@@ -19,6 +19,7 @@ import net.ontopia.topicmaps.query.utils.QueryUtils;
 import no.bouvet.kpro.model.Media;
 import no.bouvet.kpro.model.Part;
 import no.bouvet.topicmap.core.TopicMap;
+import org.apache.log4j.Logger;
 
 public class Storage implements VaudevilleStorage {
 	
@@ -27,6 +28,8 @@ public class Storage implements VaudevilleStorage {
 	private TopicMap topicMap;
 	private QueryProcessorIF processor; 
 	private static String file = null;
+
+    static Logger log = Logger.getLogger(Storage.class);
 
 	private Storage() {
 		setUp();
@@ -139,7 +142,7 @@ public class Storage implements VaudevilleStorage {
 					try {
 						medium.setMediaFile(new URL(occ.getLocator().getAddress()));
 					} catch (MalformedURLException e) {
-						System.err.println("Bad URL in topicmap or tried reading wrong occurence");
+						log.error("Bad URL in topicmap or tried reading wrong occurence");
 						e.printStackTrace();
 					}
 				}					

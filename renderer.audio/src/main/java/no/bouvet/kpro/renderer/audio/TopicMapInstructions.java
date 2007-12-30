@@ -6,6 +6,7 @@ import java.net.URI;
 import no.bouvet.kpro.model.stigstest.Media;
 import no.bouvet.kpro.model.stigstest.Event;
 import no.bouvet.kpro.renderer.*;
+import no.bouvet.kpro.renderer.lyric.LyricInstruction;
 
 
 /**
@@ -28,10 +29,13 @@ public class TopicMapInstructions extends Instructions {
 		
 		for ( Event part : parts ) {
             addTopicMapInstruction( part );
-		}
+            if(part.getLyrics().size() > 0) {
+                append(new LyricInstruction(part));
+            }
+        }
 	}
-	
-	public void close() {
+
+    public void close() {
 		empty();
 	}
 	
@@ -53,10 +57,10 @@ public class TopicMapInstructions extends Instructions {
 
         int start		= (int)startTime * 441 / 10;
 		int end			= (int)stopTime * 441 / 10;
-		String desc		= part.getDescription();
+		//String desc		= part.getDescription();
 		int	cue			= 0;
 		//int	cue			= (int)( Float.parseFloat( extract( desc, "cue" ) ) * 44100 );
-		int	duration	= (int)( stopTime - startTime * 44100 );
+		int	duration	= (int)( part.getLength() * 44100 );
 
 		AudioSource source = findSource(part.getMedia());
 		

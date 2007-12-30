@@ -9,12 +9,12 @@ import no.bouvet.kpro.persistence.VaudevilleTopicMap;
 import java.util.List;
 import java.util.ArrayList;
 import net.ontopia.topicmaps.core.TopicIF;
+import org.apache.log4j.Logger;
 
 public class Event extends TopicDAO {
+    static Logger log = Logger.getLogger(Event.class);
 
     private static VaudevilleTopicMap tm;
-
-    enum OccurrenceTypes {START, LENGTH}
 
     static {
         tm = new VaudevilleTopicMap("musikk.xtm");
@@ -58,22 +58,33 @@ public class Event extends TopicDAO {
             return getParent().getMedia();
     }
 
-    public double getStartTime() {
-        ITologQuery tologQuery = new SimpleTologQueryString("vdvil:start(%TOPIC%, $START)?", this, "TOPIC");
-        String result = tm.queryForSingleValue(tologQuery, SimpleTopicParameterFactory.create("START"));
-        return Double.valueOf(result);
+    public List<Lyric> getLyrics() {
+        TologQuery tologQuery = new TologQuery(VaudevilleAssociationType.EVENT_LYRIC, new StandardTopicParameter(VaudevilleTopicType.LYRIC), new StandardTopicParameter(this));
+        List<TopicIF> topicIFList = tm.queryForList(tologQuery, new StandardTopicParameter(VaudevilleTopicType.LYRIC));
+
+        List<Lyric> lyrics = new ArrayList<Lyric>();
+        for (TopicIF topicIF : topicIFList) {
+            lyrics.add(new Lyric(topicIF));
+        }
+        return lyrics;
     }
 
-    public double getLength() {
+    public Double getStartTime() {
+        ITologQuery tologQuery = new SimpleTologQueryString("vdvil:start(%TOPIC%, $START)?", this, "TOPIC");
+        String value = tm.queryForSingleValue(tologQuery, SimpleTopicParameterFactory.create("START"));
+        return Double.valueOf(value);
+    }
+
+    public Double getLength() {
         ITologQuery tologQuery = new SimpleTologQueryString("vdvil:length(%TOPIC%, $LENGTH)?", this, "TOPIC");
-        String result = tm.queryForSingleValue(tologQuery, SimpleTopicParameterFactory.create("LENGTH"));
-        return Double.valueOf(result);
+        String value = tm.queryForSingleValue(tologQuery, SimpleTopicParameterFactory.create("LENGTH"));
+        return Double.valueOf(value);
     }
     
-    public int getBPM() {
+    public Double getBPM() {
         ITologQuery tologQuery = new SimpleTologQueryString("vdvil:bpm(%TOPIC%, $BPM)?", this, "TOPIC");
-        String result = tm.queryForSingleValue(tologQuery, SimpleTopicParameterFactory.create("BPM"));
-        return Integer.valueOf(result);
+        String value = tm.queryForSingleValue(tologQuery, SimpleTopicParameterFactory.create("BPM"));
+        return Double.valueOf(value);
     }
 
     public String getDescription() {
@@ -82,16 +93,24 @@ public class Event extends TopicDAO {
     }
 
     public Float getRate() {
-        System.err.println("Not implemented yet - Event.getRate()");
+        log.info("Not implemented yet - Event.getRate()");
         return 1F;
     }
 
     public Float getVolume() {
-        System.err.println("Not implemented yet - Event.getVolume()");
+        log.info("Not implemented yet - Event.getVolume()");
         return 1F;
     }
 
     public TopicType getTopicType() {
         return VaudevilleTopicType.EVENT;
+    }
+
+    public String toString() {
+        return
+                "Name:" + this.getName() +
+                       "StartTime:" + this.getStartTime() +
+                        "Length:" + this.getLength() + 
+                        " - " + super.toString();
     }
 }

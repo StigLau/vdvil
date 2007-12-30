@@ -10,9 +10,16 @@ public class EventTest {
 
     @Test
     public void testReadingStartField() {
-        Media rythmMp3 = new Media("https://wiki.bouvet.no/snap-rythm_is_a_dancer");
-        List<Event> topEvent = rythmMp3.getEvents();
-        assertEquals(0D, topEvent.get(0).getStartTime());
-        assertEquals(31902.382D, topEvent.get(0).getLength());
+        Event testEvent = new Event("https://wiki.bouvet.no/snap-starting-out");
+        assertEquals(0D, testEvent.getStartTime());
+        assertEquals(120D, testEvent.getBPM());
+        assertEquals(240D, testEvent.getLength());
+    }
+
+    @Test
+    public void testGetLyrics() {
+        Event event = new Event("https://wiki.bouvet.no/snap-starting-out");
+        assertEquals(1, event.getLyrics().size());
+        assertEquals("Snap Starting Out", event.getLyrics().get(0).getText());
     }
 }
