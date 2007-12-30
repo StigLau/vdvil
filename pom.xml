@@ -24,6 +24,7 @@
     <module>reasoning</module>
     <module>renderer</module>
     <module>renderer.audio</module>
+    <module>renderer.lyric</module>
     <module>gui</module>
     <!-- module>topicmap</module -->
   </modules>
