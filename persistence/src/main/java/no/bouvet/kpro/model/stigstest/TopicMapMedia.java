@@ -6,12 +6,14 @@ import no.bouvet.topicmap.query.*;
 import no.bouvet.kpro.persistence.VaudevilleTopicMap;
 import no.bouvet.kpro.persistence.VaudevilleAssociationType;
 import no.bouvet.kpro.persistence.VaudevilleTopicType;
+import no.bouvet.kpro.model.Event;
+import no.bouvet.kpro.model.Media;
 import java.util.List;
 import java.util.ArrayList;
 
 import net.ontopia.topicmaps.core.TopicIF;
 
-public class Media extends TopicDAO {
+public class TopicMapMedia extends TopicDAO implements Media {
     private static VaudevilleTopicMap tm;
 
     private static final ITopicParameter EVENT = new StandardTopicParameter(VaudevilleTopicType.EVENT);
@@ -20,11 +22,11 @@ public class Media extends TopicDAO {
         tm = new VaudevilleTopicMap("musikk.xtm");
     }
 
-    public Media(String psi) {
+    public TopicMapMedia(String psi) {
         super(tm.getTopicDAOByPSI(psi).getTopicIF());
     }
 
-    public Media(TopicIF topicIF) {
+    public TopicMapMedia(TopicIF topicIF) {
         super(topicIF);
     }
 
@@ -33,7 +35,7 @@ public class Media extends TopicDAO {
         TologQuery tologQuery = new TologQuery(VaudevilleAssociationType.MEDIA_EVENT, new StandardTopicParameter(this), EVENT);
         List<TopicIF> topicList = tm.queryForList(tologQuery, EVENT);
         for (TopicIF topicIF : topicList) {
-            result.add(new Event(topicIF));
+            result.add(new TopicMapEvent(topicIF));
         }
         return result;
     }

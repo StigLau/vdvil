@@ -2,9 +2,9 @@ package no.bouvet.kpro.renderer.lyric;
 
 import org.junit.Test;
 import org.apache.log4j.Logger;
-import no.bouvet.kpro.model.stigstest.Event;
+import no.bouvet.kpro.model.stigstest.TopicMapEvent;
 import no.bouvet.kpro.renderer.Renderer;
-import no.bouvet.kpro.renderer.audio.TopicMapInstructions;
+import no.bouvet.kpro.renderer.Instructions;
 
 public class LyricRendererTest {
 
@@ -13,15 +13,12 @@ public class LyricRendererTest {
     @Test
     // Not ready for full testing harness
     public void testRenderingText() throws Exception {
-        TopicMapInstructions instructions = new TopicMapInstructions(new Event("https://wiki.bouvet.no/snap_vs_corona"));
+        LyricTopicMapInstructions instructions = new LyricTopicMapInstructions(new TopicMapEvent("https://wiki.bouvet.no/snap_vs_corona"));
 
 		//AudioTarget target = new AudioPlaybackTarget();
 		Renderer renderer	= null;
 
 		try {
-			log.info("Duration Time: " + instructions.getDuration());
-
-
 			// Create the Renderer with an AudioRenderer instance
 			renderer = new Renderer(instructions);
 			renderer.addRenderer(new LyricRenderer());
@@ -39,15 +36,12 @@ public class LyricRendererTest {
 				//int samples = target.getOutputPosition();
 				//double percent = Math.floor((double) samples / (double) instructions.getDuration() * 1000) / 10;
 
-				//System.out.println("Rendered " + samples + " samples (" + percent + "%)...");
+				//log.debug("Rendered " + samples + " samples (" + percent + "%)...");
 			}
 			log.info("Finished rendering");
 		} finally {
 			if (renderer != null)
 				renderer.stop();
-			//if (target != null)
-			//	target.close();
-			instructions.close();
 		}
 	}
 }

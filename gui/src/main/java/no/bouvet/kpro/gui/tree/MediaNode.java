@@ -1,10 +1,8 @@
 package no.bouvet.kpro.gui.tree;
 
-import no.bouvet.kpro.model.Media;
-import no.bouvet.kpro.model.Part;
+import no.bouvet.kpro.model.old.Media;
+import no.bouvet.kpro.model.old.Part;
 import no.bouvet.kpro.persistence.Storage;
-
-import com.trolltech.qt.QSignalEmitter.Signal1;
 
 public class MediaNode extends AbstractNode {
 	

@@ -3,55 +3,51 @@ package no.bouvet.kpro.renderer.audio;
 import java.io.File;
 import java.util.*;
 import java.net.URI;
-import no.bouvet.kpro.model.stigstest.Media;
-import no.bouvet.kpro.model.stigstest.Event;
+import no.bouvet.kpro.model.Media;
+import no.bouvet.kpro.model.Event;
+import no.bouvet.kpro.model.stigstest.TopicMapEvent;
+import no.bouvet.kpro.model.stigstest.TopicMapMedia;
 import no.bouvet.kpro.renderer.*;
-import no.bouvet.kpro.renderer.lyric.LyricInstruction;
+import no.bouvet.kpro.TopicMapUtil;
 
 
 /**
  * 
  * @author Michael Stokes
  */
-public class TopicMapInstructions extends Instructions {
-	
-	protected Media		_media;
+public class AudioTopicMapInstructions extends Instructions {
+
+	//protected Media		_media;
 	protected HashMap<String, AudioSource> _sources = new HashMap<String, AudioSource>();
-	
-	public TopicMapInstructions( Event mainEvent) throws Exception {
-		
+
+	public AudioTopicMapInstructions(Event mainEvent) {
+
         List<Event> parts = mainEvent.getChildren();
 
-        Collections.sort( parts, new Comparator<Event>() {
-			public int compare( Event a, Event b) {
-                return (int) (a.getStartTime() - b.getStartTime());
-            }  } );
-		
-		for ( Event part : parts ) {
-            addTopicMapInstruction( part );
-            if(part.getLyrics().size() > 0) {
-                append(new LyricInstruction(part));
-            }
+        TopicMapUtil.sortEventsByTime(parts);
+
+        for ( Event part : parts ) {
+            addTopicMapInstruction(part);
         }
 	}
 
     public void close() {
 		empty();
 	}
-	
+
 	@Override
 	public void empty() {
 		super.empty();
-		
+
 		for ( AudioSource source : _sources.values() ) {
 			source.close();
 		}
-		
+
 		_sources.clear();
 	}
-	
-	protected void addTopicMapInstruction( Event part ) throws Exception {
 
+	protected void addTopicMapInstruction( Event part ) {
+        TopicMapEvent tmEvent = (TopicMapEvent) part;
         double startTime = part.getStartTime();
         double stopTime = part.getStartTime() + part.getLength();
 
@@ -66,9 +62,9 @@ public class TopicMapInstructions extends Instructions {
 		
 		AudioInstruction instruction = new AudioInstruction( start, end, source, cue, duration );
 		
-		if ( part.getRate() != null )
+		if ( tmEvent.getRate() != null )
 		{
-			float rate = part.getRate();
+			float rate = tmEvent.getRate();
 			instruction.setConstantRate( rate );
 		}
 		/* TODO What is this for?
@@ -79,9 +75,9 @@ public class TopicMapInstructions extends Instructions {
 			instruction.setInterpolatedRate( rate1, rate2 );
 		}*/
 		
-		if ( part.getVolume() != null )
+		if ( tmEvent.getVolume() != null )
 		{
-			float volume = part.getVolume();
+			float volume = tmEvent.getVolume();
 			instruction.setConstantVolume( volume );
 		}/* Todo same suspicious code - possibly for interpolating two songs
 		else
@@ -93,7 +89,7 @@ public class TopicMapInstructions extends Instructions {
 		
 		append( instruction );
 	}
-	
+
 	protected static String extract( String from, String key ) {
 		int pos = from.indexOf( key + "=\"" );
 		if ( pos < 0 ) return null;
@@ -101,18 +97,22 @@ public class TopicMapInstructions extends Instructions {
 		pos = value.indexOf( '\"' );
 		return value.substring( 0, pos );
 	}
-	
-	protected AudioSource findSource( Media media ) throws Exception {
 
-        File path = new File(new URI(media.getSubjectLocator()));
-		
-		AudioSource source = _sources.get( path.getPath() );
-		
-		if ( source == null ) {
-			source = AudioSourceFactory.load( path );
-			_sources.put( path.getPath(), source );
-		}
-		
-		return source;
-	}
+	protected AudioSource findSource( Media media )  {
+        TopicMapMedia tmMedia = (TopicMapMedia) media;
+        try {
+            File path = new File(new URI(tmMedia.getSubjectLocator()));
+
+            AudioSource source = _sources.get( path.getPath() );
+
+            if ( source == null ) {
+                source = AudioSourceFactory.load( path );
+                _sources.put( path.getPath(), source );
+            }
+            return source;
+        } catch (Exception exception)
+        {
+            throw new RuntimeException("Accessing media failed", exception);
+        }
+    }
 }

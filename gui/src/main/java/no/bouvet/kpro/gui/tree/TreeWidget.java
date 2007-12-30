@@ -3,18 +3,11 @@ package no.bouvet.kpro.gui.tree;
 import java.util.ArrayList;
 import java.util.List;
 
-import no.bouvet.kpro.model.Media;
-import no.bouvet.kpro.model.Part;
-import no.bouvet.kpro.model.demo.DemoPart;
-import no.bouvet.kpro.persistence.Storage;
+import no.bouvet.kpro.model.old.Media;
 
 import com.trolltech.qt.core.QPointF;
-import com.trolltech.qt.gui.QAction;
-import com.trolltech.qt.gui.QColor;
 import com.trolltech.qt.gui.QGraphicsScene;
-import com.trolltech.qt.gui.QGraphicsSceneContextMenuEvent;
 import com.trolltech.qt.gui.QGraphicsView;
-import com.trolltech.qt.gui.QMenu;
 import com.trolltech.qt.gui.QPainter;
 import com.trolltech.qt.gui.QWidget;
 

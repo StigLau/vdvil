@@ -4,9 +4,12 @@ import java.io.File;
 
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.Renderer;
+import org.apache.log4j.Logger;
 
 public abstract class CompositionDemo {
-	public static void main(String[] args) throws Exception {
+    static Logger log = Logger.getLogger(AudioFromTopicMapRendererTest.class);
+
+    public static void main(String[] args) throws Exception {
 		AudioSource sourceA = null; // First source
 		AudioSource sourceB = null; // Second source
 
@@ -18,23 +21,23 @@ public abstract class CompositionDemo {
 
         try {
             sourceA = AudioSourceFactory.load(new File(snapMp3));
-			System.out.println("Loaded " + snapMp3 + "Source is " + sourceA.getDuration() + " samples");
+			log.debug("Loaded " + snapMp3 + "Source is " + sourceA.getDuration() + " samples");
 
 			sourceB = AudioSourceFactory.load(new File(coronaMp3));
-			System.out.println("Loaded " + coronaMp3 + ". Source is " + sourceB.getDuration() + " samples");
+			log.debug("Loaded " + coronaMp3 + ". Source is " + sourceB.getDuration() + " samples");
 
             assertAudioSourcesCorrect(sourceA, sourceB);
 
             Instructions instructions = createTestSetInstructions(sourceA, sourceB);
 
             // Create the AudioTarget
-			System.out.println("Creating AudioPlaybackTarget...");
+			log.debug("Creating AudioPlaybackTarget...");
 			target = new AudioPlaybackTarget();
 
 			// Create the Renderer with an AudioRenderer instance
 			renderer = new Renderer(instructions);
 			renderer.addRenderer(new AudioRenderer(target));
-            System.out.println("Starting renderer...");
+            log.debug("Starting renderer...");
             renderer.start(0); // Start the renderer at the beginning
             printStatus(target, renderer, instructions);
         } finally {
@@ -46,7 +49,7 @@ public abstract class CompositionDemo {
 				sourceB.close();
 			if (sourceA != null)
 				sourceA.close();
-            System.out.println("Rendering finished");
+            log.debug("Rendering finished");
         }
 	}
 
@@ -69,7 +72,7 @@ public abstract class CompositionDemo {
             }
             int samples = target.getOutputPosition();
             double percent = Math.floor((double) samples / (double) instructions.getDuration() * 1000) / 10;
-            System.out.println("Rendered " + samples + " samples (" + percent + "%)...");
+            log.debug("Rendered " + samples + " samples (" + percent + "%)...");
         }
     }
 
@@ -117,7 +120,7 @@ public abstract class CompositionDemo {
         instruction.setConstantRate(0.98154193f);
         instructions.append(instruction);
 
-        System.out.println("Instruction queue has expected duration " + instructions.getDuration());
+        log.debug("Instruction queue has expected duration " + instructions.getDuration());
         return instructions;
     }
 }

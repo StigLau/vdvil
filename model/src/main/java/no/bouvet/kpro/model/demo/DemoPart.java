@@ -1,6 +1,6 @@
 package no.bouvet.kpro.model.demo;
 
-import no.bouvet.kpro.model.Part;
+import no.bouvet.kpro.model.old.Part;
 
 public class DemoPart extends Part {
 

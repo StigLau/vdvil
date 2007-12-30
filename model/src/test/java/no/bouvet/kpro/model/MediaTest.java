@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.junit.Test;
+import no.bouvet.kpro.model.old.Media;
 
 public class MediaTest {
 

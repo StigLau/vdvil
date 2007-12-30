@@ -1,7 +1,7 @@
 package no.bouvet.kpro.renderer.lyric;
 
 import no.bouvet.kpro.renderer.Instruction;
-import no.bouvet.kpro.model.stigstest.Event;
+import no.bouvet.kpro.model.Event;
 
 /**
  * Implementation to show on-screen lyrics.

@@ -6,15 +6,16 @@ import no.bouvet.topicmap.query.SimpleTologQueryString;
 import no.bouvet.topicmap.query.SimpleTopicParameterFactory;
 import no.bouvet.topicmap.dao.TopicDAO;
 import no.bouvet.kpro.persistence.VaudevilleTopicMap;
+import no.bouvet.kpro.model.Lyric;
 
-public class Lyric extends TopicDAO {
+public class TopicMapLyric extends TopicDAO implements Lyric {
 
     private static VaudevilleTopicMap tm;
     static {
         tm = new VaudevilleTopicMap("musikk.xtm");
     }
 
-    public Lyric(TopicIF topicIF) {
+    public TopicMapLyric(TopicIF topicIF) {
         super(topicIF);
     }
 

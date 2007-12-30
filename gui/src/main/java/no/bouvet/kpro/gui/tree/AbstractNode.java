@@ -1,15 +1,10 @@
 package no.bouvet.kpro.gui.tree;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import no.bouvet.kpro.model.Part;
-import no.bouvet.kpro.persistence.Storage;
-
-import com.trolltech.qt.QSignalEmitter.Signal1;
 import com.trolltech.qt.core.QPointF;
 import com.trolltech.qt.core.QRectF;
 import com.trolltech.qt.core.Qt;

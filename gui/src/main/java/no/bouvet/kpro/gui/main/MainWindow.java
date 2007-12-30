@@ -1,21 +1,15 @@
 package no.bouvet.kpro.gui.main;
 
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.List;
 
 import com.trolltech.qt.core.*;
-import com.trolltech.qt.core.Qt.ToolButtonStyle;
 import com.trolltech.qt.gui.*;
 
 import no.bouvet.kpro.gui.bar.BarWidget;
 import no.bouvet.kpro.gui.tree.TreeWidget;
-import no.bouvet.kpro.model.Media;
-import no.bouvet.kpro.model.Part;
+import no.bouvet.kpro.model.old.Media;
 import no.bouvet.kpro.persistence.Storage;
-import no.bouvet.kpro.renderer.Renderer;
 
 public class MainWindow extends QMainWindow
 {

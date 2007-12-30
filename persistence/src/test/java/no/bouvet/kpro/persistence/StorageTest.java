@@ -6,18 +6,16 @@ import static org.junit.Assert.assertNull;
 
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import no.bouvet.kpro.model.Media;
-import no.bouvet.kpro.model.Part;
+import no.bouvet.kpro.model.old.Media;
+import no.bouvet.kpro.model.old.Part;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class StorageTest {
@@ -96,7 +94,6 @@ public class StorageTest {
 	}
 	@Test
 	public void getChildrenbyPartIDTest(){
-		System.out.println();
 		boolean found = false;
 		for (Part p : store.getChildren(part.getId())){
 			if (subpart.equals(p)){

@@ -1,14 +1,15 @@
 package no.bouvet.kpro.renderer.audio;
 
-import no.bouvet.kpro.model.stigstest.Event;
+import no.bouvet.kpro.model.stigstest.TopicMapEvent;
 import no.bouvet.kpro.renderer.Renderer;
-import no.bouvet.kpro.renderer.lyric.LyricRenderer;
-
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+import org.apache.log4j.Logger;
 
 
 public class AudioFromTopicMapRendererTest {
+
+    static Logger log = Logger.getLogger(AudioFromTopicMapRendererTest.class);
+
 
     @Test
     public void dummyTest() {
@@ -20,22 +21,22 @@ public class AudioFromTopicMapRendererTest {
     public void testFullRendering() throws Exception {
 
         //Media media = new Media("https://wiki.bouvet.no/snap-rythm_is_a_dancer");
-        TopicMapInstructions instructions = new TopicMapInstructions(new Event("https://wiki.bouvet.no/snap_vs_corona"));
+        AudioTopicMapInstructions instructions = new AudioTopicMapInstructions(new TopicMapEvent("https://wiki.bouvet.no/snap_vs_corona"));
 
 		AudioTarget target = new AudioPlaybackTarget();
 		Renderer renderer	= null;
 
 		try {
-			System.out.println("Duration Time: " + instructions.getDuration());
+			log.debug("Duration Time: " + instructions.getDuration());
 
 
 			// Create the Renderer with an AudioRenderer instance
 			renderer = new Renderer(instructions);
 			renderer.addRenderer(new AudioRenderer(target));
-			renderer.addRenderer(new LyricRenderer());
+			//renderer.addRenderer(new LyricRenderer());
 
 			// Start the renderer at the beginning
-			System.out.println("Starting renderer...");
+			log.debug("Starting renderer...");
 			renderer.start(0);
 
 			// Wait for the renderer to finish
@@ -47,9 +48,9 @@ public class AudioFromTopicMapRendererTest {
 				int samples = target.getOutputPosition();
 				double percent = Math.floor((double) samples / (double) instructions.getDuration() * 1000) / 10;
 
-				System.out.println("Rendered " + samples + " samples (" + percent + "%)...");
+				log.debug("Rendered " + samples + " samples (" + percent + "%)...");
 			}
-			System.out.println("Fin");
+			log.debug("Fin");
 		} finally {
 			if (renderer != null)
 				renderer.stop();

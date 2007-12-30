@@ -1,4 +1,4 @@
-package no.bouvet.kpro.model;
+package no.bouvet.kpro.model.old;
 
 import java.util.ArrayList;
 import java.util.List;

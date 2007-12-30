@@ -16,8 +16,8 @@ import net.ontopia.topicmaps.query.core.InvalidQueryException;
 import net.ontopia.topicmaps.query.core.QueryProcessorIF;
 import net.ontopia.topicmaps.query.core.QueryResultIF;
 import net.ontopia.topicmaps.query.utils.QueryUtils;
-import no.bouvet.kpro.model.Media;
-import no.bouvet.kpro.model.Part;
+import no.bouvet.kpro.model.old.Media;
+import no.bouvet.kpro.model.old.Part;
 import no.bouvet.topicmap.core.TopicMap;
 import org.apache.log4j.Logger;
 
@@ -62,7 +62,7 @@ public class Storage implements VaudevilleStorage {
 	 */
 	public static void main(String[] args) {
 		for(Media m: getInstance().getAllMedia()){
-			System.out.println(m.getName()+", " + m.getMediaFile()+ ", " + m.getId());
+			log.debug(m.getName()+", " + m.getMediaFile()+ ", " + m.getId());
 		}
 	}
 

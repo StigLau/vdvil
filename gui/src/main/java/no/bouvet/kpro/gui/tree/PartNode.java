@@ -3,35 +3,15 @@ package no.bouvet.kpro.gui.tree;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.trolltech.qt.core.QPointF;
-import com.trolltech.qt.core.QRectF;
-import com.trolltech.qt.core.Qt;
-import com.trolltech.qt.core.Qt.MouseButton;
-import com.trolltech.qt.gui.QAction;
-import com.trolltech.qt.gui.QBrush;
-import com.trolltech.qt.gui.QColor;
-import com.trolltech.qt.gui.QFontMetricsF;
-import com.trolltech.qt.gui.QGraphicsItem;
-import com.trolltech.qt.gui.QGraphicsItemInterface;
-import com.trolltech.qt.gui.QGraphicsRectItem;
-import com.trolltech.qt.gui.QGraphicsSceneContextMenuEvent;
-import com.trolltech.qt.gui.QGraphicsSceneMouseEvent;
-import com.trolltech.qt.gui.QLabel;
-import com.trolltech.qt.gui.QMenu;
-import com.trolltech.qt.gui.QPainter;
-import com.trolltech.qt.gui.QPen;
-import com.trolltech.qt.gui.QStyleOptionGraphicsItem;
-import com.trolltech.qt.gui.QWidget;
 import com.trolltech.qt.gui.QGraphicsItem.GraphicsItemChange;
-import com.trolltech.qt.gui.QGraphicsItem.GraphicsItemFlag;
 
-import no.bouvet.kpro.model.Part;
+import no.bouvet.kpro.model.old.Part;
 import no.bouvet.kpro.persistence.Storage;
 
 /**
  * A view for showing nodes. Uses Part as its model.
  * 
- * @see no.bouvet.kpro.model.Part
+ * @see no.bouvet.kpro.model.old.Part
  * @author Jostein Gogstad Date: 2007-10-02
  * @author Remy Jensen Date: 2007-10-15
  */

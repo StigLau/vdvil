@@ -1,28 +1,24 @@
 package no.bouvet.kpro.gui.main;
 
-import java.io.File;
-
 import com.trolltech.qt.core.QObject;
 import com.trolltech.qt.gui.QApplication;
 
-import no.bouvet.kpro.model.Media;
+import no.bouvet.kpro.model.old.Media;
 import no.bouvet.kpro.persistence.Storage;
-import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.Renderer;
-import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.AudioRenderer;
-import no.bouvet.kpro.renderer.audio.AudioSource;
-import no.bouvet.kpro.renderer.audio.AudioSourceFactory;
 import no.bouvet.kpro.renderer.audio.AudioTarget;
-import no.bouvet.kpro.renderer.audio.TopicMapInstructions;
+import no.bouvet.kpro.renderer.audio.AudioTopicMapInstructions;
+
+import java.io.File;
 
 public class Main extends QObject{
 	
 	private Renderer renderer;
 	private AudioTarget audioTarget;
 	private MainWindow mainWindow;
-	private TopicMapInstructions instructions;
+	private AudioTopicMapInstructions instructions;
 		
 	public Main() throws Exception {
 		audioTarget = new AudioPlaybackTarget();
@@ -47,7 +43,7 @@ public class Main extends QObject{
 
 		Media instructionMedia = Storage.getInstance().getMediaByFileName("snap_vs_corona.mp3");
 
-		//instructions = new TopicMapInstructions( instructionMedia, new File(path));
+		//instructions = new AudioTopicMapInstructions( instructionMedia, new File(path));
 		renderer = new Renderer(instructions);
 		renderer.addRenderer(new AudioRenderer(audioTarget));
 		renderer.start(0);

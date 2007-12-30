@@ -1,4 +1,4 @@
-package no.bouvet.kpro.model;
+package no.bouvet.kpro.model.old;
 
 /**
  * A performance contains information that describes how a media-object is mixed

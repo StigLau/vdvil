@@ -2,7 +2,7 @@ package no.bouvet.kpro.renderer.lyric;
 
 import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Instruction;
-import no.bouvet.kpro.model.stigstest.Event;
+import no.bouvet.kpro.model.Event;
 
 import org.apache.log4j.Logger;
 
@@ -13,7 +13,7 @@ public class LyricRenderer extends AbstractRenderer
     
 
     public void handleInstruction(int time, Instruction instruction) {
-        System.out.println("time = " + time);
+        log.debug("time = " + time);
         if (instruction instanceof LyricInstruction) {
             LyricInstruction lyricInstruction = (LyricInstruction) instruction;
             excecuteEvent(lyricInstruction.getEvent());
@@ -21,6 +21,6 @@ public class LyricRenderer extends AbstractRenderer
     }
 
     private void excecuteEvent(Event event) {
-        System.out.println("Show: " + event.getName());
+        log.debug("Show: " + event.getName());
     }
 }

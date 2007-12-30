@@ -1,4 +1,4 @@
-package no.bouvet.kpro.model;
+package no.bouvet.kpro.model.old;
 
 /**
  * The cue points specify when key points in the mixing of performances occur

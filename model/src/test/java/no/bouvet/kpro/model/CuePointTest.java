@@ -3,6 +3,7 @@ package no.bouvet.kpro.model;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import no.bouvet.kpro.model.old.CuePoint;
 
 public class CuePointTest {
 

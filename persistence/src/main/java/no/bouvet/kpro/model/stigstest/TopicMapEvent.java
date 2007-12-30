@@ -6,13 +6,16 @@ import no.bouvet.topicmap.dao.TopicType;
 import no.bouvet.kpro.persistence.VaudevilleAssociationType;
 import no.bouvet.kpro.persistence.VaudevilleTopicType;
 import no.bouvet.kpro.persistence.VaudevilleTopicMap;
+import no.bouvet.kpro.model.Event;
+import no.bouvet.kpro.model.Lyric;
+import no.bouvet.kpro.model.Media;
 import java.util.List;
 import java.util.ArrayList;
 import net.ontopia.topicmaps.core.TopicIF;
 import org.apache.log4j.Logger;
 
-public class Event extends TopicDAO {
-    static Logger log = Logger.getLogger(Event.class);
+public class TopicMapEvent extends TopicDAO implements no.bouvet.kpro.model.Event {
+    static Logger log = Logger.getLogger(TopicMapEvent.class);
 
     private static VaudevilleTopicMap tm;
 
@@ -20,11 +23,11 @@ public class Event extends TopicDAO {
         tm = new VaudevilleTopicMap("musikk.xtm");
     }
 
-    public Event(String psi) {
+    public TopicMapEvent(String psi) {
         super(tm.getTopicDAOByPSI(psi).getTopicIF());
     }
 
-    public Event(TopicIF topicIF) {
+    public TopicMapEvent(TopicIF topicIF) {
         super(topicIF);
     }
 
@@ -36,7 +39,7 @@ public class Event extends TopicDAO {
     public Event getParent() {
         TologQuery tologQuery = new TologQuery(VaudevilleAssociationType.PART_WHOLE, new StandardTopicParameter(this), new StandardTopicParameter(VaudevilleTopicType.WHOLE));
         TopicIF topic = tm.queryForSingleValue(tologQuery, new StandardTopicParameter(VaudevilleTopicType.WHOLE));
-        return new Event(topic);
+        return new TopicMapEvent(topic);
     }
 
     public List<Event> getChildren() {
@@ -44,7 +47,7 @@ public class Event extends TopicDAO {
         TologQuery tologQuery = new TologQuery(VaudevilleAssociationType.PART_WHOLE, new StandardTopicParameter(VaudevilleTopicType.PART), new StandardTopicParameter(this));
         List<TopicIF> topics = tm.queryForList(tologQuery, new StandardTopicParameter(VaudevilleTopicType.PART));
         for (TopicIF topic : topics) {
-            results.add(new Event(topic));
+            results.add(new TopicMapEvent(topic));
         }
         return results;
     }
@@ -53,7 +56,7 @@ public class Event extends TopicDAO {
         TologQuery tologQuery = new TologQuery(VaudevilleAssociationType.MEDIA_EVENT, new StandardTopicParameter(VaudevilleTopicType.MEDIA), new StandardTopicParameter(this));
         TopicIF topicIF = tm.queryForSingleValue(tologQuery, new StandardTopicParameter(VaudevilleTopicType.MEDIA));
         if(topicIF != null)
-            return new Media(topicIF);
+            return new TopicMapMedia(topicIF);
         else
             return getParent().getMedia();
     }
@@ -64,7 +67,7 @@ public class Event extends TopicDAO {
 
         List<Lyric> lyrics = new ArrayList<Lyric>();
         for (TopicIF topicIF : topicIFList) {
-            lyrics.add(new Lyric(topicIF));
+            lyrics.add(new TopicMapLyric(topicIF));
         }
         return lyrics;
     }
