@@ -1,5 +1,8 @@
 Notes when programming Vdvil
 
+* When using MAC: 
+Set Program parameters (or java runtime) to -XstartOnFirstThread
+
 * To refresh topicmap: 
 ** Press upper right save. Make sure the topicmap is saved to kpro2007/persistence/src/main/resources/topicmaps/musikk.xtm
 ** persistence/mvn clean compile
@@ -11,3 +14,4 @@ Ting som må ordnes med kpro
 
 * Mangler en referanse mellom snap vs corona og Rythm/Baby
 * Lydstyrke og BPM må skilles ut i egne topics
+* Starttime må byttes ut med en ny topic - reference eller no, som peker til hvor man finner begynnelsen av et soundtrack, text osv.
