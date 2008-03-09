@@ -13,7 +13,8 @@ public class LyricGUI implements LyricListener {
 
         label = new JLabel("Hello World");
         frame.getContentPane().add(label);
-        frame.pack();
+        //frame.pack();
+        frame.setSize(1000, 100);
         frame.setVisible(true);
     }
 

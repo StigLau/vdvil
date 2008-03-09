@@ -31,6 +31,12 @@
     </dependency>
     <dependency>
       <groupId>no.bouvet.kpro</groupId>
+      <artifactId>renderer.lyric</artifactId>
+      <version>0.1-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>no.bouvet.kpro</groupId>
       <artifactId>model</artifactId>
       <version>0.1-SNAPSHOT</version>
       <scope>compile</scope>
