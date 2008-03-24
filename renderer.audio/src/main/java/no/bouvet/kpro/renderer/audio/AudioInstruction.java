@@ -13,6 +13,7 @@ import no.bouvet.kpro.renderer.Renderer;
  * the audio section.
  * 
  * @author Michael Stokes
+ * @author Stig Lau
  */
 public class AudioInstruction extends Instruction {
 	protected AudioSource _source;
@@ -57,7 +58,10 @@ public class AudioInstruction extends Instruction {
 		_volumed = 0;
 	}
 
-	/**
+    public AudioInstruction() {
+    }
+
+    /**
 	 * Get the AudioSource.
 	 * 
 	 * @return the AudioSource

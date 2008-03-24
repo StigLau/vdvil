@@ -16,8 +16,8 @@ public abstract class CompositionDemo {
 		AudioTarget target = null; // Audio output target
 		Renderer renderer = null; // Renderer
 
-        String snapMp3 = "C:\\Snap - Rhythm is a Dancer.mp3";
-        String coronaMp3 = "C:\\Corona - Baby Baby.mp3";
+        String snapMp3 = CompositionDemo.class.getResource("/Snap_-_Rhythm_is_a_Dancer.mp3").getFile();
+        String coronaMp3 = CompositionDemo.class.getResource("/Corona_-_Baby_Baby.mp3").getFile();
 
         try {
             sourceA = AudioSourceFactory.load(new File(snapMp3));
