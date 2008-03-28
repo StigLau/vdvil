@@ -12,11 +12,11 @@ public class CounterTest {
         b = new Counter();
         a.valueChanged.connect(b, "setValue(int)");
         a.setValue(12);
-        assertEquals(12, a.getValue());
-        assertEquals(12, b.getValue());
+        assertEquals(12, a.getValue().intValue());
+        assertEquals(12, b.getValue().intValue());
         b.setValue(48);     
-        assertEquals(12, a.getValue());
-        assertEquals(48, b.getValue());
+        assertEquals(12, a.getValue().intValue());
+        assertEquals(48, b.getValue().intValue());
     }
 }
 

@@ -4,8 +4,8 @@ import javax.swing.JFrame
 import javax.swing.JButton
 import no.bouvet.kpro.renderer.audio.MP3Source
 import javax.swing.JFileChooser
-import no.bouvet.kpro.gui.Worker
 import groovy.swing.SwingBuilder
+import no.bouvet.kpro.tagger.Worker
 
 class TagGui {
     def swing = new SwingBuilder()
