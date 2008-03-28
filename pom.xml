@@ -29,19 +29,58 @@
     <!-- module>topicmap</module -->
   </modules>
 
-  <!-- Felles dependency management for håndtering av versjoner - slipper å skrive dette spesielt for undermoduler -->
-  <dependencyManagement>
+  <!-- Felles dependency management for hï¿½ndtering av versjoner - slipper ï¿½ skrive dette spesielt for undermoduler -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>no.bouvet.topicmap</groupId>
+                <artifactId>topicmapapi</artifactId>
+                <version>0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>no.bouvet.kpro</groupId>
+                <artifactId>renderer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>no.bouvet.kpro</groupId>
+                <artifactId>renderer.audio</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>no.bouvet.kpro</groupId>
+                <artifactId>renderer.lyric</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>no.bouvet.kpro</groupId>
+                <artifactId>model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>no.bouvet.kpro</groupId>
+                <artifactId>persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.1</version>
-        <scope>test</scope>
-      </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>5.7</version>
+            <classifier>jdk15</classifier>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-  </dependencyManagement>
 
-  <build>
+    <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
