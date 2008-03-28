@@ -1,0 +1,78 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>tagger</artifactId>
+    <packaging>jar</packaging>
+    <name>Tagger GUI</name>
+
+    <parent>
+        <groupId>no.bouvet.kpro</groupId>
+        <artifactId>root</artifactId>
+        <version>0.1</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>no.bouvet.kpro</groupId>
+            <artifactId>renderer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.bouvet.kpro</groupId>
+            <artifactId>renderer.audio</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.bouvet.kpro</groupId>
+            <artifactId>renderer.lyric</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.bouvet.kpro</groupId>
+            <artifactId>model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.bouvet.kpro</groupId>
+            <artifactId>persistence</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>1.5.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.swinglabs</groupId>
+            <artifactId>swing-worker</artifactId>
+            <version>1.1</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/groovy</directory>
+                <includes>
+                    <include>*.groovy</include>
+                </includes>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/groovy</directory>
+                <includes>
+                    <include>*.groovy</include>
+                </includes>
+            </testResource>
+        </testResources>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo.groovy</groupId>
+                <artifactId>groovy-maven-plugin</artifactId>
+                <extensions>true</extensions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.4.2</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>

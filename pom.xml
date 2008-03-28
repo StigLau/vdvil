@@ -26,7 +26,7 @@
     <module>renderer.audio</module>
     <module>renderer.lyric</module>
     <module>gui</module>
-    <!-- module>topicmap</module -->
+    <module>tagger</module>
   </modules>
 
   <!-- Felles dependency management for h�ndtering av versjoner - slipper � skrive dette spesielt for undermoduler -->
