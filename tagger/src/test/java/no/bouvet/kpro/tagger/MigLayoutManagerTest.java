@@ -11,13 +11,18 @@ public class MigLayoutManagerTest {
     public void testBuildingSimpleLayout() throws InterruptedException {
         JPanel p = new JPanel(new MigLayout("", "[right]"));
 
-        p.add(new JLabel("General"), "split, span, gaptop 10");
-        p.add(new JSeparator(), "growx, wrap, gaptop 10");
+        //p.add(new JLabel("General"), "split, span, gaptop 10");
+        //p.add(new JSeparator(), "growx, wrap, gaptop 10");
 
+        //p.add(new JButton("+"), "");
+        p.add(new JButton("+"), "");
         p.add(new JLabel("Company"), "gap 10");
         p.add(new JTextField(""), "span, growx");
+
+
         p.add(new JLabel("Contact"), "gap 10");
-        p.add(new JTextField(""), "span, growx, wrap");
+        p.add(new JTextField(""), "span, growx");
+        p.add(new JButton("+"), "span, growx, wrap");
 
         p.add(new JLabel("Propeller"), "split, span, gaptop 10");
         p.add(new JSeparator(), "growx, wrap, gaptop 10");
@@ -36,6 +41,6 @@ public class MigLayoutManagerTest {
         frame.pack();
         frame.show();
 
-        Thread.sleep(2000);
+        Thread.sleep(200000);
     }
 }

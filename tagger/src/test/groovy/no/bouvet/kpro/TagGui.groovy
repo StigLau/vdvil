@@ -1,59 +1,38 @@
 import java.awt.BorderLayout
 import javax.swing.JTextField
 import javax.swing.JFrame
-import javax.swing.JButton
-import no.bouvet.kpro.renderer.audio.MP3Source
 import javax.swing.JFileChooser
 import groovy.swing.SwingBuilder
-import no.bouvet.kpro.tagger.Worker
+import no.bouvet.kpro.tagger.PlayerBase
 
 class TagGui {
     def swing = new SwingBuilder()
-    Float cue = 0
     JTextField bpmText
-    JTextField fileName
-    Boolean started = false
-
-    JButton playButton
-
-    Worker worker
+    JTextField fileDisplay
+    JFrame frame
+    PlayerBase playerBase
 
     public void createGui() {
-        def frame = swing.frame(title: 'Frame', size: [300, 300], defaultCloseOperation: JFrame.EXIT_ON_CLOSE) {
+         frame = swing.frame(title: 'Frame', size: [500, 300], defaultCloseOperation: JFrame.EXIT_ON_CLOSE) {
             borderLayout()
-            bpmText = textField(text: "0", constraints: BorderLayout.WEST)
 
-            fileName = textField(text: "/Volumes/McFeasty/Users/Stig/jobb/utvikling/bouvet/playground/stig.lau/kpro2007/renderer.audio/src/test/resources/Corona_-_Baby_Baby.mp3", constraints: BorderLayout.NORTH)
+            fileDisplay = textField(text: "/Volumes/McFeasty/Users/Stig/jobb/utvikling/bouvet/playground/stig.lau/kpro2007/renderer.audio/src/test/resources/Corona_-_Baby_Baby.mp3", constraints: BorderLayout.NORTH)
             button(text: 'Load File',
                     actionPerformed: {
-                        JFileChooser fileChooser = swing.fileChooser(currentDirectory:new File("./src/main/resources"))
-                        int returnVal = fileChooser.showOpenDialog(playButton);
+                        JFileChooser fileChooser = swing.fileChooser(currentDirectory:new File(fileDisplay.text))
+                        int returnVal = fileChooser.showOpenDialog(frame);
 
                         if (returnVal == JFileChooser.APPROVE_OPTION) {
-                            fileName.text = fileChooser.getSelectedFile().getAbsolutePath();        
+                            fileDisplay.text = fileChooser.getSelectedFile().getAbsolutePath();
+                            playerBase.setFileName(fileDisplay.text)
                         }
                     }, constraints: BorderLayout.EAST
             )
-            playButton = button(text: 'Play',
-                    actionPerformed: {
-                        if (!started) {
-                            audioSource = new MP3Source(new File(fileName.text));
-                            cue = bpmText.text.toFloat()
-                            worker = new Worker(audioSource:audioSource, cue:cue)
-                            worker.execute()
-                            playButton.text = "Stop"
-                            started = true
-                        } else {
-                            //stop
 
-                            worker.stop()
-                            started = false
-                            playButton.text = "Play"
-                        }
-                        println cue
-                    }, constraints: BorderLayout.SOUTH
-            )
         }
+        playerBase = new PlayerBase(fileDisplay.text)
+        frame.add(playerBase.getDynamicTimeTable(), BorderLayout.CENTER)
+        frame.pack()
         frame.show()
     }
 
