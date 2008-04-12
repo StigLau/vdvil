@@ -14,36 +14,25 @@ public class SimpleSongParser {
             folder.mkdirs();
         }
         File file = new File(fileToSave);
-
-
         try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
             out.writeObject(song);
             out.close();
         } catch (IOException e) {
-            e.printStackTrace();  
+            e.printStackTrace();
         }
 
     }
 
     public SimpleSong load(String fileName) {
-        ObjectInputStream ois = null;
         try {
-            ois = new ObjectInputStream(new FileInputStream(fileName));
-            return (SimpleSong) ois.readObject ();
-        } catch(IOException e) {
-            e.printStackTrace();
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName));
+            SimpleSong simpleSong = (SimpleSong) ois.readObject();
+            ois.close();
+            return simpleSong;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                ois.close ();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
 
+    }
 }
