@@ -35,7 +35,7 @@
             <dependency>
                 <groupId>no.bouvet.topicmap</groupId>
                 <artifactId>topicmapapi</artifactId>
-                <version>0.1-SNAPSHOT</version>
+                <version>0.1</version>
             </dependency>
             <dependency>
                 <groupId>no.bouvet.kpro</groupId>

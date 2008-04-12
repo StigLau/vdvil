@@ -4,6 +4,8 @@ import javax.swing.JFrame
 import javax.swing.JFileChooser
 import groovy.swing.SwingBuilder
 import no.bouvet.kpro.tagger.PlayerBase
+import no.bouvet.kpro.tagger.SimpleSong
+import no.bouvet.kpro.tagger.SimpleSongParser
 
 class TagGui {
     def swing = new SwingBuilder()
@@ -13,13 +15,16 @@ class TagGui {
     PlayerBase playerBase
 
     public void createGui() {
-         frame = swing.frame(title: 'Frame', size: [500, 300], defaultCloseOperation: JFrame.EXIT_ON_CLOSE) {
+        SimpleSongParser parser = new SimpleSongParser()
+        SimpleSong corona = parser.load("/corona.dvl")
+
+        frame = swing.frame(title: 'Frame', size: [500, 300], defaultCloseOperation: JFrame.EXIT_ON_CLOSE) {
             borderLayout()
 
-            fileDisplay = textField(text: "/Volumes/McFeasty/Users/Stig/jobb/utvikling/bouvet/playground/stig.lau/kpro2007/renderer.audio/src/test/resources/Corona_-_Baby_Baby.mp3", constraints: BorderLayout.NORTH)
+            fileDisplay = textField(text: corona.fileName, constraints: BorderLayout.NORTH)
             button(text: 'Load File',
                     actionPerformed: {
-                        JFileChooser fileChooser = swing.fileChooser(currentDirectory:new File(fileDisplay.text))
+                        JFileChooser fileChooser = swing.fileChooser(currentDirectory: new File(fileDisplay.text))
                         int returnVal = fileChooser.showOpenDialog(frame);
 
                         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -30,7 +35,7 @@ class TagGui {
             )
 
         }
-        playerBase = new PlayerBase(fileDisplay.text)
+        playerBase = new PlayerBase(corona)
         frame.add(playerBase.getDynamicTimeTable(), BorderLayout.CENTER)
         frame.pack()
         frame.show()

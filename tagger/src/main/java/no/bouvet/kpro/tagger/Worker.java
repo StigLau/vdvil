@@ -2,28 +2,35 @@ package no.bouvet.kpro.tagger;
 
 import no.bouvet.kpro.renderer.audio.AudioSource;
 import no.bouvet.kpro.renderer.audio.SimpleAudioInstruction;
+import no.bouvet.kpro.renderer.audio.MP3Source;
 import no.bouvet.kpro.renderer.Instructions;
 
 import javax.swing.*;
 import java.util.List;
+import java.io.File;
 
 public class Worker extends SwingWorker<Object, Object> {
 
 
     AudioSource audioSource;
+    private SimpleSong simpleSong;
     Float cue;
     private AudioPlayer player;
 
-    public Worker(AudioSource audioSource, Float cue) {
-        this.audioSource = audioSource;
-        this.cue = cue;
+    public Worker(SimpleSong simpleSong, Float cueToStartOn) {
+        this.simpleSong = simpleSong;
+        this.cue = cueToStartOn;
+        try {
+            audioSource = new MP3Source(new File(simpleSong.fileName));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     protected Object doInBackground() throws Exception {
-        Float coronaOffset = 44100 * 0.445f;
         Instructions instructions = new Instructions();
         System.out.println("cue playing = " + cue);
-        instructions.append(new SimpleAudioInstruction(0, 256, 132.98f, cue, coronaOffset, audioSource));
+        instructions.append(new SimpleAudioInstruction(0, 256, simpleSong.bpm, cue, simpleSong.startingOffset, audioSource));
         player = new AudioPlayer();
         player.playMusic(instructions);
         return "worker finished";

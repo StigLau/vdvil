@@ -1,6 +1,8 @@
 package no.bouvet.kpro.tagger;
 
-public class Row {
+import java.io.Serializable;
+
+public class Row implements Serializable {
     String text;
     Float cue;
     Float end;
