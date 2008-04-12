@@ -6,12 +6,14 @@ import java.io.*;
 
 public class SimpleSongParser {
 
+    public static final String path = "/tmp/kpro";
+
     public void save(SimpleSong song, String fileToSave) {
-        File folder = new File("/tmp/kpro");
+        File folder = new File(path);
         if (!folder.exists()) {
             folder.mkdirs();
         }
-        File file = new File("/tmp/kpro" + fileToSave);
+        File file = new File(fileToSave);
 
 
         try {
@@ -27,7 +29,7 @@ public class SimpleSongParser {
     public SimpleSong load(String fileName) {
         ObjectInputStream ois = null;
         try {
-            ois = new ObjectInputStream(new FileInputStream("/tmp/kpro" + fileName));
+            ois = new ObjectInputStream(new FileInputStream(fileName));
             return (SimpleSong) ois.readObject ();
         } catch(IOException e) {
             e.printStackTrace();

@@ -14,8 +14,7 @@ public class SimpleAudioInstruction extends AudioInstruction {
         _start = new Float(start * speedFactor).intValue() ;
         _end = new Float(end * speedFactor).intValue();
 
-
-        _cue = new Float((cue*speedFactor) + initialOffset).intValue();
+        _cue = new Float((cue*speedFactor) + (initialOffset * 44100)).intValue();
         _duration = _end - _start;
 
         _source = source;

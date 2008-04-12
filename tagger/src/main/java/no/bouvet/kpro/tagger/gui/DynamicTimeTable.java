@@ -21,7 +21,15 @@ public class DynamicTimeTable {
 
         panel = new JPanel(new MigLayout("", "[right]"));
 
-        final JTextField bpmField = new JTextField(simpleSong.bpm.toString(), 3);
+        final JTextField fileNameField = new JTextField(simpleSong.fileName, 80);
+        fileNameField.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                simpleSong.fileName = fileNameField.getText();
+            }
+        });
+        panel.add(fileNameField, "span, wrap");
+
+        final JTextField bpmField = new JTextField(simpleSong.bpm.toString(), 5);
         bpmField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 simpleSong.bpm = new Float(bpmField.getText());
@@ -30,7 +38,7 @@ public class DynamicTimeTable {
         panel.add(bpmField, "");
         panel.add(new JLabel("BPM"), "");
 
-        final JTextField startingOffsetField = new JTextField(simpleSong.startingOffset.toString(), 3);
+        final JTextField startingOffsetField = new JTextField(simpleSong.startingOffset.toString(), 5);
         startingOffsetField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 simpleSong.startingOffset = new Float(startingOffsetField.getText());
@@ -69,6 +77,22 @@ public class DynamicTimeTable {
             }
         });
         panel.add(startBeat, "");
+
+        final JTextField endBeat = new JTextField(row.end.toString(), 3);
+        endBeat.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                row.end = new Float(endBeat.getText());
+            }
+        });
+        panel.add(endBeat, "");
+
+        final JTextField textField = new JTextField(row.text, 40);
+        textField.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                row.text = textField.getText();
+            }
+        });
+        panel.add(textField, "");
 
         JButton plussButton = new JButton("play/pause");
         plussButton.addActionListener(new ActionListener() {

@@ -3,11 +3,11 @@ package no.bouvet.kpro.tagger.model;
 import java.io.Serializable;
 
 public class Row implements Serializable {
-    String text;
-    Float cue;
-    Float end;
+    public String text;
+    public Float cue;
+    public Float end;
 
-    Row(Float cue, Float end, String text) {
+    public Row(Float cue, Float end, String text) {
         this.cue = cue;
         this.end = end;
         this.text = text;
