@@ -1,7 +1,9 @@
 package no.bouvet.kpro.tagger;
 
-import no.bouvet.kpro.renderer.audio.MP3Source;
-import java.io.File;
+import no.bouvet.kpro.tagger.model.SimpleSong;
+import no.bouvet.kpro.tagger.gui.DynamicTimeTable;
+import no.bouvet.kpro.tagger.gui.Worker;
+
 import java.awt.*;
 
 public class PlayerBase implements PlayerIF {

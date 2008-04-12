@@ -1,6 +1,9 @@
 package no.bouvet.kpro.tagger;
 
 import org.testng.annotations.Test;
+import no.bouvet.kpro.tagger.model.Row;
+import no.bouvet.kpro.tagger.model.SimpleSong;
+import no.bouvet.kpro.tagger.persistence.SimpleSongParser;
 
 public class SimpleSongParserTest {
 
