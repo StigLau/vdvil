@@ -21,7 +21,6 @@ public class SimpleSongParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public SimpleSong load(String fileName) {
@@ -31,8 +30,7 @@ public class SimpleSongParser {
             ois.close();
             return simpleSong;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
-
     }
 }
