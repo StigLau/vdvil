@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 
 import no.bouvet.kpro.tagger.model.Row;
 import no.bouvet.kpro.tagger.model.SimpleSong;
-import no.bouvet.kpro.tagger.persistence.SimpleSongParser;
+import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.bouvet.kpro.tagger.PlayerIF;
 
 public class DynamicTimeTable {
@@ -59,7 +59,7 @@ public class DynamicTimeTable {
         JButton saveButton = new JButton("save");
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                new SimpleSongParser().save(simpleSong, "/corona.dvl");
+                new XStreamParser().save(simpleSong, "/corona.dvl");
             }
         });
         panel.add(saveButton, "wrap");
