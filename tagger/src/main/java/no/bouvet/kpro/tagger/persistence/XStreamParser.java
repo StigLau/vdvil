@@ -8,14 +8,13 @@ import java.io.*;
 
 public class XStreamParser <T> {
 
-    public String path;
+    public static final String path = System.getProperty("user.home") + "/kpro";
 
     XStream xstream = new XStream();
 
     public XStreamParser() {
         xstream.alias("song", SimpleSong.class);
         xstream.alias("row", Row.class);
-        path = System.getProperty("user.home") + "/kpro";
     }
 
     public <T> void save(T songToSave, String fileToSave) {

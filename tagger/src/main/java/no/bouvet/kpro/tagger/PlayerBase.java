@@ -38,4 +38,8 @@ public class PlayerBase implements PlayerIF {
     public Component getDynamicTimeTable() {
         return timeTable.getPanel();
     }
+
+    public SimpleSong getSimpleSong() {
+        return simpleSong;
+    }
 }

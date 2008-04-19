@@ -5,10 +5,8 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
 import no.bouvet.kpro.tagger.model.Row;
 import no.bouvet.kpro.tagger.model.SimpleSong;
-import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.bouvet.kpro.tagger.PlayerIF;
 
 public class DynamicTimeTable {
@@ -55,14 +53,6 @@ public class DynamicTimeTable {
         for (Row row : simpleSong.rows) {
             createRowOnPanel(row);
         }
-
-        JButton saveButton = new JButton("save");
-        saveButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                new XStreamParser().save(simpleSong, "/corona.dvl");
-            }
-        });
-        panel.add(saveButton, "wrap");
     }
 
     public JPanel getPanel() {
@@ -94,8 +84,8 @@ public class DynamicTimeTable {
         });
         panel.add(textField, "");
 
-        JButton plussButton = new JButton("play/pause");
-        plussButton.addActionListener(new ActionListener() {
+        JButton playButton = new JButton("play/pause");
+        playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 row.cue = new Float(startBeat.getText());
                 try {
@@ -105,7 +95,7 @@ public class DynamicTimeTable {
                 }
             }
         });
-        panel.add(plussButton, "wrap");
+        panel.add(playButton, "wrap");
     }
 }
 
