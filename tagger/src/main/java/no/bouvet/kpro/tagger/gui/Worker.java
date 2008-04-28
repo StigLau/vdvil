@@ -32,7 +32,7 @@ public class Worker extends SwingWorker<Object, Object> {
     protected Object doInBackground() throws Exception {
         Instructions instructions = new Instructions();
         System.out.println("cue playing = " + cue);
-        instructions.append(new SimpleAudioInstruction(0, 256, simpleSong.bpm, cue, simpleSong.startingOffset, audioSource));
+        instructions.append(new SimpleAudioInstruction(0, 256, simpleSong.bpm, cue, simpleSong.startingOffset * 44100, audioSource));
         player = new AudioPlayer();
         player.playMusic(instructions);
         return "worker finished";

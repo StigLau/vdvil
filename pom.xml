@@ -27,6 +27,7 @@
     <module>renderer.lyric</module>
     <module>gui</module>
     <module>tagger</module>
+    <module>mixer</module>
   </modules>
 
   <!-- Felles dependency management for h�ndtering av versjoner - slipper � skrive dette spesielt for undermoduler -->
