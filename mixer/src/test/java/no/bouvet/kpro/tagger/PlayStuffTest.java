@@ -69,6 +69,6 @@ public class PlayStuffTest {
         playStuff.parts.add(part5);
         playStuff.parts.add(part6);
         playStuff.init();
-        playStuff.play(60);
+        playStuff.play(0);
     }
 }
