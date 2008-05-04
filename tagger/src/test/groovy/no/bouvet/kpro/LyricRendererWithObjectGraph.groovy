@@ -25,9 +25,9 @@ class AudioRendererWithGroovyTest {
 
     @Test
     void testMix2() {
-        String snapMp3 = CompositionDemo.class.getResource("/Snap_-_Rhythm_is_a_Dancer.mp3").getFile();
-        String coronaMp3 = CompositionDemo.class.getResource("/Corona_-_Baby_Baby.mp3").getFile();
-        String testMp3 = CompositionDemo.class.getResource("/test.mp3").getFile();
+        String snapMp3 = getClass().getResource("/Snap_-_Rhythm_is_a_Dancer.mp3").getFile();
+        String coronaMp3 = getClass().getResource("/Corona_-_Baby_Baby.mp3").getFile();
+        String testMp3 = getClass().getResource("/test.mp3").getFile();
 
         AudioSource sourceA = AudioSourceFactory.load(new File(coronaMp3));
         audioSources.add(sourceA)
