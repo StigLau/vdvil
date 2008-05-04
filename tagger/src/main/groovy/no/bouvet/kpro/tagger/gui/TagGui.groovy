@@ -8,7 +8,6 @@ import groovy.swing.SwingBuilder
 import no.bouvet.kpro.tagger.PlayerBase
 import no.bouvet.kpro.tagger.model.SimpleSong
 import no.bouvet.kpro.tagger.persistence.XStreamParser
-import no.bouvet.kpro.tagger.model.Row
 
 class TagGui {
     def swing = new SwingBuilder()
@@ -29,17 +28,6 @@ class TagGui {
                         if (returnVal == JFileChooser.APPROVE_OPTION) {
                             dvlFilePath = fileChooser.getSelectedFile().getAbsolutePath()
                             loadSong (loadSongFromFile())
-                        }
-                    }
-            )
-            button(text: 'New Song', constraints: BorderLayout.EAST,
-                    actionPerformed: {
-                        JFileChooser fileChooser = swing.fileChooser(currentDirectory: new File(dvlFilePath))
-                        int returnVal = fileChooser.showOpenDialog(frame);
-
-                        if (returnVal == JFileChooser.APPROVE_OPTION) {
-                            dvlFilePath = fileChooser.getSelectedFile().getAbsolutePath()
-                            loadSong(createNewSong())
                         }
                     }
             )
@@ -65,12 +53,6 @@ class TagGui {
         XStreamParser parser = new XStreamParser()
         return parser.load(dvlFilePath)
 
-    }
-
-    SimpleSong createNewSong() {
-        SimpleSong song = new SimpleSong()
-        [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].each { song.rows.add(new Row(0F, 0F, ""))}
-        return song
     }
 
     public static void main(String[] args) {
