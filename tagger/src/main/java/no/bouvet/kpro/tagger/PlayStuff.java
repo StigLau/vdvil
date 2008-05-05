@@ -22,20 +22,24 @@ public class PlayStuff {
             int start = part.getStartCue().intValue();
             int end = part.getEndCue().intValue();
 
+            if(part.getBeginAtCue() != null) {
+                cue += part.getBeginAtCue();
+            }
+
             float bpm = part.getBpm();
-            SimpleAudioInstruction audioInstruction = new SimpleAudioInstruction(start, end, bpm, cue, part.getSimpleSong().startingOffset, audioSource);
-            /*
+            AudioInstruction audioInstruction = new SimpleAudioInstruction(start, end, bpm, cue, part.getSimpleSong().startingOffset, audioSource);
             for (Effect effect : masterSong.getEffects()) {
-                if (effect instanceof Volume) {
-                    Volume volume = (Volume) effect;
-                    audioInstruction.setInterpolatedVolume(volume.getStartValue(), volume.getEndValue());
-                }
-                else if (effect instanceof Rate) {
-                    Rate rate = (Rate) effect;
-                    audioInstruction.setInterpolatedRate(rate.getStartValue(), rate.getEndValue());
+                if(effect.getPartsAffected().contains(part)) {
+                    if (effect instanceof Volume) {
+                        Volume volume = (Volume) effect;
+                        audioInstruction.setInterpolatedVolume(volume.getStartValue(), volume.getEndValue());
+                    }
+                    else if (effect instanceof Rate) {
+                        Rate rate = (Rate) effect;
+                        audioInstruction.setInterpolatedRate(rate.getStartValue(), rate.getEndValue());
+                    }
                 }
             }
-            */
             instructions.append(audioInstruction);
         }
     }

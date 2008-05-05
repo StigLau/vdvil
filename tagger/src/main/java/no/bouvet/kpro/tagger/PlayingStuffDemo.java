@@ -27,20 +27,20 @@ public class PlayingStuffDemo {
         MasterSong master = new MasterSong();
 
         Part part1 = createPart(0F, 16F, simpleSong.rows.get(3));
-        Volume volume1 = new Volume(0.2F, 0.5F, 12F, 16F);
-        volume1.addAffectedPart(part1);
-        master.addEffect(volume1);
+        //Volume volume1 = new Volume(0F, 16F, 0.2F, 0.5F);
+        //volume1.addAffectedPart(part1);
+        //master.addEffect(volume1);
         master.addPart(part1);
 
 
         Part part2 = createPart(12F, 32F, simpleSong.rows.get(6));
-        master.addEffect(new Volume(0.2F, 0.5F, 12F, 32F, part2));
+        //master.addEffect(new Volume(12F, 32F, 0.5F, 1F, part2));
         master.addPart(part2);
 
         master.addPart(createPart(32F, 62.5F, simpleSong.rows.get(9)));
 
         Part part32 = createPart(32F, 62.5F, simpleSong.rows.get(9));
-        master.addEffect(new Rate(1F, 0.9999F, 32F, 62.5F, part32));
+        //master.addEffect(new Rate(1F, 0.9999F, 32F, 62.5F, part32));
         master.addPart(part2);
 
         master.addPart(createPart(62F, 63.5F, simpleSong.rows.get(10)));
@@ -52,7 +52,7 @@ public class PlayingStuffDemo {
         playStuff.setMasterSong(master);
         playStuff.setBpm(130F);
         playStuff.init();
-        playStuff.play(25F);
+        playStuff.play(0F);
     }
 
     private Part createPart(Float start, Float end, Row row) {
