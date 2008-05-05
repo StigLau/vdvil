@@ -89,7 +89,7 @@ public class DynamicTimeTable {
             public void actionPerformed(ActionEvent event) {
                 row.cue = new Float(startBeat.getText());
                 try {
-                    player.playPause(row.cue);
+                    player.playPause(row.cue, row.end);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }

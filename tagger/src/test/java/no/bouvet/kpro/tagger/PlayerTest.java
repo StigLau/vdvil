@@ -13,7 +13,7 @@ public class PlayerTest {
         SimpleSong simpleSong = (SimpleSong) parser.load(parser.path + "/holden-nothing-93_returning_mix.dvl");
         //Worker worker = new Worker(simpleSong, 0F);
         PlayerBase playerBase = new PlayerBase(simpleSong);
-        playerBase.playPause(96F);
+        playerBase.playPause(96F, 128F);
         Thread.sleep(50000);
     }
 }

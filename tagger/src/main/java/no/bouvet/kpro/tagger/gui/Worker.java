@@ -16,12 +16,14 @@ public class Worker extends SwingWorker<Object, Object> {
 
     AudioSource audioSource;
     private SimpleSong simpleSong;
-    Float cue;
+    Float startCue;
+    private Float endCue;
     private AudioPlayer player;
 
-    public Worker(SimpleSong simpleSong, Float cueToStartOn) {
+    public Worker(SimpleSong simpleSong, Float startCue, Float endCue) {
         this.simpleSong = simpleSong;
-        this.cue = cueToStartOn;
+        this.startCue = startCue;
+        this.endCue = endCue;
         try {
             audioSource = new MP3Source(new File(simpleSong.fileName));
         } catch (Exception e) {
@@ -31,8 +33,9 @@ public class Worker extends SwingWorker<Object, Object> {
 
     protected Object doInBackground() throws Exception {
         Instructions instructions = new Instructions();
-        System.out.println("cue playing = " + cue);
-        instructions.append(new SimpleAudioInstruction(0, 256, simpleSong.bpm, cue, simpleSong.startingOffset, audioSource));
+        System.out.println("startCue playing = " + startCue);
+        int playLength = (int) (endCue - startCue);
+        instructions.append(new SimpleAudioInstruction(0, playLength, simpleSong.bpm, startCue, simpleSong.startingOffset, audioSource));
         player = new AudioPlayer();
         player.playMusic(instructions);
         return "worker finished";
