@@ -5,10 +5,7 @@ import no.bouvet.kpro.renderer.audio.SimpleAudioInstruction;
 import no.bouvet.kpro.renderer.audio.MP3Source;
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.tagger.model.SimpleSong;
-import no.bouvet.kpro.tagger.model.MasterSong;
 import no.bouvet.kpro.tagger.AudioPlayer;
-import no.bouvet.kpro.tagger.PlayStuff;
-import no.bouvet.kpro.tagger.PlayingStuffDemo;
 
 import javax.swing.*;
 import java.util.List;
@@ -18,33 +15,26 @@ public class Worker extends SwingWorker<Object, Object> {
 
 
     AudioSource audioSource;
-    private MasterSong masterSong;
+    private SimpleSong simpleSong;
     Float cue;
-    private Float bpm;
-    private PlayStuff playStuff;
+    private AudioPlayer player;
 
-    public Worker(MasterSong masterSong, Float cueToStartOn, Float bpm) {
-        this.masterSong = masterSong;
+    public Worker(SimpleSong simpleSong, Float cueToStartOn) {
+        this.simpleSong = simpleSong;
         this.cue = cueToStartOn;
-        this.bpm = bpm;
-    }
-
-    protected Object doInBackground() throws Exception {
-        /*
-        This is how it should be done
-        PlayingStuffDemo test = new PlayingStuffDemo();
-        test.beforeMethod();
         try {
-            test.testPlayingSomeStuff();
+            audioSource = new MP3Source(new File(simpleSong.fileName));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        */
-        playStuff = new PlayStuff();
-        playStuff.setMasterSong(masterSong);
-        playStuff.init();
-        playStuff.setBpm(bpm);
-        playStuff.play(cue);
+    }
+
+    protected Object doInBackground() throws Exception {
+        Instructions instructions = new Instructions();
+        System.out.println("cue playing = " + cue);
+        instructions.append(new SimpleAudioInstruction(0, 256, simpleSong.bpm, cue, simpleSong.startingOffset, audioSource));
+        player = new AudioPlayer();
+        player.playMusic(instructions);
         return "worker finished";
     }
 
@@ -59,6 +49,7 @@ public class Worker extends SwingWorker<Object, Object> {
     }
 
     public void stop() {
-        playStuff.stop();
+        player.stop();
+        audioSource.close();
     }
 }
