@@ -7,6 +7,8 @@ class Part {
     Float bpm
     Float startCue
     Float endCue
+
+    Float beginAtCue
     
     //TreeStructure is propably not for use here. Maybe is another view
     //List<Part> subParts;

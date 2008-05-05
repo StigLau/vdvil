@@ -8,7 +8,7 @@ class Effect {
     Float endCue
 
     Collection<Part> partsAffected = new ArrayList<Part>()
-
+    /*
     def Effect(Float startCue, Float endCue, Float startValue, Float endValue, Part... parts) {
         this.startCue = startCue
         this.endCue = endCue
@@ -16,7 +16,7 @@ class Effect {
         this.endValue = endValue
         parts.each {Part part ->
             partsAffected << part }
-    }
+    } */
 
     void addAffectedPart(Part part) {
         partsAffected.add(part)
