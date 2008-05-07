@@ -27,6 +27,7 @@ public class PlayingStuffGroovy {
 
     public void testPlayingSomeStuff() throws Exception {
         MasterSong master = new MasterSong();
+        master.setMasterBpm(130F)
 
         Part part1 = createPart(0F, 20F, nothing.rows.get(3));
         Volume volume1 = new Volume(startValue:1F, endValue:0.8F);
@@ -42,12 +43,21 @@ public class PlayingStuffGroovy {
         master.addPart(part12);
 
 
+        Part psyltePart = createPart(8F, 16F, psylteFlesk.rows.get(4))
+        Rate rate = new Rate(startValue:0.5F, endValue:1F)
+        rate.addAffectedPart psyltePart
+        master.addEffect(rate)
+        master.addPart(psyltePart)
+
         Part part2 = createPart(12F, 52F, nothing.rows.get(6))
         part2.setBeginAtCue (-8F)
         Volume vol2 = new Volume(startValue:0.5F, endValue:1F)
         vol2.addAffectedPart part2
         master.addEffect(vol2)
         master.addPart(part2)
+
+
+
 
         /*
 
@@ -56,7 +66,7 @@ public class PlayingStuffGroovy {
 
         Part part32 = createPart(32F, 62.5F, nothing.rows.get(9));
         master.addEffect(new Rate(1F, 0.9999F, 32F, 62.5F, part32));
-        master.addPart(part2);
+        master.addPart(psyltePart);
 
         master.addPart(createPart(62F, 63.5F, nothing.rows.get(10)));
         master.addPart(createPart(63F, 64.5F, nothing.rows.get(11)));

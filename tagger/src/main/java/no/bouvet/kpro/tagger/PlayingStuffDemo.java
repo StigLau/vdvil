@@ -6,6 +6,7 @@ import no.bouvet.kpro.tagger.persistence.XStreamParser;
 public class PlayingStuffDemo {
 
     SimpleSong simpleSong;
+    SimpleSong psylteFlesk;
 
     public static void main(String[] args) {
         PlayingStuffDemo test = new PlayingStuffDemo();
@@ -20,17 +21,29 @@ public class PlayingStuffDemo {
     public void beforeMethod() {
         XStreamParser parser = new XStreamParser();
         simpleSong = (SimpleSong) parser.load("/Volumes/McFeasty/Users/Stig/kpro/holden-nothing-93_returning_mix.dvl");
+        psylteFlesk = (SimpleSong) parser.load("/Volumes/McFeasty/Users/Stig/kpro/loaderror-psylteflesk.dvl");
+
     }
 
 
     public void testPlayingSomeStuff() throws Exception {
         MasterSong master = new MasterSong();
+        master.setMasterBpm(120F);
 
         Part part1 = createPart(0F, 16F, simpleSong.rows.get(3));
         //Volume volume1 = new Volume(0F, 16F, 0.2F, 0.5F);
         //volume1.addAffectedPart(part1);
         //master.addEffect(volume1);
         master.addPart(part1);
+
+        Rate rate = new Rate();
+        rate.setStartValue(1F);
+        rate.setEndValue(0.5F);
+        rate.addAffectedPart(part1);
+
+        Part psyltePart = createPart(0F, 16F, psylteFlesk.rows.get(4));
+        //master.addEffect(rate);
+        //master.addPart(psyltePart);
 
 
         Part part2 = createPart(12F, 32F, simpleSong.rows.get(6));

@@ -26,8 +26,7 @@ public class PlayStuff {
                 cue += part.getBeginAtCue();
             }
 
-            float bpm = part.getBpm();
-            AudioInstruction audioInstruction = new SimpleAudioInstruction(start, end, bpm, cue, part.getSimpleSong().startingOffset, audioSource);
+            AudioInstruction audioInstruction = new SimpleAudioInstruction(start, end, part.getBpm(), cue, part.getSimpleSong().startingOffset, audioSource);
             for (Effect effect : masterSong.getEffects()) {
                 if(effect.getPartsAffected().contains(part)) {
                     if (effect instanceof Volume) {
@@ -35,8 +34,9 @@ public class PlayStuff {
                         audioInstruction.setInterpolatedVolume(volume.getStartValue(), volume.getEndValue());
                     }
                     else if (effect instanceof Rate) {
+                        float bpmRateDiff = part.getBpm() / masterSong.getMasterBpm();
                         Rate rate = (Rate) effect;
-                        audioInstruction.setInterpolatedRate(rate.getStartValue(), rate.getEndValue());
+                        audioInstruction.setInterpolatedRate(rate.getStartValue() * bpmRateDiff, rate.getEndValue() * bpmRateDiff);
                     }
                 }
             }

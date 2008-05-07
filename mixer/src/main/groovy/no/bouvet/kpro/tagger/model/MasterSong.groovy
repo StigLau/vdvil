@@ -4,6 +4,8 @@ class MasterSong {
     Collection<Part> parts
     Collection<Effect> effects
 
+    Float masterBpm
+
     def MasterSong() {
         parts = new ArrayList()
         effects = new ArrayList()
