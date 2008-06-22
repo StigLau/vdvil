@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import no.lau.kpro.domain.Topic;
 import no.lau.kpro.domain.Context;
 import no.lau.kpro.domain.TimeInterval;
+import no.lau.kpro.model.Pink;
+import no.lau.kpro.model.Yellow;
 
 import java.util.List;
 
@@ -28,10 +30,14 @@ public class TestBindingApp {
         simpleFactory.putTopicIntoContext(topic1, lyricContext);
         simpleFactory.putTopicIntoTime(topic1, new TimeInterval(0, 99));
 
+        simpleFactory.putTopicIntoClass(topic1, Pink.class);
+        simpleFactory.putTopicIntoClass(topic1, Yellow.class);
+
         topic2 = new Topic("2");
         simpleFactory.storeTopic(topic2);
         simpleFactory.putTopicIntoContext(topic2, lyricContext);
         simpleFactory.putTopicIntoTime(topic2, new TimeInterval(100, 199));
+        simpleFactory.putTopicIntoClass(topic2, Pink.class);
     }
 
     @Test
@@ -53,5 +59,11 @@ public class TestBindingApp {
         List<Topic> result = simpleFactory.findTopicsByContextAndTime(lyricContext, timeInterval);
         assertEquals(1, result.size());
         assertEquals(topic1, result.get(0));
+    }
+
+    @Test
+    public void testFindTopicsByClass() {
+        List<Pink> pinks = simpleFactory.findTopicsByClass(Pink.class);
+
     }
 }

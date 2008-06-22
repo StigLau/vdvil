@@ -23,9 +23,11 @@ public class SimpleFactory {
     //Topic - TimeInterval mappings
     Map<TimeInterval, List<Topic>> timeTopicMap = new HashMap<TimeInterval, List<Topic>>();
 
-    public Object getTopicById(String id) {
-        return topics.get(id);
-    }
+    //TopicsByClass
+    Map<Class, List<Object>> classTopicMap = new HashMap<Class, List<Object>>();
+
+
+    //Setters
 
     public void storeTopic(Topic topic) {
         Validate.notEmpty(topic.getId());
@@ -33,29 +35,25 @@ public class SimpleFactory {
     }
 
     public void putTopicIntoContext(Topic topic, Context context) {
-        List<Topic> topicList = contextTopicMap.get(context);
-        if (topicList == null) {
-            topicList = new ArrayList<Topic>();
-            contextTopicMap.put(context, topicList);
-        }
-        topicList.add(topic);
+        insertIntoMap(context, topic, contextTopicMap);
     }
 
     public void putTopicIntoTime(Topic topic, TimeInterval timeInterval) {
-        List<Topic> topicList = timeTopicMap.get(timeInterval);
-        if (topicList == null) {
-            topicList = new ArrayList<Topic>();
-            timeTopicMap.put(timeInterval, topicList);
-        }
-        topicList.add(topic);
+        insertIntoMap(timeInterval, topic, timeTopicMap);
+    }
+
+    public void putTopicIntoClass(Topic topic, Class aClass) {
+        insertIntoMap(aClass, topic, classTopicMap);
+    }
+
+    //Finders
+
+    public Topic findTopicById(String id) {
+        return topics.get(id);
     }
 
     public List<Topic> findTopicsByContext(Context context) {
-        List<Topic> result = contextTopicMap.get(context);
-        if (result == null)
-            return new ArrayList<Topic>();
-        else
-            return result;
+        return findInMap(context, contextTopicMap);
     }
 
     public List<Topic> findTopicsByTimeInterval(TimeInterval timeInterval) {
@@ -66,15 +64,37 @@ public class SimpleFactory {
                 result.addAll(timeTopicMap.get(interval));
             }
         }
-
         return result;
     }
-
 
     public List<Topic> findTopicsByContextAndTime(Context context, TimeInterval timeInterval) {
         List<Topic> timeTopics = findTopicsByTimeInterval(timeInterval);
         List<Topic> contextTopics = findTopicsByContext(context);
         return findObjectsWhichExistInBothLists(contextTopics, timeTopics);
+    }
+
+    public <T> List<T> findTopicsByClass(Class<T> theClass) {
+        return (List<T>) classTopicMap.get(theClass);
+    }
+
+
+    // Helpers
+
+    private <K, V> void insertIntoMap(K key, V value, Map<K, List<V>> map) {
+        List<V> valueList = map.get(key);
+        if (valueList == null) {
+            valueList = new ArrayList<V>();
+            map.put(key, valueList);
+        }
+        valueList.add(value);
+    }
+
+    private <K, V> List<V> findInMap(K key, Map<K, List<V>> map) {
+        List<V> result = map.get(key);
+        if (result == null)
+            return new ArrayList<V>();
+        else
+            return result;
     }
 
     private <T> List<T> findObjectsWhichExistInBothLists(List<T> list1, List<T> list2) {
@@ -85,10 +105,6 @@ public class SimpleFactory {
             }
         }
         return result;
-    }
-
-    public Topic findTopicById(String id) {
-        return topics.get(id);
     }
 }
 
