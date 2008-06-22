@@ -1,12 +1,13 @@
 package no.lau.kpro.model;
 
 import no.lau.kpro.domain.Topic;
+import no.lau.kpro.domain.TopicClass;
 
 /**
  * Author: <a href="mailto:stig@lau.no">Stig Lau</a>
  * Date: Jun 22, 2008
  */
-public class Yellow {
+public class Yellow implements TopicClass {
     Topic topic;
     String tastesLike;
 

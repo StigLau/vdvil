@@ -3,7 +3,7 @@ package no.lau.kpro;
 import no.lau.kpro.domain.Topic;
 import no.lau.kpro.domain.Context;
 import no.lau.kpro.domain.TimeInterval;
-import no.lau.kpro.model.Yellow;
+import no.lau.kpro.domain.TopicClass;
 
 import java.util.*;
 
@@ -24,10 +24,7 @@ public class SimpleFactory {
     //Topic - TimeInterval mappings
     Map<TimeInterval, List<Topic>> timeTopicMap = new HashMap<TimeInterval, List<Topic>>();
 
-    //TopicsByClass
-    Map<Class, List<Object>> classTopicMap = new HashMap<Class, List<Object>>();
-
-    //object - Topic mappongs
+    //object - Topic mappings
     Map<Class, List<Object>> objectClassMap = new HashMap<Class, List<Object>>();
 
 
@@ -46,25 +43,22 @@ public class SimpleFactory {
         insertIntoMap(timeInterval, topic, timeTopicMap);
     }
 
-    public void putTopicIntoClass(Topic topic, Class aClass) {
-        insertIntoMap(aClass, topic, classTopicMap);
+    public <T> List<T> findTopicsByClass(Class<T> theClass) {
+        return (List<T>) objectClassMap.get(theClass);
     }
 
-
-    public Yellow findTopicByIdAndClass(Topic topic2, Class<Yellow> yellowClass) {
-        List<Object> yellowList = findInMap(yellowClass, objectClassMap);
-        for (Object o : yellowList) {
-            if (o instanceof Yellow) {
-                Yellow yellow = (Yellow) o;
-                if (yellow.getTopic() == topic2) {
-                    return yellow;
-                }
+    public <V> V findObjectByTopicAndClass(Topic topic, Class aClass) {
+        List<Object> objectList = findInMap(aClass, objectClassMap);
+        for (Object o : objectList) {
+            TopicClass object = (TopicClass) o;
+            if (object.getTopic() == topic) {
+                return (V) object;
             }
         }
-        return Yellow.NULL;
+        return (V) TopicClass.NULL;
     }
 
-    public <T> void putObjectIntoTopicMap(T object) {
+    public <T extends TopicClass> void putObjectIntoTopicMap(T object) {
         insertIntoMap(object.getClass() , object, objectClassMap);
     }
 
@@ -94,11 +88,6 @@ public class SimpleFactory {
         List<Topic> contextTopics = findTopicsByContext(context);
         return findObjectsWhichExistInBothLists(contextTopics, timeTopics);
     }
-
-    public <T> List<T> findTopicsByClass(Class<T> theClass) {
-        return (List<T>) classTopicMap.get(theClass);
-    }
-
 
     // Helpers
 

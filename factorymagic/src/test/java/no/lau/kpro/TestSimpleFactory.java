@@ -29,19 +29,17 @@ public class TestSimpleFactory {
         simpleFactory.storeTopic(topic1);
         simpleFactory.putTopicIntoContext(topic1, lyricContext);
         simpleFactory.putTopicIntoTime(topic1, new TimeInterval(0, 99));
-
-        simpleFactory.putTopicIntoClass(topic1, Pink.class);
-        simpleFactory.putTopicIntoClass(topic1, Yellow.class);
+        simpleFactory.putObjectIntoTopicMap(new Pink(topic1));
 
         topic2 = new Topic("2");
         simpleFactory.storeTopic(topic2);
         simpleFactory.putTopicIntoContext(topic2, lyricContext);
         simpleFactory.putTopicIntoTime(topic2, new TimeInterval(100, 199));
-        simpleFactory.putTopicIntoClass(topic2, Pink.class);
+        simpleFactory.putObjectIntoTopicMap(new Pink(topic2));
 
-        Yellow somethingYellow = new Yellow(topic2);
-        somethingYellow.setTastesLike("curry");
-        simpleFactory.putObjectIntoTopicMap(somethingYellow);
+        Yellow topic2Yellow = new Yellow(topic2);
+        topic2Yellow.setTastesLike("curry");
+        simpleFactory.putObjectIntoTopicMap(topic2Yellow);
     }
 
     @Test
@@ -73,8 +71,9 @@ public class TestSimpleFactory {
 
     @Test
     public void testCreatingObjectByTopicId() {
-        Yellow yellowSomething = simpleFactory.findTopicByIdAndClass(topic2, Yellow.class);
+        Yellow yellowSomething = simpleFactory.findObjectByTopicAndClass(topic2, Yellow.class);
         assertEquals(topic2, yellowSomething.getTopic());
+        assertEquals(yellowSomething.getTastesLike(), "curry");
 
     }
 }
