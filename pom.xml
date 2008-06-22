@@ -28,6 +28,7 @@
     <module>gui</module>
     <module>tagger</module>
     <module>mixer</module>
+    <module>factorymagic</module>
   </modules>
 
   <!-- Felles dependency management for h�ndtering av versjoner - slipper � skrive dette spesielt for undermoduler -->
