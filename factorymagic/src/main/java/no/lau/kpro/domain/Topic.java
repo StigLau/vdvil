@@ -6,6 +6,7 @@ package no.lau.kpro.domain;
  */
 public class Topic {
     String id;
+    public static final Topic NULL = new Topic("NULL");
 
     public Topic(String id) {
         this.id = id;
@@ -13,5 +14,9 @@ public class Topic {
 
     public String getId() {
         return id;
+    }
+
+    public String toString() {
+        return "Topic id:" + id;
     }
 }

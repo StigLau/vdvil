@@ -3,6 +3,7 @@ package no.lau.kpro;
 import no.lau.kpro.domain.Topic;
 import no.lau.kpro.domain.Context;
 import no.lau.kpro.domain.TimeInterval;
+import no.lau.kpro.model.Yellow;
 
 import java.util.*;
 
@@ -26,6 +27,9 @@ public class SimpleFactory {
     //TopicsByClass
     Map<Class, List<Object>> classTopicMap = new HashMap<Class, List<Object>>();
 
+    //object - Topic mappongs
+    Map<Class, List<Object>> objectClassMap = new HashMap<Class, List<Object>>();
+
 
     //Setters
 
@@ -44,6 +48,24 @@ public class SimpleFactory {
 
     public void putTopicIntoClass(Topic topic, Class aClass) {
         insertIntoMap(aClass, topic, classTopicMap);
+    }
+
+
+    public Yellow findTopicByIdAndClass(Topic topic2, Class<Yellow> yellowClass) {
+        List<Object> yellowList = findInMap(yellowClass, objectClassMap);
+        for (Object o : yellowList) {
+            if (o instanceof Yellow) {
+                Yellow yellow = (Yellow) o;
+                if (yellow.getTopic() == topic2) {
+                    return yellow;
+                }
+            }
+        }
+        return Yellow.NULL;
+    }
+
+    public <T> void putObjectIntoTopicMap(T object) {
+        insertIntoMap(object.getClass() , object, objectClassMap);
     }
 
     //Finders
