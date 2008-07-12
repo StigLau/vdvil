@@ -84,7 +84,6 @@
                     <execution>
                         <goals>
                             <goal>compile</goal>
-
                         </goals>
                     </execution>
                 </executions>
