@@ -3,7 +3,7 @@ package no.lau.kpro;
 import no.lau.kpro.domain.Topic;
 import no.lau.kpro.domain.Context;
 import no.lau.kpro.domain.TimeInterval;
-import no.lau.kpro.domain.TopicClass;
+import no.lau.kpro.domain.TopicIdentifyable;
 
 import java.util.*;
 
@@ -13,7 +13,7 @@ import org.apache.commons.lang.Validate;
  * Author: <a href="mailto:stig@lau.no">Stig Lau</a>
  * Date: Jun 20, 2008
  */
-public class SimpleFactory {
+public class SimpleStore {
 
     //List of all topics
     Map<String, Topic> topics = new HashMap<String, Topic>();
@@ -50,15 +50,15 @@ public class SimpleFactory {
     public <V> V findObjectByTopicAndClass(Topic topic, Class aClass) {
         List<Object> objectList = findInMap(aClass, objectClassMap);
         for (Object o : objectList) {
-            TopicClass object = (TopicClass) o;
+            TopicIdentifyable object = (TopicIdentifyable) o;
             if (object.getTopic() == topic) {
                 return (V) object;
             }
         }
-        return (V) TopicClass.NULL;
+        return (V) TopicIdentifyable.NULL;
     }
 
-    public <T extends TopicClass> void putObjectIntoTopicMap(T object) {
+    public <T extends TopicIdentifyable> void putObjectIntoTopicMap(T object) {
         insertIntoMap(object.getClass() , object, objectClassMap);
     }
 
