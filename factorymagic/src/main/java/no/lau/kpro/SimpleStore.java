@@ -44,7 +44,31 @@ public class SimpleStore {
     }
 
     public <T> List<T> findTopicsByClass(Class<T> theClass) {
-        return (List<T>) objectClassMap.get(theClass);
+        List<T> result = (List<T>) objectClassMap.get(theClass);
+        return result == null ? new ArrayList<T>() : result; 
+    }
+
+    /**
+     * Find all topics of this class and its inherited classes
+     * @param classToFind
+     * @return
+     */
+    public <T> List<T> findTopicsExtendingClass(Class<T> classToFind) {
+        Set<Class> keySet = objectClassMap.keySet();
+
+        Set<Class> keySetToUse = new HashSet<Class>();
+
+        for (Class currentClass : keySet) {
+            if(classToFind.isAssignableFrom(currentClass)) {
+                keySetToUse.add(currentClass);
+            }
+        }
+
+        List<T> result = new ArrayList<T>();
+        for (Class currentClass : keySetToUse) {
+            result.addAll((List<T>)objectClassMap.get(currentClass));
+        }
+        return result;
     }
 
     public <V> V findObjectByTopicAndClass(Topic topic, Class aClass) {

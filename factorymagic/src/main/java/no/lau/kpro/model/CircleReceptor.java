@@ -9,15 +9,15 @@ import net.sf.oval.guard.Pre;
  * Date: Jul 3, 2008
  */
 @net.sf.oval.guard.Guarded
-public class SquareReceptor implements Receptor {
+public class CircleReceptor implements Receptor {
 
 
-    @Pre(expr = "return _args[0] instanceof no.lau.kpro.model.Square", lang = "groovy")
+    @Pre(expr = "return _args[0] instanceof no.lau.kpro.model.Circle", lang = "groovy")
     public void put(@NotNull Shape shape) {
-        System.out.println("Sqaure receptor invoked " + shape);
+        System.out.println("Circle receptor invoked " + shape);
     }
 
     public Class getAcceptsClass() {
-        return Square.class;
+        return Circle.class;
     }
 }

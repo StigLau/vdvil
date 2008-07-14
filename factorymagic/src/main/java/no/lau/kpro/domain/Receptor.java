@@ -8,4 +8,6 @@ import no.lau.kpro.model.Shape;
  */
 public interface Receptor {
     public void put(Shape shape);
+
+    public Class getAcceptsClass();
 }

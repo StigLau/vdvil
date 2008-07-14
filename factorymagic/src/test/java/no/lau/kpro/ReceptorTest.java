@@ -10,7 +10,7 @@ import net.sf.oval.exception.ConstraintsViolatedException;
  * Author: <a href="mailto:stig@lau.no">Stig Lau</a>
  * Date: Jul 12, 2008
  */
-public class TestReceptor {
+public class ReceptorTest {
 
     @Test
     public void testPuttingSquareIntoSquareReceptorSucceeds() {
