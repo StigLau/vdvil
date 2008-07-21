@@ -13,7 +13,7 @@ import org.apache.commons.lang.Validate;
  * Author: <a href="mailto:stig@lau.no">Stig Lau</a>
  * Date: Jun 20, 2008
  */
-public class SimpleStore {
+public class SimpleStore implements Store {
 
     //List of all topics
     Map<String, Topic> topics = new HashMap<String, Topic>();

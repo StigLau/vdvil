@@ -17,7 +17,7 @@ public class SortingBox {
         this.receptors.add(receptor);
     }
 
-    public void sort(SimpleStore stuffToSort) {
+    public void sort(Store stuffToSort) {
         for (Receptor receptor : receptors) {
             List<Shape> shapes = (List<Shape>) stuffToSort.findTopicsExtendingClass(receptor.getAcceptsClass());
             for (Shape shape : shapes) {
