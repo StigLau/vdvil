@@ -1,7 +1,7 @@
 package no.lau.kpro;
 
-import no.lau.kpro.model.Shape;
 import no.lau.kpro.domain.Receptor;
+import no.lau.kpro.domain.TopicIdentifyable;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -19,8 +19,8 @@ public class SortingBox {
 
     public void sort(Store stuffToSort) {
         for (Receptor receptor : receptors) {
-            List<Shape> shapes = (List<Shape>) stuffToSort.findTopicsExtendingClass(receptor.getAcceptsClass());
-            for (Shape shape : shapes) {
+            List<TopicIdentifyable> shapes = (List<TopicIdentifyable>) stuffToSort.findTopicsExtendingClass(receptor.getAcceptsClass());
+            for (TopicIdentifyable shape : shapes) {
                 receptor.put(shape);
             }
         }

@@ -1,9 +1,8 @@
 package no.lau.kpro;
 
 import org.testng.annotations.Test;
-import no.lau.kpro.model.SquareReceptor;
-import no.lau.kpro.model.Square;
-import no.lau.kpro.model.Circle;
+import no.lau.kpro.model.*;
+import no.lau.kpro.domain.Topic;
 import net.sf.oval.exception.ConstraintsViolatedException;
 
 /**
@@ -15,13 +14,13 @@ public class ReceptorTest {
     @Test
     public void testPuttingSquareIntoSquareReceptorSucceeds() {
         SquareReceptor squareReceptor = new SquareReceptor();
-        squareReceptor.put(new Square() {});
+        squareReceptor.put(new PinkSquare(new Topic("5")));
     }
 
     @Test(expectedExceptions = ConstraintsViolatedException.class)
     public void testPuttingCircleIntoSquareReceptorFails() {
         SquareReceptor squareReceptor = new SquareReceptor();
-        squareReceptor.put(new Circle(){});
+        squareReceptor.put(new YellowCircle(new Topic("4")));
     }
 
     @Test(expectedExceptions = ConstraintsViolatedException.class)
