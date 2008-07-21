@@ -7,7 +7,7 @@ import no.lau.kpro.domain.TopicIdentifyable;
  * Author: <a href="mailto:stig@lau.no">Stig Lau</a>
  * Date: Jun 22, 2008
  */
-public class YellowCircle extends Circle implements TopicIdentifyable {
+public class YellowCircle implements Circle, TopicIdentifyable {
     Topic topic;
     String tastesLike;
 

@@ -7,7 +7,7 @@ import no.lau.kpro.domain.Topic;
  * Author: <a href="mailto:stig@lau.no">Stig Lau</a>
  * Date: Jul 13, 2008
  */
-public class PinkSquare extends Square implements TopicIdentifyable {
+public class PinkSquare implements Square, TopicIdentifyable {
     private Topic topic;
 
     public PinkSquare(Topic topic) {

@@ -15,13 +15,13 @@ public class ReceptorTest {
     @Test
     public void testPuttingSquareIntoSquareReceptorSucceeds() {
         SquareReceptor squareReceptor = new SquareReceptor();
-        squareReceptor.put(new Square());
+        squareReceptor.put(new Square() {});
     }
 
     @Test(expectedExceptions = ConstraintsViolatedException.class)
     public void testPuttingCircleIntoSquareReceptorFails() {
         SquareReceptor squareReceptor = new SquareReceptor();
-        squareReceptor.put(new Circle());
+        squareReceptor.put(new Circle(){});
     }
 
     @Test(expectedExceptions = ConstraintsViolatedException.class)
