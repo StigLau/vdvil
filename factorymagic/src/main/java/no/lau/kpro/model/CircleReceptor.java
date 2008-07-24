@@ -1,6 +1,7 @@
 package no.lau.kpro.model;
 
 import no.lau.kpro.domain.Receptor;
+import no.lau.kpro.domain.TopicIdentifyable;
 import net.sf.oval.constraint.*;
 import net.sf.oval.guard.Pre;
 
@@ -13,7 +14,7 @@ public class CircleReceptor implements Receptor {
 
 
     @Pre(expr = "return _args[0] instanceof no.lau.kpro.model.Circle", lang = "groovy")
-    public void put(@NotNull Shape shape) {
+    public void put(@NotNull TopicIdentifyable shape) {
         System.out.println("Circle receptor invoked " + shape);
     }
 
