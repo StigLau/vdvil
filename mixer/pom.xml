@@ -9,7 +9,7 @@
     <parent>
         <groupId>no.bouvet.kpro</groupId>
         <artifactId>root</artifactId>
-        <version>0.1</version>
+        <version>0.2</version>
     </parent>
 
     <dependencies>
@@ -36,7 +36,6 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
-            <version>1.5.6</version>
         </dependency>
         <!-- Persistence to xml -->
         <dependency>
@@ -51,12 +50,12 @@
             <dependency>
                 <groupId>org.codehaus.groovy.maven</groupId>
                 <artifactId>gmaven-mojo</artifactId>
-                <version>1.0-rc-1</version>
+                <version>1.0-rc-3</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.groovy.maven.runtime</groupId>
                 <artifactId>gmaven-runtime-default</artifactId>
-                <version>1.0-rc-1</version>
+                <version>1.0-rc-3</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -65,7 +64,7 @@
             <plugin>
                 <groupId>org.codehaus.groovy.maven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
-                <version>1.0-rc-2</version>
+                <version>1.0-rc-3</version>
                 <executions>
                     <execution>
                         <goals>

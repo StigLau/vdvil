@@ -9,14 +9,13 @@
     <parent>
         <groupId>no.bouvet.kpro</groupId>
         <artifactId>root</artifactId>
-        <version>0.1</version>
+        <version>0.2</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
-            <version>1.6-beta-1</version>
         </dependency>
         <dependency>
             <groupId>no.bouvet.topicmap</groupId>
@@ -41,13 +40,15 @@
             <optional>true</optional>
         </dependency>
 
-
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>5.7</version>
-            <classifier>jdk15</classifier>
-            <scope>test</scope>
+            <groupId>no.bouvet.topicmap</groupId>
+            <artifactId>topicmapapi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>thaiopensource</groupId>
+            <artifactId>jing</artifactId>
+            <version>unknown-version</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -56,7 +57,7 @@
             <plugin>
                 <groupId>org.codehaus.groovy.maven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
-                <version>1.0-rc-2</version>
+                <version>1.0-rc-3</version>
                 <executions>
                     <execution>
                         <goals>
@@ -71,12 +72,12 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
-				<configuration>
+                <configuration>
                     <complianceLevel>1.5</complianceLevel>
                     <aspectLibraries>
                         <aspectLibrary>
-                             <groupId>net.sf.oval</groupId>
-                             <artifactId>oval</artifactId>
+                            <groupId>net.sf.oval</groupId>
+                            <artifactId>oval</artifactId>
                         </aspectLibrary>
                     </aspectLibraries>
                 </configuration>

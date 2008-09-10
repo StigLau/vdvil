@@ -18,7 +18,7 @@ class TagGui {
 
     public void createGui() {
         frame = swing.frame(title: 'Frame', size: [500, 300], defaultCloseOperation: JFrame.EXIT_ON_CLOSE) {
-            borderLayout()
+            //borderLayout()
 
             button(text: 'Load File', constraints: BorderLayout.SOUTH,
                     actionPerformed: {
@@ -58,6 +58,7 @@ class TagGui {
     public static void main(String[] args) {
         def tagGui = new TagGui()
         tagGui.createGui()
+        println "GUI Started "
     }
 }
 

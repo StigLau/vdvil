@@ -9,7 +9,7 @@
     <parent>
         <groupId>no.bouvet.kpro</groupId>
         <artifactId>root</artifactId>
-        <version>0.1</version>
+        <version>0.2</version>
     </parent>
 
     <dependencies>
@@ -41,7 +41,6 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
-            <version>1.5.4</version>
         </dependency>
         <dependency>
             <groupId>org.swinglabs</groupId>

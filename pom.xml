@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>no.bouvet.kpro</groupId>
   <artifactId>root</artifactId>
-  <version>0.1</version>
+  <version>0.2</version>
   <packaging>pom</packaging>
   <name>kpro: Root</name>
 
@@ -63,6 +63,16 @@
                 <groupId>no.bouvet.kpro</groupId>
                 <artifactId>persistence</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>no.bouvet.kpro</groupId>
+                <artifactId>mixer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>1.6-beta-1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
