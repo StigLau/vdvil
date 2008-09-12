@@ -41,7 +41,7 @@ public class Main extends QObject{
 	@SuppressWarnings("unused")
 	private void rendererStartAdapter(String path) throws Exception {
 
-		Media instructionMedia = Storage.getInstance().getMediaByFileName("snap_vs_corona.mp3");
+		//Media instructionMedia = Storage.getInstance().getMediaByFileName("snap_vs_corona.mp3");
 
 		//instructions = new AudioTopicMapInstructions( instructionMedia, new File(path));
 		renderer = new Renderer(instructions);
