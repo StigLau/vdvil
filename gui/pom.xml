@@ -34,11 +34,6 @@
             <artifactId>persistence</artifactId>
         </dependency>
         <dependency>
-            <groupId>qt</groupId>
-            <artifactId>jambi</artifactId>
-            <version>eval</version>
-        </dependency>
-        <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
         </dependency>
@@ -47,6 +42,25 @@
             <artifactId>swing-worker</artifactId>
             <version>1.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.trolltech.</groupId>
+            <artifactId>qtjambi</artifactId>
+            <version>4.4.0_01</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.trolltech</groupId>
+            <artifactId>qtjambi-win32-msvc2005</artifactId>
+            <version>4.4.0_01</version>
+        </dependency>
+        <!--
+        <dependency>
+            <groupId>com.trolltech</groupId>
+            <artifactId>qtjambi-macosx-gcc</artifactId>
+            <version>4.4.0_01</version>
+        </dependency>
+        -->
     </dependencies>
 
     <build>

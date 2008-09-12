@@ -1,19 +1,11 @@
 package no.bouvet.kpro.gui.bar;
 
 import no.bouvet.kpro.gui.tree.AbstractNode;
-import no.bouvet.kpro.gui.tree.PartNode;
-
-import com.trolltech.qt.core.QPoint;
 import com.trolltech.qt.core.QPointF;
-import com.trolltech.qt.core.QRectF;
 import com.trolltech.qt.gui.QBrush;
 import com.trolltech.qt.gui.QColor;
 import com.trolltech.qt.gui.QGraphicsItem;
 import com.trolltech.qt.gui.QGraphicsRectItem;
-import com.trolltech.qt.gui.QMimeData;
-import com.trolltech.qt.gui.QPainter;
-import com.trolltech.qt.gui.QStyleOptionGraphicsItem;
-import com.trolltech.qt.gui.QWidget;
 import com.trolltech.qt.gui.QGraphicsItem.GraphicsItemChange;
 import com.trolltech.qt.gui.QGraphicsItem.GraphicsItemFlag;
 
@@ -23,7 +15,7 @@ public class TrackItem extends QGraphicsRectItem implements Comparable<TrackItem
 	private Track track;
 	private boolean selected = false;
 	private boolean shouldBePlayed = false;
-	
+
 	private QColor color;
 	
 	public TrackItem(Track track, AbstractNode node) {
