@@ -23,8 +23,9 @@ public class PlayStuff {
             if(part.getBeginAtCue() != null) {
                 cue += part.getBeginAtCue();
             }
-
-            AudioInstruction audioInstruction = new SimpleAudioInstruction(part.getStartCue(), part.getEndCue(), part.getBpm(), cue, part.getSimpleSong().startingOffset, audioSource, masterSong.getMasterBpm());
+            //TODO check why diff neeeds to be opposite
+            Float diffBetweenMasterAndPart = part.getBpm() / masterSong.getMasterBpm();
+            AudioInstruction audioInstruction = new SimpleAudioInstruction(part.getStartCue(), part.getEndCue(), part.getBpm(), cue, part.getSimpleSong().startingOffset, audioSource, diffBetweenMasterAndPart);
             Collection<Effect> effects = masterSong.getEffects();
             for (Effect effect : effects) {
                 if(effect.getPartsAffected().contains(part)) {
@@ -39,7 +40,7 @@ public class PlayStuff {
                     }
                 }
             }
-            Float diffBetweenMasterAndPart = masterSong.getMasterBpm() / part.getBpm();
+            diffBetweenMasterAndPart = masterSong.getMasterBpm() / part.getBpm();
             audioInstruction.setInterpolatedRate(diffBetweenMasterAndPart, diffBetweenMasterAndPart);
             instructions.append(audioInstruction);
         }
@@ -52,13 +53,14 @@ public class PlayStuff {
         renderer.addRenderer(new AudioRenderer(target));
 
         renderer.start(startCueInMillis.intValue());
-
+        /* Not used
         while(renderer.isRendering()) {
             try {
-                Thread.sleep(5000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
             }
         }
+        */
     }
 
     public void stop() {

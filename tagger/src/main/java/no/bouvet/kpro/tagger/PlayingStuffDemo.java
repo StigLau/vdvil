@@ -28,10 +28,14 @@ public class PlayingStuffDemo {
 
     public void testPlayingSomeStuff() throws Exception {
         MasterSong master = new MasterSong();
+        /*
         master.setMasterBpm(130F);
-
-        //master.addPart(createPart(unfinished_sympathy, 0F, 8F, unfinished_sympathy.rows.get(3)));
-
+        master.addPart(createPart(unfinished_sympathy, 0F, 16F, unfinished_sympathy.rows.get(3)));
+        master.addPart(createPart(unfinished_sympathy, 16F, 32F, unfinished_sympathy.rows.get(6)));
+        master.addPart(createPart(returning, 32F, 48F, returning.rows.get(6)));
+        master.addPart(createPart(unfinished_sympathy, 32F, 64F, unfinished_sympathy.rows.get(8)));
+*/
+        master.setMasterBpm(160F);
         master.addPart(createPart(returning, 0F, 16F, returning.rows.get(3)));
         master.addPart(createPart(returning, 12F, 32F, returning.rows.get(6)));
         master.addPart(createPart(returning, 32F, 62.5F, returning.rows.get(9)));
