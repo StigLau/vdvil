@@ -1,0 +1,10 @@
+Tagger GUI
+ - Må kompileres av IDEA først
+mvn exec:java -Dexec.mainClass=no.bouvet.kpro.tagger.gui.TagGui
+
+Når man gjør en start av intelliJ (kan man må repetere stegene
+
+Exlude target kataloger
+bygg i intelliJ
+mvn clean idea:clean -DdownloadSources compile groovy:compile install -Dmaven.test.skip
+kjør på nått
