@@ -1,4 +1,4 @@
-import org.testng.annotations.*
+//import org.testng.annotations.*
 import no.bouvet.kpro.renderer.Renderer
 import no.bouvet.kpro.renderer.Instructions
 import no.bouvet.kpro.renderer.audio.*
@@ -10,11 +10,11 @@ class AudioRendererWithGroovyTest {
     List<AudioSource> audioSources = new ArrayList();
     Renderer renderer
 
-    @BeforeMethod
+    //@BeforeMethod
     def setUp() {
     }
 
-    @AfterMethod
+    //@AfterMethod
     def after() {
         for (audioSource in audioSources) {
             audioSource.close()
@@ -23,7 +23,7 @@ class AudioRendererWithGroovyTest {
 
 
 
-    @Test
+    //@Test
     void testMix2() {
         String snapMp3 = getClass().getResource("/Snap_-_Rhythm_is_a_Dancer.mp3").getFile();
         String coronaMp3 = getClass().getResource("/Corona_-_Baby_Baby.mp3").getFile();
