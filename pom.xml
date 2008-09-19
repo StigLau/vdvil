@@ -1,11 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>no.bouvet.kpro</groupId>
   <artifactId>root</artifactId>
-  <version>0.2-SNAPSHOT</version>
+  <version>0.2</version>
   <packaging>pom</packaging>
   <name>kpro: Root</name>
 
@@ -106,7 +103,7 @@
     </plugins>
   </build>
     <scm>
-        <connection>scm:svn:https://java.bouvet.no/repos/playground/trunk/stig.lau/kpro2007</connection>
-        <url>https://java.bouvet.no/repos/playground/trunk/stig.lau/kpro2007</url>
+        <connection>scm:svn:https://java.bouvet.no/repos/playground/tags/root-0.2</connection>
+        <url>https://java.bouvet.no/repos/playground/tags/root-0.2</url>
     </scm>
 </project>
