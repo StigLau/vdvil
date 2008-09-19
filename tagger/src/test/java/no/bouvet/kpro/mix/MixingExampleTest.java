@@ -41,24 +41,26 @@ public class MixingExampleTest {
 
 
         Float startMixinAt = 32F;
-        composition.addPart(createPart(space, startMixinAt + 0F, startMixinAt + 16F, space.rows.get(4)));
+        composition.addPart(createPart(returning, startMixinAt + -1F, startMixinAt + 16F, returning.rows.get(4)));
 
         startMixinAt += 64F;
-
-        //composition.addPart(createPart(space, startMixinAt + -17F, startMixinAt + -12.9F, space.rows.get(5)));
-        composition.addPart(createPart(returning, startMixinAt + -6F, startMixinAt + -5F, returning.rows.get(7)));
-        composition.addPart(createPart(returning, startMixinAt + -4F, startMixinAt + -3F, returning.rows.get(7)));
+        composition.addPart(createPart(space, 80F, 96F, space.rows.get(1)));
+        
+        composition.addPart(createPart(returning, startMixinAt + -8.05F, startMixinAt + -6.7F, returning.rows.get(7)));
+        composition.addPart(createPart(returning, startMixinAt + -6.05F, startMixinAt + -4.7F, returning.rows.get(7)));
+        composition.addPart(createPart(returning, startMixinAt + -4.05F, startMixinAt + -3.2F, returning.rows.get(7)));
+        composition.addPart(createPart(returning, startMixinAt + -3F, startMixinAt + -2.2F, returning.rows.get(7)));
         composition.addPart(createPart(returning, startMixinAt + -2F, startMixinAt + -1.2F, returning.rows.get(7)));
         composition.addPart(createPart(returning, startMixinAt + -1F, startMixinAt + -0.2F, returning.rows.get(7)));
-        composition.addPart(createPart(returning, startMixinAt + 0F, startMixinAt + 64F, returning.rows.get(7)));
+        composition.addPart(createPart(returning, startMixinAt + 0F, startMixinAt + 128F, returning.rows.get(7)));
 
-        composition.addPart(createPart(space, 96F, 160F, space.rows.get(1)));
+
         
 
         PlayStuff player = new PlayStuff();
         player.setMasterSong(composition);
         player.init();
-        player.play(64F);
+        player.play(0F);
     }
 
     private Part createPart(SimpleSong ss, Float start, Float end, Row row) {
