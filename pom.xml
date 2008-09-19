@@ -105,4 +105,8 @@
       </plugin>
     </plugins>
   </build>
+    <scm>
+        <connection>scm:svn:https://java.bouvet.no/repos/playground/trunk/stig.lau/kpro2007</connection>
+        <url>https://java.bouvet.no/repos/playground/trunk/stig.lau/kpro2007</url>
+    </scm>
 </project>
