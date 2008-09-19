@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>no.bouvet.kpro</groupId>
   <artifactId>root</artifactId>
-  <version>0.2</version>
+  <version>0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>kpro: Root</name>
 
