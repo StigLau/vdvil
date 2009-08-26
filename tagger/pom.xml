@@ -31,6 +31,12 @@
         <dependency>
             <groupId>no.bouvet.kpro</groupId>
             <artifactId>persistence</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>no.bouvet.topicmap</groupId>
+                    <artifactId>topicmapapi</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>no.bouvet.kpro</groupId>

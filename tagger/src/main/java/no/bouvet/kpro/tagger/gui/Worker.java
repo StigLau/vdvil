@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.util.List;
 import java.io.File;
 
+import org.jdesktop.swingworker.SwingWorker;
+
 public class Worker extends SwingWorker<Object, Object> {
 
 
