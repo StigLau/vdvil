@@ -20,11 +20,5 @@
             <groupId>no.bouvet.topicmap</groupId>
             <artifactId>topicmapapi</artifactId>
         </dependency>
-        <dependency>
-            <groupId>thaiopensource</groupId>
-            <artifactId>jing</artifactId>
-            <version>unknown-version</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 </project>
