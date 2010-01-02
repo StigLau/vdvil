@@ -7,11 +7,11 @@ public class MasterSong implements IPart {
 
     public String label;
 
-    public List<IPart> parts = new ArrayList<IPart>();
+    public List<Part> parts = new ArrayList<Part>();
 
     public Float masterBpm;
 
-    public List<IPart> children() {
+    public List<? extends IPart> children() {
         return parts;
     }
 }
