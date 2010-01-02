@@ -6,7 +6,7 @@ import no.bouvet.kpro.renderer.Renderer;
 import no.bouvet.kpro.tagger.model.*;
 
 import java.io.File;
-import java.util.Collection;
+import java.util.List;
 
 public class PlayStuff {
 
@@ -15,39 +15,25 @@ public class PlayStuff {
     private MasterSong masterSong;
 
     public void init() throws Exception {
-        Collection<Part> parts = masterSong.getParts();
+        List<Part> parts = masterSong.parts;
         for (Part part : parts) {
-            AudioSource audioSource = new MP3Source(new File(part.getSimpleSong().fileName));
-            Float cue = part.getRow().cue;
+            AudioSource audioSource = new MP3Source(new File(part.simpleSong.fileName));
+            Float cue = part.row.cue;
 
-            if(part.getBeginAtCue() != null) {
-                cue += part.getBeginAtCue();
+            if(part.beginAtCue != null) {
+                cue += part.beginAtCue;
             }
             //TODO check why diff neeeds to be opposite
-            Float diffBetweenMasterAndPart = part.getBpm() / masterSong.getMasterBpm();
-            AudioInstruction audioInstruction = new SimpleAudioInstruction(part.getStartCue(), part.getEndCue(), part.getBpm(), cue, part.getSimpleSong().startingOffset, audioSource, diffBetweenMasterAndPart);
-            Collection<Effect> effects = masterSong.getEffects();
-            for (Effect effect : effects) {
-                if(effect.getPartsAffected().contains(part)) {
-                    if (effect instanceof Volume) {
-                        Volume volume = (Volume) effect;
-                        audioInstruction.setInterpolatedVolume(volume.getStartValue(), volume.getEndValue());
-                    }
-                    else if (effect instanceof Rate) {
-                        float bpmRateDiff = part.getBpm() / masterSong.getMasterBpm();
-                        Rate rate = (Rate) effect;
-                        audioInstruction.setInterpolatedRate(rate.getStartValue() * bpmRateDiff, rate.getEndValue() * bpmRateDiff);
-                    }
-                }
-            }
-            diffBetweenMasterAndPart = masterSong.getMasterBpm() / part.getBpm();
+            Float diffBetweenMasterAndPart = part.bpm / masterSong.masterBpm;
+            AudioInstruction audioInstruction = new SimpleAudioInstruction(part.startCue, part.endCue, part.bpm, cue, part.simpleSong.startingOffset, audioSource, diffBetweenMasterAndPart);
+            diffBetweenMasterAndPart = masterSong.masterBpm / part.bpm;
             audioInstruction.setInterpolatedRate(diffBetweenMasterAndPart, diffBetweenMasterAndPart);
             instructions.append(audioInstruction);
         }
     }
 
     public void play(Float startCue) throws Exception {
-        Float startCueInMillis = (startCue * 44100 * 60)/ masterSong.getMasterBpm();
+        Float startCueInMillis = (startCue * 44100 * 60)/ masterSong.masterBpm;
         renderer = new Renderer(instructions);
         AudioTarget target = new AudioPlaybackTarget();
         renderer.addRenderer(new AudioRenderer(target));
