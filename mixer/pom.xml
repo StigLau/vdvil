@@ -44,26 +44,12 @@
         </dependency>
     </dependencies>
 
-   <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.codehaus.groovy.maven</groupId>
-                <artifactId>gmaven-mojo</artifactId>
-                <version>1.0-rc-3</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.groovy.maven.runtime</groupId>
-                <artifactId>gmaven-runtime-default</artifactId>
-                <version>1.0-rc-3</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.groovy.maven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
-                <version>1.0-rc-3</version>
+                <version>1.0</version>
                 <executions>
                     <execution>
                         <goals>
