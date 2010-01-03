@@ -5,7 +5,7 @@ import java.util.Collections;
 
 public class Part implements IPart {
     public SimpleSong simpleSong;
-    public Row row;
+    public Segment segment;
 
     public Float bpm;
     public Float startCue;

@@ -1,24 +1,32 @@
 package no.bouvet.kpro.tagger.persistence;
 
+import no.bouvet.kpro.tagger.model.Segment;
 import no.bouvet.kpro.tagger.model.SimpleSong;
-import no.bouvet.kpro.tagger.model.Row;
 import com.thoughtworks.xstream.XStream;
 
 import java.io.*;
 
-public class XStreamParser <T> {
+public class XStreamParser <T extends SimpleSong> {
 
     public static final String path = System.getProperty("user.home") + "/kpro";
 
     XStream xstream = new XStream();
 
     public XStreamParser() {
-        xstream.alias("song", SimpleSong.class);
-        xstream.alias("row", Row.class);
+        xstream.alias("track", SimpleSong.class);
+        xstream.alias("segment", Segment.class);
     }
 
-    public <T> void save(T songToSave, String fileToSave) {
-        String xml = xstream.toXML(songToSave);
+    public String toXml(SimpleSong songToSerialize) {
+        return xstream.toXML(songToSerialize);
+    }
+
+    public SimpleSong fromXML(String fromXML) {
+        return (SimpleSong) xstream.fromXML(fromXML);
+    }
+
+    public void save(T songToSave, String fileToSave) {
+        String xml = toXml(songToSave);
         File folder = new File(path);
         if (!folder.exists()) {
             folder.mkdirs();
@@ -32,7 +40,7 @@ public class XStreamParser <T> {
         }
     }
 
-    public <T> T load(String fileName) {
+    public T load(String fileName) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(fileName));
             return (T) xstream.fromXML(reader);

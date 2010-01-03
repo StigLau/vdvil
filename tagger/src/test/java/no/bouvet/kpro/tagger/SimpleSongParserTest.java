@@ -1,9 +1,11 @@
 package no.bouvet.kpro.tagger;
 
 import org.testng.annotations.Test;
-import no.bouvet.kpro.tagger.model.Row;
+import no.bouvet.kpro.tagger.model.MediaFile;
+import no.bouvet.kpro.tagger.model.Segment;
 import no.bouvet.kpro.tagger.model.SimpleSong;
 import no.bouvet.kpro.tagger.persistence.SimpleSongParser;
+import static org.testng.Assert.assertEquals;
 
 public class SimpleSongParserTest {
 
@@ -18,25 +20,24 @@ public class SimpleSongParserTest {
         SimpleSongParser simpleSongParser = new SimpleSongParser();
         simpleSongParser.save(coronaTest(),"/corona.dvl");
 
-        assert (coronaTest().fileName.equals("/Volumes/McFeasty/Users/Stig/jobb/utvikling/bouvet/playground/stig.lau/kpro2007/renderer.audio/src/test/resources/Corona_-_Baby_Baby.mp3"));
+        assertEquals(coronaTest().mediaFile.fileName, "/Users/stiglau/jobb/utvikling/bouvet/playground/stig.lau/kpro2007/renderer.audio/src/test/resources/Corona_-_Baby_Baby.mp3");
     }
 
     public static SimpleSong coronaTest() {
         SimpleSong corona = new SimpleSong();
-
-        corona.fileName = "/Volumes/McFeasty/Users/Stig/jobb/utvikling/bouvet/playground/stig.lau/kpro2007/renderer.audio/src/test/resources/Corona_-_Baby_Baby.mp3";
-        corona.startingOffset = 44100 * 0.445f;
+        corona.mediaFile = new MediaFile("/Users/stiglau/jobb/utvikling/bouvet/playground/stig.lau/kpro2007/renderer.audio/src/test/resources/Corona_-_Baby_Baby.mp3",
+                44100 * 0.445f);
         corona.bpm = 132.98f;
-        corona.rows.add(new Row(0F, 16F,  "Baby, why can't we just stay together"));
-        corona.rows.add(new Row(16F, 32F,  "Baby, why can't we just stay together"));
-        corona.rows.add(new Row(32F, 64F,  "Intro"));
-        corona.rows.add(new Row(64F, 96F,  "Riff 1. time"));
-        corona.rows.add(new Row(96F, 128F,  "1. Refrain  I want to roll inside your soul,"));
-        corona.rows.add(new Row(128F, 128 + 32F,  "2. Verse - Caught you down by suprise"));
-        corona.rows.add(new Row(128 + 32F, 128 + 64F,  "Baby baby, why can't we just stay together"));
-        corona.rows.add(new Row(128 + 64F, 128 + 96F, "riff 2. time"));
-        corona.rows.add(new Row(128 + 96F, 256F,  "Deep inside I know you need it"));
-        corona.rows.add(new Row(256F, 256 + 32F, "Caught you down by suprise"));
+        corona.segments.add(new Segment("a", 0F, 16F,  "Baby, why can't we just stay together"));
+        corona.segments.add(new Segment("b", 16F, 32F,  "Baby, why can't we just stay together"));
+        corona.segments.add(new Segment("c", 32F, 64F,  "Intro"));
+        corona.segments.add(new Segment("d", 64F, 96F,  "Riff 1. time"));
+        corona.segments.add(new Segment("e", 96F, 128F,  "1. Refrain  I want to roll inside your soul,"));
+        corona.segments.add(new Segment("f", 128F, 128 + 32F,  "2. Verse - Caught you down by suprise"));
+        corona.segments.add(new Segment("g", 128 + 32F, 128 + 64F,  "Baby baby, why can't we just stay together"));
+        corona.segments.add(new Segment("h", 128 + 64F, 128 + 96F, "riff 2. time"));
+        corona.segments.add(new Segment("i", 128 + 96F, 256F,  "Deep inside I know you need it"));
+        corona.segments.add(new Segment("j", 256F, 256 + 32F, "Caught you down by suprise"));
         /*      0 // Baby baby
                 16, //Baby baby, Why can't we just say forever
                 32, //Intro

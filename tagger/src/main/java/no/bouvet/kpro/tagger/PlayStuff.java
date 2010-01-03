@@ -17,15 +17,15 @@ public class PlayStuff {
     public void init() throws Exception {
         List<Part> parts = masterSong.parts;
         for (Part part : parts) {
-            AudioSource audioSource = new MP3Source(new File(part.simpleSong.fileName));
-            Float cue = part.row.cue;
+            AudioSource audioSource = new MP3Source(new File(part.simpleSong.mediaFile.fileName));
+            Float cue = part.segment.start;
 
             if(part.beginAtCue != null) {
                 cue += part.beginAtCue;
             }
             //TODO check why diff neeeds to be opposite
             Float diffBetweenMasterAndPart = part.bpm / masterSong.masterBpm;
-            AudioInstruction audioInstruction = new SimpleAudioInstruction(part.startCue, part.endCue, part.bpm, cue, part.simpleSong.startingOffset, audioSource, diffBetweenMasterAndPart);
+            AudioInstruction audioInstruction = new SimpleAudioInstruction(part.startCue, part.endCue, part.bpm, cue, part.simpleSong.mediaFile.startingOffset, audioSource, diffBetweenMasterAndPart);
             diffBetweenMasterAndPart = masterSong.masterBpm / part.bpm;
             audioInstruction.setInterpolatedRate(diffBetweenMasterAndPart, diffBetweenMasterAndPart);
             instructions.append(audioInstruction);

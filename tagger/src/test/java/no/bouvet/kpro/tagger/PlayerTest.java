@@ -9,8 +9,8 @@ public class PlayerTest {
     @Test
     public void testPlaying() throws Exception {
         XStreamParser parser = new XStreamParser<SimpleSong>();
-        //SimpleSong simpleSong = (SimpleSong) parser.load(parser.path + "/corona.dvl");
-        SimpleSong simpleSong = (SimpleSong) parser.load(parser.path + "/holden-nothing-93_returning_mix.dvl");
+        //SimpleSong simpleSong = parser.load(parser.path + "/corona.dvl");
+        SimpleSong simpleSong = parser.load(parser.path + "/holden-nothing-93_returning_mix.dvl");
         //Worker worker = new Worker(simpleSong, 0F);
         PlayerBase playerBase = new PlayerBase(simpleSong);
         playerBase.playPause(96F, 128F);

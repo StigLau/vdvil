@@ -4,13 +4,12 @@ import no.bouvet.kpro.renderer.audio.AudioSource;
 import no.bouvet.kpro.renderer.audio.SimpleAudioInstruction;
 import no.bouvet.kpro.renderer.audio.MP3Source;
 import no.bouvet.kpro.renderer.Instructions;
-import no.bouvet.kpro.tagger.model.SimpleSong;
 import no.bouvet.kpro.tagger.AudioPlayer;
 
-import javax.swing.*;
 import java.util.List;
 import java.io.File;
 
+import no.bouvet.kpro.tagger.model.SimpleSong;
 import org.jdesktop.swingworker.SwingWorker;
 
 public class Worker extends SwingWorker<Object, Object> {
@@ -27,7 +26,7 @@ public class Worker extends SwingWorker<Object, Object> {
         this.startCue = startCue;
         this.endCue = endCue;
         try {
-            audioSource = new MP3Source(new File(simpleSong.fileName));
+            audioSource = new MP3Source(new File(simpleSong.mediaFile.fileName));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -37,7 +36,7 @@ public class Worker extends SwingWorker<Object, Object> {
         Instructions instructions = new Instructions();
         System.out.println("startCue playing = " + startCue);
         Float playLength = endCue - startCue;
-        instructions.append(new SimpleAudioInstruction(0F, playLength, simpleSong.bpm, startCue, simpleSong.startingOffset, audioSource, 1F));
+        instructions.append(new SimpleAudioInstruction(0F, playLength, simpleSong.bpm, startCue, simpleSong.mediaFile.startingOffset, audioSource, 1F));
         player = new AudioPlayer();
         player.playMusic(instructions);
         return "worker finished";

@@ -25,11 +25,11 @@ public class MixingExampleTest {
 
     public void beforeMethod() {
         XStreamParser parser = new XStreamParser();
-        returning = (SimpleSong) parser.load("/Users/stiglau/kpro/holden-nothing-93_returning_mix.dvl");
-        unfinished_sympathy = (SimpleSong) parser.load("/Users/stiglau/kpro/unfinished_sympathy.dvl");
-        not_alone = (SimpleSong) parser.load("/Users/stiglau/kpro/olive-youre_not_alone.dvl");
-        scares_me = (SimpleSong) parser.load("/Users/stiglau/kpro/christian_cambas-it_scares_me.dvl");
-        space = (SimpleSong) parser.load("/Users/stiglau/kpro/space_manoeuvres-stage_one_original.dvl");
+        returning = parser.load("/Users/stiglau/kpro/holden-nothing-93_returning_mix.dvl");
+        unfinished_sympathy = parser.load("/Users/stiglau/kpro/unfinished_sympathy.dvl");
+        not_alone = parser.load("/Users/stiglau/kpro/olive-youre_not_alone.dvl");
+        scares_me = parser.load("/Users/stiglau/kpro/christian_cambas-it_scares_me.dvl");
+        space = parser.load("/Users/stiglau/kpro/space_manoeuvres-stage_one_original.dvl");
 
     }
 
@@ -38,22 +38,22 @@ public class MixingExampleTest {
         MasterSong composition = new MasterSong();
 
         composition.masterBpm = (135F);
-        composition.parts.add(createPart(space, 0F, 96F, space.rows.get(0)));
+        composition.parts.add(createPart(space, 0F, 96F, space.segments.get(0)));
 
 
         Float startMixinAt = 32F;
-        composition.parts.add(createPart(returning, startMixinAt + -1F, startMixinAt + 16F, returning.rows.get(4)));
+        composition.parts.add(createPart(returning, startMixinAt + -1F, startMixinAt + 16F, returning.segments.get(4)));
 
         startMixinAt += 64F;
-        composition.parts.add(createPart(space, 80F, 96F, space.rows.get(1)));
+        composition.parts.add(createPart(space, 80F, 96F, space.segments.get(1)));
         
-        composition.parts.add(createPart(returning, startMixinAt + -8.05F, startMixinAt + -6.7F, returning.rows.get(7)));
-        composition.parts.add(createPart(returning, startMixinAt + -6.05F, startMixinAt + -4.7F, returning.rows.get(7)));
-        composition.parts.add(createPart(returning, startMixinAt + -4.05F, startMixinAt + -3.2F, returning.rows.get(7)));
-        composition.parts.add(createPart(returning, startMixinAt + -3F, startMixinAt + -2.2F, returning.rows.get(7)));
-        composition.parts.add(createPart(returning, startMixinAt + -2F, startMixinAt + -1.2F, returning.rows.get(7)));
-        composition.parts.add(createPart(returning, startMixinAt + -1F, startMixinAt + -0.2F, returning.rows.get(7)));
-        composition.parts.add(createPart(returning, startMixinAt + 0F, startMixinAt + 128F, returning.rows.get(7)));
+        composition.parts.add(createPart(returning, startMixinAt + -8.05F, startMixinAt + -6.7F, returning.segments.get(7)));
+        composition.parts.add(createPart(returning, startMixinAt + -6.05F, startMixinAt + -4.7F, returning.segments.get(7)));
+        composition.parts.add(createPart(returning, startMixinAt + -4.05F, startMixinAt + -3.2F, returning.segments.get(7)));
+        composition.parts.add(createPart(returning, startMixinAt + -3F, startMixinAt + -2.2F, returning.segments.get(7)));
+        composition.parts.add(createPart(returning, startMixinAt + -2F, startMixinAt + -1.2F, returning.segments.get(7)));
+        composition.parts.add(createPart(returning, startMixinAt + -1F, startMixinAt + -0.2F, returning.segments.get(7)));
+        composition.parts.add(createPart(returning, startMixinAt + 0F, startMixinAt + 128F, returning.segments.get(7)));
 
 
         
