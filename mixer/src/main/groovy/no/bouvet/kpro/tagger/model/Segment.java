@@ -4,12 +4,11 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-//TODO Fields should be final!
 public class Segment implements IPart, Serializable {
-    public String id;
-    public String text;
-    public Float start;
-    public Float end;
+    public final String id;
+    public final String text;
+    public final Float start;
+    public final Float end;
 
     public Segment(String id, Float start, Float end, String text) {
         this.id = id;

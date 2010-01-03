@@ -5,6 +5,9 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
+
 import no.bouvet.kpro.tagger.model.MediaFile;
 import no.bouvet.kpro.tagger.model.Segment;
 import no.bouvet.kpro.tagger.model.SimpleSong;
@@ -64,7 +67,7 @@ public class DynamicTimeTable {
         panel.add(new JLabel("text"), "");
         panel.add(new JLabel("Play/Pause"), "wrap");
         for (Segment segment : simpleSong.segments) {
-            createRowOnPanel(segment);
+            createRowOnPanel(segment, simpleSong, simpleSongCallBack);
         }
     }
 
@@ -72,11 +75,12 @@ public class DynamicTimeTable {
         return panel;
     }
 
-    public void createRowOnPanel(final Segment segment) {
+    public void createRowOnPanel(final Segment segment, final SimpleSong simpleSong, final SimpleSongCallBack simpleSongCallBack) {
         final JTextField startBeat = new JTextField(segment.start.toString(), 3);
         startBeat.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                segment.start = new Float(startBeat.getText());
+                Segment newSegment = new Segment(segment.id, new Float(startBeat.getText()), segment.end, segment.text);
+                simpleSongCallBack.update(updateSegmentInSimpleSong(newSegment, simpleSong));
             }
         });
         panel.add(startBeat, "");
@@ -84,7 +88,8 @@ public class DynamicTimeTable {
         final JTextField endBeat = new JTextField(segment.end.toString(), 3);
         endBeat.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                segment.end = new Float(endBeat.getText());
+                Segment newSegment = new Segment(segment.id, segment.start, new Float(endBeat.getText()), segment.text);
+                simpleSongCallBack.update(updateSegmentInSimpleSong(newSegment, simpleSong));
             }
         });
         panel.add(endBeat, "");
@@ -92,7 +97,8 @@ public class DynamicTimeTable {
         final JTextField textField = new JTextField(segment.text, 40);
         textField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                segment.text = textField.getText();
+                Segment newSegment = new Segment(segment.id, segment.start, segment.end, textField.getText());
+                simpleSongCallBack.update(updateSegmentInSimpleSong(newSegment, simpleSong));
             }
         });
         panel.add(textField, "");
@@ -100,15 +106,33 @@ public class DynamicTimeTable {
         JButton playButton = new JButton("play/pause");
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                segment.start = new Float(startBeat.getText());
+                Float start = new Float(startBeat.getText());
                 try {
-                    player.playPause(segment.start, segment.end);
+                    player.playPause(start, segment.end);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
             }
         });
         panel.add(playButton, "wrap");
+    }
+
+    /**
+     * Creates a new SimpleSong when a segment has changed
+     */
+    private SimpleSong updateSegmentInSimpleSong(Segment editedSegment, SimpleSong simpleSong) {
+        List<Segment> segments = new ArrayList<Segment>();
+        for (Segment thisSegment : simpleSong.segments) {
+            if (thisSegment.id.equals(editedSegment.id))
+                segments.add(editedSegment);
+            else
+                segments.add(thisSegment);
+        }
+        return new SimpleSong(
+                simpleSong.reference,
+                simpleSong.mediaFile,
+                segments,
+                simpleSong.bpm);
     }
 }
 
