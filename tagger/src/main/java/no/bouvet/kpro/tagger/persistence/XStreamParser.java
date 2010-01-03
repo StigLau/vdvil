@@ -1,7 +1,7 @@
 package no.bouvet.kpro.tagger.persistence;
 
-import no.bouvet.kpro.tagger.model.Segment;
-import no.bouvet.kpro.tagger.model.SimpleSong;
+import no.lau.tagger.model.Segment;
+import no.lau.tagger.model.SimpleSong;
 import com.thoughtworks.xstream.XStream;
 
 import java.io.*;

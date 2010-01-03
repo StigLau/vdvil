@@ -9,7 +9,7 @@ import no.bouvet.kpro.tagger.AudioPlayer;
 import java.util.List;
 import java.io.File;
 
-import no.bouvet.kpro.tagger.model.SimpleSong;
+import no.lau.tagger.model.SimpleSong;
 import org.jdesktop.swingworker.SwingWorker;
 
 public class Worker extends SwingWorker<Object, Object> {

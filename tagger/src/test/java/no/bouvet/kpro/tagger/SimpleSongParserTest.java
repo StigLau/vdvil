@@ -1,9 +1,9 @@
 package no.bouvet.kpro.tagger;
 
+import no.lau.tagger.model.Segment;
+import no.lau.tagger.model.SimpleSong;
 import org.testng.annotations.Test;
-import no.bouvet.kpro.tagger.model.MediaFile;
-import no.bouvet.kpro.tagger.model.Segment;
-import no.bouvet.kpro.tagger.model.SimpleSong;
+import no.lau.tagger.model.MediaFile;
 import no.bouvet.kpro.tagger.persistence.SimpleSongParser;
 import java.util.ArrayList;
 import java.util.List;

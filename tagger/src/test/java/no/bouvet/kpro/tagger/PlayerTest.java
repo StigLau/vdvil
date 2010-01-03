@@ -1,7 +1,7 @@
 package no.bouvet.kpro.tagger;
 
+import no.lau.tagger.model.SimpleSong;
 import org.testng.annotations.Test;
-import no.bouvet.kpro.tagger.model.SimpleSong;
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
 
 public class PlayerTest {

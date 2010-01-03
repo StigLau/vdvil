@@ -1,6 +1,6 @@
 package no.bouvet.kpro.tagger.gui;
 
-import no.bouvet.kpro.tagger.model.SimpleSong;
+import no.lau.tagger.model.SimpleSong;
 
 public interface SimpleSongCallBack {
     void update(SimpleSong simpleSong);

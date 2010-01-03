@@ -6,7 +6,7 @@ import javax.swing.JFrame
 import javax.swing.JFileChooser
 import groovy.swing.SwingBuilder
 import no.bouvet.kpro.tagger.PlayerBase
-import no.bouvet.kpro.tagger.model.SimpleSong
+import no.lau.tagger.model.SimpleSong
 import no.bouvet.kpro.tagger.persistence.XStreamParser
 /**
  * Note - to make the TagGUI functional, it can be necessary to make a small change to the file and recompile.

@@ -3,7 +3,8 @@ package no.bouvet.kpro.tagger;
 import no.bouvet.kpro.renderer.audio.*;
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.Renderer;
-import no.bouvet.kpro.tagger.model.*;
+import no.lau.tagger.model.Composition;
+import no.lau.tagger.model.Part;
 
 import java.io.File;
 import java.util.List;

@@ -8,9 +8,9 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import no.bouvet.kpro.tagger.model.MediaFile;
-import no.bouvet.kpro.tagger.model.Segment;
-import no.bouvet.kpro.tagger.model.SimpleSong;
+import no.lau.tagger.model.MediaFile;
+import no.lau.tagger.model.Segment;
+import no.lau.tagger.model.SimpleSong;
 import no.bouvet.kpro.tagger.PlayerIF;
 
 public class DynamicTimeTable {

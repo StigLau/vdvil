@@ -1,4 +1,4 @@
-package no.bouvet.kpro.tagger.model;
+package no.lau.tagger.model;
 
 import java.io.Serializable;
 import java.util.Collections;

@@ -1,7 +1,7 @@
 package no.bouvet.kpro.tagger;
 
 import no.bouvet.kpro.tagger.gui.SimpleSongCallBack;
-import no.bouvet.kpro.tagger.model.SimpleSong;
+import no.lau.tagger.model.SimpleSong;
 import no.bouvet.kpro.tagger.gui.DynamicTimeTable;
 import no.bouvet.kpro.tagger.gui.Worker;
 import java.awt.Component;

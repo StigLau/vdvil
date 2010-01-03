@@ -1,7 +1,10 @@
 package no.bouvet.kpro.tagger;
 
-import no.bouvet.kpro.tagger.model.*;
-import no.bouvet.kpro.tagger.persistence.XStreamParser;
+
+import no.bouvet.kpro.tagger.persistence.XStreamParser
+import no.lau.tagger.model.Part
+import no.lau.tagger.model.SimpleSong
+import no.lau.tagger.model.Composition;
 
 public class PlayingStuffGroovy {
 

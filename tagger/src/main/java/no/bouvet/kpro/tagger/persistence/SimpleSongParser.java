@@ -1,6 +1,6 @@
 package no.bouvet.kpro.tagger.persistence;
 
-import no.bouvet.kpro.tagger.model.SimpleSong;
+import no.lau.tagger.model.SimpleSong;
 
 import java.io.*;
 

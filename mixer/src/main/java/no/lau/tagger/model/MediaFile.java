@@ -1,4 +1,4 @@
-package no.bouvet.kpro.tagger.model;
+package no.lau.tagger.model;
 
 public class MediaFile {
     public final String fileName;

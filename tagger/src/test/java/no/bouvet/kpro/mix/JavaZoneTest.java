@@ -1,8 +1,11 @@
 package no.bouvet.kpro.mix;
 
-import no.bouvet.kpro.tagger.model.*;
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.bouvet.kpro.tagger.PlayStuff;
+import no.lau.tagger.model.Composition;
+import no.lau.tagger.model.Part;
+import no.lau.tagger.model.SimpleSong;
+
 import java.util.ArrayList;
 import java.util.List;
 
