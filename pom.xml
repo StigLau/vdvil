@@ -25,7 +25,7 @@
     <!-- <module>gui</module> The QT Jambi GUI has been discontinued as a part of the standard core library -->
       <!-- Not part of the core -->
       <module>tagger-model</module>
-      <module>tagger</module>
+      <module>tagger-gui</module>
   </modules>
 
   <!-- Common dependency management-->
