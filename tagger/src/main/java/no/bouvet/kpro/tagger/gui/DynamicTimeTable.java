@@ -15,7 +15,7 @@ public class DynamicTimeTable {
     private JPanel panel = new JPanel();
     private PlayerIF player;
 
-    public DynamicTimeTable(PlayerIF player, final SimpleSong simpleSong) {
+    public DynamicTimeTable(PlayerIF player, final SimpleSong simpleSong, final SimpleSongCallBack simpleSongCallBack) {
         this.player = player;
 
         panel = new JPanel(new MigLayout("", "[right]"));
@@ -23,7 +23,11 @@ public class DynamicTimeTable {
         final JTextField fileNameField = new JTextField(simpleSong.mediaFile.fileName, 80);
         fileNameField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                simpleSong.mediaFile = new MediaFile(fileNameField.getText(), simpleSong.mediaFile.startingOffset);
+                simpleSongCallBack.update(
+                        new SimpleSong(simpleSong.reference,
+                                new MediaFile(fileNameField.getText(), simpleSong.mediaFile.startingOffset),
+                                simpleSong.segments,
+                                simpleSong.bpm));
             }
         });
         panel.add(fileNameField, "span, wrap");
@@ -31,7 +35,11 @@ public class DynamicTimeTable {
         final JTextField bpmField = new JTextField(simpleSong.bpm.toString(), 5);
         bpmField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                simpleSong.bpm = new Float(bpmField.getText());
+                simpleSongCallBack.update(
+                        new SimpleSong(simpleSong.reference,
+                                simpleSong.mediaFile,
+                                simpleSong.segments,
+                                new Float(bpmField.getText())));
             }
         });
         panel.add(bpmField, "");
@@ -40,7 +48,11 @@ public class DynamicTimeTable {
         final JTextField startingOffsetField = new JTextField(simpleSong.mediaFile.startingOffset.toString(), 5);
         startingOffsetField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                simpleSong.mediaFile = new MediaFile(simpleSong.mediaFile.fileName, new Float(startingOffsetField.getText()));
+                simpleSongCallBack.update(
+                        new SimpleSong(simpleSong.reference,
+                                new MediaFile(simpleSong.mediaFile.fileName, new Float(startingOffsetField.getText())),
+                                simpleSong.segments,
+                                simpleSong.bpm));
             }
         });
         panel.add(startingOffsetField, "");

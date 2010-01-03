@@ -18,8 +18,6 @@ class TagGui {
 
     public void createGui() {
         frame = swing.frame(title: 'Frame', size: [500, 300], defaultCloseOperation: JFrame.EXIT_ON_CLOSE) {
-            //borderLayout()
-
             button(text: 'Load File', constraints: BorderLayout.SOUTH,
                     actionPerformed: {
                         JFileChooser fileChooser = swing.fileChooser(currentDirectory: new File(dvlFilePath))
@@ -33,7 +31,10 @@ class TagGui {
             )
             button(text: 'Save', constraints: BorderLayout.WEST,
                     actionPerformed: {
-                        new XStreamParser().save(playerBase.simpleSong, dvlFilePath)
+                      def parser = new XStreamParser()
+                        parser.save(playerBase.simpleSong, dvlFilePath)
+                        println "Saved:" + dvlFilePath
+                        println parser.toXml(playerBase.simpleSong)
                     }
             )
         }
@@ -58,7 +59,7 @@ class TagGui {
     public static void main(String[] args) {
         def tagGui = new TagGui()
         tagGui.createGui()
-        println "GUI Started "
+        println "Tagger Started "
     }
 }
 

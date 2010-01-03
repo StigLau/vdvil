@@ -1,12 +1,12 @@
 package no.bouvet.kpro.tagger;
 
+import no.bouvet.kpro.tagger.gui.SimpleSongCallBack;
 import no.bouvet.kpro.tagger.model.SimpleSong;
 import no.bouvet.kpro.tagger.gui.DynamicTimeTable;
 import no.bouvet.kpro.tagger.gui.Worker;
+import java.awt.Component;
 
-import java.awt.*;
-
-public class PlayerBase implements PlayerIF {
+public class PlayerBase implements PlayerIF, SimpleSongCallBack {
 
     private boolean started;
     private Worker worker;
@@ -15,7 +15,7 @@ public class PlayerBase implements PlayerIF {
 
     public PlayerBase(SimpleSong simpleSong) throws Exception {
         this.simpleSong = simpleSong;
-        timeTable = new DynamicTimeTable(this, simpleSong);
+        timeTable = new DynamicTimeTable(this, simpleSong, this);
     }
 
     public void playPause(Float startCue, Float endCue) throws Exception {
@@ -41,5 +41,9 @@ public class PlayerBase implements PlayerIF {
 
     public SimpleSong getSimpleSong() {
         return simpleSong;
+    }
+
+    public void update(SimpleSong changedSimpleSong) {
+        this.simpleSong = changedSimpleSong;
     }
 }

@@ -1,16 +1,21 @@
 package no.bouvet.kpro.tagger.model;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.io.Serializable;
 
 public class SimpleSong implements IPart, Serializable {
-    static final long serialVersionUID = 2536680634054831206L;
     //Reference is an ID tag to the Track
-    public String reference = "No reference entered";
-    public MediaFile mediaFile = new MediaFile("", -1F);
-    public List<Segment> segments = new ArrayList<Segment>();
-    public Float bpm = 0F;
+    public final String reference;
+    public final MediaFile mediaFile;
+    public final List<Segment> segments;
+    public final Float bpm;
+
+    public SimpleSong(String reference, MediaFile mediaFile, List<Segment> segments, Float bpm) {
+        this.reference = reference;
+        this.mediaFile = mediaFile;
+        this.segments = segments;
+        this.bpm = bpm;
+    }
 
     public List<? extends IPart> children() {
         return segments;
