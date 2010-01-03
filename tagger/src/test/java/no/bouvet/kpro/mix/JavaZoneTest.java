@@ -51,7 +51,7 @@ public class JavaZoneTest {
         parts.add(new Part(scares_me, 224F, 252F, scares_me.segments.get(13)));
 
         PlayStuff player = new PlayStuff();
-        player.setMasterSong(new MasterSong(150F, parts));
+        player.setMasterSong(new Composition(150F, parts));
         player.init();
         player.play(0F);
     }

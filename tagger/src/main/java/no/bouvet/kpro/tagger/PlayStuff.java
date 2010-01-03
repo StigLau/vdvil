@@ -12,10 +12,10 @@ public class PlayStuff {
 
     private Instructions instructions = new Instructions();
     private Renderer renderer = null;
-    private MasterSong masterSong;
+    private Composition composition;
 
     public void init() throws Exception {
-        List<Part> parts = masterSong.parts;
+        List<Part> parts = composition.parts;
         for (Part part : parts) {
             AudioSource audioSource = new MP3Source(new File(part.simpleSong.mediaFile.fileName));
             Float cue = part.segment.start;
@@ -24,16 +24,16 @@ public class PlayStuff {
                 cue += part.beginAtCue;
             }
             //TODO check why diff neeeds to be opposite
-            Float diffBetweenMasterAndPart = part.bpm / masterSong.masterBpm;
+            Float diffBetweenMasterAndPart = part.bpm / composition.masterBpm;
             AudioInstruction audioInstruction = new SimpleAudioInstruction(part.startCue, part.endCue, part.bpm, cue, part.simpleSong.mediaFile.startingOffset, audioSource, diffBetweenMasterAndPart);
-            diffBetweenMasterAndPart = masterSong.masterBpm / part.bpm;
+            diffBetweenMasterAndPart = composition.masterBpm / part.bpm;
             audioInstruction.setInterpolatedRate(diffBetweenMasterAndPart, diffBetweenMasterAndPart);
             instructions.append(audioInstruction);
         }
     }
 
     public void play(Float startCue) throws Exception {
-        Float startCueInMillis = (startCue * 44100 * 60)/ masterSong.masterBpm;
+        Float startCueInMillis = (startCue * 44100 * 60)/ composition.masterBpm;
         renderer = new Renderer(instructions);
         AudioTarget target = new AudioPlaybackTarget();
         renderer.addRenderer(new AudioRenderer(target));
@@ -53,7 +53,7 @@ public class PlayStuff {
         renderer.stop();
     }
 
-    public void setMasterSong(MasterSong masterSong) {
-        this.masterSong = masterSong;
+    public void setMasterSong(Composition composition) {
+        this.composition = composition;
     }
 }

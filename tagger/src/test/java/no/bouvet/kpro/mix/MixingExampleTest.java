@@ -41,24 +41,25 @@ public class MixingExampleTest {
 
 
         Float startMixinAt = 32F;
-        parts.add(new Part(returning, startMixinAt + -1F, startMixinAt + 16F, returning.segments.get(4)));
+        List<Segment> returningSegments = returning.segments;
+        parts.add(new Part(returning, startMixinAt + -1F, startMixinAt + 16F, returningSegments.get(4)));
 
         startMixinAt += 64F;
         parts.add(new Part(space, 80F, 96F, space.segments.get(1)));
         
-        parts.add(new Part(returning, startMixinAt + -8.05F, startMixinAt + -6.7F, returning.segments.get(7)));
-        parts.add(new Part(returning, startMixinAt + -6.05F, startMixinAt + -4.7F, returning.segments.get(7)));
-        parts.add(new Part(returning, startMixinAt + -4.05F, startMixinAt + -3.2F, returning.segments.get(7)));
-        parts.add(new Part(returning, startMixinAt + -3F, startMixinAt + -2.2F, returning.segments.get(7)));
-        parts.add(new Part(returning, startMixinAt + -2F, startMixinAt + -1.2F, returning.segments.get(7)));
-        parts.add(new Part(returning, startMixinAt + -1F, startMixinAt + -0.2F, returning.segments.get(7)));
-        parts.add(new Part(returning, startMixinAt + 0F, startMixinAt + 128F, returning.segments.get(7)));
+        parts.add(new Part(returning, startMixinAt + -8.05F, startMixinAt + -6.7F, returningSegments.get(7)));
+        parts.add(new Part(returning, startMixinAt + -6.05F, startMixinAt + -4.7F, returningSegments.get(7)));
+        parts.add(new Part(returning, startMixinAt + -4.05F, startMixinAt + -3.2F, returningSegments.get(7)));
+        parts.add(new Part(returning, startMixinAt + -3F, startMixinAt + -2.2F, returningSegments.get(7)));
+        parts.add(new Part(returning, startMixinAt + -2F, startMixinAt + -1.2F, returningSegments.get(7)));
+        parts.add(new Part(returning, startMixinAt + -1F, startMixinAt + -0.2F, returningSegments.get(7)));
+        parts.add(new Part(returning, startMixinAt + 0F, startMixinAt + 128F, returningSegments.get(7)));
 
 
         
 
         PlayStuff player = new PlayStuff();
-        player.setMasterSong(new MasterSong(135F, parts));
+        player.setMasterSong(new Composition(135F, parts));
         player.init();
         player.play(0F);
     }

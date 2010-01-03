@@ -20,8 +20,8 @@ public class PlayingStuffGroovy {
 
     public void beforeMethod() {
         XStreamParser parser = new XStreamParser();
-        nothing = (SimpleSong) parser.load("/Users/stiglau/kpro/holden-nothing-93_returning_mix.dvl");
-        psylteFlesk = (SimpleSong) parser.load("/Users/stiglau/kpro/loaderror-psylteflesk.dvl");
+        nothing = parser.load("/Users/stiglau/kpro/holden-nothing-93_returning_mix.dvl");
+        psylteFlesk = parser.load("/Users/stiglau/kpro/loaderror-psylteflesk.dvl");
     }
 
 
@@ -33,7 +33,7 @@ public class PlayingStuffGroovy {
           new Part(nothing, 12F, 52F, nothing.segments.get(6))
       ]
         PlayStuff playStuff = new PlayStuff();
-        playStuff.setMasterSong(new MasterSong(130F, parts));
+        playStuff.setMasterSong(new Composition(130F, parts));
         playStuff.init();
         playStuff.play(0F);
     }
