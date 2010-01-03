@@ -24,8 +24,8 @@
     <module>renderer.lyric</module>
     <!-- <module>gui</module> The QT Jambi GUI has been discontinued as a part of the standard core library -->
       <!-- Not part of the core -->
-    <module>tagger</module>
-    <module>mixer</module>
+      <module>tagger-model</module>
+      <module>tagger</module>
   </modules>
 
   <!-- Common dependency management-->
@@ -62,9 +62,9 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>no.bouvet.kpro</groupId>
-                <artifactId>mixer</artifactId>
-                <version>${project.version}</version>
+                <groupId>no.lau.vaudeville</groupId>
+                <artifactId>tagger-model</artifactId>
+                <version>0.3</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
@@ -90,18 +90,18 @@
     </dependencies>
 
     <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <encoding>UTF-8</encoding>
-          <source>1.5</source>
-          <target>1.5</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <scm>
         <connection>scm:svn:https://java.bouvet.no/repos/playground/trunk/stig.lau/kpro2007</connection>
         <url>https://java.bouvet.no/repos/playground/trunk/stig.lau/kpro2007</url>
