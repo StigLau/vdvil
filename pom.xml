@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>no.bouvet.kpro</groupId>
   <artifactId>root</artifactId>
-  <version>0.2-SNAPSHOT</version>
+  <version>0.2</version>
   <packaging>pom</packaging>
   <name>kpro: Root</name>
 
@@ -22,19 +22,19 @@
     <module>renderer</module>
     <module>renderer.audio</module>
     <module>renderer.lyric</module>
-    <module>gui</module>
+    <!-- <module>gui</module> The QT Jambi GUI has been discontinued as a part of the standard core library -->
+      <!-- Not part of the core -->
     <module>tagger</module>
     <module>mixer</module>
-    <module>factorymagic</module>
   </modules>
 
-  <!-- Felles dependency management for h�ndtering av versjoner - slipper � skrive dette spesielt for undermoduler -->
+  <!-- Common dependency management-->
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>no.bouvet.topicmap</groupId>
                 <artifactId>topicmapapi</artifactId>
-                <version>0.1</version>
+                <version>0.2</version>
             </dependency>
             <dependency>
                 <groupId>no.bouvet.kpro</groupId>
@@ -103,7 +103,7 @@
     </plugins>
   </build>
     <scm>
-        <connection>scm:svn:https://java.bouvet.no/repos/playground/tags/root-0.2</connection>
-        <url>https://java.bouvet.no/repos/playground/tags/root-0.2</url>
+        <connection>scm:svn:https://java.bouvet.no/repos/playground/trunk/stig.lau/kpro2007</connection>
+        <url>https://java.bouvet.no/repos/playground/trunk/stig.lau/kpro2007</url>
     </scm>
 </project>
