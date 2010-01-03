@@ -8,9 +8,14 @@ public class MasterSong implements IPart {
 
     //public String label;
 
-    public List<Part> parts = new ArrayList<Part>();
+    public final List<Part> parts;
 
-    public Float masterBpm;
+    public final Float masterBpm;
+
+    public MasterSong(Float masterBpm, List<Part> parts) {
+        this.masterBpm = masterBpm;
+        this.parts = parts;
+    }
 
     public List<? extends IPart> children() {
         return parts;

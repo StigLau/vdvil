@@ -3,7 +3,8 @@ package no.bouvet.kpro.mix;
 import no.bouvet.kpro.tagger.model.*;
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.bouvet.kpro.tagger.PlayStuff;
-import static no.bouvet.kpro.tagger.PartCreationUtil.createPart;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JavaZoneTest {
 
@@ -33,26 +34,24 @@ public class JavaZoneTest {
 
 
     public void testPlayingSomeStuff() throws Exception {
-        MasterSong composition = new MasterSong();
-
-        composition.masterBpm = 150F;
-        composition.parts.add(createPart(not_alone, 0F, 32F, not_alone.segments.get(0)));
-        composition.parts.add(createPart(scares_me, 16F, 48F, scares_me.segments.get(2)));
-        composition.parts.add(createPart(not_alone, 32F, 70F, not_alone.segments.get(1)));
-        composition.parts.add(createPart(scares_me, 48F, 64F, scares_me.segments.get(2)));
-        composition.parts.add(createPart(scares_me, 64F, 112F, scares_me.segments.get(4)));
-        composition.parts.add(createPart(returning, 96F, 140F, returning.segments.get(4)));
-        composition.parts.add(createPart(returning, 96F, 140F, returning.segments.get(4)));
-        composition.parts.add(createPart(returning, 128F, 174F, returning.segments.get(6)));
-        composition.parts.add(createPart(returning, 144F, 174.5F, returning.segments.get(9)));
-        composition.parts.add(createPart(returning, 174F, 175.5F, returning.segments.get(10)));
-        composition.parts.add(createPart(returning, 175F, 176.5F, returning.segments.get(11)));
-        composition.parts.add(createPart(returning, 176F, 240F, returning.segments.get(12)));
-        composition.parts.add(createPart(scares_me, 208F, 224F, scares_me.segments.get(12)));
-        composition.parts.add(createPart(scares_me, 224F, 252F, scares_me.segments.get(13)));
+        List<Part> parts = new ArrayList<Part>();
+        parts.add(new Part(not_alone, 0F, 32F, not_alone.segments.get(0)));
+        parts.add(new Part(scares_me, 16F, 48F, scares_me.segments.get(2)));
+        parts.add(new Part(not_alone, 32F, 70F, not_alone.segments.get(1)));
+        parts.add(new Part(scares_me, 48F, 64F, scares_me.segments.get(2)));
+        parts.add(new Part(scares_me, 64F, 112F, scares_me.segments.get(4)));
+        parts.add(new Part(returning, 96F, 140F, returning.segments.get(4)));
+        parts.add(new Part(returning, 96F, 140F, returning.segments.get(4)));
+        parts.add(new Part(returning, 128F, 174F, returning.segments.get(6)));
+        parts.add(new Part(returning, 144F, 174.5F, returning.segments.get(9)));
+        parts.add(new Part(returning, 174F, 175.5F, returning.segments.get(10)));
+        parts.add(new Part(returning, 175F, 176.5F, returning.segments.get(11)));
+        parts.add(new Part(returning, 176F, 240F, returning.segments.get(12)));
+        parts.add(new Part(scares_me, 208F, 224F, scares_me.segments.get(12)));
+        parts.add(new Part(scares_me, 224F, 252F, scares_me.segments.get(13)));
 
         PlayStuff player = new PlayStuff();
-        player.setMasterSong(composition);
+        player.setMasterSong(new MasterSong(150F, parts));
         player.init();
         player.play(0F);
     }

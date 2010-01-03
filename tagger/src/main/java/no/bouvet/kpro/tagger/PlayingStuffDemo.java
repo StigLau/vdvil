@@ -2,7 +2,9 @@ package no.bouvet.kpro.tagger;
 
 import no.bouvet.kpro.tagger.model.*;
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
-import static no.bouvet.kpro.tagger.PartCreationUtil.createPart;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayingStuffDemo {
 
@@ -23,14 +25,14 @@ public class PlayingStuffDemo {
 
     public void beforeMethod() {
         XStreamParser parser = new XStreamParser();
-        returning = parser.load("/Users/stiglau/kpro/holden-nothing-93_returning_mix.dvl_oldFormat");
-        unfinished_sympathy = parser.load("/Users/stiglau/kpro/unfinished_sympathy.dvl_backup");
+        returning = parser.load("/Users/stiglau/kpro/holden-nothing-93_returning_mix.dvl");
+        unfinished_sympathy = parser.load("/Users/stiglau/kpro/unfinished_sympathy.dvl");
 
     }
 
 
     public PlayStuff createPlayStuff(){
-        MasterSong master = new MasterSong();
+
         /*
         master.setMasterBpm(130F);
         master.addPart(createPart(unfinished_sympathy, 0F, 16F, unfinished_sympathy.segments.get(3)));
@@ -38,17 +40,17 @@ public class PlayingStuffDemo {
         master.addPart(createPart(returning, 32F, 48F, returning.segments.get(6)));
         master.addPart(createPart(unfinished_sympathy, 32F, 64F, unfinished_sympathy.segments.get(8)));
 */
-        master.masterBpm = 160F;
-        master.parts.add(createPart(returning, 0F, 16F, returning.segments.get(3)));
-        master.parts.add(createPart(returning, 12F, 32F, returning.segments.get(6)));
-        master.parts.add(createPart(returning, 32F, 62.5F, returning.segments.get(9)));
-        master.parts.add(createPart(returning, 62F, 63.5F, returning.segments.get(10)));
-        master.parts.add(createPart(returning, 63F, 64.5F, returning.segments.get(11)));
-        master.parts.add(createPart(returning, 64F, 128F, returning.segments.get(12)));
-        master.parts.add(createPart(returning, 128F, 256F, returning.segments.get(14)));
+        List<Part> parts = new ArrayList<Part>();
+        parts.add(new Part(returning, 0F, 16F, returning.segments.get(3)));
+        parts.add(new Part(returning, 12F, 32F, returning.segments.get(6)));
+        parts.add(new Part(returning, 32F, 62.5F, returning.segments.get(9)));
+        parts.add(new Part(returning, 62F, 63.5F, returning.segments.get(10)));
+        parts.add(new Part(returning, 63F, 64.5F, returning.segments.get(11)));
+        parts.add(new Part(returning, 64F, 128F, returning.segments.get(12)));
+        parts.add(new Part(returning, 128F, 256F, returning.segments.get(14)));
 
-        PlayStuff playStuff = new PlayStuff();                                                      
-        playStuff.setMasterSong(master);
+        PlayStuff playStuff = new PlayStuff();
+        playStuff.setMasterSong(new MasterSong(160F, parts));
         return playStuff;
     }
 }

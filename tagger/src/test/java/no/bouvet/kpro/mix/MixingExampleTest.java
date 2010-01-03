@@ -3,7 +3,8 @@ package no.bouvet.kpro.mix;
 import no.bouvet.kpro.tagger.model.*;
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.bouvet.kpro.tagger.PlayStuff;
-import static no.bouvet.kpro.tagger.PartCreationUtil.createPart;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MixingExampleTest {
 
@@ -35,31 +36,29 @@ public class MixingExampleTest {
 
 
     public void testPlayingSomeStuff() throws Exception {
-        MasterSong composition = new MasterSong();
-
-        composition.masterBpm = (135F);
-        composition.parts.add(createPart(space, 0F, 96F, space.segments.get(0)));
+        List<Part> parts = new ArrayList<Part>();
+        parts.add(new Part(space, 0F, 96F, space.segments.get(0)));
 
 
         Float startMixinAt = 32F;
-        composition.parts.add(createPart(returning, startMixinAt + -1F, startMixinAt + 16F, returning.segments.get(4)));
+        parts.add(new Part(returning, startMixinAt + -1F, startMixinAt + 16F, returning.segments.get(4)));
 
         startMixinAt += 64F;
-        composition.parts.add(createPart(space, 80F, 96F, space.segments.get(1)));
+        parts.add(new Part(space, 80F, 96F, space.segments.get(1)));
         
-        composition.parts.add(createPart(returning, startMixinAt + -8.05F, startMixinAt + -6.7F, returning.segments.get(7)));
-        composition.parts.add(createPart(returning, startMixinAt + -6.05F, startMixinAt + -4.7F, returning.segments.get(7)));
-        composition.parts.add(createPart(returning, startMixinAt + -4.05F, startMixinAt + -3.2F, returning.segments.get(7)));
-        composition.parts.add(createPart(returning, startMixinAt + -3F, startMixinAt + -2.2F, returning.segments.get(7)));
-        composition.parts.add(createPart(returning, startMixinAt + -2F, startMixinAt + -1.2F, returning.segments.get(7)));
-        composition.parts.add(createPart(returning, startMixinAt + -1F, startMixinAt + -0.2F, returning.segments.get(7)));
-        composition.parts.add(createPart(returning, startMixinAt + 0F, startMixinAt + 128F, returning.segments.get(7)));
+        parts.add(new Part(returning, startMixinAt + -8.05F, startMixinAt + -6.7F, returning.segments.get(7)));
+        parts.add(new Part(returning, startMixinAt + -6.05F, startMixinAt + -4.7F, returning.segments.get(7)));
+        parts.add(new Part(returning, startMixinAt + -4.05F, startMixinAt + -3.2F, returning.segments.get(7)));
+        parts.add(new Part(returning, startMixinAt + -3F, startMixinAt + -2.2F, returning.segments.get(7)));
+        parts.add(new Part(returning, startMixinAt + -2F, startMixinAt + -1.2F, returning.segments.get(7)));
+        parts.add(new Part(returning, startMixinAt + -1F, startMixinAt + -0.2F, returning.segments.get(7)));
+        parts.add(new Part(returning, startMixinAt + 0F, startMixinAt + 128F, returning.segments.get(7)));
 
 
         
 
         PlayStuff player = new PlayStuff();
-        player.setMasterSong(composition);
+        player.setMasterSong(new MasterSong(135F, parts));
         player.init();
         player.play(0F);
     }
