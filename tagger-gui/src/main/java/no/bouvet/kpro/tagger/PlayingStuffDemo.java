@@ -51,8 +51,6 @@ public class PlayingStuffDemo {
         parts.add(new Part(returning, 64F, 128F, returning.segments.get(12)));
         parts.add(new Part(returning, 128F, 256F, returning.segments.get(14)));
 
-        PlayStuff playStuff = new PlayStuff();
-        playStuff.setMasterSong(new Composition(160F, parts));
-        return playStuff;
+        return new PlayStuff(new Composition(160F, parts));
     }
 }

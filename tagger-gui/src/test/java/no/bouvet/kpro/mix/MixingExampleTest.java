@@ -22,7 +22,9 @@ public class MixingExampleTest {
         MixingExampleTest test = new MixingExampleTest();
         test.beforeMethod();
         try {
-            test.testPlayingSomeStuff();
+            PlayStuff player = test.testPlayingSomeStuff();
+            player.init();
+            player.play(0F);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -35,14 +37,12 @@ public class MixingExampleTest {
         not_alone = parser.load("/Users/stiglau/kpro/olive-youre_not_alone.dvl");
         scares_me = parser.load("/Users/stiglau/kpro/christian_cambas-it_scares_me.dvl");
         space = parser.load("/Users/stiglau/kpro/space_manoeuvres-stage_one_original.dvl");
-
     }
 
 
-    public void testPlayingSomeStuff() throws Exception {
+    public PlayStuff testPlayingSomeStuff() throws Exception {
         List<Part> parts = new ArrayList<Part>();
         parts.add(new Part(space, 0F, 96F, space.segments.get(0)));
-
 
         Float startMixinAt = 32F;
         List<Segment> returningSegments = returning.segments;
@@ -59,12 +59,6 @@ public class MixingExampleTest {
         parts.add(new Part(returning, startMixinAt + -1F, startMixinAt + -0.2F, returningSegments.get(7)));
         parts.add(new Part(returning, startMixinAt + 0F, startMixinAt + 128F, returningSegments.get(7)));
 
-
-        
-
-        PlayStuff player = new PlayStuff();
-        player.setMasterSong(new Composition(135F, parts));
-        player.init();
-        player.play(0F);
+        return new PlayStuff(new Composition(135F, parts));
     }
 }

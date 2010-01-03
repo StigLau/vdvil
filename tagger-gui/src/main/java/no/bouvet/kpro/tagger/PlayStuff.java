@@ -54,7 +54,7 @@ public class PlayStuff {
         renderer.stop();
     }
 
-    public void setMasterSong(Composition composition) {
+    public PlayStuff(Composition composition) {
         this.composition = composition;
     }
 }
