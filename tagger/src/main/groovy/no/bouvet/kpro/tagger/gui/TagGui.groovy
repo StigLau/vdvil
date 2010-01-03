@@ -8,7 +8,9 @@ import groovy.swing.SwingBuilder
 import no.bouvet.kpro.tagger.PlayerBase
 import no.bouvet.kpro.tagger.model.SimpleSong
 import no.bouvet.kpro.tagger.persistence.XStreamParser
-
+/**
+ * Note - to make the TagGUI functional, it can be necessary to make a small change to the file and recompile.
+ */
 class TagGui {
     def swing = new SwingBuilder()
     JTextField bpmText
@@ -57,8 +59,7 @@ class TagGui {
     }
 
     public static void main(String[] args) {
-        def tagGui = new TagGui()
-        tagGui.createGui()
+        new TagGui().createGui()
         println "Tagger Started "
     }
 }
