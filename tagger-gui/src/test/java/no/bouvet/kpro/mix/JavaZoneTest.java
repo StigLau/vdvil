@@ -20,8 +20,7 @@ public class JavaZoneTest {
         JavaZoneTest test = new JavaZoneTest();
         test.beforeMethod();
         try {
-            PlayStuff player = test.testPlayingSomeStuff();
-            player.init();
+            PlayStuff player = new PlayStuff(new Composition(150F, test.parts()));
             player.play(0F);
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,7 +37,7 @@ public class JavaZoneTest {
     }
 
 
-    public PlayStuff testPlayingSomeStuff() throws Exception {
+    public List<Part> parts() throws Exception {
         List<Part> parts = new ArrayList<Part>();
         parts.add(new Part(not_alone, 0F, 32F, not_alone.segments.get(0)));
         parts.add(new Part(scares_me, 16F, 48F, scares_me.segments.get(2)));
@@ -55,6 +54,6 @@ public class JavaZoneTest {
         parts.add(new Part(scares_me, 208F, 224F, scares_me.segments.get(12)));
         parts.add(new Part(scares_me, 224F, 252F, scares_me.segments.get(13)));
 
-        return new PlayStuff(new Composition(150F, parts));
+        return parts;
     }
 }

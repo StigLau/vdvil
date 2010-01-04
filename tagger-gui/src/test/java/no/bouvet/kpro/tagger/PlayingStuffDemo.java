@@ -16,9 +16,8 @@ public class PlayingStuffDemo {
     public static void main(String[] args) {
         PlayingStuffDemo test = new PlayingStuffDemo();
         test.beforeMethod();
-        PlayStuff playStuff = new PlayStuff(new Composition(160F, test.parts()));
         try {
-            playStuff.init();
+            PlayStuff playStuff = new PlayStuff(new Composition(160F, test.parts()));
             playStuff.play(0F);
         } catch (Exception e) {
             e.printStackTrace();  

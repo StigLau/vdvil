@@ -22,8 +22,8 @@ public class MixingExampleTest {
         MixingExampleTest test = new MixingExampleTest();
         test.beforeMethod();
         try {
-            PlayStuff player = test.testPlayingSomeStuff();
-            player.init();
+            PlayStuff player = new PlayStuff(new Composition(135F, test.parts()));
+
             player.play(0F);
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,7 +40,7 @@ public class MixingExampleTest {
     }
 
 
-    public PlayStuff testPlayingSomeStuff() throws Exception {
+    public List<Part> parts() throws Exception {
         List<Part> parts = new ArrayList<Part>();
         parts.add(new Part(space, 0F, 96F, space.segments.get(0)));
 
@@ -58,7 +58,6 @@ public class MixingExampleTest {
         parts.add(new Part(returning, startMixinAt + -2F, startMixinAt + -1.2F, returningSegments.get(7)));
         parts.add(new Part(returning, startMixinAt + -1F, startMixinAt + -0.2F, returningSegments.get(7)));
         parts.add(new Part(returning, startMixinAt + 0F, startMixinAt + 128F, returningSegments.get(7)));
-
-        return new PlayStuff(new Composition(135F, parts));
+        return parts;
     }
 }
