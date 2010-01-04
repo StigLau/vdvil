@@ -25,5 +25,11 @@
             <groupId>no.bouvet.kpro</groupId>
             <artifactId>persistence</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>no.lau.vaudeville</groupId>
+            <artifactId>tagger-gui</artifactId>
+            <version>0.3</version>
+        </dependency>
     </dependencies>
 </project>

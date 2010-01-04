@@ -37,8 +37,6 @@ public class LyricRendererGUITest {
             }
         });
 
-        
-
         LyricTopicMapInstructions instructions = new LyricTopicMapInstructions(new TopicMapEvent("https://wiki.bouvet.no/snap_vs_corona"));
 
         Renderer renderer = new Renderer(instructions);
