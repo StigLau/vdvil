@@ -1,17 +1,17 @@
-package no.vdvil.renderer.simple;
+package no.bouvet.kpro;
 
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.Renderer;
 import no.bouvet.kpro.renderer.simple.LyricGUI;
 import no.bouvet.kpro.renderer.simple.LyricRenderer;
+import no.bouvet.kpro.renderer.simple.LyricPart;
 import no.bouvet.kpro.renderer.audio.*;
 import no.bouvet.kpro.tagger.PlayStuff;
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.lau.tagger.model.Composition;
-import no.lau.tagger.model.LyricPart;
 import no.lau.tagger.model.Part;
 import no.lau.tagger.model.SimpleSong;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;

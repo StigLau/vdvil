@@ -1,4 +1,4 @@
-package no.vdvil.renderer.simple;
+package no.bouvet.kpro;
 
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.bouvet.kpro.tagger.PlayStuff;
@@ -14,7 +14,7 @@ public class SoundTest {
         PlayStuff player = new PlayStuff(new Composition(135F, SoundTest.parts()));
         try {
             player.play(0F);
-            Thread.sleep(120000);
+            Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
         }finally {

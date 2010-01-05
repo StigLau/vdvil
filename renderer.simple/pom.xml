@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>no.lau.vaudeville</groupId>
-            <artifactId>tagger-gui</artifactId>
+            <artifactId>tagger-model</artifactId>
             <version>0.3</version>
         </dependency>
     </dependencies>

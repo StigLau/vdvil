@@ -2,7 +2,6 @@ package no.bouvet.kpro.renderer.simple;
 
 import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Instruction;
-import no.bouvet.kpro.renderer.SimpleLyricInstruction;
 
 public class LyricRenderer extends AbstractRenderer
 {
