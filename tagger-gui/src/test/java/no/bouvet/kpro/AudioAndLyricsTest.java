@@ -12,23 +12,32 @@ import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AbstractPart;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.SimpleSong;
-import org.testng.annotations.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Simple test for setting up a test of lyric/GUI and music
+ */
 public class AudioAndLyricsTest {
 
-    @Test
-    public void testFullRendering() throws Exception {
+    final LyricGUI lyricGUI = createLyricGUI();
+
+    public static void main(String[] args) {
+        try {
+            new AudioAndLyricsTest().setUpStuff();
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void setUpStuff() throws Exception {
         Composition composition = new Composition(135F, parts());
         Instructions instructions = PlayStuff.createInstructionsFromParts(composition);
 
         AudioTarget target = new AudioPlaybackTarget();
         Renderer renderer = null;
 
-        final LyricGUI lyricGUI = createLyricGUI();
+
 
         try {
             System.out.println("Duration Time: " + instructions.getDuration() / Renderer.RATE + " seconds");
@@ -90,5 +99,4 @@ public class AudioAndLyricsTest {
         parts.add(new AudioPart(returning, 128F, 256F, returning.segments.get(14)));
         return parts;
     }
-
 }
