@@ -1,4 +1,4 @@
-package no.bouvet.kpro.renderer.lyric;
+package no.bouvet.kpro.renderer.simple;
 
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.model.Event;

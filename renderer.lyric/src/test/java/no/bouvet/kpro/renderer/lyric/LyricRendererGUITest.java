@@ -1,7 +1,6 @@
-package no.bouvet.kpro.renderer.lyric;
+package no.bouvet.kpro.renderer.simple;
 
 import org.junit.Test;
-import org.apache.log4j.Logger;
 import no.bouvet.kpro.model.stigstest.TopicMapEvent;
 import no.bouvet.kpro.renderer.Renderer;
 
