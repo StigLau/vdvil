@@ -4,10 +4,10 @@ import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Renderer;
 
 
-public class SimpleLyricInstruction extends Instruction {
+public class LyricInstruction extends Instruction {
     public final String text;
 
-    public SimpleLyricInstruction(Float start, Float end, float bpm, final String text) {
+    public LyricInstruction(Float start, Float end, float bpm, final String text) {
         this.text = text;
         float speedFactor = Renderer.RATE * 60 / bpm;
 

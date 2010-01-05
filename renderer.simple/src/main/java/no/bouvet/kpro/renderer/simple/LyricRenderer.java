@@ -12,12 +12,12 @@ public class LyricRenderer extends AbstractRenderer
     }
 
     public void handleInstruction(int time, Instruction instruction) {
-        if (instruction instanceof SimpleLyricInstruction) {
-            shoutHello((SimpleLyricInstruction) instruction);
+        if (instruction instanceof LyricInstruction) {
+            shoutHello((LyricInstruction) instruction);
         }
     }
 
-    private void shoutHello(final SimpleLyricInstruction lyricInstruction) {
+    private void shoutHello(final LyricInstruction lyricInstruction) {
         for (LyricListener lyricListener : listener) {
             if (lyricListener instanceof LyricGUI) {
                 final LyricGUI lyricGUI = (LyricGUI) lyricListener;

@@ -26,7 +26,7 @@ public class LyricPart extends AbstractPart {
 
     @Override
     public Instruction translateToInstruction(Float masterBpm) {
-        return new SimpleLyricInstruction(startCue, endCue, masterBpm, text);
+        return new LyricInstruction(startCue, endCue, masterBpm, text);
     }
 
     public List<? extends IPart> children() {
