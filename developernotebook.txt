@@ -1,17 +1,12 @@
 Notes when programming Vdvil
 
-* When using MAC: 
-Set Program parameters (or java runtime) to -XstartOnFirstThread
+h2. Romjula 2009/2010
+ * Immense cleanup job of old KPRO2007 project
+ * Removed lots of stale code
+ * Simplifyed usage of Vaudeville renderers and playback to a sleek sexy API
+ * Moved project from internal to GitHub repository
 
-* To refresh topicmap: 
-** Press upper right save. Make sure the topicmap is saved to kpro2007/persistence/src/main/resources/topicmaps/musikk.xtm
-** persistence/mvn clean compile
-
-For development: 
-mvn clean install -Dmaven.test.skip=true idea:clean idea:idea
-
-Ting som må ordnes med kpro
-
-* Mangler en referanse mellom snap vs corona og Rythm/Baby
-* Lydstyrke og BPM må skilles ut i egne topics
-* Starttime må byttes ut med en ny topic - reference eller no, som peker til hvor man finner begynnelsen av et soundtrack, text osv.
+Todo's
+ * Some tests depend on .dvl and .mp3 files that should be part of the project so anyone can build without errors in tests
+  * Introduce Psylteflesk .dvl/.mp3
+ * Create API for describing how resources (.mp3s, videos aso) can be downloaded and locally cached, and referenced by the renderers.
