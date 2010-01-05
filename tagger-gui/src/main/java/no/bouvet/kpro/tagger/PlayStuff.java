@@ -3,7 +3,7 @@ package no.bouvet.kpro.tagger;
 import no.bouvet.kpro.renderer.*;
 import no.bouvet.kpro.renderer.audio.*;
 import no.lau.tagger.model.Composition;
-import no.lau.tagger.model.Part;
+import no.lau.tagger.model.AbstractPart;
 
 /**
  * This is the master class, responsible for playing a small demoset of VDVIL music
@@ -21,7 +21,7 @@ public class PlayStuff {
 
     public static Instructions createInstructionsFromParts(Composition composition) throws Exception {
         Instructions instructions = new Instructions();
-        for (Part part : composition.parts) {
+        for (AbstractPart part : composition.parts) {
             instructions.append(part.translateToInstruction(composition.masterBpm));
         }
         return instructions;

@@ -20,6 +20,11 @@
             <version>0.2</version>
         </dependency>
         <dependency>
+            <groupId>no.bouvet.kpro</groupId>
+            <artifactId>renderer.simple</artifactId>
+            <version>0.2</version>
+        </dependency>
+        <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
             <version>1.6.4</version>

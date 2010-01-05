@@ -2,9 +2,9 @@ package no.bouvet.kpro.tagger;
 
 
 import no.bouvet.kpro.tagger.persistence.XStreamParser
-import no.lau.tagger.model.Part
+import no.lau.tagger.model.AudioPart
 import no.lau.tagger.model.SimpleSong
-import no.lau.tagger.model.Composition;
+import no.lau.tagger.model.Composition
 
 public class PlayingStuffGroovy {
 
@@ -30,14 +30,12 @@ public class PlayingStuffGroovy {
 
     public void testPlayingSomeStuff() throws Exception {
       def parts = [
-          new Part(nothing, 0F, 20F, nothing.segments.get(3)),
-          new Part(nothing, 19.99F, 32F, nothing.segments.get(3)),
-          new Part(psylteFlesk, 8F, 16F, psylteFlesk.segments.get(4)),
-          new Part(nothing, 12F, 52F, nothing.segments.get(6))
+          new AudioPart(nothing, 0F, 20F, nothing.segments.get(3)),
+          new AudioPart(nothing, 19.99F, 32F, nothing.segments.get(3)),
+          new AudioPart(psylteFlesk, 8F, 16F, psylteFlesk.segments.get(4)),
+          new AudioPart(nothing, 12F, 52F, nothing.segments.get(6))
       ]
-        PlayStuff playStuff = new PlayStuff();
-        playStuff.setMasterSong(new Composition(130F, parts));
-        playStuff.init();
+        PlayStuff playStuff = new PlayStuff((new Composition(130F, parts)));
         playStuff.play(0F);
     }
 }

@@ -8,11 +8,11 @@ import java.util.List;
  * The masterBPM is used to tell what all the different parts speed should be played at.
  */
 public class Composition implements IPart {
-    public final List<Part> parts;
+    public final List<? extends AbstractPart> parts;
 
     public final Float masterBpm;
 
-    public Composition(Float masterBpm, List<Part> parts) {
+    public Composition(Float masterBpm, List<? extends AbstractPart> parts) {
         this.masterBpm = masterBpm;
         this.parts = parts;
     }
