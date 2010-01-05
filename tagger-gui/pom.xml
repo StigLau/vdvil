@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>no.bouvet.kpro</groupId>
-            <artifactId>renderer.simple</artifactId>
+            <artifactId>renderer.lyric</artifactId>
             <version>0.2</version>
         </dependency>
         <dependency>
