@@ -1,4 +1,4 @@
-package no.bouvet.kpro.renderer.simple;
+package no.vdvil.renderer.lyric;
 
 import no.lau.tagger.model.AbstractPart;
 import no.lau.tagger.model.IPart;

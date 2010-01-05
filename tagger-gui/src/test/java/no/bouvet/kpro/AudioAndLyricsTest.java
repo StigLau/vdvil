@@ -2,9 +2,9 @@ package no.bouvet.kpro;
 
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.Renderer;
-import no.bouvet.kpro.renderer.simple.LyricGUI;
-import no.bouvet.kpro.renderer.simple.LyricRenderer;
-import no.bouvet.kpro.renderer.simple.LyricPart;
+import no.vdvil.renderer.lyric.LyricGUI;
+import no.vdvil.renderer.lyric.LyricRenderer;
+import no.vdvil.renderer.lyric.LyricPart;
 import no.bouvet.kpro.renderer.audio.*;
 import no.bouvet.kpro.tagger.PlayStuff;
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
