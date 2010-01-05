@@ -19,10 +19,6 @@
         </dependency>
         <dependency>
             <groupId>no.bouvet.kpro</groupId>
-            <artifactId>model</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.bouvet.kpro</groupId>
             <artifactId>persistence</artifactId>
         </dependency>
 
