@@ -22,12 +22,9 @@
             <artifactId>renderer</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.bouvet.kpro</groupId>
-            <artifactId>model</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.bouvet.kpro</groupId>
-            <artifactId>persistence</artifactId>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
         </dependency>
     </dependencies>
 </project>
