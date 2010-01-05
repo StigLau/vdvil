@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>renderer.lyric</artifactId>
+    <packaging>jar</packaging>
+    <name>kpro: Lyric Renderer</name>
+
+    <parent>
+        <groupId>no.bouvet.kpro</groupId>
+        <artifactId>root</artifactId>
+        <version>0.2</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>no.bouvet.kpro</groupId>
+            <artifactId>renderer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.lau.vaudeville</groupId>
+            <artifactId>tagger-model</artifactId>
+            <version>0.3</version>
+        </dependency>
+    </dependencies>
+</project>
