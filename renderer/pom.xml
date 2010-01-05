@@ -11,10 +11,4 @@
     <version>0.2</version>
   </parent>
 
-  <dependencies>
-    <dependency>
-      <groupId>no.bouvet.kpro</groupId>
-      <artifactId>model</artifactId>
-    </dependency>
-  </dependencies>
 </project>

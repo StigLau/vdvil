@@ -16,11 +16,6 @@
         
         <dependency>
             <groupId>no.bouvet.kpro</groupId>
-            <artifactId>renderer</artifactId>
-            <version>0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>no.bouvet.kpro</groupId>
             <artifactId>renderer.audio</artifactId>
             <version>0.2</version>
         </dependency>

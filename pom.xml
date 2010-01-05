@@ -16,8 +16,6 @@
   </repositories>
 
   <modules>
-    <module>model</module>
-    <module>persistence</module>
     <module>renderer</module>
     <module>renderer.audio</module>
     <module>renderer.lyric</module>
@@ -52,24 +50,15 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>no.bouvet.kpro</groupId>
-                <artifactId>model</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>no.bouvet.kpro</groupId>
-                <artifactId>persistence</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>no.lau.vaudeville</groupId>
-                <artifactId>tagger-model</artifactId>
-                <version>0.3</version>
-            </dependency>
-            <dependency>
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-all</artifactId>
-                <version>1.6-beta-1</version>
+                <version>1.6.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>5.10</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -77,14 +66,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.4</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>5.7</version>
-            <classifier>jdk15</classifier>
+            <version>4.7</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
