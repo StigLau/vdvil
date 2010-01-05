@@ -1,4 +1,4 @@
-package no.vdvil;
+package no.vdvil.renderer.simple;
 
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.Renderer;

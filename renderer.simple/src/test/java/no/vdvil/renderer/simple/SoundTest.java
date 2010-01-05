@@ -1,4 +1,4 @@
-package no.vdvil;
+package no.vdvil.renderer.simple;
 
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.bouvet.kpro.tagger.PlayStuff;
