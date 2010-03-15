@@ -1,6 +1,7 @@
 package no.bouvet.kpro.tagger;
 
 import no.lau.tagger.model.SimpleSong;
+import no.lau.tagger.model.MediaFile;
 import org.testng.annotations.Test;
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
 
@@ -8,9 +9,13 @@ public class PlayerTest {
 
     @Test
     public void testPlaying() throws Exception {
-        System.out.println("PlayerTest playing Holden and Thompson");
-        SimpleSong simpleSong = new XStreamParser().load(XStreamParser.path + "/holden-nothing-93_returning_mix.dvl");
-        PlayerBase playerBase = new PlayerBase(simpleSong);
+        String dvlFile = this.getClass().getClassLoader().getResource ("loaderror-psylteflesk.dvl").getFile();
+        String mp3File = this.getClass().getClassLoader().getResource ("loaderror-psylteflesk.mp3").getFile();
+
+        SimpleSong s = new XStreamParser().load(dvlFile);
+        SimpleSong simpleSong2 = new SimpleSong(s.reference, new MediaFile(mp3File, s.mediaFile.startingOffset), s.segments, s.bpm);
+
+        PlayerBase playerBase = new PlayerBase(simpleSong2);
         playerBase.playPause(96F, 100F);
         Thread.sleep(4000);
     }

@@ -1,0 +1,87 @@
+<track>
+  <reference>Loaderror psylteFlesk</reference>
+<mediaFile>
+<fileName>/Users/stiglau/kpro/loaderror-psylteflesk.mp3</fileName>
+<startingOffset>1.0</startingOffset>
+</mediaFile>
+
+<bpm>117.4</bpm>
+  
+  <segments>
+    <segment>
+      <text>klokke x2</text>
+      <start>0.0</start>
+      <end>14.0</end>
+    </segment>
+    <segment>
+      <text>klokke + tromme</text>
+      <start>14.0</start>
+      <end>30.0</end>
+    </segment>
+    <segment>
+      <text>klokke + tromme + bass</text>
+      <start>30.0</start>
+      <end>64.0</end>
+    </segment>
+    <segment>
+      <text>static</text>
+      <start>64.0</start>
+      <end>70.0</end>
+    </segment>
+    <segment>
+      <text>tromme + bass</text>
+      <start>70.0</start>
+      <end>102.0</end>
+    </segment>
+    <segment>
+      <text>tromme + bass</text>
+      <start>102.0</start>
+      <end>134.0</end>
+    </segment>
+    <segment>
+      <text>tromme + bass + riff + klokke + static</text>
+      <start>134.0</start>
+      <end>166.0</end>
+    </segment>
+    <segment>
+      <text>tromme + bass + riff</text>
+      <start>166.0</start>
+      <end>198.0</end>
+    </segment>
+    <segment>
+      <text>tromme + bass + riff + klokke + static</text>
+      <start>198.0</start>
+      <end>230.0</end>
+    </segment>
+    <segment>
+      <text>tromme + klokke + static</text>
+      <start>230.0</start>
+      <end>238.0</end>
+    </segment>
+    <segment>
+      <text>klokke x3</text>
+      <start>238.0</start>
+      <end>262.0</end>
+    </segment>
+    <segment>
+      <text>static</text>
+      <start>262.0</start>
+      <end>274.0</end>
+    </segment>
+    <segment>
+      <text></text>
+      <start>0.0</start>
+      <end>0.0</end>
+    </segment>
+    <segment>
+      <text></text>
+      <start>0.0</start>
+      <end>0.0</end>
+    </segment>
+    <segment>
+      <text></text>
+      <start>0.0</start>
+      <end>0.0</end>
+    </segment>
+  </segments>
+</track>

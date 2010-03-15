@@ -31,9 +31,9 @@ public class PlayingStuffGroovy {
     public void testPlayingSomeStuff() throws Exception {
       def parts = [
           new AudioPart(nothing, 0F, 20F, nothing.segments.get(3)),
-          new AudioPart(nothing, 19.99F, 32F, nothing.segments.get(3)),
           new AudioPart(psylteFlesk, 8F, 16F, psylteFlesk.segments.get(4)),
-          new AudioPart(nothing, 12F, 52F, nothing.segments.get(6))
+          new AudioPart(nothing, 12F, 52F, nothing.segments.get(6)),
+          new AudioPart(nothing, 19.99F, 32F, nothing.segments.get(3))
       ]
         PlayStuff playStuff = new PlayStuff((new Composition(130F, parts)));
         playStuff.play(0F);
