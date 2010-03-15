@@ -123,7 +123,7 @@ public class DynamicTimeTable {
     private SimpleSong updateSegmentInSimpleSong(Segment editedSegment, SimpleSong simpleSong) {
         List<Segment> segments = new ArrayList<Segment>();
         for (Segment thisSegment : simpleSong.segments) {
-            if (thisSegment.id.equals(editedSegment.id))
+            if (thisSegment.id != null && thisSegment.id.equals(editedSegment.id))
                 segments.add(editedSegment);
             else
                 segments.add(thisSegment);

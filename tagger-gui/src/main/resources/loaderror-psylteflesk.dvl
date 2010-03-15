@@ -1,12 +1,10 @@
 <track>
   <reference>Loaderror psylteFlesk</reference>
-<mediaFile>
-<fileName>/Users/stiglau/kpro/loaderror-psylteflesk.mp3</fileName>
-<startingOffset>0.31</startingOffset>
-</mediaFile>
-
-<bpm>117.4</bpm>
-  
+  <mediaFile>
+    <fileName>/Users/stiglau/kpro/loaderror-psylteflesk.mp3</fileName>
+    <startingOffset>0.31</startingOffset>
+  </mediaFile>
+  <bpm>117.4</bpm>
   <segments>
     <segment>
       <text>klokke x2</text>
