@@ -24,7 +24,8 @@ public class PlayingStuffGroovy {
     public void beforeMethod() {
         XStreamParser parser = new XStreamParser();
         nothing = parser.load("/Users/stiglau/kpro/holden-nothing-93_returning_mix.dvl");
-        psylteFlesk = parser.load("/Users/stiglau/kpro/loaderror-psylteflesk.dvl");
+        String psylteFleskPath = this.getClass().getClassLoader().getResource ("loaderror-psylteflesk.dvl").getFile();
+        psylteFlesk = parser.load(psylteFleskPath);
     }
 
 
