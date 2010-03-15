@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import no.lau.tagger.model.MediaFile;
 import no.lau.tagger.model.Segment;
@@ -117,13 +118,15 @@ public class DynamicTimeTable {
         panel.add(playButton, "wrap");
     }
 
-    /**
+    /*
      * Creates a new SimpleSong when a segment has changed
      */
     private SimpleSong updateSegmentInSimpleSong(Segment editedSegment, SimpleSong simpleSong) {
         List<Segment> segments = new ArrayList<Segment>();
         for (Segment thisSegment : simpleSong.segments) {
-            if (thisSegment.id != null && thisSegment.id.equals(editedSegment.id))
+            if(thisSegment.id == null)
+                thisSegment = cloneSegmentAndAddId(thisSegment);
+            if (thisSegment.id.equals(editedSegment.id))
                 segments.add(editedSegment);
             else
                 segments.add(thisSegment);
@@ -134,5 +137,9 @@ public class DynamicTimeTable {
                 segments,
                 simpleSong.bpm);
     }
-}
 
+    private Segment cloneSegmentAndAddId(Segment thisSegment) {
+        String id = String.valueOf(Math.abs(new Random().nextLong()));
+        return new Segment(id, thisSegment.start, thisSegment.end, thisSegment.text);
+    }
+}
