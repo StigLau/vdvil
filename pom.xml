@@ -6,6 +6,7 @@
   <packaging>pom</packaging>
   <name>kpro: Root</name>
 
+    <url>http://vdvil.lau.no</url>
 
   <!-- Local (SVN) Maven library repository for libraries that are not found in the sentral repo -->
   <repositories>
@@ -83,8 +84,18 @@
             </plugin>
         </plugins>
     </build>
+
     <scm>
-        <connection>scm:svn:https://java.bouvet.no/repos/playground/trunk/stig.lau/kpro2007</connection>
-        <url>https://java.bouvet.no/repos/playground/trunk/stig.lau/kpro2007</url>
+        <connection>scm:git:ssh://github.com/StigLau/vdvil.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/StigLau/vdvil.git</developerConnection>
+        <url>http://github.com/StigLau/vdvil</url>
     </scm>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
