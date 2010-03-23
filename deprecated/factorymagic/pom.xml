@@ -6,9 +6,9 @@
     <name>FactoryMagic</name>
 
     <parent>
-        <groupId>no.bouvet.kpro</groupId>
+        <groupId>no.lau.vdvil</groupId>
         <artifactId>root</artifactId>
-        <version>0.2</version>
+        <version>0.3-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -17,7 +17,7 @@
             <artifactId>groovy-all</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.bouvet.topicmap</groupId>
+            <groupId>no.lau.topicmap</groupId>
             <artifactId>topicmapapi</artifactId>
         </dependency>
         <dependency>
@@ -40,10 +40,6 @@
         </dependency>
 
         <dependency>
-            <groupId>no.bouvet.topicmap</groupId>
-            <artifactId>topicmapapi</artifactId>
-        </dependency>
-        <dependency>
             <groupId>thaiopensource</groupId>
             <artifactId>jing</artifactId>
             <version>unknown-version</version>
@@ -56,7 +52,7 @@
             <plugin>
                 <groupId>org.codehaus.groovy.maven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
-                <version>1.0-rc-3</version>
+                <version>1.0</version>
                 <executions>
                     <execution>
                         <goals>

@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>no.bouvet.kpro</groupId>
+  <groupId>no.lau.vdvil</groupId>
   <artifactId>root</artifactId>
-  <version>0.2</version>
+  <version>0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>kpro: Root</name>
 
@@ -29,23 +29,25 @@
   <!-- Common dependency management-->
     <dependencyManagement>
         <dependencies>
+            <!--
             <dependency>
-                <groupId>no.bouvet.topicmap</groupId>
+                <groupId>no.lau.topicmap</groupId>
                 <artifactId>topicmapapi</artifactId>
-                <version>0.2</version>
+                <version>0.3</version>
             </dependency>
+            -->
             <dependency>
-                <groupId>no.bouvet.kpro</groupId>
+                <groupId>no.lau.vdvil</groupId>
                 <artifactId>renderer</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>no.bouvet.kpro</groupId>
+                <groupId>no.lau.vdvil</groupId>
                 <artifactId>renderer.audio</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>no.bouvet.kpro</groupId>
+                <groupId>no.lau.vdvil</groupId>
                 <artifactId>renderer.lyric</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -92,6 +94,11 @@
     </scm>
 
     <distributionManagement>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Nexus Release Repository</name>
+            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
         <snapshotRepository>
             <id>sonatype-nexus-snapshots</id>
             <name>Sonatype Nexus Snapshots</name>

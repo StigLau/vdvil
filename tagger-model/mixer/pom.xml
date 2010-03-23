@@ -6,7 +6,7 @@
     <name>Simple mixing application</name>
 
     <parent>
-        <groupId>no.bouvet.kpro</groupId>
+        <groupId>no.lau.vdvil</groupId>
         <artifactId>root</artifactId>
         <version>0.2</version>
     </parent>

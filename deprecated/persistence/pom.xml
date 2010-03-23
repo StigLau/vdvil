@@ -6,14 +6,14 @@
     <name>kpro: Persistence</name>
 
     <parent>
-        <groupId>no.bouvet.kpro</groupId>
+        <groupId>no.lau.vdvil</groupId>
         <artifactId>root</artifactId>
-        <version>0.2</version>
+        <version>0.3-SNAPSHOT</version>
     </parent>
 
     <dependencies>
         <dependency>
-            <groupId>no.bouvet.kpro</groupId>
+            <groupId>no.lau.vdvil</groupId>
             <artifactId>model</artifactId>
         </dependency>
         <dependency>

@@ -6,9 +6,9 @@
     <name>kpro: Audio Renderer</name>
 
     <parent>
-        <groupId>no.bouvet.kpro</groupId>
+        <groupId>no.lau.vdvil</groupId>
         <artifactId>root</artifactId>
-        <version>0.2</version>
+        <version>0.3-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -18,7 +18,7 @@
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>no.bouvet.kpro</groupId>
+            <groupId>no.lau.vdvil</groupId>
             <artifactId>renderer</artifactId>
         </dependency>
         <dependency>

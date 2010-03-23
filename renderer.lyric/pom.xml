@@ -7,20 +7,20 @@
     <name>kpro: Lyric Renderer</name>
 
     <parent>
-        <groupId>no.bouvet.kpro</groupId>
+        <groupId>no.lau.vdvil</groupId>
         <artifactId>root</artifactId>
-        <version>0.2</version>
+        <version>0.3-SNAPSHOT</version>
     </parent>
 
     <dependencies>
         <dependency>
-            <groupId>no.bouvet.kpro</groupId>
+            <groupId>no.lau.vdvil</groupId>
             <artifactId>renderer</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.lau.vaudeville</groupId>
+            <groupId>no.lau.vdvil</groupId>
             <artifactId>tagger-model</artifactId>
-            <version>0.3</version>
+            <version>0.4-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

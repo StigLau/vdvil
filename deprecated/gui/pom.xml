@@ -6,30 +6,30 @@
     <name>kpro: GUI</name>
 
     <parent>
-        <groupId>no.bouvet.kpro</groupId>
+        <groupId>no.lau.vdvil</groupId>
         <artifactId>root</artifactId>
         <version>0.2</version>
     </parent>
 
     <dependencies>
         <dependency>
-            <groupId>no.bouvet.kpro</groupId>
+            <groupId>no.lau.vdvil</groupId>
             <artifactId>renderer</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.bouvet.kpro</groupId>
+            <groupId>no.lau.vdvil</groupId>
             <artifactId>renderer.audio</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.bouvet.kpro</groupId>
+            <groupId>no.lau.vdvil</groupId>
             <artifactId>renderer.lyric</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.bouvet.kpro</groupId>
+            <groupId>no.lau.vdvil</groupId>
             <artifactId>model</artifactId>
         </dependency>
         <dependency>
-            <groupId>no.bouvet.kpro</groupId>
+            <groupId>no.lau.vdvil</groupId>
             <artifactId>persistence</artifactId>
         </dependency>
         <dependency>

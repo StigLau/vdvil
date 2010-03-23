@@ -10,3 +10,4 @@ Todo's
  * Some tests depend on .dvl and .mp3 files that should be part of the project so anyone can build without errors in tests
   * Introduce Psylteflesk .dvl/.mp3
  * Create API for describing how resources (.mp3s, videos aso) can be downloaded and locally cached, and referenced by the renderers.
+ * FactorMagic should perhaps be removed!
