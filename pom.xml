@@ -4,17 +4,42 @@
   <artifactId>root</artifactId>
   <version>0.4-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>kpro: Root</name>
-
-    <url>http://vdvil.lau.no</url>
-
+  <name>Vdvil: Root</name>
+  <description>Vdvil - Framework for multimedia structuring, composition and playback</description>
+  <url>http://vdvil.lau.no</url>
+  <licenses>
+    <license>
+      <name>Apache 2</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Stig Lau</name>
+      <email>stig.lau@gmail.com</email>
+      <url>http://stig.lau.no</url>
+    </developer>
+    <developer>
+      <name>Konrad Beiske</name>
+    </developer>
+    <developer>
+      <name>Michael Stokes</name>
+    </developer>
+    <developer>
+      <name>And some more ppl which I'll have to add later!</name>
+    </developer>
+  </developers>
   <!-- Local (SVN) Maven library repository for libraries that are not found in the sentral repo -->
+    <!--
   <repositories>
     <repository>
       <id>local</id>
       <url>file://${basedir}/lib</url>
     </repository>
   </repositories>
+  -->
 
   <modules>
     <module>renderer</module>
