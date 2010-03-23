@@ -61,15 +61,14 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.codehaus.groovy</groupId>
-                <artifactId>groovy-all</artifactId>
-                <version>1.6.4</version>
+                <groupId>no.lau.vdvil</groupId>
+                <artifactId>tagger-model</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.testng</groupId>
-                <artifactId>testng</artifactId>
-                <version>5.10</version>
-                <scope>test</scope>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>1.7.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

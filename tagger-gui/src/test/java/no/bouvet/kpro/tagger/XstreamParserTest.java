@@ -2,10 +2,10 @@ package no.bouvet.kpro.tagger;
 
 import no.lau.tagger.model.MediaFile;
 import no.lau.tagger.model.Segment;
-import org.testng.annotations.Test;
-import org.testng.Assert;
 import no.lau.tagger.model.SimpleSong;
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;

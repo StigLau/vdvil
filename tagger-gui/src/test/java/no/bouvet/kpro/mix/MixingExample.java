@@ -7,7 +7,7 @@ import no.lau.tagger.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MixingExampleTest {
+public class MixingExample {
 
     SimpleSong returning;
     SimpleSong unfinished_sympathy;
@@ -16,7 +16,7 @@ public class MixingExampleTest {
     SimpleSong space;
 
     public static void main(String[] args) {
-        MixingExampleTest test = new MixingExampleTest();
+        MixingExample test = new MixingExample();
         test.beforeMethod();
         try {
             PlayStuff player = new PlayStuff(new Composition(135F, test.parts()));

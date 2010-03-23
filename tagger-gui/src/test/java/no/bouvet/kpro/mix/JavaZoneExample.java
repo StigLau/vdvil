@@ -9,7 +9,7 @@ import no.lau.tagger.model.SimpleSong;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JavaZoneTest {
+public class JavaZoneExample {
 
     SimpleSong returning;
     SimpleSong unfinished_sympathy;
@@ -17,7 +17,7 @@ public class JavaZoneTest {
     SimpleSong scares_me;
 
     public static void main(String[] args) {
-        JavaZoneTest test = new JavaZoneTest();
+        JavaZoneExample test = new JavaZoneExample();
         test.beforeMethod();
         try {
             PlayStuff player = new PlayStuff(new Composition(150F, test.parts()));

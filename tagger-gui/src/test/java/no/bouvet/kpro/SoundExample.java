@@ -9,9 +9,9 @@ import no.lau.tagger.model.SimpleSong;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SoundTest {
+public class SoundExample {
     public static void main(String[] args) throws Exception {
-        PlayStuff player = new PlayStuff(new Composition(135F, SoundTest.parts()));
+        PlayStuff player = new PlayStuff(new Composition(135F, SoundExample.parts()));
         try {
             player.play(0F);
             Thread.sleep(3000);

@@ -18,16 +18,12 @@ import java.util.List;
 /**
  * Simple test for setting up a test of lyric/GUI and music
  */
-public class AudioAndLyricsTest {
+public class AudioAndLyricsExample {
 
     final LyricGUI lyricGUI = createLyricGUI();
 
-    public static void main(String[] args) {
-        try {
-            new AudioAndLyricsTest().setUpStuff();
-        } catch (Exception e) {
-
-        }
+    public static void main(String[] args) throws Exception {
+        new AudioAndLyricsExample().setUpStuff();
     }
 
     private void setUpStuff() throws Exception {
@@ -53,10 +49,8 @@ public class AudioAndLyricsTest {
 
             // Wait for the renderer to finish
             while (renderer.isRendering()) {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                }
+                Thread.sleep(2000);
+
 
                 int samples = target.getOutputPosition();
                 double percent = Math.floor((double) samples / (double) instructions.getDuration() * 1000) / 10;

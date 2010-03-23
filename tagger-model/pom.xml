@@ -2,36 +2,25 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>no.lau.vdvil</groupId>
     <artifactId>tagger-model</artifactId>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Simple model of Tagger application</name>
+
+    <parent>
+        <groupId>no.lau.vdvil</groupId>
+        <artifactId>root</artifactId>
+        <version>0.3-SNAPSHOT</version>
+    </parent>
 
     <dependencies>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
             <artifactId>renderer</artifactId>
-            <version>0.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
             <artifactId>renderer.audio</artifactId>
-            <version>0.3-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>
