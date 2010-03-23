@@ -31,15 +31,6 @@
       <name>And some more ppl which I'll have to add later!</name>
     </developer>
   </developers>
-  <!-- Local (SVN) Maven library repository for libraries that are not found in the sentral repo -->
-    <!--
-  <repositories>
-    <repository>
-      <id>local</id>
-      <url>file://${basedir}/lib</url>
-    </repository>
-  </repositories>
-  -->
 
   <modules>
     <module>renderer</module>
@@ -54,13 +45,6 @@
   <!-- Common dependency management-->
     <dependencyManagement>
         <dependencies>
-            <!--
-            <dependency>
-                <groupId>no.lau.topicmap</groupId>
-                <artifactId>topicmapapi</artifactId>
-                <version>0.3</version>
-            </dependency>
-            -->
             <dependency>
                 <groupId>no.lau.vdvil</groupId>
                 <artifactId>renderer</artifactId>
@@ -109,6 +93,19 @@
                     <target>1.5</target>
                 </configuration>
             </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
         </plugins>
     </build>
 
