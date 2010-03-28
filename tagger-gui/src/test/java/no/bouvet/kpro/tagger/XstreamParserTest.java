@@ -4,14 +4,15 @@ import no.lau.tagger.model.MediaFile;
 import no.lau.tagger.model.Segment;
 import no.lau.tagger.model.SimpleSong;
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class XstreamParserTest {
     XStreamParser parser = new XStreamParser();
+    static Logger log = Logger.getLogger(XstreamParserTest.class);
 
     @Test
     public void parseWithXStream() {
@@ -19,7 +20,7 @@ public class XstreamParserTest {
 
         //Serialize
         String xml = parser.toXml(joe);
-        System.out.println(xml);
+        log.debug(xml);
         //Deserialize
         SimpleSong newJoe = parser.fromXML(xml);
         Assert.assertEquals(joe.mediaFile.fileName, newJoe.mediaFile.fileName);

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Renderer;
+import org.apache.log4j.Logger;
 
 /**
  * The AudioRenderer class is a specialization of the AbstractRenderer class. It
@@ -34,6 +35,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 	protected boolean _finished;
 
 	protected ArrayList<AudioInstruction> _active = new ArrayList<AudioInstruction>();
+    static Logger log = Logger.getLogger(AudioRenderer.class);
 
 	/**
 	 * Construct a new AudioRenderer instance that will mix audio and send it to
@@ -73,8 +75,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 	public boolean start(int time) {
 		stop();
 
-		// DJComposer.log( this, "Starting at " + ( (float)time / RATE ) + "s
-		// with frame size " + ( (float)MIX_FRAME / RATE ) + "s" );
+		log.debug("Starting at " + ( (float)time / Renderer.RATE ) + "s with frame size " + ( (float)MIX_FRAME / Renderer.RATE ) + "s" );
 
 		_target.flush();
 
@@ -110,7 +111,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 			_target.flush();
 			_active.clear();
 
-			// DJComposer.log( this, "Stopped" );
+			log.debug("Stopped" );
 		}
 	}
 
@@ -263,7 +264,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 		}
 
 		if (_thread != null) {
-			// DJComposer.log( this, "End of composition, draining target..." );
+			log.debug("End of composition, draining target..." );
 			_target.drain();
 
 			if (_timeSource) {

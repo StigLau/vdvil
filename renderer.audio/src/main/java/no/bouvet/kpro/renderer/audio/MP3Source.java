@@ -1,15 +1,13 @@
 package no.bouvet.kpro.renderer.audio;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.RandomAccessFile;
+import java.io.*;
 import java.nio.ShortBuffer;
 
 import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.Decoder;
 import javazoom.jl.decoder.Header;
 import javazoom.jl.decoder.Obuffer;
+import org.apache.log4j.Logger;
 
 /**
  * The MP3Source class is an audio source implementation that reads audio data
@@ -70,6 +68,7 @@ public class MP3Source implements AudioSource {
 	protected Decoder _decoder;
 	protected Bitstream _bitstream;
 	protected int _nextFrame;
+    static Logger log = Logger.getLogger(MP3Source.class);
 
 	/**
 	 * Constructs a new MP3Source, reading from file. The file will be opened
@@ -79,13 +78,13 @@ public class MP3Source implements AudioSource {
 	 * 
 	 * @param file
 	 *            The file to be opened
-	 * @throws Exception
+	 * @throws IOException
 	 *             if the file could not be opened, not be understood, or was of
 	 *             the wrong format
 	 * @author Michael Stokes
 	 */
-	public MP3Source(File file) throws Exception {
-		// DJComposer.log( this, "Opening " + file.toString() );
+	public MP3Source(File file) throws IOException {
+		log.debug("Opening " + file.toString() );
 
 		// Open the file
 
@@ -96,7 +95,7 @@ public class MP3Source implements AudioSource {
 
 		if (!index()) {
 			close();
-			throw new Exception("Not an MP3");
+			throw new IOException("Not an MP3");
 		}
 
 		// Decode the first frame to make sure everything is working, or throw
@@ -104,7 +103,7 @@ public class MP3Source implements AudioSource {
 
 		if (!decodeFrames(0, 1)) {
 			close();
-			throw new Exception("Not an MP3");
+			throw new IOException("Not an MP3");
 		}
 	}
 
@@ -124,9 +123,9 @@ public class MP3Source implements AudioSource {
 
 			_raf.close();
 
-			// DJComposer.log( this, "Closed " + _file.toString() );
+			log.debug( "Closed " + _file.toString() );
 		} catch (Exception e) {
-			// DJComposer.log( this, "Exception closing: " + e.toString() );
+			log.debug( "Exception closing: " + e.toString() );
 		}
 	}
 
@@ -280,7 +279,7 @@ public class MP3Source implements AudioSource {
 								int b4 = buffer[offset + 5] & 127;
 								skip = (b1 << 21) | (b2 << 14) | (b3 << 7) | b4;
 							}
-						} else if ((header & 0xFFFFFEEE) == 0x4D4A53A9) {
+						} else if ((header & 0xFFFFFEEE) == 0x4D4A53A9) { //TODO should perhaps be .equals
 							if ((available - offset) >= 4) {
 								int b1 = buffer[offset + 0] & 255;
 								int b2 = buffer[offset + 1] & 255;
@@ -337,8 +336,7 @@ public class MP3Source implements AudioSource {
 				// Make sure the frequency is what we want
 
 				if (frequency != 44100) {
-					// DJComposer.log( this, "File is " + frequency + " Hz, this
-					// source is 44100 Hz only, falling back to default" );
+					log.debug( "File is " + frequency + " Hz, this source is 44100 Hz only, falling back to default" );
 					return false;
 				}
 
@@ -352,7 +350,7 @@ public class MP3Source implements AudioSource {
 				if (0 == _frameSize) {
 					_frameSize = samples;
 				} else if (_frameSize != samples) {
-					// DJComposer.log( this, "File is inconsistent" );
+					log.debug("File is inconsistent" );
 					return false;
 				}
 
@@ -375,22 +373,19 @@ public class MP3Source implements AudioSource {
 				sync = true;
 			}
 		} catch (Exception e) {
-			// DJComposer.log( this, "Exception indexing: " + e.toString() );
+			log.debug("Exception indexing: " + e.toString() );
 			return false;
 		}
 
-		// We will require a minimum of 10 index frames before we decide that
-		// the file is valid
+		log.debug("We will require a minimum of 10 index frames before we decide that the file is valid");
 
 		if (_frameCount > 10) {
 			// Notify the user
-			// float seconds = (float)( _frameCount * _frameSize ) / 44100;
-			// DJComposer.log( this, "Indexed " + _frameCount + " frames,
-			// duration is " + seconds + "s" );
-
+			float seconds = (float)( _frameCount * _frameSize ) / 44100;
+			log.debug( "Indexed " + _frameCount + " frames, duration is " + seconds + "s" );
 			return true;
 		} else {
-			// DJComposer.log( this, "No MP3 frames detected" );
+			log.debug( "No MP3 frames detected" );
 			return false;
 		}
 	}
@@ -467,13 +462,13 @@ public class MP3Source implements AudioSource {
 			// Check if there was a decode error
 
 			if (frames > 0) {
-				// DJComposer.log( this, "A frame did not decode" );
+				log.debug("A frame did not decode" );
 				_nextFrame = -1;
 			}
 
 			return (_nextFrame != frame);
 		} catch (Exception e) {
-			// DJComposer.log( this, "Exception decoding: " + e.toString() );
+			log.debug("Exception decoding: " + e.toString() );
 		}
 
 		return false;

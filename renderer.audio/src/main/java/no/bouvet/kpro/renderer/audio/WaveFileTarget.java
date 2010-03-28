@@ -1,5 +1,6 @@
 package no.bouvet.kpro.renderer.audio;
 
+import org.apache.log4j.Logger;
 import java.io.File;
 import java.io.RandomAccessFile;
 
@@ -13,6 +14,7 @@ public class WaveFileTarget implements AudioTarget {
 	protected File _file;
 	protected RandomAccessFile _raf;
 	protected int _duration = 0;
+    static Logger log = Logger.getLogger(WaveFileTarget.class);
 
 	/**
 	 * Constructs a new WaveFileTarget. The file to create or overwrite is
@@ -25,7 +27,7 @@ public class WaveFileTarget implements AudioTarget {
 	 * @author Michael Stokes
 	 */
 	public WaveFileTarget(File file) throws Exception {
-		// DJComposer.log( this, "Writing to file " + file.toString() );
+		log.debug("Writing to file " + file.toString() );
 
 		// Delete the file if it exists
 
@@ -82,9 +84,9 @@ public class WaveFileTarget implements AudioTarget {
 
 			_raf.close();
 
-			// DJComposer.log( this, "Closed " + _file.toString() );
+			log.debug("Closed " + _file.toString() );
 		} catch (Exception e) {
-			// DJComposer.log( this, "Exception closing: " + e.toString() );
+			log.debug("Exception closing: " + e.toString() );
 		}
 	}
 
@@ -165,7 +167,7 @@ public class WaveFileTarget implements AudioTarget {
 		try {
 			_raf.write(buffer, offset << 2, duration << 2);
 		} catch (Exception e) {
-			// DJComposer.log( this, "Exception writing: " + e.toString() );
+			log.debug( "Exception writing: " + e.toString() );
 		}
 
 		// Increment the duration

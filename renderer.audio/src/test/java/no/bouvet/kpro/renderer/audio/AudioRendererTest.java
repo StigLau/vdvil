@@ -8,11 +8,14 @@ import java.net.URL;
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.Renderer;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 public class AudioRendererTest {
+    static Logger log = Logger.getLogger(AudioRendererTest.class);
+
 	@Test
-	public void test() throws Exception {
+	public void test() {
 		AudioSource source = null;
 		AudioTarget target = null;
 		Renderer renderer = null;
@@ -63,7 +66,9 @@ public class AudioRendererTest {
 			// instruction
 
 			assertEquals(instructions.getDuration(), target.getOutputPosition());
-		} finally {
+        } catch (Exception e) {
+            log.error(e);
+        } finally {
 			if (renderer != null)
 				renderer.stop();
 			if (target != null)

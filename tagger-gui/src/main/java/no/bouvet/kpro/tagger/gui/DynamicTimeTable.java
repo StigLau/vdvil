@@ -13,11 +13,13 @@ import no.lau.tagger.model.MediaFile;
 import no.lau.tagger.model.Segment;
 import no.lau.tagger.model.SimpleSong;
 import no.bouvet.kpro.tagger.PlayerIF;
+import org.apache.log4j.Logger;
 
 public class DynamicTimeTable {
 
     private JPanel panel = new JPanel();
     private PlayerIF player;
+    static Logger log = Logger.getLogger(DynamicTimeTable.class);
 
     public DynamicTimeTable(PlayerIF player, final SimpleSong simpleSong, final SimpleSongCallBack simpleSongCallBack) {
         this.player = player;
@@ -111,7 +113,7 @@ public class DynamicTimeTable {
                 try {
                     player.playPause(start, segment.end);
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    log.error(e);
                 }
             }
         });

@@ -1,7 +1,10 @@
 package no.bouvet.kpro.renderer.audio;
 
+import no.bouvet.kpro.renderer.Renderer;
+import org.apache.log4j.Logger;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
 /**
@@ -14,6 +17,7 @@ import javax.sound.sampled.SourceDataLine;
 public class AudioPlaybackTarget implements AudioTarget {
 	protected SourceDataLine _line;
 	protected int _base;
+    static Logger log = Logger.getLogger(AudioPlaybackTarget.class);
 
 	/**
 	 * Constructs a new AudioPlaybackTarget. The audio output device is opened
@@ -21,32 +25,26 @@ public class AudioPlaybackTarget implements AudioTarget {
 	 * succeeds, the close() method must be called to release the audio output
 	 * hardware.
 	 * 
-	 * @throws Exception
-	 *             if the audio device could not be opened
+	 * @throws LineUnavailableException if the audio device could not be opened
 	 * @author Michael Stokes
 	 */
-	public AudioPlaybackTarget() throws Exception {
-		// DJComposer.log( this, "Opening audio device for " + Mixer.RATE + " Hz
-		// stereo 16-bit real-time output" );
+	public AudioPlaybackTarget() throws LineUnavailableException {
+		log.debug("Opening audio device for " + Renderer.RATE + " Hz stereo 16-bit real-time output" );
+		AudioFormat format = new AudioFormat(Renderer.RATE, 16, 2, true, false);
 
-		AudioFormat format = new AudioFormat(
-				no.bouvet.kpro.renderer.Renderer.RATE, 16, 2, true, false);
-
-		_line = AudioSystem.getSourceDataLine(format);
-
-		try {
-			_line.open(format);
+        try {
+            _line = AudioSystem.getSourceDataLine(format);
+            _line.open(format);
 			_line.start();
-		} catch (Exception e) {
+		} catch (LineUnavailableException e) {
 			try {
 				_line.close();
 				_line = null;
 			} catch (Exception e2) {
+                log.debug("Error closing line");
 			}
-
 			throw e;
 		}
-
 		flush();
 	}
 
@@ -62,7 +60,7 @@ public class AudioPlaybackTarget implements AudioTarget {
 			_line.close();
 			_line = null;
 
-			// DJComposer.log( this, "Closed audio device" );
+			log.debug("Closed audio device" );
 		}
 	}
 

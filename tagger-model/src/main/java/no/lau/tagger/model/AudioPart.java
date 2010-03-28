@@ -5,6 +5,7 @@ import no.bouvet.kpro.renderer.audio.AudioSource;
 import no.bouvet.kpro.renderer.audio.MP3Source;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.SimpleAudioInstruction;
+import java.io.IOException;
 import java.util.List;
 import java.util.Collections;
 import java.io.File;
@@ -16,7 +17,7 @@ public class AudioPart extends AbstractPart implements IPart {
 
     public final Float beginAtCue;
 
-    /**
+    /*
      * Simple constructor for most usages
      */
     public AudioPart(SimpleSong simpleSong, Float startCue, Float endCue, Segment segment) {
@@ -35,7 +36,7 @@ public class AudioPart extends AbstractPart implements IPart {
         return Collections.emptyList();
     }
 
-    public Instruction translateToInstruction(Float masterBpm) throws Exception {
+    public Instruction translateToInstruction(Float masterBpm) throws IOException {
         //TODO check why diff neeeds to be opposite        
         Float partCompositionDiff = bpm / masterBpm;
         Float compositionPartDiff = masterBpm / bpm;
