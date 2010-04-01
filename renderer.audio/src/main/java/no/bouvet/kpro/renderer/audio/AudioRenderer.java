@@ -148,6 +148,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 		if (instruction == null) {
 			_finished = true;
 		} else if (instruction instanceof AudioInstruction) {
+            log.debug(("Running instruction " + ((AudioInstruction)instruction).getSource()));
 			synchronized (_active) {
 				_active.add((AudioInstruction) instruction);
 			}
