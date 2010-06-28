@@ -41,7 +41,7 @@
         <!-- Not part of the core -->
         <module>tagger-model</module>
         <module>tagger-gui</module>
-        <module>cache</module>
+        <module>httpcache</module>
     </modules>
 
     <!-- Common dependency management-->
@@ -65,6 +65,11 @@
             <dependency>
                 <groupId>no.lau.vdvil</groupId>
                 <artifactId>tagger-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>no.lau.vdvil</groupId>
+                <artifactId>httpcache</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
