@@ -31,7 +31,7 @@ public class DynamicTimeTable {
             public void actionPerformed(ActionEvent event) {
                 simpleSongCallBack.update(
                         new SimpleSong(simpleSong.reference,
-                                new MediaFile(fileNameField.getText(), simpleSong.mediaFile.startingOffset),
+                                new MediaFile(fileNameField.getText(), simpleSong.mediaFile.checksum, simpleSong.mediaFile.startingOffset),
                                 simpleSong.segments,
                                 simpleSong.bpm));
             }
@@ -56,7 +56,7 @@ public class DynamicTimeTable {
             public void actionPerformed(ActionEvent event) {
                 simpleSongCallBack.update(
                         new SimpleSong(simpleSong.reference,
-                                new MediaFile(simpleSong.mediaFile.fileName, new Float(startingOffsetField.getText())),
+                                new MediaFile(simpleSong.mediaFile.fileName, simpleSong.mediaFile.checksum, new Float(startingOffsetField.getText())),
                                 simpleSong.segments,
                                 simpleSong.bpm));
             }

@@ -13,7 +13,7 @@ public class PlayerTest {
         String mp3File = this.getClass().getClassLoader().getResource ("loaderror-psylteflesk.mp3").getFile();
 
         SimpleSong s = new XStreamParser().load(dvlFile);
-        SimpleSong simpleSong2 = new SimpleSong(s.reference, new MediaFile(mp3File, s.mediaFile.startingOffset), s.segments, s.bpm);
+        SimpleSong simpleSong2 = new SimpleSong(s.reference, new MediaFile(mp3File,"", s.mediaFile.startingOffset), s.segments, s.bpm);
 
         PlayerBase playerBase = new PlayerBase(simpleSong2);
         playerBase.playPause(96F, 100F);

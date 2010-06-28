@@ -35,7 +35,7 @@ public class XstreamParserTest {
     }
 
     public static SimpleSong coronaTest() {
-        MediaFile mediaFile = new MediaFile("/Users/stiglau/jobb/utvikling/bouvet/playground/stig.lau/kpro2007/renderer.audio/src/test/resources/Corona_-_Baby_Baby.mp3",
+        MediaFile mediaFile = new MediaFile("/Users/stiglau/jobb/utvikling/bouvet/playground/stig.lau/kpro2007/renderer.audio/src/test/resources/Corona_-_Baby_Baby.mp3", "",
                 44100 * 0.445f);
         List<Segment> segments = new ArrayList<Segment>();
         segments.add(new Segment("a", 0F, 16F,  "Baby, why can't we just stay together"));
