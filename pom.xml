@@ -41,6 +41,7 @@
         <!-- Not part of the core -->
         <module>tagger-model</module>
         <module>tagger-gui</module>
+        <module>cache</module>
     </modules>
 
     <!-- Common dependency management-->
