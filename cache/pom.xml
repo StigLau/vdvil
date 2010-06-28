@@ -1,0 +1,68 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>no.lau</groupId>
+    <artifactId>vdvil-file-handling</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>Handling file download and stuff for VDvil files</name>
+    <url>http://stig.lau.no</url>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <!-- VDVIL dependencies -->
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>tagger-model</artifactId>
+            <version>0.3-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Caching dependencies -->
+        <dependency>
+            <groupId>org.codehaus.httpcache4j</groupId>
+            <artifactId>httpcache4j-core</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.httpcache4j.resolvers</groupId>
+            <artifactId>resolvers-commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.httpcache4j.storage</groupId>
+            <artifactId>storage-file</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <!-- Parsing xml into objects-->
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.3.1</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>r05</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+</project>
