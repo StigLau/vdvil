@@ -8,13 +8,13 @@
     <parent>
         <groupId>no.lau.vdvil</groupId>
         <artifactId>root</artifactId>
-        <version>0.3-SNAPSHOT</version>
+        <version>0.4-SNAPSHOT</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
-            <artifactId>model</artifactId>
+            <artifactId>tagger-model</artifactId>
         </dependency>
         <dependency>
             <groupId>no.bouvet.topicmap</groupId>
