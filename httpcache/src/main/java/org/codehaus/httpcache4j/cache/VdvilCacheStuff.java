@@ -1,12 +1,12 @@
 package org.codehaus.httpcache4j.cache;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.httpclient.HttpClient;
 import org.codehaus.httpcache4j.HTTPRequest;
 import org.codehaus.httpcache4j.HTTPResponse;
 import org.codehaus.httpcache4j.client.HTTPClientResponseResolver;
 
-import java.io.File;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URI;
 
 public class VdvilCacheStuff {
@@ -17,7 +17,6 @@ public class VdvilCacheStuff {
     final String storeName = "vaudeville";
 
     /**
-     *
      * @param location Where to persist the cache files
      */
     public VdvilCacheStuff(File location) {
@@ -30,6 +29,12 @@ public class VdvilCacheStuff {
      * @return InputStream
      */
     public InputStream fetchAsInputStream(String url) {
+        File fileInRepository = fetchFromRepository(url);
+        if (fileInRepository != null) {
+            try {
+                return new FileInputStream(fileInRepository);
+            } catch (FileNotFoundException e) { /* If file not found - will continue to download it */}
+        }
         HTTPRequest request = new HTTPRequest(URI.create(url));
         HTTPResponse response = persistentcache.doCachedRequest(request);
         return response.getPayload().getInputStream();
@@ -41,12 +46,32 @@ public class VdvilCacheStuff {
      * @return the file or null if file not found. Not a good thing to do!
      */
     public File fetchAsFile(String url) {
-        HTTPRequest mp3Request = new HTTPRequest(URI.create(url));
-        HTTPResponse mp3Response = persistentcache.doCachedRequest(mp3Request);
-        if (mp3Response.getPayload() instanceof CleanableFilePayload) {
-            CleanableFilePayload cleanableFilePayload = (CleanableFilePayload) mp3Response.getPayload();
-            return cleanableFilePayload.getFile();
-        } else
+        File fileInRepository = fetchFromRepository(url);
+        if (fileInRepository != null)
+            return fileInRepository;
+        else {
+            HTTPRequest mp3Request = new HTTPRequest(URI.create(url));
+            HTTPResponse mp3Response = persistentcache.doCachedRequest(mp3Request);
+            if (mp3Response.getPayload() instanceof CleanableFilePayload) {
+                CleanableFilePayload cleanableFilePayload = (CleanableFilePayload) mp3Response.getPayload();
+                return cleanableFilePayload.getFile();
+            } else
+                return null;
+        }
+    }
+
+    /**
+     * A shorthand for fetching files if they have been downloaded to disk
+     *
+     * @param url to the file
+     * @return the file or null if empty
+     */
+    public File fetchFromRepository(String url) {
+        String urlChecksum = DigestUtils.md5Hex(url);
+        File locationOnDisk = new File(storeLocation + "/files/" + urlChecksum + "/default");
+        if (locationOnDisk.exists() && locationOnDisk.canRead())
+            return locationOnDisk;
+        else
             return null;
     }
 }
