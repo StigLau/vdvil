@@ -16,7 +16,11 @@
             <groupId>no.lau.vdvil</groupId>
             <artifactId>tagger-model</artifactId>
         </dependency>
-        
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>httpcache</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>no.lau.vdvil</groupId>
             <artifactId>renderer.audio</artifactId>
