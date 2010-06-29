@@ -102,7 +102,14 @@ public class TestCachingFile {
 
         System.out.println("Downloaded 4 file");
         persistantCache.fetchAsFile(url);
-        
+
         System.out.println("Downloaded 5 file");
+    }
+
+    @Test
+    public void validateChecksumOfLocalFiles() {
+        String url = dvlUrl;
+        assertEquals(false, persistantCache.validateChecksum(url, "not the correct hex checksum"));
+        assertEquals(true, persistantCache.validateChecksum(url, "8fc130f49961a853105b440cc8a268ac"));
     }
 }

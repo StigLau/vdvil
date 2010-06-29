@@ -40,6 +40,22 @@ public class VdvilCacheStuff {
         return response.getPayload().getInputStream();
     }
 
+    /**
+     * First performs a validation. Then, tries to download from local file repo before trying to download from the web
+     * @param url
+     * @param checksum
+     * @return
+     */
+    public File fetchAsFile(String url, String checksum) {
+        if (validateChecksum(url, checksum)) {
+            System.out.println("Checksum passed: " + url);
+            return fetchAsFile(url);
+        } else {
+            System.out.println("File failed to pass checksum.");
+            return downloadFromInternetAsFile(url);
+
+        }
+    }
 
     /**
      * @param url location of file to download
@@ -52,15 +68,19 @@ public class VdvilCacheStuff {
             return fileInRepository;
         }
         else {
-            System.out.println("Downloading " + url + " to cache");
-            HTTPRequest fileRequest = new HTTPRequest(URI.create(url));
-            HTTPResponse fileResponse = persistentcache.doCachedRequest(fileRequest);
-            if (fileResponse.getPayload() instanceof CleanableFilePayload) {
-                CleanableFilePayload cleanableFilePayload = (CleanableFilePayload) fileResponse.getPayload();
-                return cleanableFilePayload.getFile();
-            } else
-                return null;
+            return downloadFromInternetAsFile(url);
         }
+    }
+
+    private File downloadFromInternetAsFile(String url) {
+        System.out.println("Downloading " + url + " to cache");
+        HTTPRequest fileRequest = new HTTPRequest(URI.create(url));
+        HTTPResponse fileResponse = persistentcache.doCachedRequest(fileRequest);
+        if (fileResponse.getPayload() instanceof CleanableFilePayload) {
+            CleanableFilePayload cleanableFilePayload = (CleanableFilePayload) fileResponse.getPayload();
+            return cleanableFilePayload.getFile();
+        } else
+            return null;
     }
 
     /**
@@ -76,5 +96,16 @@ public class VdvilCacheStuff {
             return locationOnDisk;
         else
             return null;
+    }
+
+    public boolean validateChecksum(String url, String checksum) {
+        String urlChecksum = DigestUtils.md5Hex(url);
+        File locationOnDisk = new File(storeLocation + "/files/" + urlChecksum + "/default");
+        try {
+            String fileChecksum = DigestUtils.md5Hex(new FileInputStream(locationOnDisk));
+            return checksum.equals(fileChecksum);
+        } catch (IOException e) {
+            return false;
+        }
     }
 }

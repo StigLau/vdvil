@@ -44,7 +44,7 @@ public class PlayingAMix {
     }
 
     private SimpleSong fetchMediaFile(SimpleSong simpleSong) {
-        File file = persistantCache.fetchAsFile(simpleSong.mediaFile.fileName);
+        File file = persistantCache.fetchAsFile(simpleSong.mediaFile.fileName, simpleSong.mediaFile.checksum);
         return new SimpleSong(
                 simpleSong.reference, 
                 new MediaFile(
