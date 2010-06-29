@@ -5,11 +5,9 @@ import com.thoughtworks.xstream.XStream;
 import no.lau.tagger.model.Segment;
 import no.lau.tagger.model.SimpleSong;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.httpclient.HttpClient;
 import org.codehaus.httpcache4j.HTTPRequest;
 import org.codehaus.httpcache4j.HTTPResponse;
 import org.codehaus.httpcache4j.cache.*;
-import org.codehaus.httpcache4j.client.HTTPClientResponseResolver;
 import org.codehaus.httpcache4j.payload.Payload;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,13 +28,11 @@ public class TestCachingFile {
     final String dvlUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl";
 
     XStream xstream;
-    HTTPCache memoryCache;
     HTTPRequest request = new HTTPRequest(URI.create(dvlUrl));
     VdvilCacheStuff persistantCache = new VdvilCacheStuff(new File("/tmp/vdvil"));
 
     @Before
     public void before() {
-        memoryCache = new HTTPCache(new MemoryCacheStorage(), new HTTPClientResponseResolver(new HttpClient()));
         xstream = new XStream();
         xstream.alias("track", SimpleSong.class);
         xstream.alias("segment", Segment.class);
@@ -44,7 +40,7 @@ public class TestCachingFile {
 
     @Test
     public void testHowCachingWorks() throws IOException {
-        HTTPResponse response = memoryCache.doCachedRequest(request);
+        HTTPResponse response = persistantCache.persistentcache.doCachedRequest(request);
         Payload payload = response.getPayload();
         assertEquals("text", payload.getMimeType().getPrimaryType());
         assertEquals("plain", payload.getMimeType().getSubType());
@@ -58,7 +54,7 @@ public class TestCachingFile {
 
     @Test
     public void parsingTheXmlFromStream() {
-        HTTPResponse response = memoryCache.doCachedRequest(request);
+        HTTPResponse response = persistantCache.persistentcache.doCachedRequest(request);
         InputStream inputStream = response.getPayload().getInputStream();
 
         SimpleSong ss = (SimpleSong) xstream.fromXML(inputStream);
@@ -93,16 +89,20 @@ public class TestCachingFile {
     @Test
     public void doesFileAlreadyExistInCache() {
         System.out.println("first");
-        HTTPRequest req = new HTTPRequest(URI.create("http://kpro09.googlecode.com/svn/test-files/holden-nothing-93_returning_mix.mp3"));
-        persistantCache.persistentcache.doCachedRequest(req);
+        String url = "http://kpro09.googlecode.com/svn/test-files/holden-nothing-93_returning_mix.mp3";
+        persistantCache.fetchAsFile(url);
         System.out.println("Downloaded 1 file");
-        persistantCache.persistentcache.doCachedRequest(req);
+        persistantCache.fetchAsFile(url);
+
         System.out.println("Downloaded 2 file");
-        persistantCache.persistentcache.doCachedRequest(req);
+        persistantCache.fetchAsFile(url);
+
         System.out.println("Downloaded 3 file");
-        persistantCache.persistentcache.doCachedRequest(req);
+        persistantCache.fetchAsFile(url);
+
         System.out.println("Downloaded 4 file");
-        persistantCache.persistentcache.doCachedRequest(req);
+        persistantCache.fetchAsFile(url);
+        
         System.out.println("Downloaded 5 file");
     }
 }

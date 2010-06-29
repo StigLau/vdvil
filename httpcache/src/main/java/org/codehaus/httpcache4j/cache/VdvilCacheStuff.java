@@ -50,10 +50,10 @@ public class VdvilCacheStuff {
         if (fileInRepository != null)
             return fileInRepository;
         else {
-            HTTPRequest mp3Request = new HTTPRequest(URI.create(url));
-            HTTPResponse mp3Response = persistentcache.doCachedRequest(mp3Request);
-            if (mp3Response.getPayload() instanceof CleanableFilePayload) {
-                CleanableFilePayload cleanableFilePayload = (CleanableFilePayload) mp3Response.getPayload();
+            HTTPRequest fileRequest = new HTTPRequest(URI.create(url));
+            HTTPResponse fileResponse = persistentcache.doCachedRequest(fileRequest);
+            if (fileResponse.getPayload() instanceof CleanableFilePayload) {
+                CleanableFilePayload cleanableFilePayload = (CleanableFilePayload) fileResponse.getPayload();
                 return cleanableFilePayload.getFile();
             } else
                 return null;
