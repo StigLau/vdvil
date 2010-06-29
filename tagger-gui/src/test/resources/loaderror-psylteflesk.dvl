@@ -1,7 +1,8 @@
 <track>
   <reference>Loaderror psylteFlesk</reference>
   <mediaFile>
-    <fileName>/Users/stiglau/kpro/loaderror-psylteflesk.mp3</fileName>
+    <fileName>http://github.com/StigLau/vdvil/raw/master/tagger-gui/src/test/resources/loaderror-psylteflesk.mp3</fileName>
+      <checksum></checksum>
     <startingOffset>0.31</startingOffset>
   </mediaFile>
   <bpm>117.4</bpm>
