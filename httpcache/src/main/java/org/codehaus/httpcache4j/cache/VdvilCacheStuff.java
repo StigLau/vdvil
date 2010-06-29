@@ -47,9 +47,12 @@ public class VdvilCacheStuff {
      */
     public File fetchAsFile(String url) {
         File fileInRepository = fetchFromRepository(url);
-        if (fileInRepository != null)
+        if (fileInRepository != null) {
+            System.out.println("File already in cache: " + url);
             return fileInRepository;
+        }
         else {
+            System.out.println("Downloading " + url + " to cache");
             HTTPRequest fileRequest = new HTTPRequest(URI.create(url));
             HTTPResponse fileResponse = persistentcache.doCachedRequest(fileRequest);
             if (fileResponse.getPayload() instanceof CleanableFilePayload) {
