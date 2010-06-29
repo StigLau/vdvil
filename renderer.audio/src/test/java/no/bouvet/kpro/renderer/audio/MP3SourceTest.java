@@ -8,6 +8,7 @@ import java.io.File;
 import java.net.URL;
 import java.nio.ShortBuffer;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +50,7 @@ public class MP3SourceTest {
 			}
 		}
 
-		String md5 = MD5.get(output.toByteArray());
+		String md5 = DigestUtils.md5Hex(output.toByteArray());
 		assertEquals("d11e62df06d57b8b24e11770919a0e5e", md5);
 	}
 }
