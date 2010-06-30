@@ -9,6 +9,9 @@ import org.codehaus.httpcache4j.client.HTTPClientResponseResolver;
 import java.io.*;
 import java.net.URI;
 
+/**
+ * Wrapper class around HttpCache4J to make it more usable for VDvil usage
+ */
 public class VdvilCacheStuff {
 
 
