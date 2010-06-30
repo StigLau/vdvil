@@ -45,9 +45,9 @@ public class VdvilCacheStuff {
 
     /**
      * First performs a validation. Then, tries to download from local file repo before trying to download from the web
-     * @param url
-     * @param checksum
-     * @return
+     * @param url location of file to download
+     * @param checksum to validate against
+     * @return the downloaded file, null if not found 
      */
     public File fetchAsFile(String url, String checksum) {
         if (validateChecksum(url, checksum)) {
@@ -75,7 +75,7 @@ public class VdvilCacheStuff {
         }
     }
 
-    private File downloadFromInternetAsFile(String url) {
+    File downloadFromInternetAsFile(String url) {
         System.out.println("Downloading " + url + " to cache");
         HTTPRequest fileRequest = new HTTPRequest(URI.create(url));
         HTTPResponse fileResponse = persistentcache.doCachedRequest(fileRequest);
@@ -92,7 +92,7 @@ public class VdvilCacheStuff {
      * @param url to the file
      * @return the file or null if empty
      */
-    public File fetchFromRepository(String url) {
+    File fetchFromRepository(String url) {
         String urlChecksum = DigestUtils.md5Hex(url);
         File locationOnDisk = new File(storeLocation + "/files/" + urlChecksum + "/default");
         if (locationOnDisk.exists() && locationOnDisk.canRead())
@@ -101,7 +101,7 @@ public class VdvilCacheStuff {
             return null;
     }
 
-    public boolean validateChecksum(String url, String checksum) {
+    boolean validateChecksum(String url, String checksum) {
         String urlChecksum = DigestUtils.md5Hex(url);
         File locationOnDisk = new File(storeLocation + "/files/" + urlChecksum + "/default");
         try {

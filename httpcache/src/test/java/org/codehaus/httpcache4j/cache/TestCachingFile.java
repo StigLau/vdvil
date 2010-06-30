@@ -1,4 +1,4 @@
-package no.lau;
+package org.codehaus.httpcache4j.cache;
 
 import com.google.common.io.Files;
 import com.thoughtworks.xstream.XStream;
@@ -7,7 +7,6 @@ import no.lau.tagger.model.SimpleSong;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.codehaus.httpcache4j.HTTPRequest;
 import org.codehaus.httpcache4j.HTTPResponse;
-import org.codehaus.httpcache4j.cache.*;
 import org.codehaus.httpcache4j.payload.Payload;
 import org.junit.Before;
 import org.junit.Test;
