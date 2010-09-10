@@ -26,8 +26,8 @@ public class VdvilOntopiaTest {
 		conf.setProperty(IProperties.BASE_LOCATOR, "http://aranuka.example.org/");
 
 		// set filename for de/serialisation
- 	 	conf.setProperty(IProperties.FILENAME, "topicmaps-persistence/src/test/resources/topicmaps/vdvil.xtm");
-
+ 	 	conf.setProperty(IProperties.FILENAME, "topicmaps-persistence/src/test/resources/topicmaps/vdvil_2.0.xtm");
+         /*
 		// add prefix used in QNames of annotations
 		conf.addPrefix("ex", "http://aranuka.example.org/");
 		conf.addPrefix("onto", "http://psi.ontopedia.net/");
@@ -48,6 +48,7 @@ public class VdvilOntopiaTest {
 		conf.addName("ex:street", "Street");
 		conf.addName("ex:city", "City");
 		conf.addName("ex:number", "House Number");
+		*/
     }
 
     @Test
