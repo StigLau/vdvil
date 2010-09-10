@@ -41,7 +41,6 @@
         <module>tagger-model</module>
         <module>tagger-gui</module>
         <module>httpcache</module>
-        <module>topicmaps-persistence</module>
     </modules>
 
     <!-- Common dependency management-->
