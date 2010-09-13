@@ -1,0 +1,3 @@
+h2. The Vdvil project
+
+This is an infrastructure for a dj-mixing application
