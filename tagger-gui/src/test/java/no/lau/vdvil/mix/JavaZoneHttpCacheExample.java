@@ -13,11 +13,6 @@ import java.util.List;
 
 public class JavaZoneHttpCacheExample {
 
-    SimpleSong returning;
-    SimpleSong unfinished_sympathy;
-    SimpleSong not_alone;
-    SimpleSong scares_me;
-
     final static Logger log = LoggerFactory.getLogger(VdvilCacheHandler.class);
 
     final static String returningDvlUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl";
@@ -29,11 +24,16 @@ public class JavaZoneHttpCacheExample {
     final static String unfinishedSympathyDvlUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/unfinished_sympathy.dvl";
     final String unfinishedSympathyDvlChecksum = "43bc31c17b47f305ae4ef3e370d0d703";
 
+    SimpleSong returning;
+    SimpleSong unfinished_sympathy;
+    SimpleSong not_alone;
+    SimpleSong scares_me;
+
     public static void main(String[] args) {
-        JavaZoneHttpCacheExample test = new JavaZoneHttpCacheExample();
-        test.beforeMethod();
+        JavaZoneHttpCacheExample example = new JavaZoneHttpCacheExample();
+        example.cacheFilesBeforePlayback();
         try {
-            PlayStuff player = new PlayStuff(new Composition(150F, test.parts()));
+            PlayStuff player = new PlayStuff(new Composition(150F, example.parts()));
             log.info("Starting JavaZoneHttpCacheExample playback");
             player.play(0F);
         } catch (Exception e) {
@@ -41,7 +41,7 @@ public class JavaZoneHttpCacheExample {
         }
     }
 
-    public void beforeMethod() {
+    public void cacheFilesBeforePlayback() {
         try {
             VdvilCacheHandler cacheHandler = new VdvilCacheHandler();
             returning = cacheHandler.fetchSimpleSongAndCacheDvlAndMp3(returningDvlUrl, returningDvlChecksum);

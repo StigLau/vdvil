@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Warning, these tests are fairly volatile and depend on one another!
  */
-public class TestCachingFile {
+public class CachingTest {
     //Pull down .vdl file from url reference
     //Read .vdl file and find where its media files, mp3's and pictures, are located
     //Check if the media files' 'md5 sums' are located already on disk in memoryCache
@@ -82,7 +82,7 @@ public class TestCachingFile {
 
     @Test
     public void generateMD5ChecksumFromFile() throws IOException {
-        assertEquals("8fc130f49961a853105b440cc8a268ac", DigestUtils.md5Hex(Files.toByteArray(new File("/tmp/vdvil/files/b45c6b4bd38020da03afe1f2514a3ba1/default"))));
+        assertEquals("2f0bd28098bce29f555c713cc03ab625", DigestUtils.md5Hex(Files.toByteArray(new File("/tmp/vdvil/files/b45c6b4bd38020da03afe1f2514a3ba1/default"))));
     }
 
     @Test
@@ -109,6 +109,6 @@ public class TestCachingFile {
     public void validateChecksumOfLocalFiles() {
         String url = dvlUrl;
         assertEquals(false, persistantCache.validateChecksum(url, "not the correct hex checksum"));
-        assertEquals(true, persistantCache.validateChecksum(url, "8fc130f49961a853105b440cc8a268ac"));
+        assertEquals(true, persistantCache.validateChecksum(url, "2f0bd28098bce29f555c713cc03ab625"));
     }
 }
