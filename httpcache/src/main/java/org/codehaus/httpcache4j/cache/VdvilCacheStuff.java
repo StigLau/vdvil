@@ -59,7 +59,7 @@ public class VdvilCacheStuff {
             log.debug("{} located on disk with correct checksum", url);
             return fetchAsFile(url);
         } else {
-            log.info("File failed to pass checksum. Retrying downloading from the URL");
+            log.info("File missing in cache or failed to pass checksum. Retrying downloading from URL");
             File fileDownloadedFromTheInternet = downloadFromInternetAsFile(url);
             if(validateChecksum(url, checksum)) {
                 return fileDownloadedFromTheInternet;
