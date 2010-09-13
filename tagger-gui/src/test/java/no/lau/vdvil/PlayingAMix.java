@@ -6,6 +6,7 @@ import no.lau.tagger.model.*;
 import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +31,14 @@ public class PlayingAMix {
     }
 
     public void beforeMethod() {
-        InputStream holdenStream = persistantCache.fetchAsInputStream(holdenUrl);
-        nothing = fetchMediaFile(createSimpleSongFromXML(holdenStream));
-        InputStream psylteFleskStream = persistantCache.fetchAsInputStream(psylteUrl);
-        psylteFlesk = fetchMediaFile(createSimpleSongFromXML(psylteFleskStream));
+        try {
+            InputStream holdenStream = persistantCache.fetchAsInputStream(holdenUrl);
+            nothing = fetchMediaFile(createSimpleSongFromXML(holdenStream));
+            InputStream psylteFleskStream = persistantCache.fetchAsInputStream(psylteUrl);
+            psylteFlesk = fetchMediaFile(createSimpleSongFromXML(psylteFleskStream));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("Could not download file ", e);
+        }
     }
 
     private SimpleSong createSimpleSongFromXML(InputStream inputStream) {
@@ -43,7 +48,7 @@ public class PlayingAMix {
         return (SimpleSong) xstream.fromXML(inputStream);
     }
 
-    private SimpleSong fetchMediaFile(SimpleSong simpleSong) {
+    private SimpleSong fetchMediaFile(SimpleSong simpleSong) throws FileNotFoundException {
         File file = persistantCache.fetchAsFile(simpleSong.mediaFile.fileName, simpleSong.mediaFile.checksum);
         return new SimpleSong(
                 simpleSong.reference, 

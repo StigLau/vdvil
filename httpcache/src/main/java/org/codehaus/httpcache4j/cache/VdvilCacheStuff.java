@@ -5,16 +5,19 @@ import org.apache.commons.httpclient.HttpClient;
 import org.codehaus.httpcache4j.HTTPRequest;
 import org.codehaus.httpcache4j.HTTPResponse;
 import org.codehaus.httpcache4j.client.HTTPClientResponseResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URI;
 
 /**
  * Wrapper class around HttpCache4J to make it more usable for VDvil usage
+ * TODO Make function for invalidatingAllCaches
  */
 public class VdvilCacheStuff {
 
-
+    final Logger log =  LoggerFactory.getLogger(VdvilCacheStuff.class);
     public final HTTPCache persistentcache;
     final File storeLocation;
     final String storeName = "vaudeville";
@@ -45,18 +48,24 @@ public class VdvilCacheStuff {
 
     /**
      * First performs a validation. Then, tries to download from local file repo before trying to download from the web
+     * If the file was downloaded from the internet, perform a second validation to confirm that the file was downloaded successfully
      * @param url location of file to download
      * @param checksum to validate against
-     * @return the downloaded file, null if not found 
+     * @return the downloaded file, null if not found
+     * @throws java.io.FileNotFoundException if the file could not be downloaded from url of found in cache
      */
-    public File fetchAsFile(String url, String checksum) {
+    public File fetchAsFile(String url, String checksum) throws FileNotFoundException {
         if (validateChecksum(url, checksum)) {
-            System.out.println("Checksum passed: " + url);
+            log.debug("{} located on disk with correct checksum", url);
             return fetchAsFile(url);
         } else {
-            System.out.println("File failed to pass checksum.");
-            return downloadFromInternetAsFile(url);
-
+            log.info("File failed to pass checksum. Retrying downloading from the URL");
+            File fileDownloadedFromTheInternet = downloadFromInternetAsFile(url);
+            if(validateChecksum(url, checksum)) {
+                return fileDownloadedFromTheInternet;
+            } else {
+                throw new FileNotFoundException("Could not download " + url + " to cache. File in cache failed validation with checksum " + checksum);
+            }
         }
     }
 
@@ -67,7 +76,7 @@ public class VdvilCacheStuff {
     public File fetchAsFile(String url) {
         File fileInRepository = fetchFromRepository(url);
         if (fileInRepository != null) {
-            System.out.println("File already in cache: " + url);
+            log.debug("File already in cache: " + url);
             return fileInRepository;
         }
         else {
@@ -76,7 +85,7 @@ public class VdvilCacheStuff {
     }
 
     File downloadFromInternetAsFile(String url) {
-        System.out.println("Downloading " + url + " to cache");
+        log.info("Downloading " + url + " to cache");
         HTTPRequest fileRequest = new HTTPRequest(URI.create(url));
         HTTPResponse fileResponse = persistentcache.doCachedRequest(fileRequest);
         if (fileResponse.getPayload() instanceof CleanableFilePayload) {
@@ -101,12 +110,24 @@ public class VdvilCacheStuff {
             return null;
     }
 
+    /**
+     * Calculates the checksum of the Url to find where it is located in cache, then validates the file on disk with the checksum
+     * @param url Where the file is located on the web
+     * @param checksum to check the file with
+     * @return whether the file validates with the checksum
+     */
     boolean validateChecksum(String url, String checksum) {
         String urlChecksum = DigestUtils.md5Hex(url);
         File locationOnDisk = new File(storeLocation + "/files/" + urlChecksum + "/default");
         try {
             String fileChecksum = DigestUtils.md5Hex(new FileInputStream(locationOnDisk));
-            return checksum.equals(fileChecksum);
+            if(fileChecksum.equals(checksum)) {
+                log.debug("Checksum of file on disk matched the provided checksum");
+                return true;
+            } else {
+                log.error("Checksums did not match, expected {}, was {}", checksum, fileChecksum);
+                return false;
+            }
         } catch (IOException e) {
             return false;
         }
