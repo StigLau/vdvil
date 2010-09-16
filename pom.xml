@@ -40,6 +40,7 @@
         <!-- Not part of the core -->
         <module>tagger-model</module>
         <module>tagger-gui</module>
+        <module>tagger-gui-scala</module>
         <module>httpcache</module>
     </modules>
 

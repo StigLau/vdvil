@@ -2,18 +2,17 @@ package no.lau.vdvil.gui
 
 import scala.swing._
 import event.ButtonClicked
-import scala.swing.Swing._
 import no.lau.tagger.model.SimpleSong
 import no.bouvet.kpro.tagger.persistence.XStreamParser
 import java.io.File
+import no.bouvet.kpro.tagger.PlayerBase
 
 /**
  * Note - to make the TagGUI functional, it can be necessary to make a small change to the file and recompile.
  */
 object TagGUI extends SimpleSwingApplication {
-  //val bpmText: JTextField
-  //PlayerBase playerBase
-  var dvlFilePath: String = System.getProperty("user.home") + "/kpro"
+  var dvlFilePath = System.getProperty("user.home") + "/kpro"
+  var playerBase = new PlayerBase(null)
 
   def top = new MainFrame {
     size = new Dimension(500, 300)
@@ -22,7 +21,6 @@ object TagGUI extends SimpleSwingApplication {
       val save = new Button("Save")
       val load = new Button("Load File")
 
-      add(save, BorderPanel.Position.North)
       add(load, BorderPanel.Position.South)
 
       listenTo(save)
@@ -31,46 +29,30 @@ object TagGUI extends SimpleSwingApplication {
       reactions += {
         case ButtonClicked(`save`) => {
           println("Save button pressed")
-          /*
-          def parser = new XStreamParser()
-              parser.save(playerBase.simpleSong, dvlFilePath)
-              println "Saved:" + dvlFilePath
-              println parser.toXml(playerBase.simpleSong)
-           */
+          def parser = new XStreamParser[SimpleSong]()
+          parser.save(playerBase.getSimpleSong(), dvlFilePath)
+          println("Saved:" + dvlFilePath)
+          println(parser.toXml(playerBase.getSimpleSong))
         }
         case ButtonClicked(`load`) => {
-          println("Load button pressed omg")
           val fileChooser = new FileChooser(new File(dvlFilePath))
           val returnVal = fileChooser.showOpenDialog(this);
-          if(returnVal == FileChooser.Result.Approve) {
+          if (returnVal == FileChooser.Result.Approve) {
             dvlFilePath = fileChooser.selectedFile.getAbsolutePath
-            println("User chose " + dvlFilePath)
-            //loadSong (loadSongFromFile())
+            val song = loadSongFromFile(dvlFilePath)
+            val playerBase = new PlayerBase(song)
+            //add(playerBase.getDynamicTimeTable(), BorderPanel.Position.Center)
+            add(new Button("We will put the editing of the .vdl"), BorderPanel.Position.Center)
+            add(save, BorderPanel.Position.North)
+            //TODO Frame Repack
           }
-          println(returnVal)
         }
       }
     }
   }
-  /*
-  def loadSongFromFile(): SimpleSong {
-    val parser = new XStreamParser ()
-    return parser.load (dvlFilePath)
-  }
-  */
+
+  def loadSongFromFile(dvlFile: String): SimpleSong = new XStreamParser().load(dvlFile)
 }
-/*
-
-def loadSong(SimpleSong song) {
-    playerBase = new PlayerBase(song)
-    frame.add(playerBase.getDynamicTimeTable(), BorderLayout.CENTER)
-    frame.pack()
-    frame.show()
-}
-
-
-
-*/
 
 
 
