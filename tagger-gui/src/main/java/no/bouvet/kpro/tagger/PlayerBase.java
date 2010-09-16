@@ -13,7 +13,9 @@ public class PlayerBase implements PlayerIF, SimpleSongCallBack {
     private DynamicTimeTable timeTable;
     private SimpleSong simpleSong;
 
-    public PlayerBase(SimpleSong simpleSong) throws Exception {
+    public static final PlayerBase NULL = new PlayerBase(SimpleSong.NULL); 
+
+    public PlayerBase(SimpleSong simpleSong) {
         this.simpleSong = simpleSong;
         timeTable = new DynamicTimeTable(this, simpleSong, this);
     }

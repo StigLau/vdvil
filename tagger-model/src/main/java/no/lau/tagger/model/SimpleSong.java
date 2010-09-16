@@ -1,5 +1,6 @@
 package no.lau.tagger.model;
 
+import java.util.Collections;
 import java.util.List;
 import java.io.Serializable;
 
@@ -9,6 +10,8 @@ public class SimpleSong implements IPart, Serializable {
     public final MediaFile mediaFile;
     public final Float bpm;
     public final List<Segment> segments;
+
+    public static final SimpleSong NULL = new SimpleSong("null", new  MediaFile("null", "null", -1F), Collections.<Segment>emptyList(), -1F);
 
     public SimpleSong(String reference, MediaFile mediaFile, List<Segment> segments, Float bpm) {
         this.reference = reference;

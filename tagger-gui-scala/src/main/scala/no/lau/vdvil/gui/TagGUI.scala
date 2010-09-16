@@ -12,7 +12,7 @@ import no.bouvet.kpro.tagger.PlayerBase
  */
 object TagGUI extends SimpleSwingApplication {
   var dvlFilePath = System.getProperty("user.home") + "/kpro"
-  var playerBase = new PlayerBase(null)
+  var playerBase = PlayerBase.NULL
 
   def top = new MainFrame {
     size = new Dimension(500, 300)
@@ -52,6 +52,13 @@ object TagGUI extends SimpleSwingApplication {
   }
 
   def loadSongFromFile(dvlFile: String): SimpleSong = new XStreamParser().load(dvlFile)
+}
+
+object GUIStarter {
+  def main(args: Array[String]) = {
+    println("Hello")
+    TagGUI.main(null)
+  }
 }
 
 
