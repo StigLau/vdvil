@@ -4,6 +4,8 @@ import no.bouvet.kpro.tagger.gui.SimpleSongCallBack;
 import no.lau.tagger.model.SimpleSong;
 import no.bouvet.kpro.tagger.gui.DynamicTimeTable;
 import no.bouvet.kpro.tagger.gui.Worker;
+
+import javax.swing.*;
 import java.awt.Component;
 
 public class PlayerBase implements PlayerIF, SimpleSongCallBack {
@@ -37,7 +39,7 @@ public class PlayerBase implements PlayerIF, SimpleSongCallBack {
         }
     }
 
-    public Component getDynamicTimeTable() {
+    public JPanel getDynamicTimeTable() {
         return timeTable.getPanel();
     }
 
