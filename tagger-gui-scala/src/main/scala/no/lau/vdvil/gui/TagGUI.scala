@@ -17,6 +17,8 @@ object TagGUI extends SimpleSwingApplication {
   def top = new MainFrame {
     size = new Dimension(500, 300)
     title = "Tagging GUI"
+
+
     contents = new BorderPanel {
       val save = new Button("Save")
       val load = new Button("Load File")
@@ -31,7 +33,7 @@ object TagGUI extends SimpleSwingApplication {
           println("Save button pressed")
           def parser = new XStreamParser[SimpleSong]()
           parser.save(playerBase.getSimpleSong(), dvlFilePath)
-          println("Saved:" + dvlFilePath)
+          println("Saved: $dvlFilePath")
           println(parser.toXml(playerBase.getSimpleSong))
         }
         case ButtonClicked(`load`) => {
@@ -39,10 +41,7 @@ object TagGUI extends SimpleSwingApplication {
           val returnVal = fileChooser.showOpenDialog(this);
           if (returnVal == FileChooser.Result.Approve) {
             dvlFilePath = fileChooser.selectedFile.getAbsolutePath
-            val song = loadSongFromFile(dvlFilePath)
-            val playerBase = new PlayerBase(song)
-            //add(playerBase.getDynamicTimeTable(), BorderPanel.Position.Center)
-            add(new Button("We will put the editing of the .vdl"), BorderPanel.Position.Center)
+            add(new DynamicScalaTable(loadSongFromFile(dvlFilePath)), BorderPanel.Position.Center)
             add(save, BorderPanel.Position.North)
             //TODO Frame Repack
           }
@@ -55,10 +54,12 @@ object TagGUI extends SimpleSwingApplication {
 }
 
 object GUIStarter {
-  def main(args: Array[String]) = {
-    println("Hello")
-    TagGUI.main(null)
-  }
+  def main(args: Array[String]) = TagGUI.main(null)
+}
+
+
+class DynamicScalaTable(song: SimpleSong) extends scala.swing.Component {
+  override lazy val peer = new PlayerBase(song).getDynamicTimeTable()
 }
 
 
