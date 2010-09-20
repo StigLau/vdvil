@@ -1,7 +1,6 @@
 package no.lau.vdvil.gui
 
 import scala.swing._
-import event.ButtonClicked
 import no.bouvet.kpro.tagger.persistence.XStreamParser
 import java.io.File
 import no.lau.vdvil.cache.VdvilCacheHandler
@@ -9,6 +8,7 @@ import no.lau.tagger.model.{Segment, SimpleSong}
 import java.util.ArrayList
 import collection.JavaConversions
 import scala.util.Random
+import TabbedPane._
 
 /**
  * Note - to make the TagGUI functional, it can be necessary to make a small change to the file and recompile.
@@ -21,43 +21,43 @@ object TagGUI extends SimpleSwingApplication {
   val returningDvlUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"
   val returningDvlChecksum = "2f0bd28098bce29f555c713cc03ab625"
 
+  val tabs = new TabbedPane
 
   def top = new MainFrame {
     title = "Tagging GUI"
     //size = new Dimension(800, 600) //Need a frame repack
 
 
-    contents = new BorderPanel {
-      val save = new Button("Save") {
-        reactions += {
-          case ButtonClicked(_) => {
-            def parser = new XStreamParser[SimpleSong]()
-            parser.save(dvlTable.simpleSong, dvlFilePath)
-            println("Saved: $dvlFilePath")
-            println(parser.toXml(dvlTable.simpleSong))
+    menuBar = new MenuBar {
+      contents += new Menu("File") {
+        contents += new MenuItem(Action("Load") {
+          val fileChooser = new FileChooser(new File(dvlFilePath))
+          val returnVal = fileChooser.showOpenDialog(this);
+          if (returnVal == FileChooser.Result.Approve) {
+            dvlFilePath = fileChooser.selectedFile.getAbsolutePath
+
+            val simpleSong = NeatStuff.setAllNullIdsRandom(new VdvilCacheHandler().fetchSimpleSongAndCacheDvlAndMp3(returningDvlUrl, returningDvlChecksum))
+            dvlTable = new ScalaDynamicDvlTable(returningDvlUrl, simpleSong)
+
+            //add(save, BorderPanel.Position.North)
+            //TODO Frame Repack
           }
-        }
+          tabs.pages += new Page("Rolf", dvlTable.ui)
+        })
+        contents += new MenuItem(Action("Save") {
+          def parser = new XStreamParser[SimpleSong]()
+          parser.save(dvlTable.simpleSong, dvlFilePath)
+          println("Saved: $dvlFilePath")
+          println(parser.toXml(dvlTable.simpleSong))
+        })
       }
-      add(new Button("Load File") {
-        reactions += {
-          case ButtonClicked(_) => {
-            val fileChooser = new FileChooser(new File(dvlFilePath))
-            val returnVal = fileChooser.showOpenDialog(this);
-            if (returnVal == FileChooser.Result.Approve) {
-              dvlFilePath = fileChooser.selectedFile.getAbsolutePath
+    }
 
-              val simpleSong = NeatStuff.setAllNullIdsRandom(new VdvilCacheHandler().fetchSimpleSongAndCacheDvlAndMp3(returningDvlUrl, returningDvlChecksum))
-              dvlTable = new ScalaDynamicDvlTable(returningDvlUrl, simpleSong)
-
-              add(dvlTable.ui, BorderPanel.Position.Center)
-              add(save, BorderPanel.Position.North)
-              //TODO Frame Repack
-            }
-          }
-        }
-      }, BorderPanel.Position.South)
+    contents = new BorderPanel {
+      add(tabs, BorderPanel.Position.Center)
     }
   }
+
   def loadSongFromFile(dvlFile: String): SimpleSong = new XStreamParser().load(dvlFile)
 }
 
