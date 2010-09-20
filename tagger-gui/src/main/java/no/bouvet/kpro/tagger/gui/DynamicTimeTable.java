@@ -69,6 +69,12 @@ public class DynamicTimeTable {
         panel.add(new JLabel("end"), "");
         panel.add(new JLabel("text"), "");
         panel.add(new JLabel("Play/Pause"), "wrap");
+        /*
+        for (int i = 0; i < simpleSong.segments.size(); i++) {
+            Object o =  simpleSong.get(i);
+
+        }
+        */
         for (Segment segment : simpleSong.segments) {
             createRowOnPanel(segment, simpleSong, simpleSongCallBack);
         }
@@ -79,46 +85,37 @@ public class DynamicTimeTable {
     }
 
     public void createRowOnPanel(final Segment segment, final SimpleSong simpleSong, final SimpleSongCallBack simpleSongCallBack) {
-        final JTextField startBeat = new JTextField(segment.start.toString(), 3);
-        startBeat.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                Segment newSegment = new Segment(segment.id, new Float(startBeat.getText()), segment.end, segment.text);
-                simpleSongCallBack.update(updateSegmentInSimpleSong(newSegment, simpleSong));
-            }
-        });
-        panel.add(startBeat, "");
+        panel.add(createTextField(segment.start.toString(), 3, segment, simpleSong, simpleSongCallBack), "");
+        panel.add(createTextField(segment.end.toString(), 3, segment, simpleSong, simpleSongCallBack), "");
+        panel.add(createTextField(segment.text, 40, segment, simpleSong, simpleSongCallBack), "");
+        panel.add(createPlayButton(segment), "wrap");
+    }
 
-        final JTextField endBeat = new JTextField(segment.end.toString(), 3);
-        endBeat.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                Segment newSegment = new Segment(segment.id, segment.start, new Float(endBeat.getText()), segment.text);
-                simpleSongCallBack.update(updateSegmentInSimpleSong(newSegment, simpleSong));
-            }
-        });
-        panel.add(endBeat, "");
-
-        final JTextField textField = new JTextField(segment.text, 40);
+    private JTextField createTextField(String fieldName, int size, final Segment segment, final SimpleSong simpleSong, final SimpleSongCallBack simpleSongCallBack) {
+        final JTextField textField = new JTextField(fieldName, size);
         textField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                Segment newSegment = new Segment(segment.id, segment.start, segment.end, textField.getText());
+                Segment newSegment = new Segment(segment.id, new Float(textField.getText()), segment.end, segment.text);
                 simpleSongCallBack.update(updateSegmentInSimpleSong(newSegment, simpleSong));
             }
         });
-        panel.add(textField, "");
+        return textField;
+    }
 
+    private JButton createPlayButton(final Segment segment) {
         JButton playButton = new JButton("play/pause");
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                Float start = new Float(startBeat.getText());
                 try {
-                    player.playPause(start, segment.end);
+                    player.playPause(segment.start, segment.end);
                 } catch (Exception e) {
                     log.error(e);
                 }
             }
         });
-        panel.add(playButton, "wrap");
+        return playButton;
     }
+
 
     /*
      * Creates a new SimpleSong when a segment has changed
