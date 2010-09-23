@@ -11,8 +11,6 @@ public class SimpleSong implements IPart, Serializable {
     public final Float bpm;
     public final List<Segment> segments;
 
-    public static final SimpleSong NULL = new SimpleSong("null", new  MediaFile("null", "null", -1F), Collections.<Segment>emptyList(), -1F);
-
     public SimpleSong(String reference, MediaFile mediaFile, List<Segment> segments, Float bpm) {
         this.reference = reference;
         this.mediaFile = mediaFile;
