@@ -87,12 +87,19 @@ public class VdvilCacheStuff {
     File downloadFromInternetAsFile(String url) {
         log.info("Downloading " + url + " to cache");
         HTTPRequest fileRequest = new HTTPRequest(URI.create(url));
-        HTTPResponse fileResponse = persistentcache.doCachedRequest(fileRequest);
-        if (fileResponse.getPayload() instanceof CleanableFilePayload) {
-            CleanableFilePayload cleanableFilePayload = (CleanableFilePayload) fileResponse.getPayload();
-            return cleanableFilePayload.getFile();
-        } else
-            return null;
+        HTTPResponse fileResponse;
+        try {
+            fileResponse = persistentcache.doCachedRequest(fileRequest);
+            if (fileResponse.getPayload() instanceof CleanableFilePayload) {
+                CleanableFilePayload cleanableFilePayload = (CleanableFilePayload) fileResponse.getPayload();
+                return cleanableFilePayload.getFile();
+            }
+            else
+                return null;
+        } catch (Exception e) {
+            log.info("Could not download file from web, trying local repository", e);
+            return fetchFromRepository(url);
+        }
     }
 
     /**
@@ -106,8 +113,10 @@ public class VdvilCacheStuff {
         File locationOnDisk = new File(storeLocation + "/files/" + urlChecksum + "/default");
         if (locationOnDisk.exists() && locationOnDisk.canRead())
             return locationOnDisk;
-        else
+        else {
+            log.error("File not found at {} in local repository", locationOnDisk.getAbsolutePath());
             return null;
+        }
     }
 
     /**
