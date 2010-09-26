@@ -32,6 +32,15 @@ class SimpleSong(val reference: String, val mediaFile: MediaFile, var segments: 
     }
     return list
   }
+
+  def segmentWithId(id:String):Segment = {
+    for (seg <- segments) {
+      if (seg.id == id) {
+        return seg
+      }
+    }
+    return null
+  }
 }
 
 object ScalaSong {
@@ -39,7 +48,7 @@ object ScalaSong {
 }
 
 class MediaFile(var fileName: String, var checksum: String, var startingOffset: Float) {
-  def toJava(): no.lau.tagger.model.MediaFile = new no.lau.tagger.model.MediaFile(fileName, checksum, startingOffset.floatValue) 
+  def toJava(): no.lau.tagger.model.MediaFile = new no.lau.tagger.model.MediaFile(fileName, checksum, startingOffset.floatValue)
 }
 
 object ScalaMediaFile {
