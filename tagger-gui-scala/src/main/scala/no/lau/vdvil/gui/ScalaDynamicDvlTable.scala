@@ -2,20 +2,16 @@ package no.lau.vdvil.gui
 
 import scala.swing._
 import scala.swing.event._
-import no.lau.vdvil.cache.VdvilCacheHandler
 import no.bouvet.kpro.tagger.PlayerBase
-import no.lau.tagger.scala.model.{ScalaSong, MediaFile, Segment, SimpleSong}
+import no.lau.tagger.scala.model.SimpleSong
 
-class ScalaDynamicDvlTable(returningDvlUrl:String, var simpleSong:SimpleSong) {
-  var player:PlayerBase = null
+class ScalaDynamicDvlTable(returningDvlUrl: String, var simpleSong: SimpleSong) {
+  var player: PlayerBase = null
 
   lazy val ui = new BorderPanel {
     add(new TextField(returningDvlUrl, 80) {
       reactions += {
-        case _ => {
-          //TODO This URL will probably pose a problem!!!
-          simpleSong = new SimpleSong(simpleSong.reference, new MediaFile(text, simpleSong.mediaFile.checksum, simpleSong.mediaFile.startingOffset), simpleSong.segments, simpleSong.bpm)
-        }
+        case _ => simpleSong.mediaFile.fileName = text
       }
     }, BorderPanel.Position.North)
 
@@ -24,14 +20,14 @@ class ScalaDynamicDvlTable(returningDvlUrl:String, var simpleSong:SimpleSong) {
         contents += new Label("BPM")
         contents += new TextField(simpleSong.bpm.toString, 5) {
           reactions += {
-            case _ => simpleSong = new SimpleSong(simpleSong.reference, simpleSong.mediaFile, simpleSong.segments, text.toFloat)
+            case _ => simpleSong.bpm = text.toFloat
           }
         }
 
         contents += new Label("Starting offset")
         contents += new TextField(simpleSong.mediaFile.startingOffset.toString, 5) {
           reactions += {
-            case _ => simpleSong = new SimpleSong(simpleSong.reference, new MediaFile(simpleSong.mediaFile.fileName, simpleSong.mediaFile.checksum, text.toFloat), simpleSong.segments, simpleSong.bpm)
+            case _ => simpleSong.mediaFile.startingOffset = text.toFloat
           }
         }
       }, BorderPanel.Position.North)
@@ -49,31 +45,22 @@ class ScalaDynamicDvlTable(returningDvlUrl:String, var simpleSong:SimpleSong) {
         for (segment <- simpleSong.segments) {
           contents += new TextField(segment.start.toString(), 3) {
             reactions += {
-              case _ =>
-                simpleSong =
-                  NeatStuff.updateSegmentInSimpleSong(
-                    new Segment(segment.id, text.toFloat, segment.end, segment.text), simpleSong)
+              case _ => simpleSong.segmentWithId(segment.id).start = text.toFloat
             }
           }
           contents += new TextField(segment.end.toString(), 3) {
             reactions += {
-              case _ =>
-                simpleSong =
-                  NeatStuff.updateSegmentInSimpleSong(
-                    new Segment(segment.id, segment.start, text.toFloat, segment.text), simpleSong)
+              case _ => simpleSong.segmentWithId(segment.id).end = text.toFloat
             }
           }
           contents += new TextField(segment.text, 40) {
             reactions += {
-              case _ =>
-                simpleSong =
-                  NeatStuff.updateSegmentInSimpleSong(
-                    new Segment(segment.id, segment.start, segment.end, text), simpleSong)
+              case _ => simpleSong.segmentWithId(segment.id).text = text
             }
-          }
-          contents += new Button("Play") {
-            reactions += {
-              case ButtonClicked(_) => playSegment(segment.id, simpleSong)
+            contents += new Button("Play") {
+              reactions += {
+                case ButtonClicked(_) => playSegment(segment.id, simpleSong)
+              }
             }
           }
         }
@@ -84,35 +71,16 @@ class ScalaDynamicDvlTable(returningDvlUrl:String, var simpleSong:SimpleSong) {
   /**
    * Plays the segment of your choice
    */
-  def playSegment(segmentId:String, song:SimpleSong) {
-    if(player != null)
-      player.playPause(-1F, -1F)//Call to stop the player
-    player = new PlayerBase(simpleSong.toJava)
-    val segment = segmentWith(segmentId)
+  def playSegment(segmentId: String, song: SimpleSong) {
+    import no.lau.tagger.scala.model.MediaFile
+    if (player != null)
+      player.playPause(-1F, -1F) //Call to stop the player
+    val mf = song.mediaFile
+    val pathToMp3 = new no.lau.vdvil.cache.VdvilCacheHandler().retrievePathToFileFromCache(song.mediaFile.fileName, song.mediaFile.checksum)
+    val copyOfSong = new SimpleSong(song.reference, new MediaFile(pathToMp3, mf.checksum, mf.startingOffset), song.segments, song.bpm)
+
+    player = new PlayerBase(copyOfSong.toJava)
+    val segment = simpleSong.segmentWithId(segmentId)
     player.playPause(segment.start, segment.end)
-  }
-
-  def segmentWith (id: String): Segment = {
-    for (segment <- simpleSong.segments) {
-      if (id == segment.id) {
-        return segment
-      }
-    }
-    return null // TODO FIX THIS SHIT
-  }
-
-
-  object ScalaTimeAppTest extends SimpleSwingApplication {
-    val returningDvlUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"
-    val returningDvlChecksum = "2f0bd28098bce29f555c713cc03ab625"
-
-    def top = new MainFrame {
-      title = "Dvl Time Table"
-      size = new Dimension(800, 600)
-      val javaSong = new VdvilCacheHandler().fetchSimpleSongAndCacheDvlAndMp3(returningDvlUrl, returningDvlChecksum)
-      val simpleSong = NeatStuff.setAllNullIdsRandom(ScalaSong.fromJava(javaSong))
-
-      contents = new ScalaDynamicDvlTable(returningDvlUrl, simpleSong).ui
-    }
   }
 }

@@ -1,17 +1,19 @@
 package no.lau.vdvil.gui
 
 import scala.swing._
-import no.bouvet.kpro.tagger.persistence.XStreamParser
 import TabbedPane._
 import no.lau.vdvil.cache.VdvilCacheHandler
 import no.lau.tagger.scala.model.{ScalaSong, Segment, SimpleSong}
+import org.slf4j.{LoggerFactory, Logger}
 
 /**
  * Note - to make the TagGUI functional, it can be necessary to make a small change to the file and recompile.
  */
 object TagGUI extends SimpleSwingApplication {
+  val log:Logger =  LoggerFactory.getLogger(classOf[ScalaDynamicDvlTable])//TODO THIS IS SOOOOO WRONG!!!!
   var dvlFilePath = System.getProperty("user.home") + "/kpro"
 
+  val cacheHandler = new VdvilCacheHandler
   var dvlTable: ScalaDynamicDvlTable = null
   //These are just test variables
   val returningDvlUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"
@@ -20,7 +22,7 @@ object TagGUI extends SimpleSwingApplication {
 
   def top = new MainFrame {
     title = "Tagging GUI"
-    size = new Dimension(800, 600) //Need a frame repack
+    //size = new Dimension(800, 600) //Need a frame repack
 
     menuBar = new MenuBar {
       import Dialog._
@@ -31,17 +33,25 @@ object TagGUI extends SimpleSwingApplication {
           val returnVal = fileChooser.showOpenDialog(this);
           if (returnVal == FileChooser.Result.Approve) {
             dvlFilePath = fileChooser.selectedFile.getAbsolutePath
-            showEditingPanel(dvlFilePath, NeatStuff.setAllNullIdsRandom(fetchDvlFromFile(dvlFilePath)))
+            val loadedSong = ScalaSong.fromJava(cacheHandler.loadSimpleSongFromDvlOnDisk(dvlFilePath))
+            showEditingPanel(dvlFilePath, NeatStuff.setAllNullIdsRandom(loadedSong))
           }
         })
         contents += new MenuItem(Action("Load From Web") {
           val input = showInput(menuBar, "", "Load from", Message.Plain, Swing.EmptyIcon, Nil, returningDvlUrl)
-          showEditingPanel(input.get, fetchDvlAndMp3FromWeb(input.get))
+          if(input != None)
+            showEditingPanel(input.get, fetchDvlAndMp3FromWeb(input.get))
         })
-        contents += new MenuItem(Action("Save") {
-          def parser = new XStreamParser[no.lau.tagger.model.SimpleSong]()
-          //parser.save(dvlTable.simpleSong.toJava, dvlFilePath)
-          println(parser.toXml(dvlTable.simpleSong.toJava))
+        contents += new MenuItem(Action("View .dvl XML") {
+          if(dvlTable != null)
+            log.info(cacheHandler.printableXml(dvlTable.simpleSong.toJava))
+        })
+        contents += new MenuItem(Action("Save as .dvl file") {
+          val input = showInput(menuBar, "", "Load from", Message.Plain, Swing.EmptyIcon, Nil, returningDvlUrl)
+          if(input != None) {
+            log.info("Saving to {}", input.get)
+            cacheHandler.save(dvlTable.simpleSong.toJava, input.get)
+          }
         })
       }
     }
@@ -50,10 +60,6 @@ object TagGUI extends SimpleSwingApplication {
       add(tabs, BorderPanel.Position.Center)
     }
   }
-
-  def loadSongFromFile(dvlFile: String): SimpleSong = new XStreamParser().load(dvlFile)
-
-  def fetchDvlFromFile(path: String): SimpleSong = ScalaSong.fromJava(new VdvilCacheHandler().buildSimpleSongWithCorrectReferenceToMp3(path))
 
   def fetchDvlAndMp3FromWeb(url: String): SimpleSong = {
     val javaSong = new VdvilCacheHandler().fetchSimpleSongAndCacheDvlAndMp3(url, null)
