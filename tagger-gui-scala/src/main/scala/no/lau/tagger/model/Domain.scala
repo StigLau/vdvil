@@ -33,14 +33,7 @@ class SimpleSong(val reference: String, val mediaFile: MediaFile, var segments: 
     return list
   }
 
-  def segmentWithId(id:String):Segment = {
-    for (seg <- segments) {
-      if (seg.id == id) {
-        return seg
-      }
-    }
-    return null
-  }
+  def segmentWithId(id:String):Option[Segment] = segments.filter(segment=> segment.id == id).headOption
 }
 
 object ScalaSong {
