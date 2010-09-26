@@ -3,10 +3,10 @@ package no.lau.vdvil.gui
 import scala.swing._
 import scala.swing.event._
 import no.bouvet.kpro.tagger.PlayerBase
-import no.lau.tagger.scala.model.SimpleSong
+import no.lau.tagger.scala.model.ScalaSong
 import org.slf4j.LoggerFactory
 
-class ScalaDynamicDvlTable(returningDvlUrl: String, var simpleSong: SimpleSong) {
+class ScalaDynamicDvlTable(returningDvlUrl: String, var simpleSong: ScalaSong) {
   var player: PlayerBase = null
   val log = LoggerFactory.getLogger(classOf[ScalaDynamicDvlTable])
 
@@ -39,10 +39,11 @@ class ScalaDynamicDvlTable(returningDvlUrl: String, var simpleSong: SimpleSong) 
         contents += new Button("Save as .dvl file") {
           reactions += {
             case ButtonClicked(_) => {
-              val pathToSaveTo = Dialog.showInput(null, "", "Save to", Dialog.Message.Plain, Swing.EmptyIcon, Nil, returningDvlUrl)
+              val pathToSaveTo = Dialog.showInput(this, "", "Save to", Dialog.Message.Plain, Swing.EmptyIcon, Nil, returningDvlUrl)
               if (pathToSaveTo.isDefined) {
                 log.info("Saving to {}", pathToSaveTo.get)
-                TagGUI.cacheHandler.save(simpleSong.toJava, pathToSaveTo.get)
+                try { TagGUI.cacheHandler.save(simpleSong.toJava, pathToSaveTo.get)}
+                catch { case ioE:java.io.IOException => log.error("Could not save file")}
               }
             }
           }
@@ -88,13 +89,13 @@ class ScalaDynamicDvlTable(returningDvlUrl: String, var simpleSong: SimpleSong) 
   /**
    * Plays the segment of your choice
    */
-  def playSegment(segmentId: String, song: SimpleSong) {
-    import no.lau.tagger.scala.model.MediaFile
+  def playSegment(segmentId: String, song: ScalaSong) {
+    import no.lau.tagger.scala.model.ScalaMediaFile
     if (player != null)
       player.playPause(-1F, -1F) //Call to stop the player
     val mf = song.mediaFile
     val pathToMp3 = new no.lau.vdvil.cache.VdvilCacheHandler().retrievePathToFileFromCache(song.mediaFile.fileName, song.mediaFile.checksum)
-    val copyOfSong = new SimpleSong(song.reference, new MediaFile(pathToMp3, mf.checksum, mf.startingOffset), song.segments, song.bpm)
+    val copyOfSong = new ScalaSong(song.reference, new ScalaMediaFile(pathToMp3, mf.checksum, mf.startingOffset), song.segments, song.bpm)
 
     player = new PlayerBase(copyOfSong.toJava)
     val segment = simpleSong.segmentWithId(segmentId).get

@@ -8,22 +8,22 @@ import java.util.ArrayList
  * The domain model works as the bridge between the Java and Scala world
  */
 
-class Segment(val id: String, var start: Float, var end: Float, var text: String) {
+class ScalaSegment(val id: String, var start: Float, var end: Float, var text: String) {
   def toJava():no.lau.tagger.model.Segment = new no.lau.tagger.model.Segment(id, start.floatValue, end.floatValue, text)
 }
 
-object ScalaSegment {
-  def fromJavaList(segmentList: java.util.List[no.lau.tagger.model.Segment]): List[Segment] = {
-    var newSegmentList = new ListBuffer[Segment]()
+object ToScalaSegment {
+  def fromJavaList(segmentList: java.util.List[no.lau.tagger.model.Segment]): List[ScalaSegment] = {
+    var newSegmentList = new ListBuffer[ScalaSegment]()
     for (seg <- JavaConversions.asBuffer(segmentList)) {
-      newSegmentList += ScalaSegment.fromJava(seg)
+      newSegmentList += ToScalaSegment.fromJava(seg)
     }
     return newSegmentList.toList
   }
-  def fromJava(segment:no.lau.tagger.model.Segment): Segment = new Segment(segment.id, segment.start.floatValue, segment.end.floatValue, segment.text)
+  def fromJava(segment:no.lau.tagger.model.Segment): ScalaSegment = new ScalaSegment(segment.id, segment.start.floatValue, segment.end.floatValue, segment.text)
 }
 
-class SimpleSong(val reference: String, val mediaFile: MediaFile, var segments: List[Segment], var bpm: Float) {
+class ScalaSong(val reference: String, val mediaFile: ScalaMediaFile, var segments: List[ScalaSegment], var bpm: Float) {
   def toJava(): no.lau.tagger.model.SimpleSong = new no.lau.tagger.model.SimpleSong(reference, mediaFile.toJava, segmentListAsJava, bpm)
   def segmentListAsJava(): java.util.List[no.lau.tagger.model.Segment] = {
     val list = new ArrayList[no.lau.tagger.model.Segment]()
@@ -33,17 +33,17 @@ class SimpleSong(val reference: String, val mediaFile: MediaFile, var segments: 
     return list
   }
 
-  def segmentWithId(id:String):Option[Segment] = segments.filter(segment=> segment.id == id).headOption
+  def segmentWithId(id:String):Option[ScalaSegment] = segments.filter(segment=> segment.id == id).headOption
 }
 
-object ScalaSong {
-  def fromJava(javaSong: no.lau.tagger.model.SimpleSong): SimpleSong = new SimpleSong(javaSong.reference, ScalaMediaFile.fromJava(javaSong.mediaFile), ScalaSegment.fromJavaList(javaSong.segments), javaSong.bpm.floatValue)
+object ToScalaSong {
+  def fromJava(javaSong: no.lau.tagger.model.SimpleSong): ScalaSong = new ScalaSong(javaSong.reference, ToScalaMediaFile.fromJava(javaSong.mediaFile), ToScalaSegment.fromJavaList(javaSong.segments), javaSong.bpm.floatValue)
 }
 
-class MediaFile(var fileName: String, var checksum: String, var startingOffset: Float) {
+class ScalaMediaFile(var fileName: String, var checksum: String, var startingOffset: Float) {
   def toJava(): no.lau.tagger.model.MediaFile = new no.lau.tagger.model.MediaFile(fileName, checksum, startingOffset.floatValue)
 }
 
-object ScalaMediaFile {
-  def fromJava(javaMediaFile:no.lau.tagger.model.MediaFile): MediaFile = new MediaFile(javaMediaFile.fileName, javaMediaFile.checksum, javaMediaFile.startingOffset.floatValue)
+object ToScalaMediaFile {
+  def fromJava(javaMediaFile:no.lau.tagger.model.MediaFile): ScalaMediaFile = new ScalaMediaFile(javaMediaFile.fileName, javaMediaFile.checksum, javaMediaFile.startingOffset.floatValue)
 }

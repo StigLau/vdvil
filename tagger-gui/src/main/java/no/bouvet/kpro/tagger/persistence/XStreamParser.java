@@ -25,19 +25,15 @@ public class XStreamParser <T extends SimpleSong> {
         return (SimpleSong) xstream.fromXML(fromXML);
     }
 
-    public void save(T songToSave, String fileToSave) {
+    public void save(T songToSave, String fileToSave) throws IOException {
         String xml = toXml(songToSave);
         File folder = new File(path);
         if (!folder.exists()) {
             folder.mkdirs();
         }
-        try {
-            BufferedWriter outputStream = new BufferedWriter(new FileWriter(fileToSave));
-            outputStream.write(xml);
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        BufferedWriter outputStream = new BufferedWriter(new FileWriter(fileToSave));
+        outputStream.write(xml);
+        outputStream.close();
     }
 
     public T load(String fileName) {

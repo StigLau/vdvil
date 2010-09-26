@@ -3,7 +3,7 @@ package no.lau.vdvil.gui
 import scala.swing._
 import TabbedPane._
 import no.lau.vdvil.cache.VdvilCacheHandler
-import no.lau.tagger.scala.model.{ScalaSong, Segment, SimpleSong}
+import no.lau.tagger.scala.model.{ToScalaSong, ScalaSegment, ScalaSong}
 import org.slf4j.{LoggerFactory, Logger}
 
 /**
@@ -26,21 +26,26 @@ object TagGUI extends SimpleSwingApplication {
 
     menuBar = new MenuBar {
       import Dialog._
-      contents += new Menu("File") {
-        contents += new MenuItem(Action("Load From File") {
+      contents += new Menu("Load") {
+        contents += new MenuItem(Action("From File") {
 
           val fileChooser = new FileChooser(new java.io.File(dvlFilePath))
           val returnVal = fileChooser.showOpenDialog(this);
           if (returnVal == FileChooser.Result.Approve) {
             dvlFilePath = fileChooser.selectedFile.getAbsolutePath
-            val loadedSong = ScalaSong.fromJava(cacheHandler.loadSimpleSongFromDvlOnDisk(dvlFilePath))
-            showEditingPanel(dvlFilePath, NeatStuff.setAllNullIdsRandom(loadedSong))
+            try {
+              val loadedSong = ToScalaSong.fromJava(cacheHandler.loadSimpleSongFromDvlOnDisk(dvlFilePath))
+              showEditingPanel(dvlFilePath, NeatStuff.setAllNullIdsRandom(loadedSong))
+            } catch {case _ => log.error("Could not parse file {}", dvlFilePath)} 
           }
         })
-        contents += new MenuItem(Action("Load From Web") {
-          val urlToLoad = showInput(menuBar, "", "Load from", Message.Plain, Swing.EmptyIcon, Nil, returningDvlUrl)
-          if(urlToLoad.isDefined)
-            showEditingPanel(urlToLoad.get, fetchDvlAndMp3FromWeb(urlToLoad.get))
+        contents += new MenuItem(Action("From Web") {
+          val urlOption = showInput(menuBar, "", "Load from", Message.Plain, Swing.EmptyIcon, Nil, returningDvlUrl)
+          if (urlOption.isDefined) {
+            val songOption = fetchDvlAndMp3FromWeb(urlOption.get)
+            if (songOption.isDefined)
+              showEditingPanel(urlOption.get, songOption.get)
+          }
         })
       }
     }
@@ -50,12 +55,14 @@ object TagGUI extends SimpleSwingApplication {
     }
   }
 
-  def fetchDvlAndMp3FromWeb(url: String): SimpleSong = {
-    val javaSong = new VdvilCacheHandler().fetchSimpleSongAndCacheDvlAndMp3(url, null)
-    return NeatStuff.setAllNullIdsRandom(ScalaSong.fromJava(javaSong))
+  def fetchDvlAndMp3FromWeb(url: String): Option[ScalaSong] = {
+    try {
+      val javaSong = new VdvilCacheHandler().fetchSimpleSongAndCacheDvlAndMp3(url, null)
+      Some(NeatStuff.setAllNullIdsRandom(ToScalaSong.fromJava(javaSong)))
+    } catch {case _ => log.error("Could not download or parse {}", url); None} // TODO This catch all is not working -> WHY!? 
   }
 
-  def showEditingPanel(input: String, song: SimpleSong) = {
+  def showEditingPanel(input: String, song: ScalaSong) = {
     dvlTable = new ScalaDynamicDvlTable(input, song)
     //TODO Frame Repack
     tabs.pages += new Page(song.reference, dvlTable.ui)
@@ -66,22 +73,22 @@ object NeatStuff {
   import scala.util.Random
   import scala.collection.mutable.ListBuffer
 
-  def setAllNullIdsRandom(original: SimpleSong): SimpleSong = {
-    var newSegmentList = new ListBuffer[Segment]()
+  def setAllNullIdsRandom(original: ScalaSong): ScalaSong = {
+    var newSegmentList = new ListBuffer[ScalaSegment]()
 
     for (thisSegment <- original.segments) {
       if (thisSegment.id == null) {
         val id = String.valueOf(Math.abs(Random.nextLong))
-        newSegmentList += new Segment(id, thisSegment.start, thisSegment.end, thisSegment.text)
+        newSegmentList += new ScalaSegment(id, thisSegment.start, thisSegment.end, thisSegment.text)
       }
       else
         newSegmentList += thisSegment
     }
-    return new SimpleSong(original.reference, original.mediaFile, newSegmentList.toList, original.bpm)
+    return new ScalaSong(original.reference, original.mediaFile, newSegmentList.toList, original.bpm)
   }
 
-  def updateSegmentInSimpleSong(editedSegment: Segment, oldSong: SimpleSong): SimpleSong = {
-    var newSegmentList = new ListBuffer[Segment]()
+  def updateSegmentInSimpleSong(editedSegment: ScalaSegment, oldSong: ScalaSong): ScalaSong = {
+    var newSegmentList = new ListBuffer[ScalaSegment]()
 
     for (thisSegment <- oldSong.segments) {
       if (thisSegment.id == editedSegment.id) {
@@ -90,7 +97,7 @@ object NeatStuff {
         newSegmentList += thisSegment
       }
     }
-    return new SimpleSong(oldSong.reference, oldSong.mediaFile, newSegmentList.toList, oldSong.bpm)
+    return new ScalaSong(oldSong.reference, oldSong.mediaFile, newSegmentList.toList, oldSong.bpm)
   }
 }
 

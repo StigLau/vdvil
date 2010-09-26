@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class VdvilCacheHandler {
     final Logger log = LoggerFactory.getLogger(VdvilCacheHandler.class);
@@ -48,7 +49,7 @@ public class VdvilCacheHandler {
          return parser.load(cachedFile);
      }
 
-    public void save(SimpleSong song, String path) {
+    public void save(SimpleSong song, String path) throws IOException {
         parser.save(song, path);
     }
 
