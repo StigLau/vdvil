@@ -35,7 +35,7 @@ object TagGUI extends SimpleSwingApplication {
             dvlFilePath = fileChooser.selectedFile.getAbsolutePath
             try {
               val loadedSong = cacheHandler.loadSimpleSongFromDvlOnDisk(dvlFilePath)
-              showEditingPanel(dvlFilePath, NeatStuff.setAllNullIdsRandom(loadedSong))
+              showEditingPanel(dvlFilePath, NeatStuff.convertAllNullIDsToRandom(loadedSong))
             } catch {case _ => log.error("Could not parse file {}", dvlFilePath)} 
           }
         })
@@ -58,7 +58,7 @@ object TagGUI extends SimpleSwingApplication {
   def fetchDvlAndMp3FromWeb(url: String): Option[ScalaSong] = {
     try {
       val javaSong = new VdvilCacheHandler().fetchSimpleSongAndCacheDvlAndMp3(url, null)
-      Some(NeatStuff.setAllNullIdsRandom(ToScalaSong.fromJava(javaSong)))
+      Some(NeatStuff.convertAllNullIDsToRandom(ToScalaSong.fromJava(javaSong)))
     } catch {case _ => log.error("Could not download or parse {}", url); None} // TODO This catch all is not working -> WHY!? 
   }
 
@@ -71,9 +71,8 @@ object TagGUI extends SimpleSwingApplication {
 
 object NeatStuff {
   import scala.util.Random
-  import scala.collection.mutable.ListBuffer
 
-  def setAllNullIdsRandom(original: ScalaSong): ScalaSong = {
+  def convertAllNullIDsToRandom(original: ScalaSong): ScalaSong = {
     val segmentList = for{segment <- original.segments} yield segment.id match {
       case null => {
         val id = String.valueOf(Math.abs(Random.nextLong))
@@ -85,16 +84,12 @@ object NeatStuff {
   }
 
   def updateSegmentInSimpleSong(editedSegment: ScalaSegment, oldSong: ScalaSong): ScalaSong = {
-    var newSegmentList = new ListBuffer[ScalaSegment]()
-
-    for (thisSegment <- oldSong.segments) {
-      if (thisSegment.id == editedSegment.id) {
-        newSegmentList += editedSegment
-      } else {
-        newSegmentList += thisSegment
-      }
+    val newSegmentList = for{currentSegment <- oldSong.segments} yield
+      currentSegment.id match {
+        case editedSegment.id => editedSegment
+        case _ => currentSegment
     }
-    return new ScalaSong(oldSong.reference, oldSong.mediaFile, newSegmentList.toList, oldSong.bpm)
+    return new ScalaSong(oldSong.reference, oldSong.mediaFile, newSegmentList, oldSong.bpm)
   }
 }
 

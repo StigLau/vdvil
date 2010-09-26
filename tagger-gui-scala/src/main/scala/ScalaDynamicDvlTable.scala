@@ -3,9 +3,8 @@ package no.lau.vdvil.gui
 import scala.swing._
 import scala.swing.event._
 import no.bouvet.kpro.tagger.PlayerBase
-import no.lau.tagger.scala.model.ScalaSong
 import org.slf4j.LoggerFactory
-import no.lau.vdvil.cache.TranslateTo
+import no.lau.tagger.scala.model.{TranslateTo, ScalaSong}
 
 class ScalaDynamicDvlTable(returningDvlUrl: String, var simpleSong: ScalaSong) {
   var player: PlayerBase = null
@@ -61,7 +60,7 @@ class ScalaDynamicDvlTable(returningDvlUrl: String, var simpleSong: ScalaSong) {
         contents += new Label("Text")
         contents += new Label("")
 
-        for (segment <- simpleSong.segments) {
+        simpleSong.segments.foreach {segment =>
           contents += new TextField(segment.start.toString(), 3) {
             reactions += {
               case _ => simpleSong.segmentWithId(segment.id).get.start = text.toFloat
