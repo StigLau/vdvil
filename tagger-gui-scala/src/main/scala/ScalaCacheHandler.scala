@@ -25,30 +25,31 @@ class ScalaCacheHandler {
    */
   def fetchSimpleSongAndCacheDvlAndMp3(dvlUrl: String, dvlChecksum: String): ScalaSong = {
     log.debug("Downloading dvl files download mp3's with httpCache")
-    var cachedDvlFile: String = retrievePathToFileFromCache(dvlUrl, dvlChecksum)
-    if (cachedDvlFile != null) return loadSimpleSongFromDvlOnDisk(cachedDvlFile)
-    else throw new FileNotFoundException("Could not download .dvl file " + dvlUrl)
+    retrievePathToFileFromCache(dvlUrl, dvlChecksum) match {
+      case Some(dvlPath: String) => loadSimpleSongFromDvlOnDisk(dvlPath)
+      case _ => throw new FileNotFoundException("Could not download .dvl file " + dvlUrl)
+    }
   }
 
-  def retrievePathToFileFromCache(urlOfFile: String, checksum: String): String = {
-    var cachedFile: File = null
-    if (checksum == null) {
-      cachedFile = httpCache.fetchAsFile(urlOfFile)
+
+  def retrievePathToFileFromCache(urlOfFile: String, checksum: String): Option[String] = {
+    val cachedFile = checksum match {
+      case null => httpCache.fetchAsFile(urlOfFile)
+      case _ => httpCache.fetchAsFile(urlOfFile, checksum)
     }
-    else {
-      cachedFile = httpCache.fetchAsFile(urlOfFile, checksum)
+    cachedFile match {
+      case null => None
+      case _ => {
+        log.debug("{} is located on disk: {}", cachedFile.getName, cachedFile.getAbsolutePath)
+        Some(cachedFile.getAbsolutePath)
+      }
     }
-    if (cachedFile != null) {
-      log.debug("{} is located on disk: {}", cachedFile.getName, cachedFile.getAbsolutePath)
-      return cachedFile.getAbsolutePath
-    }
-    else return null
   }
 
-  def save(song: ScalaSong, path: String):Unit = parser.save(song.toJava, path)
+  def save(song: ScalaSong, path: String): Unit = parser.save(song.toJava, path)
 
 
-  def loadSimpleSongFromDvlOnDisk(cachedFile: String):ScalaSong = ToScalaSong.fromJava(parser.load(cachedFile))
+  def loadSimpleSongFromDvlOnDisk(cachedFile: String): ScalaSong = ToScalaSong.fromJava(parser.load(cachedFile))
 
 }
 
