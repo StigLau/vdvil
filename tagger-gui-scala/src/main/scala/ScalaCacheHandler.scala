@@ -7,7 +7,7 @@ import org.codehaus.httpcache4j.cache.VdvilCacheStuff
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileNotFoundException
-import no.lau.tagger.scala.model.{ToScalaSong, ScalaSong}
+import no.lau.tagger.scala.model.{ScalaSegment, ScalaMediaFile, ScalaSong}
 
 class ScalaCacheHandler {
   //val tempFolder = System.getProperty("java.io.tmpdir")
@@ -15,7 +15,7 @@ class ScalaCacheHandler {
   val log = LoggerFactory.getLogger(classOf[ScalaCacheHandler])
   var parser = new XStreamParser[SimpleSong]
 
-  def printableXml(scalaSong: ScalaSong): String = parser.toXml(scalaSong.toJava)
+  def printableXml(scalaSong: ScalaSong): String = parser.toXml(TranslateTo.from(scalaSong))
 
   /**
    * @param dvlUrl Where to locate the file
@@ -46,10 +46,8 @@ class ScalaCacheHandler {
     }
   }
 
-  def save(song: ScalaSong, path: String): Unit = parser.save(song.toJava, path)
+  def save(song: ScalaSong, path: String): Unit = parser.save(TranslateTo.from(song), path)
 
 
   def loadSimpleSongFromDvlOnDisk(cachedFile: String): ScalaSong = ToScalaSong.fromJava(parser.load(cachedFile))
-
 }
-

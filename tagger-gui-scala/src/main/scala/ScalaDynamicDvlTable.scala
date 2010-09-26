@@ -5,6 +5,7 @@ import scala.swing.event._
 import no.bouvet.kpro.tagger.PlayerBase
 import no.lau.tagger.scala.model.ScalaSong
 import org.slf4j.LoggerFactory
+import no.lau.vdvil.cache.TranslateTo
 
 class ScalaDynamicDvlTable(returningDvlUrl: String, var simpleSong: ScalaSong) {
   var player: PlayerBase = null
@@ -97,7 +98,7 @@ class ScalaDynamicDvlTable(returningDvlUrl: String, var simpleSong: ScalaSong) {
     val pathToMp3 = new no.lau.vdvil.cache.VdvilCacheHandler().retrievePathToFileFromCache(song.mediaFile.fileName, song.mediaFile.checksum)
     val copyOfSong = new ScalaSong(song.reference, new ScalaMediaFile(pathToMp3, mf.checksum, mf.startingOffset), song.segments, song.bpm)
 
-    player = new PlayerBase(copyOfSong.toJava)
+    player = new PlayerBase(TranslateTo.from(copyOfSong))
     val segment = simpleSong.segmentWithId(segmentId).get
     player.playPause(segment.start, segment.end)
   }
