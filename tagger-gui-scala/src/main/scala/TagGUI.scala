@@ -2,9 +2,9 @@ package no.lau.vdvil.gui
 
 import scala.swing._
 import TabbedPane._
-import no.lau.vdvil.cache.VdvilCacheHandler
 import no.lau.tagger.scala.model.{ToScalaSong, ScalaSegment, ScalaSong}
 import org.slf4j.{LoggerFactory, Logger}
+import no.lau.vdvil.cache.{ScalaCacheHandler, VdvilCacheHandler}
 
 /**
  * Note - to make the TagGUI functional, it can be necessary to make a small change to the file and recompile.
@@ -13,7 +13,7 @@ object TagGUI extends SimpleSwingApplication {
   val log:Logger =  LoggerFactory.getLogger(classOf[ScalaDynamicDvlTable])//TODO THIS IS SOOOOO WRONG!!!!
   var dvlFilePath = System.getProperty("user.home") + "/kpro"
 
-  val cacheHandler = new VdvilCacheHandler
+  val cacheHandler = new ScalaCacheHandler
   var dvlTable: ScalaDynamicDvlTable = null
   //These are just test variables
   val returningDvlUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"
@@ -34,7 +34,7 @@ object TagGUI extends SimpleSwingApplication {
           if (returnVal == FileChooser.Result.Approve) {
             dvlFilePath = fileChooser.selectedFile.getAbsolutePath
             try {
-              val loadedSong = ToScalaSong.fromJava(cacheHandler.loadSimpleSongFromDvlOnDisk(dvlFilePath))
+              val loadedSong = cacheHandler.loadSimpleSongFromDvlOnDisk(dvlFilePath)
               showEditingPanel(dvlFilePath, NeatStuff.setAllNullIdsRandom(loadedSong))
             } catch {case _ => log.error("Could not parse file {}", dvlFilePath)} 
           }

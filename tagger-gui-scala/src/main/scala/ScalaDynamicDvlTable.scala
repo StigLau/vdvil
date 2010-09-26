@@ -34,7 +34,7 @@ class ScalaDynamicDvlTable(returningDvlUrl: String, var simpleSong: ScalaSong) {
 
       add(new FlowPanel {
         contents += new Button("View .dvl XML") {
-          reactions += {case ButtonClicked(_) => log.info(TagGUI.cacheHandler.printableXml(simpleSong.toJava))}
+          reactions += {case ButtonClicked(_) => log.info(TagGUI.cacheHandler.printableXml(simpleSong))}
         }
         contents += new Button("Save as .dvl file") {
           reactions += {
@@ -42,7 +42,7 @@ class ScalaDynamicDvlTable(returningDvlUrl: String, var simpleSong: ScalaSong) {
               val pathToSaveTo = Dialog.showInput(this, "", "Save to", Dialog.Message.Plain, Swing.EmptyIcon, Nil, returningDvlUrl)
               if (pathToSaveTo.isDefined) {
                 log.info("Saving to {}", pathToSaveTo.get)
-                try { TagGUI.cacheHandler.save(simpleSong.toJava, pathToSaveTo.get)}
+                try { TagGUI.cacheHandler.save(simpleSong, pathToSaveTo.get)}
                 catch { case ioE:java.io.IOException => log.error("Could not save file")}
               }
             }

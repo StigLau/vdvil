@@ -12,7 +12,6 @@ import java.io.IOException;
 
 public class VdvilCacheHandler {
     final Logger log = LoggerFactory.getLogger(VdvilCacheHandler.class);
-    final String tempFolder = System.getProperty("java.io.tmpdir"); //Not yet in use
     final VdvilCacheStuff httpCache = new VdvilCacheStuff(new File("/tmp/vdvil"));
     XStreamParser parser = new XStreamParser();
 
@@ -26,7 +25,7 @@ public class VdvilCacheHandler {
         log.debug("Downloading dvl files download mp3's with httpCache");
         String cachedDvlFile = retrievePathToFileFromCache(dvlUrl, dvlChecksum);
         if(cachedDvlFile != null)
-            return loadSimpleSongFromDvlOnDisk(cachedDvlFile);
+            return parser.load(cachedDvlFile);
         else
             throw new FileNotFoundException("Could not download .dvl file " + dvlUrl);
     }
@@ -43,17 +42,5 @@ public class VdvilCacheHandler {
             return cachedFile.getAbsolutePath();
         } else
             return null;
-    }
-
-    public SimpleSong loadSimpleSongFromDvlOnDisk(String cachedFile) throws FileNotFoundException {
-         return parser.load(cachedFile);
-     }
-
-    public void save(SimpleSong song, String path) throws IOException {
-        parser.save(song, path);
-    }
-
-    public String printableXml(SimpleSong ss) {
-        return parser.toXml(ss);
     }
 }
