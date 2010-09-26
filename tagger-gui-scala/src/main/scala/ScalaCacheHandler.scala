@@ -7,7 +7,7 @@ import org.codehaus.httpcache4j.cache.VdvilCacheStuff
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileNotFoundException
-import no.lau.tagger.scala.model.{ScalaSegment, ScalaMediaFile, ScalaSong}
+import no.lau.tagger.scala.model._
 
 class ScalaCacheHandler {
   //val tempFolder = System.getProperty("java.io.tmpdir")

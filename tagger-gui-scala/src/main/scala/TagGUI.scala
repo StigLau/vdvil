@@ -74,17 +74,14 @@ object NeatStuff {
   import scala.collection.mutable.ListBuffer
 
   def setAllNullIdsRandom(original: ScalaSong): ScalaSong = {
-    var newSegmentList = new ListBuffer[ScalaSegment]()
-
-    for (thisSegment <- original.segments) {
-      if (thisSegment.id == null) {
+    val segmentList = for{segment <- original.segments} yield segment.id match {
+      case null => {
         val id = String.valueOf(Math.abs(Random.nextLong))
-        newSegmentList += new ScalaSegment(id, thisSegment.start, thisSegment.end, thisSegment.text)
+        new ScalaSegment(id, segment.start, segment.end, segment.text)
       }
-      else
-        newSegmentList += thisSegment
+      case _ => segment
     }
-    return new ScalaSong(original.reference, original.mediaFile, newSegmentList.toList, original.bpm)
+    return new ScalaSong(original.reference, original.mediaFile, segmentList.toList, original.bpm)
   }
 
   def updateSegmentInSimpleSong(editedSegment: ScalaSegment, oldSong: ScalaSong): ScalaSong = {
