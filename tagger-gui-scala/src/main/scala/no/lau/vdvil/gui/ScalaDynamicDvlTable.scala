@@ -4,9 +4,11 @@ import scala.swing._
 import scala.swing.event._
 import no.bouvet.kpro.tagger.PlayerBase
 import no.lau.tagger.scala.model.SimpleSong
+import org.slf4j.LoggerFactory
 
 class ScalaDynamicDvlTable(returningDvlUrl: String, var simpleSong: SimpleSong) {
   var player: PlayerBase = null
+  val log = LoggerFactory.getLogger(classOf[ScalaDynamicDvlTable])
 
   lazy val ui = new BorderPanel {
     add(new TextField(returningDvlUrl, 80) {
@@ -26,12 +28,26 @@ class ScalaDynamicDvlTable(returningDvlUrl: String, var simpleSong: SimpleSong) 
 
         contents += new Label("Starting offset")
         contents += new TextField(simpleSong.mediaFile.startingOffset.toString, 5) {
-          reactions += {
-            case _ => simpleSong.mediaFile.startingOffset = text.toFloat
-          }
+          reactions += {case _ => simpleSong.mediaFile.startingOffset = text.toFloat}
         }
       }, BorderPanel.Position.North)
 
+      add(new FlowPanel {
+        contents += new Button("View .dvl XML") {
+          reactions += {case ButtonClicked(_) => log.info(TagGUI.cacheHandler.printableXml(simpleSong.toJava))}
+        }
+        contents += new Button("Save as .dvl file") {
+          reactions += {
+            case ButtonClicked(_) => {
+              val pathToSaveTo = Dialog.showInput(null, "", "Save to", Dialog.Message.Plain, Swing.EmptyIcon, Nil, returningDvlUrl)
+              if (pathToSaveTo.isDefined) {
+                log.info("Saving to {}", pathToSaveTo.get)
+                TagGUI.cacheHandler.save(simpleSong.toJava, pathToSaveTo.get)
+              }
+            }
+          }
+        }
+      }, BorderPanel.Position.South)
 
       val nrOfRows = simpleSong.segments.size + 1
       add(new GridPanel(nrOfRows, 4) {
@@ -42,25 +58,26 @@ class ScalaDynamicDvlTable(returningDvlUrl: String, var simpleSong: SimpleSong) 
         contents += new Label("End")
         contents += new Label("Text")
         contents += new Label("")
+
         for (segment <- simpleSong.segments) {
           contents += new TextField(segment.start.toString(), 3) {
             reactions += {
-              case _ => simpleSong.segmentWithId(segment.id).start = text.toFloat
+              case _ => simpleSong.segmentWithId(segment.id).get.start = text.toFloat
             }
           }
           contents += new TextField(segment.end.toString(), 3) {
             reactions += {
-              case _ => simpleSong.segmentWithId(segment.id).end = text.toFloat
+              case _ => simpleSong.segmentWithId(segment.id).get.end = text.toFloat
             }
           }
           contents += new TextField(segment.text, 40) {
             reactions += {
-              case _ => simpleSong.segmentWithId(segment.id).text = text
+              case _ => simpleSong.segmentWithId(segment.id).get.text = text
             }
-            contents += new Button("Play") {
-              reactions += {
-                case ButtonClicked(_) => playSegment(segment.id, simpleSong)
-              }
+          }
+          contents += new Button("Play") {
+            reactions += {
+              case ButtonClicked(_) => playSegment(segment.id, simpleSong)
             }
           }
         }
@@ -80,7 +97,7 @@ class ScalaDynamicDvlTable(returningDvlUrl: String, var simpleSong: SimpleSong) 
     val copyOfSong = new SimpleSong(song.reference, new MediaFile(pathToMp3, mf.checksum, mf.startingOffset), song.segments, song.bpm)
 
     player = new PlayerBase(copyOfSong.toJava)
-    val segment = simpleSong.segmentWithId(segmentId)
+    val segment = simpleSong.segmentWithId(segmentId).get
     player.playPause(segment.start, segment.end)
   }
 }

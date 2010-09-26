@@ -38,20 +38,9 @@ object TagGUI extends SimpleSwingApplication {
           }
         })
         contents += new MenuItem(Action("Load From Web") {
-          val input = showInput(menuBar, "", "Load from", Message.Plain, Swing.EmptyIcon, Nil, returningDvlUrl)
-          if(input != None)
-            showEditingPanel(input.get, fetchDvlAndMp3FromWeb(input.get))
-        })
-        contents += new MenuItem(Action("View .dvl XML") {
-          if(dvlTable != null)
-            log.info(cacheHandler.printableXml(dvlTable.simpleSong.toJava))
-        })
-        contents += new MenuItem(Action("Save as .dvl file") {
-          val input = showInput(menuBar, "", "Load from", Message.Plain, Swing.EmptyIcon, Nil, returningDvlUrl)
-          if(input != None) {
-            log.info("Saving to {}", input.get)
-            cacheHandler.save(dvlTable.simpleSong.toJava, input.get)
-          }
+          val urlToLoad = showInput(menuBar, "", "Load from", Message.Plain, Swing.EmptyIcon, Nil, returningDvlUrl)
+          if(urlToLoad.isDefined)
+            showEditingPanel(urlToLoad.get, fetchDvlAndMp3FromWeb(urlToLoad.get))
         })
       }
     }
