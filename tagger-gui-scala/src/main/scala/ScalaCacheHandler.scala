@@ -20,7 +20,7 @@ class ScalaCacheHandler {
   /**
    * @param dvlUrl Where to locate the file
    * @param dvlChecksum if it is null, checksum is disregarded
-   * @return simpleSong
+   * @return song
    * @throws FileNotFoundException if the files werent found
    */
   def fetchSimpleSongAndCacheDvlAndMp3(dvlUrl: String, dvlChecksum: String): ScalaSong = {
