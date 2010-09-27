@@ -3,14 +3,14 @@ package no.lau.vdvil.gui
 import scala.swing._
 import TabbedPane._
 import no.lau.tagger.scala.model.{ToScalaSong, ScalaSegment, ScalaSong}
-import org.slf4j.{LoggerFactory, Logger}
-import no.lau.vdvil.cache.{ScalaCacheHandler, VdvilCacheHandler}
+import org.slf4j.LoggerFactory
+import no.lau.vdvil.cache.ScalaCacheHandler
 
 /**
  * Note - to make the TagGUI functional, it can be necessary to make a small change to the file and recompile.
  */
 object TagGUI extends SimpleSwingApplication {
-  val log:Logger =  LoggerFactory.getLogger(classOf[ScalaDynamicDvlTable])//TODO THIS IS SOOOOO WRONG!!!!
+  val log =  LoggerFactory.getLogger(classOf[ScalaDynamicDvlTable])//TODO THIS IS SOOOOO WRONG!!!!
   var dvlFilePath = System.getProperty("user.home") + "/kpro"
 
   val cacheHandler = new ScalaCacheHandler
@@ -57,8 +57,8 @@ object TagGUI extends SimpleSwingApplication {
 
   def fetchDvlAndMp3FromWeb(url: String): Option[ScalaSong] = {
     try {
-      val javaSong = new VdvilCacheHandler().fetchSimpleSongAndCacheDvlAndMp3(url, null)
-      Some(NeatStuff.convertAllNullIDsToRandom(ToScalaSong.fromJava(javaSong)))
+      val song:ScalaSong = cacheHandler.fetchSimpleSongAndCacheDvlAndMp3(url, null)
+      Some(NeatStuff.convertAllNullIDsToRandom(song))
     } catch {case _ => log.error("Could not download or parse {}", url); None} // TODO This catch all is not working -> WHY!? 
   }
 
@@ -74,13 +74,10 @@ object NeatStuff {
 
   def convertAllNullIDsToRandom(original: ScalaSong): ScalaSong = {
     val segmentList = for{segment <- original.segments} yield segment.id match {
-      case null => {
-        val id = String.valueOf(Math.abs(Random.nextLong))
-        new ScalaSegment(id, segment.start, segment.end, segment.text)
-      }
+      case null => new ScalaSegment(generateRandomId, segment.start, segment.end, segment.text)
       case _ => segment
     }
-    return new ScalaSong(original.reference, original.mediaFile, segmentList.toList, original.bpm)
+    new ScalaSong(original.reference, original.mediaFile, segmentList.toList, original.bpm)
   }
 
   def updateSegmentInSimpleSong(editedSegment: ScalaSegment, oldSong: ScalaSong): ScalaSong = {
@@ -89,8 +86,10 @@ object NeatStuff {
         case editedSegment.id => editedSegment
         case _ => currentSegment
     }
-    return new ScalaSong(oldSong.reference, oldSong.mediaFile, newSegmentList, oldSong.bpm)
+    new ScalaSong(oldSong.reference, oldSong.mediaFile, newSegmentList, oldSong.bpm)
   }
+
+  def generateRandomId:String = String.valueOf(Math.abs(Random.nextLong))
 }
 
 

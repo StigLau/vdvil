@@ -29,7 +29,7 @@ object TranslateTo {
   def from(mf: ScalaMediaFile): no.lau.tagger.model.MediaFile = new no.lau.tagger.model.MediaFile(mf.fileName, mf.checksum, mf.startingOffset.floatValue)
 
   private def segmentsFrom(song: ScalaSong): java.util.List[no.lau.tagger.model.Segment] = {
-    val list = new ArrayList[no.lau.tagger.model.Segment]()
+    val list = new ArrayList[no.lau.tagger.model.Segment]
     for (segment <- song.segments) {
       list.add(from(segment))
     }
