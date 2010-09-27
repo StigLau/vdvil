@@ -1,10 +1,9 @@
 package no.bouvet.kpro.tagger;
 
-import no.bouvet.kpro.tagger.gui.SimpleSongCallBack;
 import no.lau.tagger.model.SimpleSong;
 import no.bouvet.kpro.tagger.gui.Worker;
 
-public class PlayerBase implements PlayerIF, SimpleSongCallBack {
+public class PlayerBase {
 
     private boolean started;
     private Worker worker;
