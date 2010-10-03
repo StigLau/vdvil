@@ -4,11 +4,8 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
         <groupId>no.lau.vdvil</groupId>
-        <artifactId>root</artifactId>
         <version>0.6-SNAPSHOT</version>
-    </parent>
 
     <artifactId>tagger-gui-scala</artifactId>
     <name>Tagger GUI implemented in Scala</name>
@@ -42,15 +39,9 @@
             <version>${scala.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.scala-tools.testing</groupId>
-            <artifactId>specs</artifactId>
-            <version>1.5.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.scala-tools.testing</groupId>
+            <groupId>org.scalatest</groupId>
             <artifactId>scalatest</artifactId>
-            <version>0.9.5</version>
+            <version>1.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
