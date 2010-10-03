@@ -2,7 +2,7 @@ package no.lau.vdvil.gui
 
 import scala.swing._
 import TabbedPane._
-import no.lau.tagger.scala.model.{ToScalaSong, ScalaSegment, ScalaSong}
+import no.lau.tagger.scala.model.{ScalaSegment, ScalaSong}
 import org.slf4j.LoggerFactory
 import no.lau.vdvil.cache.ScalaCacheHandler
 
@@ -89,7 +89,7 @@ object NeatStuff {
     new ScalaSong(oldSong.reference, oldSong.mediaFile, newSegmentList, oldSong.bpm)
   }
 
-  def generateRandomId:String = String.valueOf(Math.abs(Random.nextLong))
+  def generateRandomId:String = String.valueOf(math.abs(Random.nextLong))
 }
 
 
