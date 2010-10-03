@@ -2,13 +2,13 @@ package no.lau.vdvil.gui
 
 import scala.swing._
 import scala.swing.event._
-import no.bouvet.kpro.tagger.PlayerBase
 import org.slf4j.LoggerFactory
 import no.lau.tagger.scala.model.{ScalaSegment, TranslateTo, ScalaSong}
+import no.lau.vdvil.player.ScalaPlayer
 
 class ScalaDynamicDvlTable(dvlUrl: String, var song: ScalaSong) {
 
-  var player: PlayerBase = null
+  var player: ScalaPlayer = null
   val log = LoggerFactory.getLogger(classOf[ScalaDynamicDvlTable])
 
   var editingGrid: GridPanel = buildEditingGrid
@@ -104,7 +104,7 @@ class ScalaDynamicDvlTable(dvlUrl: String, var song: ScalaSong) {
     if (pathToMp3Option.isDefined) {
       val copyOfSong = new ScalaSong(song.reference, new ScalaMediaFile(pathToMp3Option.get, mf.checksum, mf.startingOffset), song.segments, song.bpm)
 
-      player = new PlayerBase(TranslateTo.from(copyOfSong))
+      player = new ScalaPlayer(TranslateTo.from(copyOfSong))
       val segment = song.segmentWithId(segmentId).get
       player.playPause(segment.start, segment.end)
     }
