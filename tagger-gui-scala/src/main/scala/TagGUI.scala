@@ -35,7 +35,7 @@ object TagGUI extends SimpleSwingApplication {
             dvlFilePath = fileChooser.selectedFile.getAbsolutePath
             try {
               val loadedSong = cacheHandler.loadSimpleSongFromDvlOnDisk(dvlFilePath)
-              showEditingPanel(dvlFilePath, NeatStuff.convertAllNullIDsToRandom(loadedSong))
+              addEditingPanel(dvlFilePath, NeatStuff.convertAllNullIDsToRandom(loadedSong))
             } catch {case _ => log.error("Could not parse file {}", dvlFilePath)} 
           }
         })
@@ -44,7 +44,7 @@ object TagGUI extends SimpleSwingApplication {
           if (urlOption.isDefined) {
             val songOption = fetchDvlAndMp3FromWeb(urlOption.get)
             if (songOption.isDefined)
-              showEditingPanel(urlOption.get, songOption.get)
+              addEditingPanel(urlOption.get, songOption.get)
           }
         })
       }
@@ -62,7 +62,7 @@ object TagGUI extends SimpleSwingApplication {
     } catch {case _ => log.error("Could not download or parse {}", url); None} // TODO This catch all is not working -> WHY!? 
   }
 
-  def showEditingPanel(input: String, song: ScalaSong) = {
+  def addEditingPanel(input: String, song: ScalaSong) = {
     dvlTable = new ScalaDynamicDvlTable(input, song)
     //TODO Frame Repack
     tabs.pages += new Page(song.reference, dvlTable.ui)
