@@ -3,8 +3,8 @@ package no.lau.vdvil.gui
 import scala.swing._
 import scala.swing.event._
 import org.slf4j.LoggerFactory
-import no.lau.tagger.scala.model.{ScalaSegment, TranslateTo, ScalaSong}
 import no.lau.vdvil.player.ScalaPlayer
+import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSegment, TranslateTo, ScalaSong}
 
 class ScalaDynamicDvlTable(dvlUrl: String, var song: ScalaSong) {
 
@@ -96,7 +96,6 @@ class ScalaDynamicDvlTable(dvlUrl: String, var song: ScalaSong) {
    * Plays the segment of your choice
    */
   def playSegment(segmentId: String, song: ScalaSong) {
-    import no.lau.tagger.scala.model.ScalaMediaFile
     if (player != null)
       player.playPause(-1F, -1F) //Call to stop the player
     val mf = song.mediaFile
@@ -104,7 +103,7 @@ class ScalaDynamicDvlTable(dvlUrl: String, var song: ScalaSong) {
     if (pathToMp3Option.isDefined) {
       val copyOfSong = new ScalaSong(song.reference, new ScalaMediaFile(pathToMp3Option.get, mf.checksum, mf.startingOffset), song.segments, song.bpm)
 
-      player = new ScalaPlayer(TranslateTo.from(copyOfSong))
+      player = new ScalaPlayer(copyOfSong)
       val segment = song.segmentWithId(segmentId).get
       player.playPause(segment.start, segment.end)
     }

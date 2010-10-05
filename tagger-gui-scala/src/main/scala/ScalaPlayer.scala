@@ -1,30 +1,30 @@
 package no.lau.vdvil.player
 
-import no.lau.tagger.model.SimpleSong
-import no.bouvet.kpro.tagger.gui.Worker
+import no.lau.vdvil.swing.VdvilSwingActor
+import no.lau.tagger.scala.model.ScalaSong
 
-class ScalaPlayer(var simpleSong: SimpleSong) {
+class ScalaPlayer(var song: ScalaSong) {
   var started: Boolean = false
-  var worker: Worker = null
+  var worker: VdvilSwingActor = null
 
 
   def playPause(startCue: Float, endCue: Float) {
     worker = started match {
       case false => {
         started = true
-        new Worker(simpleSong, startCue, endCue) {
-          execute
+        new VdvilSwingActor(song, startCue, endCue) {
+          start
         }
       }
       case true => {
-        worker.stop()
+        worker.stop
         started = false
-        new Worker(simpleSong, startCue, endCue)
+        new VdvilSwingActor(song, startCue, endCue)
       }
     }
   }
 
-  def update(changedSimpleSong: SimpleSong) {
-    simpleSong = changedSimpleSong;
+  def update(changedSimpleSong: ScalaSong) {
+    song = changedSimpleSong;
   }
 }
