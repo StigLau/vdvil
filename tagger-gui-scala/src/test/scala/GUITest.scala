@@ -20,13 +20,27 @@ class GUITest {
 class ConvertingTest {
   import VdvilDomainDataCreator._
   @Test def convertScalaSongToJava {
-    println("Song Segment List " + song.segments)
-    println("Song Segment List Size " + song.segments.size)
-
     val javaSong = TranslateTo.from(song)
     assertEquals("http://some.reference.com/my/test.dvl", javaSong.reference)
     assertEquals(4, javaSong.segments.size)
     assertEquals(130, javaSong.bpm.intValue)
+  }
+}
+
+class NeatStuffTest {
+  import no.lau.vdvil.gui.NeatStuff._
+  @Test def nullIdConverter {
+    val songWithNullSegmentIds = new ScalaSong("", null, List(new ScalaSegment(null, 0F, 0F, ""), new ScalaSegment("", 0F, 0F, "")), 0F)
+    val convertedSong = convertAllNullIDsToRandom(songWithNullSegmentIds)
+    assertNotNull(convertedSong.segments(0))
+    assertNotNull(convertedSong.segments(1))
+  }
+
+  @Test def testChangingASegment {
+    val editedSegment = VdvilDomainDataCreator.song.segments(0)
+    editedSegment.start = 123F
+    val updatedSong = updateSegmentInSimpleSong(editedSegment, VdvilDomainDataCreator.song)
+    assertEquals(123, updatedSong.segments(0).start.intValue)
   }
 }
 
