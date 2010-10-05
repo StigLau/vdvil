@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
-            <artifactId>tagger-gui</artifactId>
+            <artifactId>tagger-model</artifactId>
             <version>0.6-SNAPSHOT</version>
         </dependency>
 
