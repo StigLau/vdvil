@@ -22,7 +22,6 @@ object TagGUI extends SimpleSwingApplication {
 
   def top = new MainFrame {
     title = "Tagging GUI"
-    //size = new Dimension(800, 600) //Need a frame repack
 
     menuBar = new MenuBar {
       import Dialog._
