@@ -4,7 +4,7 @@ import scala.swing._
 import event.ButtonClicked
 import no.lau.vdvil.gui.TagGUI
 import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSong}
-import no.lau.vdvil.player.ScalaPlayer
+import no.lau.vdvil.player.{ScalaComposition, ScalaCompositionPlayer, CompositionExample, ScalaPlayer}
 
 /**
  * Play GUI for playing .vdl files
@@ -23,7 +23,8 @@ object PlayGUI extends SimpleSwingApplication {
       contents += new Label("Stop")
       contents += stopField
       contents += playButton
-      contents += new Label("BPM not implemented")
+      contents += playCompositionButton
+      contents += new Label("BPM")
       contents += bpmField
     }
   }
@@ -33,8 +34,11 @@ object PlayGUI extends SimpleSwingApplication {
   }
   val startField = new TextField("0.0", 4) 
   val stopField = new TextField("64.0", 4)
-  val playButton = new Button("Play") {
+  val playButton = new Button("Play Segment") {
     reactions += {case ButtonClicked(_) => playSegment(startField.text.toFloat, stopField.text.toFloat, testSong)}
+  }
+  val playCompositionButton = new Button("Play Composition") {
+    reactions += {case ButtonClicked(_) => playComposition(startField.text.toFloat)}
   }
 
 
@@ -53,6 +57,12 @@ object PlayGUI extends SimpleSwingApplication {
       songPlayer = new ScalaPlayer(copyOfSong)
       songPlayer.playPause(startFrom, stopAt)
     }
+  }
+
+  def playComposition(startFrom: Float) {
+    val composition = new ScalaComposition(bpmField.text.toFloat, CompositionExample.parts)
+    val player = new ScalaCompositionPlayer(composition)
+    player.play(startFrom)
   }
 
   /*
