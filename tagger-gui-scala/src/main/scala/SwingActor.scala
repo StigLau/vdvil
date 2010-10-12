@@ -11,7 +11,7 @@ import no.lau.tagger.scala.model.ScalaSong
 class VdvilSwingActor(song: ScalaSong, startCue: Float, endCue: Float) extends SwingWorker //extends Actor
 {
   var audioSource: AudioSource = new MP3Source(new File(song.mediaFile.fileName))
-  var player: AudioPlayer = new AudioPlayer
+  var player = new AudioPlayer
   val log = LoggerFactory.getLogger(classOf[VdvilSwingActor])
 
   def act() {
