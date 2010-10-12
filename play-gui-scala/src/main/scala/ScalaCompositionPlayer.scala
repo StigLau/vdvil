@@ -1,6 +1,7 @@
+package no.lau.vdvil.player
 import no.bouvet.kpro.renderer.audio.{AudioPlaybackTarget, AudioRenderer}
 import no.bouvet.kpro.renderer.{Instructions, Renderer}
-import no.lau.tagger.scala.model.ScalaComposition
+import no.lau.vdvil.player.ScalaComposition
 
 /**
  * This is the master class, responsible for playing a small demoset of VDVIL music
@@ -13,9 +14,9 @@ class ScalaCompositionPlayer(scalaComposition: ScalaComposition) {
 
   def createInstructionsFromParts(composition: ScalaComposition): Instructions = {
     new Instructions() {
-      //for (part <- scalaComposition.parts) {
-        //append(part.translateToInstruction(scalaComposition.masterBpm.floatValue))
-      //}
+      for (part <- scalaComposition.parts) {
+        append(part.translateToInstruction(scalaComposition.masterBpm.floatValue))
+      }
     }
   }
 
