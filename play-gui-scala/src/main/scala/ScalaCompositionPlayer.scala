@@ -13,7 +13,7 @@ class ScalaCompositionPlayer(var scalaCompositionOption: Option[ScalaComposition
   def play(startCue: Float) {
     scalaCompositionOption.foreach { //GetOrNone
       composition =>
-        rendererOption = Some(new Renderer(ScalaCompositionPlayer.createInstructionsFromParts(composition)) {
+        rendererOption = Some(new Renderer(composition.asInstructions) {
           addRenderer(new AudioRenderer(new AudioPlaybackTarget()))
           val startCueInMillis: Float = (startCue * 44100 * 60) / composition.masterBpm
           start(startCueInMillis.intValue())
@@ -22,10 +22,4 @@ class ScalaCompositionPlayer(var scalaCompositionOption: Option[ScalaComposition
   }
 
   def stop {rendererOption.foreach(_.stop)}
-}
-
-object ScalaCompositionPlayer {
-  def createInstructionsFromParts(composition: ScalaComposition) = new Instructions() {
-    composition.parts.foreach(part => append(part.translateToInstruction(composition.masterBpm.floatValue)))
-  }  
 }

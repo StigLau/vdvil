@@ -3,11 +3,11 @@ package no.lau.vdvil.player
 import java.io.File
 import no.bouvet.kpro.renderer.audio.{MP3Source, SimpleAudioInstruction}
 import no.lau.tagger.scala.model.{ScalaSong, ScalaSegment}
-import no.bouvet.kpro.renderer.Instruction
+import no.bouvet.kpro.renderer.{Instructions, Instruction}
 
-
-class ScalaComposition(val masterBpm: Float, val parts: List[ScalaAudioPart])
-
+class ScalaComposition(val masterBpm: Float, val parts: List[ScalaAudioPart]) {
+  def asInstructions = new Instructions { parts.foreach(part => append(part.translateToInstruction(masterBpm.floatValue))) }
+}
 
 class ScalaAudioPart(val song: ScalaSong, val startCue: Float, val endCue: Float, val segment: ScalaSegment) {
   val bpm = song.bpm
