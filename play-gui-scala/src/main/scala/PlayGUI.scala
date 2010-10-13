@@ -32,13 +32,13 @@ object PlayGUI extends SimpleSwingApplication {
   val bpmField = new TextField(testSong.bpm.toString, 3) {
     reactions += {case _ => if (!text.isEmpty) {testSong.bpm = text.toFloat; println("BPM Changed to " + testSong.bpm)}}
   }
-  val startField = new TextField("0.0", 4) 
+  val startField = new TextField("0.0", 4)
   val stopField = new TextField("64.0", 4)
   val playButton = new Button("Play Segment") {
     reactions += {case ButtonClicked(_) => playSegment(startField.text.toFloat, stopField.text.toFloat, testSong)}
   }
   val playCompositionButton = new Button("Play Composition") {
-    reactions += {case ButtonClicked(_) => playComposition(startField.text.toFloat)}
+    reactions += {case ButtonClicked(_) => compositionPlayer.pauseAndplay(startField.text.toFloat)}
   }
 
 
@@ -47,7 +47,7 @@ object PlayGUI extends SimpleSwingApplication {
   /**
    * Plays the segment of your choice
    */
-  def playSegment(startFrom: Float, stopAt:Float, song: ScalaSong) {
+  def playSegment(startFrom: Float, stopAt: Float, song: ScalaSong) {
     if (songPlayer != null)
       songPlayer.playPause(-1F, -1F) //Call to stop the player
     val mf = song.mediaFile
@@ -59,16 +59,18 @@ object PlayGUI extends SimpleSwingApplication {
     }
   }
 
-  def playComposition(startFrom: Float) {
-    val composition = new ScalaComposition(bpmField.text.toFloat, CompositionExample.parts)
-    val player = new ScalaCompositionPlayer(composition)
-    player.play(startFrom)
+  val compositionPlayer = new ScalaCompositionPlayer(None) {
+    def pauseAndplay(startFrom: Float) {
+      stop
+      scalaCompositionOption = Some(new ScalaComposition(bpmField.text.toFloat, CompositionExample.parts))
+      play(startFrom)
+    }
   }
 
   /*
  override def startup(args: Array[String]) {
-   val t = top
-   t.size_=(new Dimension(800, 600))
-   t.visible = true
+  val t = top
+  t.size_=(new Dimension(800, 600))
+  t.visible = true
  } */
 }

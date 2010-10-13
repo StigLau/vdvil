@@ -1,31 +1,31 @@
 package no.lau.vdvil.player
+
 import no.bouvet.kpro.renderer.audio.{AudioPlaybackTarget, AudioRenderer}
 import no.bouvet.kpro.renderer.{Instructions, Renderer}
-import no.lau.vdvil.player.ScalaComposition
 
 /**
  * This is the master class, responsible for playing a small demoset of VDVIL music
  */
-class ScalaCompositionPlayer(scalaComposition: ScalaComposition) {
-  lazy val renderer: Renderer = new Renderer(createInstructionsFromParts(scalaComposition)) {
-    addRenderer(new AudioRenderer(new AudioPlaybackTarget()))
-  }
+class ScalaCompositionPlayer(var scalaCompositionOption: Option[ScalaComposition]) {
+  var rendererOption: Option[Renderer] = None
   //static Logger log = Logger.getLogger(PlayStuff.class)
 
-  def createInstructionsFromParts(composition: ScalaComposition): Instructions = {
-    new Instructions() {
-      for (part <- scalaComposition.parts) {
-        append(part.translateToInstruction(scalaComposition.masterBpm.floatValue))
-      }
+  def play(startCue: Float) {
+    scalaCompositionOption.foreach { //GetOrNone
+      composition =>
+        rendererOption = Some(new Renderer(ScalaCompositionPlayer.createInstructionsFromParts(composition)) {
+          addRenderer(new AudioRenderer(new AudioPlaybackTarget()))
+          val startCueInMillis: Float = (startCue * 44100 * 60) / composition.masterBpm
+          start(startCueInMillis.intValue())
+        })
     }
   }
 
-  def play(startCue: Float) {
-    val startCueInMillis:Float = (startCue * 44100 * 60) / scalaComposition.masterBpm
-    renderer.start(startCueInMillis.intValue())
-  }
+  def stop {rendererOption.foreach(_.stop)}
+}
 
-  def stop() {
-    renderer.stop()
-  }
+object ScalaCompositionPlayer {
+  def createInstructionsFromParts(composition: ScalaComposition) = new Instructions() {
+    composition.parts.foreach(part => append(part.translateToInstruction(composition.masterBpm.floatValue)))
+  }  
 }
