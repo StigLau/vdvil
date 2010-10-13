@@ -17,16 +17,19 @@ object PlayGUI extends SimpleSwingApplication {
 
   def top = new MainFrame {
     title = "Play GUI"
+    menuBar = new MenuBar {
+      contents += new Menu("Load") {
+        contents += loadMenuItem
+      }
+    }
     contents = new FlowPanel {
       contents += new Label("Start from")
       contents += startField
       contents += new Label("Stop")
       contents += stopField
-      contents += playButton
       contents += playCompositionButton
       contents += new Label("BPM")
       contents += bpmField
-      contents += loadButton
     }
   }
 
@@ -35,40 +38,16 @@ object PlayGUI extends SimpleSwingApplication {
   }
   val startField = new TextField("0", 4)
   val stopField = new TextField(4)
-  val playButton = new Button("Play Segment") {
-    reactions += {case ButtonClicked(_) => playSegment(startField.text.toFloat, stopField.text.toFloat, testSong)}
-  }
   val playCompositionButton = new Button("Play Composition") {
     reactions += {case ButtonClicked(_) => compositionPlayer.pauseAndplay(startField.text.toFloat)}
   }
-  val loadButton = new Button("Load") {
-    reactions += {
-      case ButtonClicked(_) => {
-        val composition = new ScalaComposition(150F, CompositionExample.parts)
-        compositionOption = Some(composition)
-        stopField.text_=(composition.durationAsBeats.toString)
-        bpmField.text_=(composition.masterBpm.toString)
-      }
-    }
-  }
 
-
-  var songPlayer: ScalaPlayer = null
-
-  /**
-   * Plays the segment of your choice
-   */
-  def playSegment(startFrom: Float, stopAt: Float, song: ScalaSong) {
-    if (songPlayer != null)
-      songPlayer.playPause(-1F, -1F) //Call to stop the player
-    val mf = song.mediaFile
-    val pathToMp3Option = TagGUI.cacheHandler.retrievePathToFileFromCache(mf.fileName, mf.checksum)
-    if (pathToMp3Option.isDefined) {
-      val copyOfSong = new ScalaSong(song.reference, new ScalaMediaFile(pathToMp3Option.get, mf.checksum, mf.startingOffset), song.segments, song.bpm)
-      songPlayer = new ScalaPlayer(copyOfSong)
-      songPlayer.playPause(startFrom, stopAt)
-    }
-  }
+  val loadMenuItem = new MenuItem(Action("Static") {
+    val composition = new ScalaComposition(150F, CompositionExample.parts)
+    compositionOption = Some(composition)
+    stopField.text_=(composition.durationAsBeats.toString)
+    bpmField.text_=(composition.masterBpm.toString)
+  })
 
   val compositionPlayer = new ScalaCompositionPlayer(None) {
     def pauseAndplay(startFrom: Float) {
