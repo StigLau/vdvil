@@ -1,10 +1,9 @@
-package vdvil
+package no.lau.vdvil.player
 
 import scala.swing._
 import event.ButtonClicked
 import no.lau.vdvil.gui.TagGUI
 import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSong}
-import no.lau.vdvil.player.{ScalaComposition, ScalaCompositionPlayer, CompositionExample, ScalaPlayer}
 
 /**
  * Play GUI for playing .vdl files
@@ -13,6 +12,7 @@ object PlayGUI extends SimpleSwingApplication {
   //These are just test variables
   val returningDvlUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"
   val testSong: ScalaSong = TagGUI.fetchDvlAndMp3FromWeb(returningDvlUrl).get
+  var compositionOption: Option[ScalaComposition] = None
 
 
   def top = new MainFrame {
@@ -26,19 +26,30 @@ object PlayGUI extends SimpleSwingApplication {
       contents += playCompositionButton
       contents += new Label("BPM")
       contents += bpmField
+      contents += loadButton
     }
   }
 
-  val bpmField = new TextField(testSong.bpm.toString, 3) {
+  val bpmField = new TextField(4) {
     reactions += {case _ => if (!text.isEmpty) {testSong.bpm = text.toFloat; println("BPM Changed to " + testSong.bpm)}}
   }
-  val startField = new TextField("0.0", 4)
-  val stopField = new TextField("64.0", 4)
+  val startField = new TextField("0", 4)
+  val stopField = new TextField(4)
   val playButton = new Button("Play Segment") {
     reactions += {case ButtonClicked(_) => playSegment(startField.text.toFloat, stopField.text.toFloat, testSong)}
   }
   val playCompositionButton = new Button("Play Composition") {
     reactions += {case ButtonClicked(_) => compositionPlayer.pauseAndplay(startField.text.toFloat)}
+  }
+  val loadButton = new Button("Load") {
+    reactions += {
+      case ButtonClicked(_) => {
+        val composition = new ScalaComposition(150F, CompositionExample.parts)
+        compositionOption = Some(composition)
+        stopField.text_=(composition.durationAsBeats.toString)
+        bpmField.text_=(composition.masterBpm.toString)
+      }
+    }
   }
 
 
@@ -62,7 +73,7 @@ object PlayGUI extends SimpleSwingApplication {
   val compositionPlayer = new ScalaCompositionPlayer(None) {
     def pauseAndplay(startFrom: Float) {
       stop
-      scalaCompositionOption = Some(new ScalaComposition(bpmField.text.toFloat, CompositionExample.parts))
+      scalaCompositionOption = compositionOption
       play(startFrom)
     }
   }

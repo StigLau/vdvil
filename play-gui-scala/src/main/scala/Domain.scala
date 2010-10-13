@@ -7,6 +7,7 @@ import no.bouvet.kpro.renderer.{Instructions, Instruction}
 
 class ScalaComposition(val masterBpm: Float, val parts: List[ScalaAudioPart]) {
   def asInstructions = new Instructions { parts.foreach(part => append(part.translateToInstruction(masterBpm.floatValue))) }
+  def durationAsBeats:Float = asInstructions.getDuration * masterBpm / (44100 * 60)
 }
 
 class ScalaAudioPart(val song: ScalaSong, val startCue: Float, val endCue: Float, val segment: ScalaSegment) {

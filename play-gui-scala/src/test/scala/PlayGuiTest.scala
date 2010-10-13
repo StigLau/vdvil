@@ -1,12 +1,9 @@
-package no.lau.vdvil
+package no.lau.vdvil.player
 
-import _root_.vdvil.PlayGUI
 import org.junit.Test
 import no.lau.vdvil.gui.TagGUI
-import org.scalatest.Assertions._
-import no.lau.tagger.scala.model.{TranslateTo, ScalaSegment, ScalaMediaFile, ScalaSong}
 
-class GuiTest {
+class PlayGuiTest {
   val returningDvlUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"
 
   @Test def loadingFileWithSwingGUI {
@@ -20,17 +17,17 @@ class GuiTest {
 
   @Test def startGUI {
     //Check that test-song exists
-    assert(PlayGUI.testSong != Nil)
+    assert(PlayGUI.testSong != None)
     //Check that correct value is set
     assert(PlayGUI.testSong.bpm == 130F)
     //Check that the corresponding field also is correct
-    assert(PlayGUI.bpmField.text == "130.0")
+    assert(PlayGUI.bpmField.text == "")
 
     // Changing bpm
     PlayGUI.bpmField.text_=("0.0")
     //Verify that GUI has been changed
     assert(PlayGUI.bpmField.text == "0.0")
     //Check that Song has been updated by trigger
-    assert(PlayGUI.testSong.bpm == 0F)    
+    assert(PlayGUI.testSong.bpm == 0F)
   }
 }
