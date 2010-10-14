@@ -11,3 +11,6 @@ Todo's
   * Introduce Psylteflesk .dvl/.mp3
  * Create API for describing how resources (.mp3s, videos aso) can be downloaded and locally cached, and referenced by the renderers.
  * FactorMagic should perhaps be removed!
+
+ * Make a "downloading" Pane which downloads all the .vdl's and mp3's to disk while writing how this is doing
+ * Make downloading threaded

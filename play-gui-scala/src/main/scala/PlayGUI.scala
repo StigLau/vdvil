@@ -4,6 +4,7 @@ import scala.swing._
 import event.ButtonClicked
 import no.lau.vdvil.gui.TagGUI
 import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSong}
+import swing.TabbedPane.Page
 
 /**
  * Play GUI for playing .vdl files
@@ -15,6 +16,8 @@ object PlayGUI extends SimpleSwingApplication {
   var compositionOption: Option[ScalaComposition] = None
 
 
+  val tabs = new TabbedPane
+
   def top = new MainFrame {
     title = "Play GUI"
     menuBar = new MenuBar {
@@ -22,45 +25,47 @@ object PlayGUI extends SimpleSwingApplication {
         contents += loadMenuItem
       }
     }
-    contents = new FlowPanel {
-      contents += new Label("Start from")
-      contents += startField
-      contents += new Label("Stop")
-      contents += stopField
-      contents += playCompositionButton
-      contents += new Label("BPM")
-      contents += bpmField
-    }
-  }
 
-  val bpmField = new TextField(4) {
-    reactions += {case _ => if (!text.isEmpty) {testSong.bpm = text.toFloat; println("BPM Changed to " + testSong.bpm)}}
-  }
-  val startField = new TextField("0", 4)
-  val stopField = new TextField(4)
-  val playCompositionButton = new Button("Play Composition") {
-    reactions += {case ButtonClicked(_) => compositionPlayer.pauseAndplay(startField.text.toFloat)}
+    contents = new BorderPanel {
+      add(tabs, BorderPanel.Position.Center)
+    }
   }
 
   val loadMenuItem = new MenuItem(Action("Static") {
     val composition = new ScalaComposition(150F, CompositionExample.parts)
-    compositionOption = Some(composition)
-    stopField.text_=(composition.durationAsBeats.toString)
-    bpmField.text_=(composition.masterBpm.toString)
+    tabs.pages += new Page("Name", new ThePanel(composition).ui)
   })
 
-  val compositionPlayer = new ScalaCompositionPlayer(None) {
-    def pauseAndplay(startFrom: Float) {
-      stop
-      scalaCompositionOption = compositionOption
-      play(startFrom)
-    }
-  }
 
-  /*
  override def startup(args: Array[String]) {
   val t = top
   t.size_=(new Dimension(800, 600))
   t.visible = true
- } */
+ }
+}
+
+class ThePanel(composition: ScalaComposition) {
+  lazy val ui = new FlowPanel {
+    contents += new Label("Start from")
+    contents += startField
+    contents += new Label("Stop")
+    contents += stopField
+    contents += playCompositionButton
+    contents += new Label("BPM")
+    contents += bpmField
+  }
+
+  val bpmField = new TextField(composition.masterBpm.toString, 4)
+  val startField = new TextField("0", 4)
+  val stopField = new TextField(composition.durationAsBeats.toString, 4)
+  val playCompositionButton = new Button("Play Composition") {
+    reactions += {case ButtonClicked(_) => compositionPlayer.pauseAndplay(startField.text.toFloat)}
+  }
+  val compositionPlayer = new ScalaCompositionPlayer(None) {
+    def pauseAndplay(startFrom: Float) {
+      stop
+      scalaCompositionOption = Some(composition)
+      play(startFrom, bpmField.text.toFloat)
+    }
+  }
 }
