@@ -33,7 +33,7 @@ object PlayGUI extends SimpleSwingApplication {
 
   val loadMenuItem = new MenuItem(Action("Static") {
     val composition = new ScalaComposition(150F, CompositionExample.parts)
-    tabs.pages += new Page("Name", new ThePanel(composition).ui)
+    tabs.pages += new Page("Name", new PlayPanel(composition).ui)
   })
 
 
@@ -44,7 +44,7 @@ object PlayGUI extends SimpleSwingApplication {
  }
 }
 
-class ThePanel(composition: ScalaComposition) {
+class PlayPanel(val composition: ScalaComposition) {
   lazy val ui = new FlowPanel {
     contents += new Label("Start from")
     contents += startField
