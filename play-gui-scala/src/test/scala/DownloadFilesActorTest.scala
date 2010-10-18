@@ -24,36 +24,38 @@ class DownloadFilesActorTest {
 }
 
 class DownloadActor(url: String, coordinator: Actor) extends Actor {
+  val cacheHandler = new no.lau.vdvil.cache.ScalaCacheHandler()
+
   def act() {
-    println("Downloading " + url)
-    val song = getSong(url)
-    coordinator ! "woot"
-
-  }
-
-  def getSong(url: String): ScalaSong = {
-    val cacheHandler = new no.lau.vdvil.cache.ScalaCacheHandler()
+    coordinator ! DownloadingDvl(Dvl(url))
     val unconvertedSong:ScalaSong = cacheHandler.fetchSimpleSongAndCacheDvlAndMp3(url, null)
+    coordinator ! ConvertingAndAddingMissingIds(Dvl(url))
     val song = no.lau.vdvil.gui.NeatStuff.convertAllNullIDsToRandom(unconvertedSong)
     val mf = song.mediaFile
     val pathToMp3Option: Option[String] = cacheHandler.retrievePathToFileFromCache(mf.fileName, mf.checksum)
-    return new ScalaSong(song.reference, new ScalaMediaFile(pathToMp3Option.get, mf.checksum, mf.startingOffset), song.segments, song.bpm)
+    val finSong = new ScalaSong(song.reference, new ScalaMediaFile(pathToMp3Option.get, mf.checksum, mf.startingOffset), song.segments, song.bpm)
+    coordinator ! FinishedDownloading(finSong)
   }
-
 }
 
 class DownloadCoordinatorActor extends Actor {
   def act() {
     loop {
       react {
-        case message:String => println("downloaded " + message)
-        case song: ScalaSong => {
-          println("downloaded " + song)
-        }
+        case downloading: DownloadingDvl => println("Downloading: " + downloading.dvl.url)
+        case converting: ConvertingAndAddingMissingIds => println("Converting: " + converting.dvl.url)
+        case finished: FinishedDownloading => println("Finished downloading: " + finished.song.mediaFile.fileName)
+        case error: ErrorDownloading => println("Error downloading: " + error.message)
       }
     }
   }
 }
+case class Dvl(url:String)
+case class DownloadingDvl(dvl:Dvl)
+case class ConvertingAndAddingMissingIds(dvl:Dvl)
+case class FinishedDownloading(song:ScalaSong)
+case class ErrorDownloading(message:String)
+
 
 
 
