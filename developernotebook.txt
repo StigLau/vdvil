@@ -14,3 +14,6 @@ Todo's
 
  * Make a "downloading" Pane which downloads all the .vdl's and mp3's to disk while writing how this is doing
  * Make downloading threaded
+  ** Make downloading song more fluent as part of the GUI!
+ * Move Domain into case class
+  *

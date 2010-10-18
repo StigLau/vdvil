@@ -2,20 +2,12 @@ package no.lau.vdvil.player
 
 import scala.swing._
 import event.ButtonClicked
-import no.lau.vdvil.gui.TagGUI
-import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSong}
 import swing.TabbedPane.Page
 
 /**
  * Play GUI for playing .vdl files
  */
 object PlayGUI extends SimpleSwingApplication {
-  //These are just test variables
-  val returningDvlUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"
-  val testSong: ScalaSong = TagGUI.fetchDvlAndMp3FromWeb(returningDvlUrl).get
-  var compositionOption: Option[ScalaComposition] = None
-
-
   val tabs = new TabbedPane
 
   def top = new MainFrame {
