@@ -3,14 +3,8 @@ package no.lau.vdvil.downloading
 import collection.immutable.HashMap
 import swing. {GridPanel, Label, SimpleSwingApplication}
 
-class DownloadingPanel(dvls: List[Dvl]) extends SimpleSwingApplication with DvlLabel{
+class DownloadingPanel(dvls: List[Dvl]) extends DvlLabel{
   lazy val dvlLabels:Map[Dvl, Label] = asMap
-
-
-  def top = new swing.MainFrame {
-    title = "Play GUI"
-    contents = ui
-  }
 
   lazy val ui = new GridPanel(dvlLabels.size, 1) {
     dvlLabels.foreach(contents += _._2)
