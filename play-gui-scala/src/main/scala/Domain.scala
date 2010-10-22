@@ -4,6 +4,7 @@ import java.io.File
 import no.bouvet.kpro.renderer.audio.{MP3Source, SimpleAudioInstruction}
 import no.lau.tagger.scala.model.{ScalaSong, ScalaSegment}
 import no.bouvet.kpro.renderer.{Instructions, Instruction}
+import no.lau.vdvil.downloading.Dvl
 
 class ScalaComposition(val masterBpm: Float, val parts: List[ScalaAudioPart]) {
   def asInstructions = new Instructions { parts.foreach(part => append(part.translateToInstruction(masterBpm.floatValue))) }
@@ -33,3 +34,5 @@ class ScalaAudioPart(val song: ScalaSong, val startCue: Float, val endCue: Float
     }
   }
 }
+
+case class Song(dvls:List[Dvl])

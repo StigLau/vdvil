@@ -4,7 +4,7 @@ import actors.Actor
 import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSong}
 import no.lau.vdvil.gui.NeatStuff
 import no.lau.vdvil.cache.ScalaCacheHandler
-
+import no.lau.vdvil.player.Song
 
 class DownloadActor(dvl:Dvl, coordinator: Actor) extends Actor {
   val cacheHandler = new ScalaCacheHandler()
@@ -22,11 +22,11 @@ class DownloadActor(dvl:Dvl, coordinator: Actor) extends Actor {
   }
 }
 
-class DownloadCoordinatorActor(dvls:List[Dvl], label:DvlLabel) extends Actor {
+class DownloadCoordinatorActor(song:Song, label:DvlLabel) extends Actor {
   import scala.collection.mutable.Set
   val songSet = Set[ScalaSong]()
 
-  def isStillDownloading = songSet.size < dvls.size
+  def isStillDownloading = songSet.size < song.dvls.size
 
   def act() {
     loop {
@@ -49,6 +49,20 @@ class DownloadCoordinatorActor(dvls:List[Dvl], label:DvlLabel) extends Actor {
         }
       }
     }
+  }
+}
+
+class DownloaderWorkerPane(song:Song, labelHolder:DvlLabel) {
+  def start {
+    val coordinator = new DownloadCoordinatorActor(song, labelHolder)
+    coordinator.start
+    song.dvls.foreach(dvl => new DownloadActor(dvl, coordinator).start)
+    /*
+    while(coordinator.isStillDownloading) {
+      Thread.sleep(500)
+    }
+    frame.visible_=(false)
+    */
   }
 }
 
