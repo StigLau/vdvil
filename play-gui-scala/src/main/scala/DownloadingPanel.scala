@@ -4,9 +4,10 @@ import collection.immutable.HashMap
 import actors.Actor
 import swing.TabbedPane.Page
 import no.lau.vdvil.player._
-import swing.{GridPanel, Label}
+import swing.{Frame, GridPanel, Label}
 
-class DownloadingPanel(song: Song) extends Actor with DvlLabel {
+class DownloadingPanel(song: Song) extends Frame with Actor with DvlLabel {
+  contents_=(ui)
   lazy val dvlLabels: Map[Dvl, Label] = asMap
 
   lazy val ui = new GridPanel(dvlLabels.size, 1) {
@@ -26,6 +27,7 @@ class DownloadingPanel(song: Song) extends Actor with DvlLabel {
     loop {
       react {
         case Start => {
+          this.visible_=(true)
           val coordinator = new DownloadCoordinatorActor(song, this, this)
           coordinator.start
           song.dvls.foreach(dvl => new DownloadActor(dvl, coordinator).start)
@@ -33,9 +35,11 @@ class DownloadingPanel(song: Song) extends Actor with DvlLabel {
         case Success => {
           val composition = new ScalaComposition(150F, CompositionExample.parts)
           PlayGUI.tabs.pages.append(new Page("PLAYPANEL", new PlayPanel(composition).ui))
+          visible_=(false)
           exit
         }
         case Error => {
+          visible_=(false)
           exit
         }
       }

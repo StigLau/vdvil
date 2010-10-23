@@ -25,10 +25,8 @@ object PlayGUI extends SimpleSwingApplication {
       contents += new Menu("Load") {
         contents += new MenuItem(Action("Static") {
           val downloadingPanel = new DownloadingPanel(song)
-          val frame = new Frame() {contents = downloadingPanel.ui}
-          frame.visible_=(true)
           downloadingPanel.start
-          downloadingPanel ! Start 
+          downloadingPanel ! Start // TODO Is this necessary?
         })
       }
     }
