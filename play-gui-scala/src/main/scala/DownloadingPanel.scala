@@ -1,7 +1,7 @@
 package no.lau.vdvil.downloading
 
 import collection.immutable.HashMap
-import swing. {GridPanel, Label, SimpleSwingApplication}
+import swing. {GridPanel, Label}
 
 class DownloadingPanel(dvls: List[Dvl]) extends DvlLabel{
   lazy val dvlLabels:Map[Dvl, Label] = asMap
