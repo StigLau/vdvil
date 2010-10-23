@@ -4,7 +4,6 @@ import actors.Actor
 import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSong}
 import no.lau.vdvil.gui.NeatStuff
 import no.lau.vdvil.cache.ScalaCacheHandler
-import no.lau.vdvil.player.Song
 
 class DownloadActor(dvl:Dvl, coordinator: Actor) extends Actor {
   val cacheHandler = new ScalaCacheHandler()
@@ -21,42 +20,3 @@ class DownloadActor(dvl:Dvl, coordinator: Actor) extends Actor {
     }
   }
 }
-
-class DownloadCoordinatorActor(song:Song, label:DvlLabel, otherCoordinator:DownloadingPanel) extends Actor {
-  import scala.collection.mutable.Set
-  val songSet = Set[ScalaSong]()
-
-  def isStillDownloading = songSet.size < song.dvls.size
-
-  def act() {
-    loop {
-      react {
-        case downloading: DownloadingDvl => label.setLabel(downloading.dvl, "Downloading Dvl" + downloading.dvl.name)
-        case downloading: DownloadingMp3 => label.setLabel(downloading.dvl, "Downloading Mp3 " + downloading.dvl.name)
-        case converting: ConvertingAndAddingMissingIds => label.setLabel(converting.dvl, "Converting " + converting.dvl.name)
-        case finished: FinishedDownloading => {
-          label.setLabel(finished.dvl, finished.dvl.name + " Finished")
-          songSet += finished.song
-          if (!isStillDownloading) {
-            println("Stopping Coordinator")
-            otherCoordinator ! Success
-            exit()
-          }
-        }
-        case error: ErrorDownloading => {
-          println("Error downloading: " + error.message)
-          println("Will now stop downloading procedure")
-          otherCoordinator ! Error
-          exit()
-        }
-      }
-    }
-  }
-}
-
-case class Dvl(url: String, name:String)
-case class DownloadingDvl(dvl: Dvl)
-case class DownloadingMp3(dvl: Dvl)
-case class ConvertingAndAddingMissingIds(dvl: Dvl)
-case class FinishedDownloading(dvl:Dvl, song: ScalaSong)
-case class ErrorDownloading(message: String)

@@ -1,7 +1,6 @@
 package no.lau.vdvil.downloading
 
 import org.junit.Test
-import swing.Frame
 import no.lau.vdvil.player.Song
 
 /**
@@ -20,19 +19,8 @@ class DownloadFilesActorTest {
   def createDvls(base: String, urlList: List[String]): List[Dvl] = for {url <- urlList} yield Dvl(base + url, url)
 
   @Test def downloadFilesActor {
-    val downloadingPanel = new DownloadingPanel(song)
-    val frame = new Frame() {
-      contents = downloadingPanel.ui
-    }
-    frame.visible_=(true)
-
-    val coordinator = new DownloadCoordinatorActor(song, downloadingPanel)
-    coordinator.start
-    song.dvls.foreach(dvl => new DownloadActor(dvl, coordinator).start)
-
-    while(coordinator.isStillDownloading) {
-      Thread.sleep(500)
-    }
-    frame.visible_=(false)
+    val downloadingCoordinator = new DownloadingCoordinator(song)
+    downloadingCoordinator.start
+    downloadingCoordinator ! Start // TODO Is this necessary?
   }
 }
