@@ -20,7 +20,7 @@ class DownloadFilesActorTest {
   def createDvls(base: String, urlList: List[String]): List[Dvl] = for {url <- urlList} yield Dvl(base + url, url)
 
   @Test def downloadFilesActor {
-    val downloadingPanel = new DownloadingPanel(song.dvls)
+    val downloadingPanel = new DownloadingPanel(song)
     val frame = new Frame() {
       contents = downloadingPanel.ui
     }

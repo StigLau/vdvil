@@ -22,7 +22,7 @@ class DownloadActor(dvl:Dvl, coordinator: Actor) extends Actor {
   }
 }
 
-class DownloadCoordinatorActor(song:Song, label:DvlLabel) extends Actor {
+class DownloadCoordinatorActor(song:Song, label:DvlLabel, otherCoordinator:DownloadingPanel) extends Actor {
   import scala.collection.mutable.Set
   val songSet = Set[ScalaSong]()
 
@@ -39,30 +39,18 @@ class DownloadCoordinatorActor(song:Song, label:DvlLabel) extends Actor {
           songSet += finished.song
           if (!isStillDownloading) {
             println("Stopping Coordinator")
+            otherCoordinator ! Success
             exit()
           }
         }
         case error: ErrorDownloading => {
           println("Error downloading: " + error.message)
           println("Will now stop downloading procedure")
+          otherCoordinator ! Error
           exit()
         }
       }
     }
-  }
-}
-
-class DownloaderWorkerPane(song:Song, labelHolder:DvlLabel) {
-  def start {
-    val coordinator = new DownloadCoordinatorActor(song, labelHolder)
-    coordinator.start
-    song.dvls.foreach(dvl => new DownloadActor(dvl, coordinator).start)
-    /*
-    while(coordinator.isStillDownloading) {
-      Thread.sleep(500)
-    }
-    frame.visible_=(false)
-    */
   }
 }
 

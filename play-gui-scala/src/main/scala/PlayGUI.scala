@@ -2,7 +2,6 @@ package no.lau.vdvil.player
 
 import scala.swing._
 import event.ButtonClicked
-import swing.TabbedPane.Page
 import no.lau.vdvil.downloading._
 
 /**
@@ -25,15 +24,12 @@ object PlayGUI extends SimpleSwingApplication {
     menuBar = new MenuBar {
       contents += new Menu("Load") {
         contents += new MenuItem(Action("Static") {
-            //val composition = new ScalaComposition(150F, CompositionExample.parts)
-            //tabs.pages += new Page("Name", new PlayPanel(composition).ui)
-            val downloadingPanel = new DownloadingPanel(song.dvls)
-
-            val frame = new Frame() { contents = downloadingPanel.ui }
-            frame.visible_=(true)
-            new DownloaderWorkerPane(song, downloadingPanel).start
-          }
-        )
+          val downloadingPanel = new DownloadingPanel(song)
+          val frame = new Frame() {contents = downloadingPanel.ui}
+          frame.visible_=(true)
+          downloadingPanel.start
+          downloadingPanel ! Start 
+        })
       }
     }
 
