@@ -24,9 +24,9 @@ object PlayGUI extends SimpleSwingApplication {
     menuBar = new MenuBar {
       contents += new Menu("Load") {
         contents += new MenuItem(Action("Static") {
-          val downloadingCoordinator = new DownloadingCoordinator(song)
-          downloadingCoordinator.start
-          downloadingCoordinator ! Start // TODO Is this necessary?
+          val downloadingCoordinator = new DownloadingCoordinator(song) {
+            start
+          } ! Start
         })
       }
     }
