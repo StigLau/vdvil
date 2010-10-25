@@ -43,6 +43,7 @@
         <module>tagger-gui</module>
         <module>tagger-gui-scala</module>
         <module>play-gui-scala</module>
+        <module>play-gui-webstart-distribution</module>
     </modules>
 
     <!-- Common dependency management-->
