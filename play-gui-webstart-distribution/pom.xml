@@ -4,7 +4,6 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-
     <parent>
         <groupId>no.lau.vdvil</groupId>
         <artifactId>root</artifactId>
@@ -13,15 +12,29 @@
 
     <artifactId>play-gui-webstart-distribution</artifactId>
     <packaging>jar</packaging>
-    <name>Scala Monster - The game - Webstart Distribution</name>
+    <name>Vdvil Play Gui Webstart Distribution</name>
 
-    <url>file://localhost/Users/stiglau/jobb/utvikling/opensource/vdvil/play-gui-webstart-distribution/target</url>
+    <organization>
+        <name>no.lau</name>
+        <url>http://stig.lau.no</url>
+    </organization>
+    <url>http://idi.ntnu.no/~hella/vdvil</url>
 
     <dependencies>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
             <artifactId>play-gui-scala</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>no.lau.vdvil</groupId>
+                    <artifactId>renderer.lyric</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.swinglabs</groupId>
+                    <artifactId>swing-worker</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
@@ -44,6 +57,25 @@
                     <jnlp>
                         <mainClass>no.lau.vdvil.player.PlayGUI</mainClass>
                     </jnlp>
+                    <sign>
+                        <keystore>/tmp/myappkeystore</keystore>
+                        <keypass>m2m2m2</keypass>
+                        <storepass>m2m2m2</storepass>
+                        <alias>foobar</alias>
+                        <validity>3650</validity>
+
+                        <dnameCn>no.lau.vdvil</dnameCn>
+                        <dnameOu>vdvil</dnameOu>
+                        <dnameO>lau</dnameO>
+                        <dnameL>Oslo</dnameL>
+                        <dnameSt>Oslo</dnameSt>
+                        <dnameC>NO</dnameC>
+                        <verify>false</verify>
+                        <keystoreConfig>
+                            <delete>true</delete>
+                            <gen>true</gen>
+                        </keystoreConfig>
+                    </sign>
                     <outputJarVersions>false</outputJarVersions>
                     <pack200>false</pack200>
                     <gzip>false</gzip>
