@@ -27,7 +27,7 @@ public class VdvilCacheStuff {
      */
     public VdvilCacheStuff(File location) {
         storeLocation = location;
-        persistentcache = new HTTPCache(new PersistentCacheStorage(1000, location, storeName), new HTTPClientResponseResolver(new HttpClient()));
+        persistentcache = new HTTPCache(new PersistentCacheStorage(1000, location, storeName), HTTPClientResponseResolver.createMultithreadedInstance());
     }
 
     /**
