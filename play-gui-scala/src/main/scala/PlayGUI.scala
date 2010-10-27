@@ -63,6 +63,7 @@ class PlayPanel(val composition: ScalaComposition) {
   val compositionPlayer = new ScalaCompositionPlayer(None) {
     def pauseAndplay(startFrom: Float) {
       stop
+      composition.masterBpm = bpmField.text.toFloat
       scalaCompositionOption = Some(composition)
       play(startFrom, bpmField.text.toFloat)
     }

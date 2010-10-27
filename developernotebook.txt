@@ -16,4 +16,5 @@ Todo's
  * Make downloading threaded
   ** Should perhaps add throtteling to allow only 1-2 files to be downloaded at once - Have noticed problems downloading several mp3's at once
  * Move Domain into case class
-  *
+ * Persistence to XML
+ * Load compositions from web instead of from hardcoded

@@ -5,9 +5,11 @@ import actors.Actor
 import swing.TabbedPane.Page
 import no.lau.vdvil.player._
 import swing.{Frame, GridPanel, Label}
-import no.lau.tagger.scala.model.ScalaSong
+import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSong}
+import no.lau.vdvil.gui.NeatStuff
+import no.lau.vdvil.cache.ScalaCacheHandler
 
-class DownloadingCoordinator(song: Song) extends Actor with DvlLabel {
+class DownloadingCoordinator(song: Song) extends Actor {
   lazy val dvlLabels: Map[Dvl, Label] = asMap
 
   lazy val downloadingPanel = new Frame {
@@ -65,6 +67,23 @@ class DownloadingCoordinator(song: Song) extends Actor with DvlLabel {
     }
   }
 }
+
+class DownloadActor(dvl:Dvl, coordinator: Actor) extends Actor {
+  val cacheHandler = new ScalaCacheHandler()
+
+  def act() {
+    coordinator ! DownloadingDvl(dvl)
+    val unconvertedSong: ScalaSong = cacheHandler.fetchSimpleSongAndCacheDvlAndMp3(dvl.url, null)
+    coordinator ! ConvertingAndAddingMissingIds(dvl)
+    val song = NeatStuff.convertAllNullIDsToRandom(unconvertedSong)
+    val mf = song.mediaFile
+    coordinator ! DownloadingMp3(dvl)
+    cacheHandler.retrievePathToFileFromCache(mf.fileName, mf.checksum).foreach {
+      pathToMp3 => coordinator ! FinishedDownloading(dvl, new ScalaSong(song.reference, new ScalaMediaFile(pathToMp3, mf.checksum, mf.startingOffset), song.segments, song.bpm))
+    }
+  }
+}
+
 case class Start
 case class Success
 case class Error(message: String)
@@ -73,8 +92,3 @@ case class DownloadingDvl(dvl: Dvl)
 case class DownloadingMp3(dvl: Dvl)
 case class ConvertingAndAddingMissingIds(dvl: Dvl)
 case class FinishedDownloading(dvl:Dvl, song: ScalaSong)
-
-
-trait DvlLabel {
-  def setLabel(dvl: Dvl, text: String)
-}

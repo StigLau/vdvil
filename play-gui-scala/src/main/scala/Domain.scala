@@ -6,7 +6,7 @@ import no.lau.tagger.scala.model.{ScalaSong, ScalaSegment}
 import no.bouvet.kpro.renderer.{Instructions, Instruction}
 import no.lau.vdvil.downloading.Dvl
 
-class ScalaComposition(val masterBpm: Float, val parts: List[ScalaAudioPart]) {
+class ScalaComposition(var masterBpm: Float, val parts: List[ScalaAudioPart]) {
   def asInstructions = new Instructions { parts.foreach(part => append(part.translateToInstruction(masterBpm.floatValue))) }
   def durationAsBeats:Float = asInstructions.getDuration * masterBpm / (44100 * 60)
 }
