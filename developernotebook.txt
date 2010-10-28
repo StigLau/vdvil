@@ -12,9 +12,11 @@ Todo's
  * Create API for describing how resources (.mp3s, videos aso) can be downloaded and locally cached, and referenced by the renderers.
  * FactorMagic should perhaps be removed!
 
- * Make a "downloading" Pane which downloads all the .vdl's and mp3's to disk while writing how this is doing
- * Make downloading threaded
-  ** Should perhaps add throtteling to allow only 1-2 files to be downloaded at once - Have noticed problems downloading several mp3's at once
+ * Rewrite CompositionExample so it can be persisted to file
  * Move Domain into case class
  * Persistence to XML
  * Load compositions from web instead of from hardcoded
+
+ * TaggerGUIScala should use the new improved downloader to fetch files
+ * TaggerGUIScala should show URL of files and segment identifiers
+ * Downloader should cater for .dvl's and mp3's, not songs. However, multiple songs should be added by outside GUI.. Not quite sure how to implement this...

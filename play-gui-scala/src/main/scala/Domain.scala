@@ -35,4 +35,9 @@ class ScalaAudioPart(val song: ScalaSong, val startCue: Float, val endCue: Float
   }
 }
 
-case class Song(dvls:List[Dvl])
+/**
+ * A MasterMix contains the mix which can be played to anyone. It will reference one or more MasterParts, which can contain .dvl's
+ */
+case class MasterMix(name:String, masterBpm:Float, parts:List[MasterPart])
+
+case class MasterPart(dvl:Dvl, start:Float, end:Float, id:String)

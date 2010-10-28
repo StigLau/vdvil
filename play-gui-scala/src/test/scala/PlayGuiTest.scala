@@ -13,7 +13,7 @@ class PlayGuiTest {
     panel.bpmField.text_=("0.0")
     //Verify that GUI has been changed
     assert(panel.bpmField.text == "0.0")
-    //Check that Song has been updated by trigger
+    //Check that MasterMix has been updated by trigger
     assert(panel.composition.masterBpm == 150F)
 
   }

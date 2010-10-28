@@ -9,7 +9,7 @@ import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSong}
 import no.lau.vdvil.gui.NeatStuff
 import no.lau.vdvil.cache.ScalaCacheHandler
 
-class DownloadingCoordinator(song: Song) extends Actor {
+class DownloadingCoordinator(masterMix: MasterMix) extends Actor {
   lazy val dvlLabels: Map[Dvl, Label] = asMap
 
   lazy val downloadingPanel = new Frame {
@@ -22,7 +22,7 @@ class DownloadingCoordinator(song: Song) extends Actor {
 
   def asMap: Map[Dvl, Label] = {
     var map = new HashMap[Dvl, Label]
-    song.dvls.foreach(dvl => map += dvl -> new Label(dvl.url))
+    masterMix.parts.foreach(part => map += part.dvl -> new Label(part.dvl.url))
     map
     //for{dvl <- dvls} yield (dvl -> new Label(dvl.url))
   }
@@ -30,7 +30,7 @@ class DownloadingCoordinator(song: Song) extends Actor {
   import scala.collection.mutable.Set
   val songSet = Set[ScalaSong]()
 
-  def isStillDownloading = songSet.size < song.dvls.size
+  def isStillDownloading = songSet.size < masterMix.parts.size
 
   def setLabel(dvl: Dvl, text: String) {dvlLabels(dvl).text_=(text)}
   //TODO This code should be merged with Coordinator!!!
@@ -39,7 +39,7 @@ class DownloadingCoordinator(song: Song) extends Actor {
       react {
         case Start => {
           downloadingPanel.visible_=(true)
-          song.dvls.foreach(dvl => new DownloadActor(dvl, this).start)
+          masterMix.parts.foreach(part => new DownloadActor(part.dvl, this).start)
         }
         case downloading: DownloadingDvl => setLabel(downloading.dvl, "Downloading Dvl" + downloading.dvl.name)
         case downloading: DownloadingMp3 => setLabel(downloading.dvl, "Downloading Mp3 " + downloading.dvl.name)
