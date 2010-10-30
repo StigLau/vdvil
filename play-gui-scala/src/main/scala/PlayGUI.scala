@@ -24,7 +24,7 @@ object PlayGUI extends SimpleSwingApplication {
     menuBar = new MenuBar {
       contents += new Menu("Load") {
         contents += new MenuItem(Action("Static") {
-          val downloadingCoordinator = new DownloadingCoordinator(song) {
+          val downloadingCoordinator = new DownloadingCoordinator(song, new DVLCallBack) {
             start
           } ! Start
         })

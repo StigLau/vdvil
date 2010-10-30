@@ -9,16 +9,8 @@ import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSong}
 import no.lau.vdvil.gui.NeatStuff
 import no.lau.vdvil.cache.ScalaCacheHandler
 
-class DownloadingCoordinator(song: Song) extends Actor {
-  lazy val dvlLabels: Map[Dvl, Label] = asMap
-
-  lazy val downloadingPanel = new Frame {
-    contents = ui
-  }
-
-  lazy val ui = new GridPanel(dvlLabels.size, 1) {
-    dvlLabels.foreach(contents += _._2)
-  }
+class DownloadingCoordinator(song: Song, callBack:DVLCallBack) extends Actor {
+  callBack.dvlLabels = asMap
 
   def asMap: Map[Dvl, Label] = {
     var map = new HashMap[Dvl, Label]
@@ -32,13 +24,13 @@ class DownloadingCoordinator(song: Song) extends Actor {
 
   def isStillDownloading = songSet.size < song.dvls.size
 
-  def setLabel(dvl: Dvl, text: String) {dvlLabels(dvl).text_=(text)}
-  //TODO This code should be merged with Coordinator!!!
+  def setLabel(dvl: Dvl, text: String) {callBack.dvlLabels(dvl).text_=(text)}
+
   def act {
     loop {
       react {
         case Start => {
-          downloadingPanel.visible_=(true)
+          callBack.visible(true)
           song.dvls.foreach(dvl => new DownloadActor(dvl, this).start)
         }
         case downloading: DownloadingDvl => setLabel(downloading.dvl, "Downloading Dvl" + downloading.dvl.name)
@@ -54,13 +46,13 @@ class DownloadingCoordinator(song: Song) extends Actor {
         case Success => {
           val composition = new ScalaComposition(150F, CompositionExample.parts)
           PlayGUI.tabs.pages.append(new Page("PLAYPANEL", new PlayPanel(composition).ui))
-          downloadingPanel.visible_=(false)
+          callBack.visible(false)
           exit
         }
         case error: Error => {
           println("Error downloading: " + error.message)
           println("Will now stop downloading procedure")
-          downloadingPanel.visible_=(false)
+          callBack.visible(false)
           exit
         }
       }
@@ -92,3 +84,17 @@ case class DownloadingDvl(dvl: Dvl)
 case class DownloadingMp3(dvl: Dvl)
 case class ConvertingAndAddingMissingIds(dvl: Dvl)
 case class FinishedDownloading(dvl:Dvl, song: ScalaSong)
+
+class DVLCallBack {
+  var dvlLabels: Map[Dvl, Label] = Map()
+
+  lazy val downloadingPanel = new Frame {
+    contents = ui
+  }
+
+  lazy val ui = new GridPanel(dvlLabels.size, 1) {
+    dvlLabels.foreach(contents += _._2)
+  }
+
+  def visible(value:Boolean) { downloadingPanel.visible_=(value) }
+}

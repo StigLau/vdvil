@@ -19,7 +19,7 @@ class DownloadFilesActorTest {
   def createDvls(base: String, urlList: List[String]): List[Dvl] = for {url <- urlList} yield Dvl(base + url, url)
 
   @Test def downloadFilesActor {
-    val downloadingCoordinator = new DownloadingCoordinator(song) {
+    val downloadingCoordinator = new DownloadingCoordinator(song, new DVLCallBack) {
       start
     } ! Start
   }
