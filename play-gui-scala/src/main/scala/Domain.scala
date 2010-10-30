@@ -5,6 +5,7 @@ import no.bouvet.kpro.renderer.audio.{MP3Source, SimpleAudioInstruction}
 import no.lau.tagger.scala.model.{ScalaSong, ScalaSegment}
 import no.bouvet.kpro.renderer.{Instructions, Instruction}
 import no.lau.vdvil.downloading.Dvl
+import no.lau.vdvil.gui.TagGUI
 
 class ScalaComposition(var masterBpm: Float, val parts: List[ScalaAudioPart]) {
   def asInstructions = new Instructions { parts.foreach(part => append(part.translateToInstruction(masterBpm.floatValue))) }
@@ -38,6 +39,11 @@ class ScalaAudioPart(val song: ScalaSong, val startCue: Float, val endCue: Float
 /**
  * A MasterMix contains the mix which can be played to anyone. It will reference one or more MasterParts, which can contain .dvl's
  */
-case class MasterMix(name:String, masterBpm:Float, parts:List[MasterPart])
+case class MasterMix(name:String, var masterBpm:Float, parts:List[MasterPart]) {
+ def asComposition:ScalaComposition = {
+   val scalaParts = for(part <- parts) yield new ScalaAudioPart(part.dvl.song, part.start, part.end, part.dvl.getSegment(part.id).getOrElse(null))
+   return new ScalaComposition(masterBpm, scalaParts)
+ }
+}
 
 case class MasterPart(dvl:Dvl, start:Float, end:Float, id:String)

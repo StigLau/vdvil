@@ -5,9 +5,9 @@ import actors.Actor
 import swing.TabbedPane.Page
 import no.lau.vdvil.player._
 import swing.{Frame, GridPanel, Label}
-import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSong}
-import no.lau.vdvil.gui.NeatStuff
 import no.lau.vdvil.cache.ScalaCacheHandler
+import no.lau.tagger.scala.model. {ScalaSegment, ScalaMediaFile, ScalaSong}
+import no.lau.vdvil.gui. {TagGUI, NeatStuff}
 
 class DownloadingCoordinator(masterMix: MasterMix) extends Actor {
   lazy val dvlLabels: Map[Dvl, Label] = asMap
@@ -52,8 +52,7 @@ class DownloadingCoordinator(masterMix: MasterMix) extends Actor {
           }
         }
         case Success => {
-          val composition = new ScalaComposition(150F, CompositionExample.parts)
-          PlayGUI.tabs.pages.append(new Page("PLAYPANEL", new PlayPanel(composition).ui))
+          PlayGUI.tabs.pages.append(new Page("PLAYPANEL", new PlayPanel(masterMix).ui))
           downloadingPanel.visible_=(false)
           exit
         }
@@ -87,7 +86,17 @@ class DownloadActor(dvl:Dvl, coordinator: Actor) extends Actor {
 case class Start
 case class Success
 case class Error(message: String)
-case class Dvl(url: String, name:String)
+case class Dvl(url: String, name:String) {
+  def getSegment(id:String):Option[ScalaSegment] = {
+    println("this is " + id)
+
+    println(song.segments.find(segment => id == segment.id))
+
+    song.segments.find(segment => id == segment.id)
+  }
+  lazy val song = getSong
+  private def getSong:ScalaSong = TagGUI.fetchDvlAndMp3FromWeb(url).get
+}
 case class DownloadingDvl(dvl: Dvl)
 case class DownloadingMp3(dvl: Dvl)
 case class ConvertingAndAddingMissingIds(dvl: Dvl)

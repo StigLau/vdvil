@@ -73,7 +73,7 @@ val returning = Dvl(baseUrl + "holden-nothing-93_returning_mix.dvl", "returning"
  }
 }
 
-class PlayPanel(val composition: ScalaComposition) {
+class PlayPanel(val masterMix: MasterMix) {
   lazy val ui = new FlowPanel {
     contents += new Label("Start from")
     contents += startField
@@ -84,17 +84,17 @@ class PlayPanel(val composition: ScalaComposition) {
     contents += bpmField
   }
 
-  val bpmField = new TextField(composition.masterBpm.toString, 4)
+  val bpmField = new TextField(masterMix.masterBpm.toString, 4)
   val startField = new TextField("0", 4)
-  val stopField = new TextField(composition.durationAsBeats.toString, 4)
+  val stopField = new TextField(masterMix.asComposition.durationAsBeats.toString, 4)
   val playCompositionButton = new Button("Play Composition") {
     reactions += {case ButtonClicked(_) => compositionPlayer.pauseAndplay(startField.text.toFloat)}
   }
   val compositionPlayer = new ScalaCompositionPlayer(None) {
     def pauseAndplay(startFrom: Float) {
       stop
-      composition.masterBpm = bpmField.text.toFloat
-      scalaCompositionOption = Some(composition)
+      masterMix.masterBpm = bpmField.text.toFloat
+      scalaCompositionOption = Some(masterMix.asComposition)
       play(startFrom, bpmField.text.toFloat)
     }
   }
