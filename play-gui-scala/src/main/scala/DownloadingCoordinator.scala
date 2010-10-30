@@ -1,30 +1,18 @@
 package no.lau.vdvil.downloading
 
-import collection.immutable.HashMap
 import actors.Actor
 import swing.TabbedPane.Page
 import no.lau.vdvil.player._
-import swing.{Frame, GridPanel, Label}
 import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSong}
 import no.lau.vdvil.gui.NeatStuff
 import no.lau.vdvil.cache.ScalaCacheHandler
 
 class DownloadingCoordinator(song: Song, callBack:DVLCallBack) extends Actor {
-  callBack.dvlLabels = asMap
-
-  def asMap: Map[Dvl, Label] = {
-    var map = new HashMap[Dvl, Label]
-    song.dvls.foreach(dvl => map += dvl -> new Label(dvl.url))
-    map
-    //for{dvl <- dvls} yield (dvl -> new Label(dvl.url))
-  }
 
   import scala.collection.mutable.Set
   val songSet = Set[ScalaSong]()
 
   def isStillDownloading = songSet.size < song.dvls.size
-
-  def setLabel(dvl: Dvl, text: String) {callBack.dvlLabels(dvl).text_=(text)}
 
   def act {
     loop {
@@ -33,11 +21,11 @@ class DownloadingCoordinator(song: Song, callBack:DVLCallBack) extends Actor {
           callBack.visible(true)
           song.dvls.foreach(dvl => new DownloadActor(dvl, this).start)
         }
-        case downloading: DownloadingDvl => setLabel(downloading.dvl, "Downloading Dvl" + downloading.dvl.name)
-        case downloading: DownloadingMp3 => setLabel(downloading.dvl, "Downloading Mp3 " + downloading.dvl.name)
-        case converting: ConvertingAndAddingMissingIds => setLabel(converting.dvl, "Converting " + converting.dvl.name)
+        case downloading: DownloadingDvl => callBack.setLabel(downloading.dvl, "Downloading Dvl" + downloading.dvl.name)
+        case downloading: DownloadingMp3 => callBack.setLabel(downloading.dvl, "Downloading Mp3 " + downloading.dvl.name)
+        case converting: ConvertingAndAddingMissingIds => callBack.setLabel(converting.dvl, "Converting " + converting.dvl.name)
         case finished: FinishedDownloading => {
-          setLabel(finished.dvl, finished.dvl.name + " Finished")
+          callBack.setLabel(finished.dvl, finished.dvl.name + " Finished")
           songSet += finished.song
           if (!isStillDownloading) {
             this ! Success
@@ -85,16 +73,7 @@ case class DownloadingMp3(dvl: Dvl)
 case class ConvertingAndAddingMissingIds(dvl: Dvl)
 case class FinishedDownloading(dvl:Dvl, song: ScalaSong)
 
-class DVLCallBack {
-  var dvlLabels: Map[Dvl, Label] = Map()
-
-  lazy val downloadingPanel = new Frame {
-    contents = ui
-  }
-
-  lazy val ui = new GridPanel(dvlLabels.size, 1) {
-    dvlLabels.foreach(contents += _._2)
-  }
-
-  def visible(value:Boolean) { downloadingPanel.visible_=(value) }
+trait DVLCallBack {
+  def setLabel(dvl: Dvl, text: String)
+  def visible(value:Boolean)
 }

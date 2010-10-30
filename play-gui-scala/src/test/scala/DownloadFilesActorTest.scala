@@ -1,7 +1,8 @@
 package no.lau.vdvil.downloading
 
 import org.junit.Test
-import no.lau.vdvil.player.Song
+import swing.{GridPanel, Frame}
+import no.lau.vdvil.player. {DVLCallBackGUI, Song}
 
 /**
  * Functional test which downloads the .dvl and .mp3 songs and shows the downloading GUI
@@ -19,7 +20,14 @@ class DownloadFilesActorTest {
   def createDvls(base: String, urlList: List[String]): List[Dvl] = for {url <- urlList} yield Dvl(base + url, url)
 
   @Test def downloadFilesActor {
-    val downloadingCoordinator = new DownloadingCoordinator(song, new DVLCallBack) {
+    val callBack = new DVLCallBackGUI(song) {
+      lazy val downloadingPanel = new Frame {
+        contents = new GridPanel(dvlLabels.size, 1) {
+          dvlLabels.foreach(contents += _._2)
+        }
+      }
+    }
+    val downloadingCoordinator = new DownloadingCoordinator(song, callBack) {
       start
     } ! Start
   }

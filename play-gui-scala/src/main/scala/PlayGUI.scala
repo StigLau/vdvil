@@ -3,6 +3,7 @@ package no.lau.vdvil.player
 import scala.swing._
 import event.ButtonClicked
 import no.lau.vdvil.downloading._
+import collection.immutable.HashMap
 
 /**
  * Play GUI for playing .vdl files
@@ -24,7 +25,14 @@ object PlayGUI extends SimpleSwingApplication {
     menuBar = new MenuBar {
       contents += new Menu("Load") {
         contents += new MenuItem(Action("Static") {
-          val downloadingCoordinator = new DownloadingCoordinator(song, new DVLCallBack) {
+          val callback = new DVLCallBackGUI(song) {
+            lazy val downloadingPanel = new Frame {
+              contents = new GridPanel(dvlLabels.size, 1) {
+                dvlLabels.foreach(contents += _._2)
+              }
+            }
+          }
+          val downloadingCoordinator = new DownloadingCoordinator(song, callback) {
             start
           } ! Start
         })
@@ -68,4 +76,19 @@ class PlayPanel(val composition: ScalaComposition) {
       play(startFrom, bpmField.text.toFloat)
     }
   }
+}
+
+abstract class DVLCallBackGUI (song:Song) extends DVLCallBack {
+  var dvlLabels: Map[Dvl, Label] = asMap
+  def asMap: Map[Dvl, Label] = {
+    var map = new HashMap[Dvl, Label]
+    song.dvls.foreach(dvl => map += dvl -> new Label(dvl.url))
+    map
+    //for{dvl <- dvls} yield (dvl -> new Label(dvl.url))
+  }
+
+  val downloadingPanel:UIElement
+
+  def setLabel(dvl: Dvl, text: String) {dvlLabels(dvl).text_=(text)}
+  def visible(value:Boolean) { downloadingPanel.visible_=(value) }
 }
