@@ -79,16 +79,9 @@ class PlayPanel(val composition: ScalaComposition) {
 }
 
 abstract class DVLCallBackGUI (song:Song) extends DVLCallBack {
-  var dvlLabels: Map[Dvl, Label] = asMap
-  def asMap: Map[Dvl, Label] = {
-    var map = new HashMap[Dvl, Label]
-    song.dvls.foreach(dvl => map += dvl -> new Label(dvl.url))
-    map
-    //for{dvl <- dvls} yield (dvl -> new Label(dvl.url))
-  }
-
   val downloadingPanel:UIElement
-
+  var dvlLabels: Map[Dvl, Label] = asMap
+  private def asMap = song.dvls.foldRight(Map[Dvl,Label]()) {(dvl, map) => map + (dvl -> new Label(dvl.url))}
   def setLabel(dvl: Dvl, text: String) {dvlLabels(dvl).text_=(text)}
   def visible(value:Boolean) { downloadingPanel.visible_=(value) }
 }

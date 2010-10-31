@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory
 import swing.SwingWorker
 import no.lau.tagger.scala.model.ScalaSong
 
-class VdvilSwingActor(song: ScalaSong, startCue: Float, endCue: Float) extends SwingWorker //extends Actor
+class VdvilSwingActor(song: ScalaSong, startCue: Float, endCue: Float) extends SwingWorker
 {
   var audioSource: AudioSource = new MP3Source(new File(song.mediaFile.fileName))
   var player = new AudioPlayer

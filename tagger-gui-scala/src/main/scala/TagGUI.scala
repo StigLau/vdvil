@@ -10,7 +10,7 @@ import no.lau.vdvil.cache.ScalaCacheHandler
  * Note - to make the TagGUI functional, it can be necessary to make a small change to the file and recompile.
  */
 object TagGUI extends SimpleSwingApplication {
-  val log =  LoggerFactory.getLogger(classOf[ScalaDynamicDvlTable])//TODO THIS IS SOOOOO WRONG!!!!
+  val log =  LoggerFactory.getLogger(TagGUI.getClass)
   var dvlFilePath = System.getProperty("user.home") + "/kpro"
 
   val cacheHandler = new ScalaCacheHandler
