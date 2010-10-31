@@ -58,7 +58,7 @@ class DownloadActor(dvl:Dvl, coordinator: Actor) extends Actor {
     val song = NeatStuff.convertAllNullIDsToRandom(unconvertedSong)
     val mf = song.mediaFile
     coordinator ! DownloadingMp3(dvl)
-    cacheHandler.retrievePathToFileFromCache(mf.fileName, mf.checksum).foreach {
+    cacheHandler.retrievePathToFileFromCache(mf.fileName, mf.checksum).map {
       pathToMp3 => coordinator ! FinishedDownloading(dvl, new ScalaSong(song.reference, new ScalaMediaFile(pathToMp3, mf.checksum, mf.startingOffset), song.segments, song.bpm))
     }
   }

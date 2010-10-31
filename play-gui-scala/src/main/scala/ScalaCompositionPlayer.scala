@@ -10,7 +10,7 @@ class ScalaCompositionPlayer(var scalaCompositionOption: Option[ScalaComposition
   var rendererOption: Option[Renderer] = None
 
   def play(startCue: Float, playBpm:Float) {
-    scalaCompositionOption.foreach {
+    scalaCompositionOption.map {
       composition =>
         rendererOption = Some(new Renderer(composition.asInstructions) {
           addRenderer(new AudioRenderer(new AudioPlaybackTarget()))
