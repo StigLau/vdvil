@@ -5,7 +5,6 @@ import no.bouvet.kpro.renderer.audio.{MP3Source, SimpleAudioInstruction}
 import no.lau.tagger.scala.model.{ScalaSong, ScalaSegment}
 import no.bouvet.kpro.renderer.{Instructions, Instruction}
 import no.lau.vdvil.downloading.Dvl
-import no.lau.vdvil.gui.TagGUI
 
 class ScalaComposition(var masterBpm: Float, val parts: List[ScalaAudioPart]) {
   def asInstructions = new Instructions { parts.foreach(part => append(part.translateToInstruction(masterBpm.floatValue))) }
