@@ -7,7 +7,7 @@ import no.bouvet.kpro.renderer.{Instructions, Instruction}
 import no.lau.vdvil.downloading.Dvl
 
 class ScalaComposition(var masterBpm: Float, val parts: List[ScalaAudioPart]) {
-  def asInstructions = new Instructions { parts.foreach(part => append(part.translateToInstruction(masterBpm.floatValue))) }
+  def asInstructions:Instructions = new Instructions { parts.foreach(part => append(part.translateToInstruction(masterBpm.floatValue))) }
   def durationAsBeats:Float = asInstructions.getDuration * masterBpm / (44100 * 60)
 }
 

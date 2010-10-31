@@ -17,7 +17,7 @@ class ScalaDynamicDvlTable(dvlUrl: String, var song: ScalaSong) {
    * Main GUI Panel
    */
   lazy val ui = new BorderPanel {
-    add(new TextField(dvlUrl, 80) {
+    add(new TextField(song.mediaFile.fileName, 80) {
       reactions += {case _ => song.mediaFile.fileName = text}
     }, BorderPanel.Position.North)
 
@@ -40,6 +40,7 @@ class ScalaDynamicDvlTable(dvlUrl: String, var song: ScalaSong) {
   }
 
   def buildEditingGrid = new GridPanel(song.segments.size + 1, 4) {
+    contents += new Label("ID")
     contents += new Label("Start")
     contents += new Label("End")
     contents += new Label("Text")
@@ -48,6 +49,7 @@ class ScalaDynamicDvlTable(dvlUrl: String, var song: ScalaSong) {
 
     song.segments.foreach {
       segment =>
+        contents += new Label(segment.id)
         contents += new TextField(segment.start.toString, 3) {
           reactions += {case _ => song.segmentWithId(segment.id).get.start = text.toFloat}
         }

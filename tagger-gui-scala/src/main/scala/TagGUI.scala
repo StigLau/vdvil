@@ -40,9 +40,7 @@ object TagGUI extends SimpleSwingApplication {
         })
         contents += new MenuItem(Action("From Web") {
           showInput(menuBar, "", "Load from", Message.Plain, Swing.EmptyIcon, Nil, returningDvlUrl).map{
-            url => fetchDvlAndMp3FromWeb(url).map{
-                song => addEditingPanel(url, song)
-              }
+            url => fetchDvlAndMp3FromWeb(url).map(song => addEditingPanel(url, song))
           }
         })
       }
