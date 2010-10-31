@@ -4,7 +4,7 @@ import scala.swing._
 import scala.swing.event._
 import org.slf4j.LoggerFactory
 import no.lau.vdvil.player.ScalaPlayer
-import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSegment, TranslateTo, ScalaSong}
+import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSegment, ScalaSong}
 
 class ScalaDynamicDvlTable(dvlUrl: String, var song: ScalaSong) {
 
@@ -48,10 +48,10 @@ class ScalaDynamicDvlTable(dvlUrl: String, var song: ScalaSong) {
 
     song.segments.foreach {
       segment =>
-        contents += new TextField(segment.start.toString(), 3) {
+        contents += new TextField(segment.start.toString, 3) {
           reactions += {case _ => song.segmentWithId(segment.id).get.start = text.toFloat}
         }
-        contents += new TextField(segment.end.toString(), 3) {
+        contents += new TextField(segment.end.toString, 3) {
           reactions += {case _ => song.segmentWithId(segment.id).get.end = text.toFloat}
         }
         contents += new TextField(segment.text, 40) {
@@ -76,10 +76,9 @@ class ScalaDynamicDvlTable(dvlUrl: String, var song: ScalaSong) {
     contents += new Button("Save as .dvl file") {
       reactions += {
         case ButtonClicked(_) => {
-          val pathToSaveTo = Dialog.showInput(this, "", "Save to", Dialog.Message.Plain, Swing.EmptyIcon, Nil, dvlUrl)
-          if (pathToSaveTo.isDefined) {
-            log.info("Saving to {}", pathToSaveTo.get)
-            try {TagGUI.cacheHandler.save(song, pathToSaveTo.get)}
+          Dialog.showInput(this, "", "Save to", Dialog.Message.Plain, Swing.EmptyIcon, Nil, dvlUrl).map{ pathToSaveTo =>
+            log.info("Saving to {}", pathToSaveTo)
+            try {TagGUI.cacheHandler.save(song, pathToSaveTo)}
             catch {case ioE: java.io.IOException => log.error("Could not save file")}
           }
         }
@@ -99,13 +98,9 @@ class ScalaDynamicDvlTable(dvlUrl: String, var song: ScalaSong) {
     if (player != null)
       player.playPause(-1F, -1F) //Call to stop the player
     val mf = song.mediaFile
-    val pathToMp3Option = TagGUI.cacheHandler.retrievePathToFileFromCache(mf.fileName, mf.checksum)
-    if (pathToMp3Option.isDefined) {
-      val copyOfSong = new ScalaSong(song.reference, new ScalaMediaFile(pathToMp3Option.get, mf.checksum, mf.startingOffset), song.segments, song.bpm)
-
-      player = new ScalaPlayer(copyOfSong)
-      val segment = song.segmentWithId(segmentId).get
-      player.playPause(segment.start, segment.end)
+    TagGUI.cacheHandler.retrievePathToFileFromCache(mf.fileName, mf.checksum).map { pathToMp3 =>
+        val copyOfSong = new ScalaSong(song.reference, new ScalaMediaFile(pathToMp3, mf.checksum, mf.startingOffset), song.segments, song.bpm)
+        song.segmentWithId(segmentId).map(segment =>  new ScalaPlayer(copyOfSong).playPause(segment.start, segment.end))
     }
   }
 }
