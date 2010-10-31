@@ -39,11 +39,10 @@ object TagGUI extends SimpleSwingApplication {
           }
         })
         contents += new MenuItem(Action("From Web") {
-          val urlOption = showInput(menuBar, "", "Load from", Message.Plain, Swing.EmptyIcon, Nil, returningDvlUrl)
-          if (urlOption.isDefined) {
-            val songOption = fetchDvlAndMp3FromWeb(urlOption.get)
-            if (songOption.isDefined)
-              addEditingPanel(urlOption.get, songOption.get)
+          showInput(menuBar, "", "Load from", Message.Plain, Swing.EmptyIcon, Nil, returningDvlUrl).map{
+            url => fetchDvlAndMp3FromWeb(url).map{
+                song => addEditingPanel(url, song)
+              }
           }
         })
       }
