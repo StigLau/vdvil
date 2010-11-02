@@ -86,7 +86,7 @@ class PlayPanel(val masterMix: MasterMix) {
 
   val bpmField = new TextField(masterMix.masterBpm.toString, 4)
   val startField = new TextField("0", 4)
-  val stopField = new TextField(masterMix.asComposition.durationAsBeats.toString, 4)
+  val stopField = new TextField(masterMix.durationAsBeats.toString, 4)
   val playCompositionButton = new Button("Play Composition") {
     reactions += {case ButtonClicked(_) => compositionPlayer.pauseAndplay(startField.text.toFloat)}
   }
