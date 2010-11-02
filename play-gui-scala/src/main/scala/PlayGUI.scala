@@ -54,7 +54,7 @@ val returning = Dvl(baseUrl + "holden-nothing-93_returning_mix.dvl", "returning"
     menuBar = new MenuBar {
       contents += new Menu("Load") {
         contents += new MenuItem(Action("Static") {
-          val downloadingCoordinator = new DownloadingCoordinator(masterMix) {
+          val downloadingCoordinator = new DownloadingCoordinator(masterMix, new DVLCallBackGUI(masterMix)) {
             start
           } ! Start
         })
@@ -98,4 +98,15 @@ class PlayPanel(val masterMix: MasterMix) {
       play(startFrom, bpmField.text.toFloat)
     }
   }
+}
+
+class DVLCallBackGUI (masterMix:MasterMix) extends DVLCallBack {
+  lazy val downloadingPanel = new Frame {
+    contents = new GridPanel(dvlLabels.size, 1) {
+      dvlLabels.foreach(contents += _._2)
+    }
+  }
+  lazy val dvlLabels: Map[Dvl, Label] = Map.empty ++ masterMix.dvls.map(dvl => dvl -> new Label(dvl.url))
+  def setLabel(dvl: Dvl, text: String) {dvlLabels(dvl).text_=(text)}
+  def visible(value:Boolean) { downloadingPanel.visible_=(value) }
 }
