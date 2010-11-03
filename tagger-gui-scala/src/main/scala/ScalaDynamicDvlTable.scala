@@ -4,9 +4,10 @@ import scala.swing._
 import scala.swing.event._
 import org.slf4j.LoggerFactory
 import no.lau.vdvil.player.ScalaPlayer
+import no.lau.vdvil.cache.ScalaCacheHandler
 import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSegment, ScalaSong}
 
-class ScalaDynamicDvlTable(dvlUrl: String, var song: ScalaSong) {
+class ScalaDynamicDvlTable(dvlUrl: String, song: ScalaSong) {
 
   var player: ScalaPlayer = null
   val log = LoggerFactory.getLogger(classOf[ScalaDynamicDvlTable])
@@ -73,14 +74,14 @@ class ScalaDynamicDvlTable(dvlUrl: String, var song: ScalaSong) {
       reactions += {case ButtonClicked(_) => song.segments = addEmptySegmentToList}
     }    
     contents += new Button("View .dvl XML") {
-      reactions += {case ButtonClicked(_) => log.info(TagGUI.cacheHandler.printableXml(song))}
+      reactions += {case ButtonClicked(_) => log.info(ScalaCacheHandler.printableXml(song))}
     }
     contents += new Button("Save as .dvl file") {
       reactions += {
         case ButtonClicked(_) => {
           Dialog.showInput(this, "", "Save to", Dialog.Message.Plain, Swing.EmptyIcon, Nil, dvlUrl).map{ pathToSaveTo =>
             log.info("Saving to {}", pathToSaveTo)
-            try {TagGUI.cacheHandler.save(song, pathToSaveTo)}
+            try {ScalaCacheHandler.save(song, pathToSaveTo)}
             catch {case ioE: java.io.IOException => log.error("Could not save file")}
           }
         }
@@ -100,7 +101,7 @@ class ScalaDynamicDvlTable(dvlUrl: String, var song: ScalaSong) {
     if (player != null)
       player.playPause(-1F, -1F) //Call to stop the player
     val mf = song.mediaFile
-    TagGUI.cacheHandler.retrievePathToFileFromCache(mf.fileName, mf.checksum).map { pathToMp3 =>
+    ScalaCacheHandler.retrievePathToFileFromCache(mf.fileName, mf.checksum).map { pathToMp3 =>
         val copyOfSong = new ScalaSong(song.reference, new ScalaMediaFile(pathToMp3, mf.checksum, mf.startingOffset), song.segments, song.bpm)
         song.segmentWithId(segmentId).map(segment =>  new ScalaPlayer(copyOfSong).playPause(segment.start, segment.end))
     }

@@ -9,10 +9,10 @@ import java.io.File
 import java.io.FileNotFoundException
 import no.lau.tagger.scala.model._
 
-class ScalaCacheHandler {
+object ScalaCacheHandler {
   //val tempFolder = System.getProperty("java.io.tmpdir")
   val httpCache = new VdvilCacheStuff(new File("/tmp/vdvil"))
-  val log = LoggerFactory.getLogger(classOf[ScalaCacheHandler])
+  val log = LoggerFactory.getLogger(ScalaCacheHandler.getClass)
   var parser = new XStreamParser[SimpleSong]
 
   def printableXml(scalaSong: ScalaSong): String = parser.toXml(TranslateTo.from(scalaSong))

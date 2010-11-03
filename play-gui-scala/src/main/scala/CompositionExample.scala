@@ -1,6 +1,7 @@
 package no.lau.vdvil.player
 
 import no.lau.vdvil.gui.TagGUI
+import no.lau.vdvil.cache.ScalaCacheHandler
 import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSong}
 
 
@@ -15,7 +16,7 @@ object CompositionExample {
   def getSong(url: String): ScalaSong = {
     val song = TagGUI.fetchDvlAndMp3FromWeb(baseUrl + url).get
     val mf = song.mediaFile
-    val pathToMp3Option: Option[String] = TagGUI.cacheHandler.retrievePathToFileFromCache(mf.fileName, mf.checksum)
+    val pathToMp3Option: Option[String] = ScalaCacheHandler.retrievePathToFileFromCache(mf.fileName, mf.checksum)
     return new ScalaSong(song.reference, new ScalaMediaFile(pathToMp3Option.get, mf.checksum, mf.startingOffset), song.segments, song.bpm)
   }
 

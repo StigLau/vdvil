@@ -13,7 +13,6 @@ object TagGUI extends SimpleSwingApplication {
   val log =  LoggerFactory.getLogger(TagGUI.getClass)
   var dvlFilePath = System.getProperty("user.home") + "/kpro"
 
-  val cacheHandler = new ScalaCacheHandler
   var dvlTable: ScalaDynamicDvlTable = null
   //These are just test variables
   val returningDvlUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"
@@ -33,7 +32,7 @@ object TagGUI extends SimpleSwingApplication {
           if (returnVal == FileChooser.Result.Approve) {
             dvlFilePath = fileChooser.selectedFile.getAbsolutePath
             try {
-              val loadedSong = cacheHandler.loadSimpleSongFromDvlOnDisk(dvlFilePath)
+              val loadedSong = ScalaCacheHandler.loadSimpleSongFromDvlOnDisk(dvlFilePath)
               addEditingPanel(dvlFilePath, NeatStuff.convertAllNullIDsToRandom(loadedSong))
             } catch {case _ => log.error("Could not parse file {}", dvlFilePath)} 
           }
@@ -53,7 +52,7 @@ object TagGUI extends SimpleSwingApplication {
 
   def fetchDvlAndMp3FromWeb(url: String): Option[ScalaSong] = {
     try {
-      val song:ScalaSong = cacheHandler.fetchSimpleSongAndCacheDvlAndMp3(url, null)
+      val song:ScalaSong = ScalaCacheHandler.fetchSimpleSongAndCacheDvlAndMp3(url, null)
       Some(NeatStuff.convertAllNullIDsToRandom(song))
     } catch {case _ => log.error("Could not download or parse {}", url); None} // TODO This catch all is not working -> WHY!? 
   }

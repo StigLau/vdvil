@@ -8,7 +8,6 @@ import org.junit.Assert._
 class DomainTest {
   @Test def calculateDuration {
     val testThing = testData
-    println("Res " + testThing.durationAsBeats)
     assertEquals(64, testThing.durationAsBeats.intValue)
   }
 
