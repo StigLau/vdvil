@@ -46,7 +46,7 @@ case class MasterMix(name:String, var masterBpm:Float, parts:List[MasterPart]) {
 
   def dvls = parts.groupBy[Dvl](part => part.dvl).keySet
 
-  def durationAsBeats:Float = dvls.map
+  def durationAsBeats:Float = parts.foldLeft(0F)((max,part) => if(part.end > max) part.end else max)
 }
 
 case class MasterPart(dvl:Dvl, start:Float, end:Float, id:String)
