@@ -31,7 +31,7 @@ class DownloadingCoordinator(masterMix: MasterMix, callBack:DVLCallBack) extends
           }
         }
         case Success => {
-          callBack.visible
+          callBack.finished
           exit
         }
         case error: Error => {
