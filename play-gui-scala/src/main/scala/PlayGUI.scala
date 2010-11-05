@@ -3,6 +3,7 @@ package no.lau.vdvil.player
 import scala.swing._
 import event.ButtonClicked
 import no.lau.vdvil.downloading._
+import swing.TabbedPane.Page
 
 /**
  * Play GUI for playing .vdl files
@@ -102,5 +103,9 @@ class DVLCallBackGUI (masterMix:MasterMix) extends DVLCallBack {
   }
   lazy val dvlLabels: Map[Dvl, Label] = Map.empty ++ masterMix.dvls.map(dvl => dvl -> new Label(dvl.url))
   def setLabel(dvl: Dvl, text: String) {dvlLabels(dvl).text_=(text)}
-  def visible(value:Boolean) { downloadingPanel.visible_=(value) }
+  def visible { downloadingPanel.visible_=(true) }
+  def finished {
+    downloadingPanel.visible_=(false)
+    PlayGUI.tabs.pages.append(new Page("PLAYPANEL", new PlayPanel(masterMix).ui))
+  }
 }

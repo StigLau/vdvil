@@ -8,7 +8,7 @@ import no.lau.vdvil.downloading.Dvl
 
 object Repo {
 
-  def findMasterMix(id:String) {}
+  //def findMasterMix(id:String):MasterMix =  //Needs to be implemented
 
   def findSegment(id:String, dvl:Dvl):Option[ScalaSegment] = findSong(dvl).segments.find(segment => id == segment.id)
 

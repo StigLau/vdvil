@@ -1,7 +1,6 @@
 package no.lau.vdvil.downloading
 
 import actors.Actor
-import swing.TabbedPane.Page
 import no.lau.vdvil.player._
 import no.lau.vdvil.cache.ScalaCacheHandler
 import no.lau.tagger.scala.model. {ScalaMediaFile, ScalaSong}
@@ -18,7 +17,7 @@ class DownloadingCoordinator(masterMix: MasterMix, callBack:DVLCallBack) extends
     loop {
       react {
         case Start => {
-          callBack.visible(true)
+          callBack.visible
           masterMix.dvls.foreach(dvl => new DownloadActor(dvl, this).start)
         }
         case downloading: DownloadingDvl => callBack.setLabel(downloading.dvl, "Downloading Dvl" + downloading.dvl.name)
@@ -32,15 +31,13 @@ class DownloadingCoordinator(masterMix: MasterMix, callBack:DVLCallBack) extends
           }
         }
         case Success => {
-          val composition = new ScalaComposition(150F, CompositionExample.parts)
-          PlayGUI.tabs.pages.append(new Page("PLAYPANEL", new PlayPanel(masterMix).ui))
-          callBack.visible(false)
+          callBack.visible
           exit
         }
         case error: Error => {
           println("Error downloading: " + error.message)
           println("Will now stop downloading procedure")
-          callBack.visible(false)
+          callBack.visible
           exit
         }
       }
@@ -73,5 +70,6 @@ case class FinishedDownloading(dvl:Dvl, song: ScalaSong)
 
 trait DVLCallBack {
   def setLabel(dvl: Dvl, text: String)
-  def visible(value:Boolean)
+  def visible
+  def finished
 }

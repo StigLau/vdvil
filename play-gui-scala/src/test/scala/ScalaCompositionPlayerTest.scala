@@ -4,7 +4,7 @@ import org.junit.Test
 
 
 class ScalaCompositionPlayerTest {
-  val composition = new ScalaComposition(150F, CompositionExample.parts)
+  val composition = PlayGUI.masterMix.asComposition
 
   @Test def createInstructionsFromParts {
     assert(composition.parts.size == 14)

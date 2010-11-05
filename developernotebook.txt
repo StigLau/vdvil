@@ -12,6 +12,8 @@ Todo's
  * Create API for describing how resources (.mp3s, videos aso) can be downloaded and locally cached, and referenced by the renderers.
  * FactorMagic should perhaps be removed!
 
+ * !!!! TaggerGUI Does not stop playback
+
  * Rewrite CompositionExample so it can be persisted to file
  * Move Domain into case class
  * Persistence to XML
