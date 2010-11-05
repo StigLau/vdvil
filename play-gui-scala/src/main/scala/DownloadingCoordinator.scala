@@ -4,15 +4,15 @@ import actors.Actor
 import swing.TabbedPane.Page
 import no.lau.vdvil.player._
 import no.lau.vdvil.cache.ScalaCacheHandler
-import no.lau.tagger.scala.model. {ScalaSegment, ScalaMediaFile, ScalaSong}
-import no.lau.vdvil.gui. {TagGUI, NeatStuff}
+import no.lau.tagger.scala.model. {ScalaMediaFile, ScalaSong}
+import no.lau.vdvil.gui. {NeatStuff}
 
 class DownloadingCoordinator(masterMix: MasterMix, callBack:DVLCallBack) extends Actor {
 
   import scala.collection.mutable.Set
   val songSet = Set[ScalaSong]()
 
-  def isStillDownloading = songSet.size < masterMix.parts.size
+  def isStillDownloading = songSet.size < masterMix.dvls.size
 
   def act {
     loop {
@@ -62,20 +62,10 @@ class DownloadActor(dvl:Dvl, coordinator: Actor) extends Actor {
   }
 }
 
-case class Start
-case class Success
+case object Start
+case object Success
 case class Error(message: String)
-case class Dvl(url: String, name:String) {
-  def getSegment(id:String):Option[ScalaSegment] = {
-    println("this is " + id)
-
-    println(song.segments.find(segment => id == segment.id))
-
-    song.segments.find(segment => id == segment.id)
-  }
-  lazy val song = getSong
-  private def getSong:ScalaSong = TagGUI.fetchDvlAndMp3FromWeb(url).get
-}
+case class Dvl(url: String, name:String)
 case class DownloadingDvl(dvl: Dvl)
 case class DownloadingMp3(dvl: Dvl)
 case class ConvertingAndAddingMissingIds(dvl: Dvl)

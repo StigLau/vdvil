@@ -1,8 +1,7 @@
 package no.lau.vdvil.player
 
 import no.lau.vdvil.gui.TagGUI
-import no.lau.vdvil.cache.ScalaCacheHandler
-import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSong}
+import no.lau.tagger.scala.model.ScalaSong
 
 
 object CompositionExample {
@@ -13,12 +12,7 @@ object CompositionExample {
   lazy val not_alone: ScalaSong = getSong("olive-youre_not_alone.dvl")
   lazy val scares_me: ScalaSong = getSong("christian_cambas-it_scares_me.dvl")
 
-  def getSong(url: String): ScalaSong = {
-    val song = TagGUI.fetchDvlAndMp3FromWeb(baseUrl + url).get
-    val mf = song.mediaFile
-    val pathToMp3Option: Option[String] = ScalaCacheHandler.retrievePathToFileFromCache(mf.fileName, mf.checksum)
-    return new ScalaSong(song.reference, new ScalaMediaFile(pathToMp3Option.get, mf.checksum, mf.startingOffset), song.segments, song.bpm)
-  }
+  def getSong(url: String): ScalaSong = TagGUI.fetchDvlAndMp3FromWeb(baseUrl + url).get
 
   lazy val parts: List[ScalaAudioPart] = {
     new ScalaAudioPart(not_alone, 0F, 32F, not_alone.segments(0)) ::

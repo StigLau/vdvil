@@ -23,26 +23,20 @@ val returning = Dvl(baseUrl + "holden-nothing-93_returning_mix.dvl", "returning"
   val not_alone = Dvl(baseUrl + "olive-youre_not_alone.dvl", "You're not alone")
   val scares_me = Dvl(baseUrl + "christian_cambas-it_scares_me.dvl", "It scares me")
 
-  val mixTape = MasterPart(returning, 0F, 32F, "4336519975847252321") ::
-    MasterPart(not_alone, 0F, 32F, "4479230163500364845") ::
-    MasterPart(scares_me, 16F, 48F, "6708181734132071585") :: Nil
-  /*
- ::
-             ::
-            new ScalaAudioPart(not_alone, 32F, 70F, not_alone.segments(1)) ::
-            new ScalaAudioPart(scares_me, 48F, 64F, scares_me.segments(2)) ::
-            new ScalaAudioPart(scares_me, 64F, 112F, scares_me.segments(4)) ::
-            new ScalaAudioPart(returning, 96F, 140F, returning.segments(4)) ::
-            new ScalaAudioPart(returning, 96F, 140F, returning.segments(4)) ::
-            new ScalaAudioPart(returning, 128F, 174F, returning.segments(6)) ::
-            new ScalaAudioPart(returning, 144F, 174.5F, returning.segments(9)) ::
-            new ScalaAudioPart(returning, 174F, 175.5F, returning.segments(10)) ::
-            new ScalaAudioPart(returning, 175F, 176.5F, returning.segments(11)) ::
-            new ScalaAudioPart(returning, 176F, 240F, returning.segments(12)) ::
-            new ScalaAudioPart(scares_me, 208F, 224F, scares_me.segments(12)) ::
-            new ScalaAudioPart(scares_me, 224F, 252F, scares_me.segments(13)) :: Nil
-   */
-
+ val mixTape = MasterPart(not_alone, 0F, 32F, "4479230163500364845") ::
+    MasterPart(scares_me, 16F, 48F, "5403996530329584526") ::
+    MasterPart(not_alone, 32F, 70F, "8313187524105777940") ::
+    MasterPart(scares_me, 48F, 64F, "5403996530329584526") ::
+    MasterPart(scares_me, 64F, 112F, "1826025806904317462") ::
+    MasterPart(returning, 96F, 140F, "6401936245564505757") ::
+    MasterPart(returning, 96F, 140F, "6401936245564505757") ::
+    MasterPart(returning, 128F, 174F, "6182122145512625145") ::
+    MasterPart(returning, 144F, 174.5F, "3378726703924324403") ::
+    MasterPart(returning, 174F, 175.5F, "4823965795648964701") ::
+    MasterPart(returning, 175F, 176.5F, "5560598317419002938") ::
+    MasterPart(returning, 176F, 240F, "9040781467677187716") ::
+    MasterPart(scares_me, 208F, 224F, "8301899110835906945") ::
+    MasterPart(scares_me, 224F, 252F, "5555459205073513470") :: Nil
   val masterMix = MasterMix("JavaZone Demo", 150F, mixTape)
 
 
