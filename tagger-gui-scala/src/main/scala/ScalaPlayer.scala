@@ -8,19 +8,15 @@ class ScalaPlayer(song: ScalaSong) {
   var worker: VdvilSwingActor = null
 
 
-  def playPause(startCue: Float, endCue: Float) {
-    worker = started match {
-      case false => {
-        started = true
-        new VdvilSwingActor(song, startCue, endCue) {
-          start
-        }
-      }
-      case true => {
-        worker.stop
-        started = false
-        new VdvilSwingActor(song, startCue, endCue)
-      }
+  def play(startCue: Float, endCue: Float) {
+    started = true
+    worker = new VdvilSwingActor(song, startCue, endCue) {
+      start
     }
+  }
+
+  def stop {
+    worker.stop
+    started = false
   }
 }

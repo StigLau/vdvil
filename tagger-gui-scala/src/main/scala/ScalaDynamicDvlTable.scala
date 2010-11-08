@@ -100,8 +100,8 @@ class ScalaDynamicDvlTable(dvlUrl: String, song: ScalaSong) {
    */
   def playSegment(segmentId: String, song: ScalaSong) {
     if(player.started)
-      player.playPause(-1, -1)//Call to stop the player
-    song.segmentWithId(segmentId).map(segment =>  player.playPause(segment.start, segment.end))
+      player.stop
+    song.segmentWithId(segmentId).map(segment =>  player.play(segment.start, segment.end))
   }
 
   def asPlayableCopy(song:ScalaSong):ScalaSong = {
