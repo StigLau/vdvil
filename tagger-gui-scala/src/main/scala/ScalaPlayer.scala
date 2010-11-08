@@ -3,7 +3,7 @@ package no.lau.vdvil.player
 import no.lau.vdvil.swing.VdvilSwingActor
 import no.lau.tagger.scala.model.ScalaSong
 
-class ScalaPlayer(var song: ScalaSong) {
+class ScalaPlayer(song: ScalaSong) {
   var started: Boolean = false
   var worker: VdvilSwingActor = null
 
@@ -22,9 +22,5 @@ class ScalaPlayer(var song: ScalaSong) {
         new VdvilSwingActor(song, startCue, endCue)
       }
     }
-  }
-
-  def update(changedSimpleSong: ScalaSong) {
-    song = changedSimpleSong;
   }
 }

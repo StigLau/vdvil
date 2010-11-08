@@ -6,10 +6,11 @@ import org.slf4j.LoggerFactory
 import no.lau.vdvil.player.ScalaPlayer
 import no.lau.vdvil.cache.ScalaCacheHandler
 import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSegment, ScalaSong}
+import java.io.FileNotFoundException
 
 class ScalaDynamicDvlTable(dvlUrl: String, song: ScalaSong) {
 
-  var player: ScalaPlayer = null
+  var player: ScalaPlayer = new ScalaPlayer(asPlayableCopy(song))
   val log = LoggerFactory.getLogger(classOf[ScalaDynamicDvlTable])
 
   var editingGrid: GridPanel = buildEditingGrid
@@ -98,12 +99,15 @@ class ScalaDynamicDvlTable(dvlUrl: String, song: ScalaSong) {
    * Plays the segment of your choice
    */
   def playSegment(segmentId: String, song: ScalaSong) {
-    if (player != null)
-      player.playPause(-1F, -1F) //Call to stop the player
+    player.playPause(-1, -1)//Call to stop the player
+    song.segmentWithId(segmentId).map(segment =>  player.playPause(segment.start, segment.end))
+  }
+
+  def asPlayableCopy(song:ScalaSong):ScalaSong = {
     val mf = song.mediaFile
     ScalaCacheHandler.retrievePathToFileFromCache(mf.fileName, mf.checksum).map { pathToMp3 =>
-        val copyOfSong = new ScalaSong(song.reference, new ScalaMediaFile(pathToMp3, mf.checksum, mf.startingOffset), song.segments, song.bpm)
-        song.segmentWithId(segmentId).map(segment =>  new ScalaPlayer(copyOfSong).playPause(segment.start, segment.end))
+        return new ScalaSong(song.reference, new ScalaMediaFile(pathToMp3, mf.checksum, mf.startingOffset), song.segments, song.bpm)
     }
+    throw new FileNotFoundException("File not found " + mf.fileName)
   }
 }

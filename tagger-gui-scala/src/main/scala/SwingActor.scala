@@ -5,10 +5,10 @@ import java.io.File
 import no.bouvet.kpro.renderer.Instructions
 import no.bouvet.kpro.renderer.audio.{SimpleAudioInstruction, MP3Source, AudioSource}
 import org.slf4j.LoggerFactory
-import swing.SwingWorker
 import no.lau.tagger.scala.model.ScalaSong
+import actors.Actor
 
-class VdvilSwingActor(song: ScalaSong, startCue: Float, endCue: Float) extends SwingWorker
+class VdvilSwingActor(song: ScalaSong, var startCue: Float, var endCue: Float) extends Actor
 {
   var audioSource: AudioSource = new MP3Source(new File(song.mediaFile.fileName))
   var player = new AudioPlayer
