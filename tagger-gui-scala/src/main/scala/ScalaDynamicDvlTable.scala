@@ -99,7 +99,8 @@ class ScalaDynamicDvlTable(dvlUrl: String, song: ScalaSong) {
    * Plays the segment of your choice
    */
   def playSegment(segmentId: String, song: ScalaSong) {
-    player.playPause(-1, -1)//Call to stop the player
+    if(player.started)
+      player.playPause(-1, -1)//Call to stop the player
     song.segmentWithId(segmentId).map(segment =>  player.playPause(segment.start, segment.end))
   }
 

@@ -50,6 +50,12 @@ object TagGUI extends SimpleSwingApplication {
     }
   }
 
+  override def startup(args: Array[String]) {
+   val t = top
+   t.size_=(new Dimension(800, 600))
+   t.visible = true
+  }
+
   def fetchDvlAndMp3FromWeb(url: String): Option[ScalaSong] = {
     try {
       val song:ScalaSong = ScalaCacheHandler.fetchSimpleSongAndCacheDvlAndMp3(url, null)
