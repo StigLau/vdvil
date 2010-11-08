@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory
 import no.lau.tagger.scala.model.ScalaSong
 import actors.Actor
 
-class SegmentPlayer(song: ScalaSong, startCue: Float, endCue: Float) extends Actor {
+class SegmentPlayer(var song: ScalaSong, startCue: Float, endCue: Float) extends Actor {
   val audioSource: AudioSource = new MP3Source(new File(song.mediaFile.fileName))
   val player = new AudioPlayer
   val log = LoggerFactory.getLogger(classOf[SegmentPlayer])
