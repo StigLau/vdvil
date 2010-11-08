@@ -3,14 +3,15 @@ package no.lau.vdvil.gui
 import scala.swing._
 import scala.swing.event._
 import org.slf4j.LoggerFactory
-import no.lau.vdvil.player.ScalaPlayer
 import no.lau.vdvil.cache.ScalaCacheHandler
 import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSegment, ScalaSong}
 import java.io.FileNotFoundException
+import no.lau.vdvil.player.SegmentPlayer
 
 class ScalaDynamicDvlTable(dvlUrl: String, song: ScalaSong) {
 
-  var player: ScalaPlayer = new ScalaPlayer(asPlayableCopy(song))
+  var player: SegmentPlayer = null
+  var isPlaying = false
   val log = LoggerFactory.getLogger(classOf[ScalaDynamicDvlTable])
 
   var editingGrid: GridPanel = buildEditingGrid
@@ -99,10 +100,17 @@ class ScalaDynamicDvlTable(dvlUrl: String, song: ScalaSong) {
    * Plays the segment of your choice
    */
   def playSegment(segmentId: String, song: ScalaSong) {
-    if(player.started)
+    if(isPlaying)
       player.stop
-    song.segmentWithId(segmentId).map(segment =>  player.play(segment.start, segment.end))
+    isPlaying = true
+    song.segmentWithId(segmentId).map{segment =>
+      player = new SegmentPlayer(playableCopy, segment.start, segment.end) {
+        start
+      }
+    }
   }
+
+  val playableCopy = asPlayableCopy(song)
 
   def asPlayableCopy(song:ScalaSong):ScalaSong = {
     val mf = song.mediaFile
