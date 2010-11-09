@@ -12,13 +12,6 @@ object PlayGUI extends SimpleSwingApplication {
   val tabs = new TabbedPane
 
   val baseUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/"
-  /*
-  val song = MasterMix(
-
-    Dvl(baseUrl + "unfinished_sympathy.dvl", "unfinished_sympathy") ::
-
-    Nil
-)   */
 
 val returning = Dvl(baseUrl + "holden-nothing-93_returning_mix.dvl", "returning")
   val not_alone = Dvl(baseUrl + "olive-youre_not_alone.dvl", "You're not alone")

@@ -50,18 +50,26 @@ case class MasterMix(name:String, var masterBpm:Float, parts:List[MasterPart]) {
 
   def durationAsBeats:Float = parts.foldLeft(0F)((max,part) => if(part.end > max) part.end else max)
 }
-object MasterMix {
-  //(for (part <- (xml \ "parts" \ "part")) yield Part.fromXML(part)).toList,
-  def toXML(masterMix:MasterMix) =
-<masterMix>
-  <name>{masterMix.name}</name>
-  <masterBpm>{masterMix.masterBpm}</masterBpm>
-  <parts>{masterMix.parts.map(MasterPart.toXML)}</parts>
-</masterMix>
-}
-
 
 case class MasterPart(dvl:Dvl, start:Float, end:Float, id:String)
+case class Dvl(url: String, name:String)
+
+object MasterMix {
+  def fromXML(xml:Node) = MasterMix(
+    (xml \ "name").text,
+    (xml \ "masterBpm").text.toFloat,
+    (for( part <- (xml \ "parts" \ "part")) yield MasterPart.fromXML(part)).toList
+  )
+  def toXML(composition:MasterMix) =
+<composition>
+  <name>{composition.name}</name>
+  <masterBpm>{composition.masterBpm}</masterBpm>
+  <parts>
+    {composition.parts.map(MasterPart.toXML)}
+  </parts>
+</composition>
+}
+
 object MasterPart {
   def fromXML(xml:Node) = MasterPart(
     Dvl.fromXML((xml \ "dvl").head),
@@ -70,17 +78,15 @@ object MasterPart {
     (xml \ "id").text
   )
 
-  def toXML(masterPart: MasterPart) =
-  <masterPart>
-    <id>{masterPart.id}</id>
-    {Dvl.toXML(masterPart.dvl)}
-    <start>{masterPart.start}</start>
-    <end>{masterPart.end}</end>
-  </masterPart>
+  def toXML(part: MasterPart) =
+  <part>
+    <id>{part.id}</id>
+    {Dvl.toXML(part.dvl)}
+    <start>{part.start}</start>
+    <end>{part.end}</end>
+  </part>
+
 }
-
-case class Dvl(url: String, name:String)
-
 
 object Dvl {
   def fromXML(xml:Node) = Dvl(
