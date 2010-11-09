@@ -1,7 +1,6 @@
 package no.lau.vdvil.player
 
 import no.lau.tagger.scala.model.{ScalaSong, ScalaSegment}
-import no.lau.vdvil.downloading.Dvl
 import no.bouvet.kpro.renderer.audio. {MP3Source, SimpleAudioInstruction}
 import java.io.File
 import no.bouvet.kpro.renderer. {Instruction, Instructions}
@@ -35,6 +34,8 @@ class ScalaAudioPart(val song: ScalaSong, val startCue: Float, val endCue: Float
   }
 }
 
+import xml.Node
+
 /**
  * A MasterMix contains the mix which can be played to anyone. It will reference one or more MasterParts, which can contain .dvl's
  */
@@ -49,5 +50,46 @@ case class MasterMix(name:String, var masterBpm:Float, parts:List[MasterPart]) {
 
   def durationAsBeats:Float = parts.foldLeft(0F)((max,part) => if(part.end > max) part.end else max)
 }
+object MasterMix {
+  //(for (part <- (xml \ "parts" \ "part")) yield Part.fromXML(part)).toList,
+  def toXML(masterMix:MasterMix) =
+<masterMix>
+  <name>{masterMix.name}</name>
+  <masterBpm>{masterMix.masterBpm}</masterBpm>
+  <parts>{masterMix.parts.map(MasterPart.toXML)}</parts>
+</masterMix>
+}
+
 
 case class MasterPart(dvl:Dvl, start:Float, end:Float, id:String)
+object MasterPart {
+  def fromXML(xml:Node) = MasterPart(
+    Dvl.fromXML((xml \ "dvl").head),
+    (xml \ "start").text.toFloat,
+    (xml \ "end").text.toFloat,
+    (xml \ "id").text
+  )
+
+  def toXML(masterPart: MasterPart) =
+  <masterPart>
+    <id>{masterPart.id}</id>
+    {Dvl.toXML(masterPart.dvl)}
+    <start>{masterPart.start}</start>
+    <end>{masterPart.end}</end>
+  </masterPart>
+}
+
+case class Dvl(url: String, name:String)
+
+
+object Dvl {
+  def fromXML(xml:Node) = Dvl(
+    (xml \ "url").text,
+    (xml \ "name").text
+  )
+  def toXML(dvl:Dvl) =
+    <dvl>
+      <url>{dvl.url}</url>
+      <name>{dvl.name}</name>
+    </dvl>
+}

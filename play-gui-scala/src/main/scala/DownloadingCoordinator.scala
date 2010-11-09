@@ -62,7 +62,6 @@ class DownloadActor(dvl:Dvl, coordinator: Actor) extends Actor {
 case object Start
 case object Success
 case class Error(message: String)
-case class Dvl(url: String, name:String)
 case class DownloadingDvl(dvl: Dvl)
 case class DownloadingMp3(dvl: Dvl)
 case class ConvertingAndAddingMissingIds(dvl: Dvl)

@@ -1,7 +1,6 @@
 package no.lau.vdvil.player
 
 import org.junit.Test
-import no.lau.vdvil.downloading.Dvl
 import org.junit.Assert._
 
 
