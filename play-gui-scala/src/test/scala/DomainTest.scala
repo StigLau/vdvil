@@ -1,4 +1,4 @@
-package no.lau.vdvil.player
+package no.lau.vdvil.domain.player
 
 import org.junit.Test
 import org.junit.Assert._

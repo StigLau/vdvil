@@ -2,6 +2,7 @@ package no.lau.vdvil.player
 
 import org.junit.Test
 import org.junit.Assert._
+import no.lau.vdvil.domain.player. {MasterPart, MasterMix, Dvl}
 
 class DomainPersistenceTest {
 

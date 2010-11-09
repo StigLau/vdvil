@@ -4,7 +4,7 @@ import scala.swing._
 import event.ButtonClicked
 import no.lau.vdvil.downloading._
 import swing.TabbedPane.Page
-import no.lau.vdvil.domain. {MasterMix, MasterPart, Dvl}
+import no.lau.vdvil.domain.player. {MasterMix, MasterPart, Dvl}
 
 /**
  * Play GUI for playing .vdl files

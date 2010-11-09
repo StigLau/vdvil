@@ -1,7 +1,8 @@
 package no.lau.vdvil.downloading
 
 import org.junit.Test
-import no.lau.vdvil.player. {Dvl, DVLCallBackGUI, MasterMix}
+import no.lau.vdvil.domain.player. {Dvl, MasterMix}
+import no.lau.vdvil.player.DVLCallBackGUI
 
 /**
  * Functional test which downloads the .dvl and .mp3 songs and shows the downloading GUI

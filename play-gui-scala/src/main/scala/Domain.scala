@@ -1,4 +1,4 @@
-package no.lau.vdvil.domain
+package no.lau.vdvil.domain.player
 
 import no.lau.tagger.scala.model.{ScalaSong, ScalaSegment}
 import no.bouvet.kpro.renderer.audio. {MP3Source, SimpleAudioInstruction}
@@ -52,13 +52,11 @@ case class MasterMix(name:String, var masterBpm:Float, parts:List[MasterPart]) {
 case class MasterPart(dvl:Dvl, start:Float, end:Float, id:String)
 case class Dvl(url: String, name:String)
 
-package xml {
-
 object MasterMix {
-  def fromXML(xml:xml.Node) = MasterMix(
-    (xml \ "name").text,
-    (xml \ "masterBpm").text.toFloat,
-    (for( part <- (xml \ "parts" \ "part")) yield MasterPart.fromXML(part)).toList
+  def fromXML(node:xml.Node) = MasterMix(
+    (node \ "name").text,
+    (node \ "masterBpm").text.toFloat,
+    (for( part <- (node \ "parts" \ "part")) yield MasterPart.fromXML(part)).toList
   )
   def toXML(composition:MasterMix) =
 <composition>
@@ -71,11 +69,11 @@ object MasterMix {
 }
 
 object MasterPart {
-  def fromXML(xml:xml.Node) = MasterPart(
-    Dvl.fromXML((xml \ "dvl").head),
-    (xml \ "start").text.toFloat,
-    (xml \ "end").text.toFloat,
-    (xml \ "id").text
+  def fromXML(node:xml.Node) = MasterPart(
+    Dvl.fromXML((node \ "dvl").head),
+    (node \ "start").text.toFloat,
+    (node \ "end").text.toFloat,
+    (node \ "id").text
   )
 
   def toXML(part: MasterPart) =
@@ -89,14 +87,13 @@ object MasterPart {
 }
 
 object Dvl {
-  def fromXML(xml:xml.Node) = Dvl(
-    (xml \ "url").text,
-    (xml \ "name").text
+  def fromXML(node:xml.Node) = Dvl(
+    (node \ "url").text,
+    (node \ "name").text
   )
   def toXML(dvl:Dvl) =
     <dvl>
       <url>{dvl.url}</url>
       <name>{dvl.name}</name>
     </dvl>
-}
 }

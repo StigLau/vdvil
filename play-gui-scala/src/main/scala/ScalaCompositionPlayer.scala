@@ -2,6 +2,7 @@ package no.lau.vdvil.player
 
 import no.bouvet.kpro.renderer.audio.{AudioPlaybackTarget, AudioRenderer}
 import no.bouvet.kpro.renderer.Renderer
+import no.lau.vdvil.domain.player.ScalaComposition
 
 /**
  * This is the master class, responsible for playing a small demoset of VDVIL music

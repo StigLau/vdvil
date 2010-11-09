@@ -4,7 +4,7 @@ import no.lau.tagger.model.MediaFile
 import no.lau.vdvil.cache.ScalaCacheHandler
 import no.lau.vdvil.gui.TagGUI
 import no.lau.tagger.scala.model. {ScalaSegment, ScalaSong}
-import no.lau.vdvil.player.Dvl
+import no.lau.vdvil.domain.player.Dvl
 
 object Repo {
 

@@ -1,10 +1,10 @@
 package no.lau.vdvil.downloading
 
 import actors.Actor
-import no.lau.vdvil.player._
 import no.lau.vdvil.cache.ScalaCacheHandler
 import no.lau.tagger.scala.model. {ScalaMediaFile, ScalaSong}
 import no.lau.vdvil.gui. {NeatStuff}
+import no.lau.vdvil.domain.player. {Dvl, MasterMix}
 
 class DownloadingCoordinator(masterMix: MasterMix, callBack:DVLCallBack) extends Actor {
 
@@ -46,7 +46,7 @@ class DownloadingCoordinator(masterMix: MasterMix, callBack:DVLCallBack) extends
 }
 
 class DownloadActor(dvl:Dvl, coordinator: Actor) extends Actor {
-  def act() {
+  def act {
     coordinator ! DownloadingDvl(dvl)
     val unconvertedSong: ScalaSong = ScalaCacheHandler.fetchSimpleSongAndCacheDvlAndMp3(dvl.url, null)
     coordinator ! ConvertingAndAddingMissingIds(dvl)
