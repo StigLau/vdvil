@@ -48,7 +48,7 @@ val returning = Dvl(baseUrl + "holden-nothing-93_returning_mix.dvl", "returning"
     title = "Play GUI"
     menuBar = new MenuBar {
       contents += new Menu("Load") {
-        contents += new MenuItem(Action("Static") {
+        contents += new MenuItem(Action("Demo") {
           val downloadingCoordinator = new DownloadingCoordinator(masterMix, new DVLCallBackGUI(masterMix)) {
             start
           } ! Start
