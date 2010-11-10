@@ -23,7 +23,6 @@ object TagGUI extends SimpleSwingApplication {
     title = "Tagging GUI"
 
     menuBar = new MenuBar {
-      import Dialog._
       contents += new Menu("Load") {
         contents += new MenuItem(Action("From File") {
 
@@ -38,7 +37,7 @@ object TagGUI extends SimpleSwingApplication {
           }
         })
         contents += new MenuItem(Action("From Web") {
-          showInput(menuBar, "", "Load from", Message.Plain, Swing.EmptyIcon, Nil, returningDvlUrl).map{
+          Dialog.showInput(menuBar, "", "Load from", Dialog.Message.Plain, Swing.EmptyIcon, Nil, returningDvlUrl).map{
             url => fetchDvlAndMp3FromWeb(url).map(song => addEditingPanel(url, song))
           }
         })

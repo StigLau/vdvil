@@ -15,28 +15,16 @@ object PlayGUI extends SimpleSwingApplication {
   val tabs = new TabbedPane
 
   val log = LoggerFactory.getLogger(PlayGUI.getClass)
+  val javaZoneDemoCompositionUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml"
 
   def top = new MainFrame {
     title = "Play GUI"
     menuBar = new MenuBar {
       contents += new Menu("Load") {
         contents += new MenuItem(Action("Demo from web") {
-          val guiCallback = new DVLCallBack {
-              def setLabel(dvl: Dvl, text: String) {log.info("label set") }
-              def visible { log.info("Visible") }
-              def finished {log.info("finished")}
+          Dialog.showInput(menuBar, "", "Load from", Dialog.Message.Plain, Swing.EmptyIcon, Nil, javaZoneDemoCompositionUrl).map{
+            url => startDownload(url)
           }
-          val coordinator = new GenericDownloadingCoordinator(guiCallback)
-          coordinator.start
-          new MyRepo(coordinator).fetchComposition("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml",
-                new CompositionCallback {
-              def finished(compositionOption:Option[MasterMix]) {
-                val masterMix = compositionOption.get
-                val downloadingCoordinator = new DownloadingCoordinator(masterMix, new DVLCallBackGUI(masterMix)) {
-                  start
-                } ! Start
-              }
-          })
         })
       }
     }
@@ -51,6 +39,24 @@ object PlayGUI extends SimpleSwingApplication {
   t.size_=(new Dimension(800, 600))
   t.visible = true
  }
+
+  def startDownload(url:String) {
+    val guiCallback = new DVLCallBack {
+        def setLabel(dvl: Dvl, text: String) {log.info("label set") }
+        def visible { log.info("Visible") }
+        def finished {log.info("finished")}
+    }
+    val coordinator = new GenericDownloadingCoordinator(guiCallback)
+    coordinator.start
+    new MyRepo(coordinator).fetchComposition(url, new CompositionCallback {
+        def finished(compositionOption:Option[MasterMix]) {
+          val masterMix = compositionOption.get
+          val downloadingCoordinator = new DownloadingCoordinator(masterMix, new DVLCallBackGUI(masterMix)) {
+            start
+          } ! Start
+        }
+    })
+  }
 }
 
 class PlayPanel(val masterMix: MasterMix) {
