@@ -5,7 +5,7 @@ import org.junit.Test
 class PlayGuiTest {
   @Test def setTextField {
 
-    val panel = new PlayPanel(PlayGUI.masterMix)
+    val panel = new PlayPanel(JavaZoneDemoComposition.masterMix)
     //Check that the corresponding field also is correct
     assert(panel.bpmField.text == "150.0")
     // Changing bpm
