@@ -31,7 +31,7 @@ object ScalaCacheHandler {
     }
   }
 
-
+  //TODO Use Option instead of null!!!!!!
   def retrievePathToFileFromCache(urlOfFile: String, checksum: String): Option[String] = {
     val cachedFile = checksum match {
       case null => httpCache.fetchAsFile(urlOfFile)
