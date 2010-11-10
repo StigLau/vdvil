@@ -5,6 +5,8 @@ import event.ButtonClicked
 import no.lau.vdvil.downloading._
 import swing.TabbedPane.Page
 import no.lau.vdvil.domain.player. {MasterMix, MasterPart, Dvl}
+import no.lau.vdvil.mix. {CompositionCallback, MyRepo, GenericDownloadingCoordinator}
+import org.slf4j.LoggerFactory
 
 /**
  * Play GUI for playing .vdl files
@@ -13,6 +15,7 @@ object PlayGUI extends SimpleSwingApplication {
   val tabs = new TabbedPane
 
   val baseUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/"
+  val log = LoggerFactory.getLogger(PlayGUI.getClass)
 
 val returning = Dvl(baseUrl + "holden-nothing-93_returning_mix.dvl", "returning")
   val not_alone = Dvl(baseUrl + "olive-youre_not_alone.dvl", "You're not alone")
@@ -46,6 +49,24 @@ val returning = Dvl(baseUrl + "holden-nothing-93_returning_mix.dvl", "returning"
           val downloadingCoordinator = new DownloadingCoordinator(masterMix, new DVLCallBackGUI(masterMix)) {
             start
           } ! Start
+        })
+        contents += new MenuItem(Action("Demo from web") {
+          val guiCallback = new DVLCallBack {
+              def setLabel(dvl: Dvl, text: String) {log.info("label set") }
+              def visible { log.info("Visible") }
+              def finished {log.info("finished")}
+          }
+          val coordinator = new GenericDownloadingCoordinator(guiCallback)
+          coordinator.start
+          new MyRepo(coordinator).fetchComposition("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml",
+                new CompositionCallback {
+              def finished(compositionOption:Option[MasterMix]) {
+                val masterMix = compositionOption.get
+                val downloadingCoordinator = new DownloadingCoordinator(masterMix, new DVLCallBackGUI(masterMix)) {
+                  start
+                } ! Start
+              }
+          })
         })
       }
     }
