@@ -21,10 +21,8 @@ object PlayGUI extends SimpleSwingApplication {
     title = "Play GUI"
     menuBar = new MenuBar {
       contents += new Menu("Load") {
-        contents += new MenuItem(Action("Demo from web") {
-          Dialog.showInput(menuBar, "", "Load from", Dialog.Message.Plain, Swing.EmptyIcon, Nil, javaZoneDemoCompositionUrl).map{
-            url => startDownload(url)
-          }
+        contents += new MenuItem(Action("from web") {
+          Dialog.showInput(menuBar, "", "Load from", Dialog.Message.Plain, Swing.EmptyIcon, Nil, javaZoneDemoCompositionUrl).map(startDownload(_))
         })
       }
     }
