@@ -82,7 +82,7 @@ public class CachingTest {
 
     @Test
     public void generateMD5ChecksumFromFile() throws IOException {
-        assertEquals("d95dc6602acea3a843ac104d06834b51", DigestUtils.md5Hex(Files.toByteArray(new File("/tmp/vdvil/files/b45c6b4bd38020da03afe1f2514a3ba1/default"))));
+        assertEquals("a2dc2ed2e87c74897e0a7bd7160fd810", DigestUtils.md5Hex(Files.toByteArray(new File("/tmp/vdvil/files/b45c6b4bd38020da03afe1f2514a3ba1/default"))));
     }
 
     @Test
@@ -109,6 +109,6 @@ public class CachingTest {
     public void validateChecksumOfLocalFiles() {
         String url = dvlUrl;
         assertEquals(false, persistantCache.validateChecksum(url, "not the correct hex checksum"));
-        assertEquals(true, persistantCache.validateChecksum(url, "d95dc6602acea3a843ac104d06834b51"));
+        assertEquals(true, persistantCache.validateChecksum(url, "a2dc2ed2e87c74897e0a7bd7160fd810"));
     }
 }
