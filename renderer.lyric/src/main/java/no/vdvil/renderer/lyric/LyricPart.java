@@ -1,10 +1,7 @@
 package no.vdvil.renderer.lyric;
 
 import no.lau.tagger.model.AbstractPart;
-import no.lau.tagger.model.IPart;
 import no.bouvet.kpro.renderer.Instruction;
-import java.util.List;
-import java.util.Collections;
 
 /**
  * LyricPart is a part concerned with lyrics that are to be shown to the user
@@ -27,9 +24,5 @@ public class LyricPart extends AbstractPart {
     @Override
     public Instruction translateToInstruction(Float masterBpm) {
         return new LyricInstruction(startCue, endCue, masterBpm, text);
-    }
-
-    public List<? extends IPart> children() {
-        return Collections.emptyList();
     }
 }

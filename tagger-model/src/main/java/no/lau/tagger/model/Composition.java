@@ -7,7 +7,7 @@ import java.util.List;
  * It contains a set of parts which can stem from multiple music file parts.
  * The masterBPM is used to tell what all the different parts speed should be played at.
  */
-public class Composition implements IPart {
+public class Composition {
     public final List<? extends AbstractPart> parts;
 
     public final Float masterBpm;
@@ -15,9 +15,5 @@ public class Composition implements IPart {
     public Composition(Float masterBpm, List<? extends AbstractPart> parts) {
         this.masterBpm = masterBpm;
         this.parts = parts;
-    }
-
-    public List<? extends IPart> children() {
-        return parts;
     }
 }

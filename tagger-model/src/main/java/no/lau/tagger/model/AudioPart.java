@@ -6,11 +6,9 @@ import no.bouvet.kpro.renderer.audio.MP3Source;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.SimpleAudioInstruction;
 import java.io.IOException;
-import java.util.List;
-import java.util.Collections;
 import java.io.File;
 
-public class AudioPart extends AbstractPart implements IPart {
+public class AudioPart extends AbstractPart{
     public final SimpleSong simpleSong;
     public final Segment segment;
     public final Float bpm;
@@ -30,10 +28,6 @@ public class AudioPart extends AbstractPart implements IPart {
         this.segment = segment;
         this.bpm = bpm;
         this.beginAtCue = beginAtCue;
-    }
-
-    public List<IPart> children() {
-        return Collections.emptyList();
     }
 
     public Instruction translateToInstruction(Float masterBpm) throws IOException {

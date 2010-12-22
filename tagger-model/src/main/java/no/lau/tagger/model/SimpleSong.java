@@ -1,10 +1,8 @@
 package no.lau.tagger.model;
 
-import java.util.Collections;
 import java.util.List;
-import java.io.Serializable;
 
-public class SimpleSong implements IPart, Serializable {
+public class SimpleSong {
     //Reference is an ID tag to the Track
     public final String reference;
     public final MediaFile mediaFile;
@@ -18,9 +16,6 @@ public class SimpleSong implements IPart, Serializable {
         this.bpm = bpm;
     }
 
-    public List<? extends IPart> children() {
-        return segments;
-    }
     public String toString() {
         String result = ("bpm = " + bpm);
         result += "\n" + "startingOffset = " + mediaFile.startingOffset;

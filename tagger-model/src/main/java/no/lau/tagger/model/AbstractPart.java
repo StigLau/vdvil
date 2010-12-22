@@ -3,7 +3,7 @@ package no.lau.tagger.model;
 import no.bouvet.kpro.renderer.Instruction;
 import java.io.IOException;
 
-public abstract class AbstractPart implements IPart {
+public abstract class AbstractPart {
     public final Float startCue;
     public final Float endCue;
 
