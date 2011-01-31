@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		  xmlns:xh11="http://www.w3.org/1999/xhtml"
+		  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+		  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+		  xmlns:dc="http://purl.org/dc/elements/1.1/"
+		 	xmlns:dcterms="http://purl.org/dc/terms/"
+  		xmlns:ramm="http://sw.joanneum.at/rammx/ns#"
+  		xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+  <title>ramm.x Specification - Exif Example</title>
+  <link href="xmlns-style.css" rel="stylesheet" type="text/css" />
+  <link href="rammx_style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<h1>ramm.x Specification - Exif Example</h1>
+
+<!-- Declare the formalisation used for the Exif metadata, i.e., where and how the mapping to RDF is specified. -->
+<div about="#exif_formal" href="[ramm:Formalisation]" rel="rdf:type">
+	<span rel="ramm:schemaURI" href="http://www.kanzaki.com/ns/exif" />
+  <span rel="ramm:toRDF" href="http://www.kanzaki.com/test/exif2rdf" />
+</div>
+
+<!-- The MAD itself; here of type MAD by reference-->
+<div about="#sample_mad" href="[ramm:MediaAssetDescriptionByRef]" rel="rdf:type">
+
+	<p about="http://sw.joanneum.at/rammx/spec/example/exif_example.jpg" href="[ramm:MediaAsset]" rel="rdf:type">
+		<img src="http://sw.joanneum.at/rammx/spec/example/exif_example.jpg"
+		 			alt="An example still image." style="border: solid black 1px;" />
+
+	  	<span rel="ramm:hasDescription" href="#sample_mad"></span>
+
+			<span property="dc:title" datatype="xsd:string">An example still image.</span>
+	</p>
+
+  <span property="dcterms:created" content="2007-07-22T22:23:00Z" datatype="xsd:date" />
+
+  <span rel="ramm:nativeDescription" href="http://sw.joanneum.at/rammx/spec/example/exif_example.jpg" />
+
+  <span rel="ramm:using" href="#exif_formal" />
+</div>
+
+<div>
+	<a href="http://triplr.org/rdfa-n3/http://sw.joanneum.at/rammx/spec/example/exif_example.html" title="RDF metadata of ramm.x Specification - Exif Example in N3">
+		<img src="../img/rdf_metadata.gif" alt="RDF Resource Description Framework Metadata Icon" style="border: medium none ; float: right;" />
+	</a>
+</div>
+</body>
+</html>
