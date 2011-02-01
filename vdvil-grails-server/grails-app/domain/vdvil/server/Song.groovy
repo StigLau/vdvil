@@ -6,6 +6,7 @@ class Song {
   static hasMany = [segments: Segment]
   float bpm
 
+  String toString() { "$id:$reference" }
   static constraints = {
   }
 }
