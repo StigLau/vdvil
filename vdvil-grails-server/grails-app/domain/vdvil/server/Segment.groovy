@@ -7,8 +7,10 @@ class Segment {
   String text
 
   String toString() { "$segmentId: $text" }
-
+  Song song
+  static belongsTo = Song
 
   static constraints = {
+    song(nullable:true)
   }
 }
