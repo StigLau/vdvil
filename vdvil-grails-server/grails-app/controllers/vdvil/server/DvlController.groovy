@@ -1,38 +1,33 @@
 package vdvil.server
 
-import groovy.xml.MarkupBuilder
-
 class DvlController {
   def xml = {
-    def mixList = MasterMix.get(params.id)
-    def writer = new StringWriter()
-    def builder = new MarkupBuilder(writer)
+    def songs = Song.get(params.id)
+    if (!songs) songs = Song.list()
 
-    mixList.each { mix ->
-      builder.track {
-
-        reference(mix.name)
-        bpm(mix.masterBpm)
-        //builder.part(id: mix.id) {
-        builder.parts {
-          builder.part {
-            mix.parts.each { part ->
-              id(part.segment.segmentId)
-              start(part.startCue)
-              end(part.endCue)
-              builder.dvl {
-
-                name(part.segment.song.reference)
-                url(part.segment.song.mediaFile.fileName)
+    render(contentType: "text/xml") {
+      for(song in songs) {
+        track {
+          reference(song.reference)
+          bpm(song.bpm)
+          mediaFile {
+            def mf = song.mediaFile
+            fileName(mf.fileName)
+            startingOffset(mf.startingOffset)
+            checksum(mf.startingOffset)
+          }
+          segments {
+            for(aSegment in song.segments) {
+              segment {
+                id(aSegment.segmentId)
+                text(aSegment.text)
+                start(aSegment.startCue)
+                end(aSegment.endCue)
               }
             }
           }
         }
       }
     }
-
-
-    render(writer.toString())
   }
-
 }
