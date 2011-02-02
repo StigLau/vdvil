@@ -47,12 +47,17 @@ object PlayGUI extends SimpleSwingApplication {
     val coordinator = new GenericDownloadingCoordinator(guiCallback)
     coordinator.start
     new MyRepo(coordinator).fetchComposition(url, new CompositionCallback {
-        def finished(compositionOption:Option[MasterMix]) {
+      def finished(compositionOption: Option[MasterMix]) {
+        println("composition = " + compositionOption)
+        if (compositionOption.isDefined) {
           val masterMix = compositionOption.get
           val downloadingCoordinator = new DownloadingCoordinator(masterMix, new DVLCallBackGUI(masterMix)) {
             start
           } ! Start
+        } else {
+          log.error("Could not download or parse " + url)
         }
+      }
     })
   }
 }
