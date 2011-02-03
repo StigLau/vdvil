@@ -2,7 +2,7 @@
   <reference>Loaderror psylteFlesk</reference>
   <mediaFile>
     <fileName>http://github.com/StigLau/vdvil/raw/master/tagger-gui/src/test/resources/loaderror-psylteflesk.mp3</fileName>
-      <checksum></checksum>
+      <checksum>68996363b0c408ce3a82bdedc9cfd6cc</checksum>
     <startingOffset>0.31</startingOffset>
   </mediaFile>
   <bpm>117.4</bpm>
