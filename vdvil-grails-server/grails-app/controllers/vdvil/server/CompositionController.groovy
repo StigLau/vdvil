@@ -5,7 +5,7 @@ class CompositionController {
     def mixList = MasterMix.get(params.id)
     if (!mixList) mixList = MasterMix.list()
 
-    render(contentType: "text/xml") {
+    render(contentType: "text/xml", encoding: "UTF-8") {
       composition {
         for (mix in mixList) {
           name(mix.name)
