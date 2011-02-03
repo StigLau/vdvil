@@ -4,6 +4,7 @@ import actors.Actor
 import no.lau.vdvil.cache.ScalaCacheHandler
 import no.lau.vdvil.downloading.DVLCallBack
 import org.slf4j.LoggerFactory
+import java.io.InputStream
 
 class GenericDownloadingCoordinator(downloadGUICallback:DVLCallBack) extends Actor {
 
@@ -33,8 +34,8 @@ class GenericDownloadingCoordinator(downloadGUICallback:DVLCallBack) extends Act
 
 class DownloadActor(download:Download, coordinator: Actor) extends Actor {
   def act {
-    val filePath:Option[String] = ScalaCacheHandler.retrievePathToFileFromCache(download.url, null)
-    download.callBack.finished(filePath)
+    val inputStream:InputStream = ScalaCacheHandler.retrieveInputStream(download.url, None)
+    download.callBack.finished(inputStream)
     coordinator ! FinishedDownloading(download)
   }
 }

@@ -6,17 +6,18 @@ import no.lau.vdvil.gui.TagGUI
 import no.lau.tagger.scala.model. {ScalaSegment, ScalaSong}
 import no.lau.vdvil.domain.player. {MasterMix, Dvl}
 import xml.XML
+import java.io.InputStream
 
 object Repo {
   def findSegment(id:String, dvl:Dvl):Option[ScalaSegment] = findSong(dvl).segments.find(segment => id == segment.id)
 
   def findSong(dvl:Dvl):ScalaSong = TagGUI.fetchDvlAndMp3FromWeb(dvl.url).get
 
-  def pathToMp3Option(mf:MediaFile): Option[String] = ScalaCacheHandler.retrievePathToFileFromCache(mf.fileName, mf.checksum)
+  def asInputStream(mf:MediaFile): InputStream = ScalaCacheHandler.retrieveInputStream(mf.fileName, Some(mf.checksum))
 }
 
 trait DownloadableFileCallback {
-  def finished(localPath:Option[String])
+  def finished(fileAsStream:InputStream)
 }
 
 trait CompositionCallback {
@@ -26,11 +27,8 @@ trait CompositionCallback {
 class MyRepo(downloadingCoordinator:GenericDownloadingCoordinator) {
   def fetchComposition(url:String, compositionCallBack:CompositionCallback) {
     downloadingCoordinator ! Download(url, new DownloadableFileCallback {
-      def finished(localPathOption:Option[String]){
-        if(localPathOption.isDefined)
-          compositionCallBack.finished(Some(MasterMix.fromXML(XML.loadFile(localPathOption.get))))
-        else
-          compositionCallBack.finished(None)
+      def finished(mixAsStream:InputStream){
+        compositionCallBack.finished(Some(MasterMix.fromXML(XML.load(mixAsStream))))
       }
     })
   }

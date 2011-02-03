@@ -1,10 +1,11 @@
 package org.codehaus.httpcache4j.cache;
 
+import no.lau.vdvil.common.VdvilFileCache;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.httpclient.HttpClient;
 import org.codehaus.httpcache4j.HTTPRequest;
 import org.codehaus.httpcache4j.HTTPResponse;
 import org.codehaus.httpcache4j.client.HTTPClientResponseResolver;
+import org.codehaus.httpcache4j.payload.Payload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +16,7 @@ import java.net.URI;
  * Wrapper class around HttpCache4J to make it more usable for VDvil usage
  * TODO Make function for invalidatingAllCaches
  */
-public class VdvilCacheStuff {
+public class VdvilCacheStuff implements VdvilFileCache {
 
     final Logger log =  LoggerFactory.getLogger(VdvilCacheStuff.class);
     public final HTTPCache persistentcache;
@@ -54,13 +55,13 @@ public class VdvilCacheStuff {
      * @return the downloaded file, null if not found
      * @throws java.io.FileNotFoundException if the file could not be downloaded from url of found in cache
      */
-    public File fetchAsFile(String url, String checksum) throws FileNotFoundException {
+    public InputStream fetchAsStream(String url, String checksum) throws FileNotFoundException {
         if (validateChecksum(url, checksum)) {
             log.debug("{} located on disk with correct checksum", url);
-            return fetchAsFile(url);
+            return fetchAsStream(url);
         } else {
             log.info("File missing in cache or failed to pass checksum. Retrying downloading from URL");
-            File fileDownloadedFromTheInternet = downloadFromInternetAsFile(url);
+            InputStream fileDownloadedFromTheInternet = downloadPayload(url).getInputStream();
             if(validateChecksum(url, checksum)) {
                 return fileDownloadedFromTheInternet;
             } else {
@@ -72,34 +73,24 @@ public class VdvilCacheStuff {
     /**
      * @param url location of file to download
      * @return the file or null if file not found. Not a good thing to do!
+     * @throws java.io.FileNotFoundException Could not find file
      */
-    public File fetchAsFile(String url) {
+    public InputStream fetchAsStream(String url) throws FileNotFoundException {
         File fileInRepository = fetchFromRepository(url);
         if (fileInRepository != null) {
             log.debug("File already in cache: " + url);
-            return fileInRepository;
+            return new FileInputStream(fileInRepository);
         }
         else {
-            return downloadFromInternetAsFile(url);
+            return downloadPayload(url).getInputStream();
         }
     }
 
-    File downloadFromInternetAsFile(String url) {
+    Payload downloadPayload(String url) throws FileNotFoundException {
         log.info("Downloading " + url + " to cache");
         HTTPRequest fileRequest = new HTTPRequest(URI.create(url));
-        HTTPResponse fileResponse;
-        try {
-            fileResponse = persistentcache.doCachedRequest(fileRequest);
-            if (fileResponse.getPayload() instanceof CleanableFilePayload) {
-                CleanableFilePayload cleanableFilePayload = (CleanableFilePayload) fileResponse.getPayload();
-                return cleanableFilePayload.getFile();
-            }
-            else
-                return null;
-        } catch (Exception e) {
-            log.info("Could not download file from web, trying local repository", e);
-            return fetchFromRepository(url);
-        }
+        HTTPResponse fileResponse = persistentcache.doCachedRequest(fileRequest);
+        return fileResponse.getPayload();
     }
 
     /**
@@ -108,7 +99,7 @@ public class VdvilCacheStuff {
      * @param url to the file
      * @return the file or null if empty
      */
-    File fetchFromRepository(String url) {
+    public File fetchFromRepository(String url) {
         String urlChecksum = DigestUtils.md5Hex(url);
         File locationOnDisk = new File(storeLocation + "/files/" + urlChecksum + "/default");
         if (locationOnDisk.exists() && locationOnDisk.canRead())

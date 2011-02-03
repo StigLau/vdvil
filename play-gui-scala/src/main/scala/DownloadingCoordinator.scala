@@ -2,7 +2,7 @@ package no.lau.vdvil.downloading
 
 import actors.Actor
 import no.lau.vdvil.cache.ScalaCacheHandler
-import no.lau.tagger.scala.model. {ScalaMediaFile, ScalaSong}
+import no.lau.tagger.scala.model.ScalaSong
 import no.lau.vdvil.gui. {NeatStuff}
 import no.lau.vdvil.domain.player. {Dvl, MasterMix}
 
@@ -53,9 +53,8 @@ class DownloadActor(dvl:Dvl, coordinator: Actor) extends Actor {
     val song = NeatStuff.convertAllNullIDsToRandom(unconvertedSong)
     val mf = song.mediaFile
     coordinator ! DownloadingMp3(dvl)
-    ScalaCacheHandler.retrievePathToFileFromCache(mf.fileName, mf.checksum).map {
-      pathToMp3 => coordinator ! FinishedDownloading(dvl, new ScalaSong(song.reference, new ScalaMediaFile(pathToMp3, mf.checksum, mf.startingOffset), song.segments, song.bpm))
-    }
+    ScalaCacheHandler.retrieveInputStream(mf.fileName, Some(mf.checksum))
+    coordinator ! FinishedDownloading(dvl, unconvertedSong) //TODO Big oversimplification
   }
 }
 

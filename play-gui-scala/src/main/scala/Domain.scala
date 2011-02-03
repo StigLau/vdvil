@@ -2,10 +2,10 @@ package no.lau.vdvil.domain.player
 
 import no.lau.tagger.scala.model.{ScalaSong, ScalaSegment}
 import no.bouvet.kpro.renderer.audio. {MP3Source, SimpleAudioInstruction}
-import java.io.File
 import no.bouvet.kpro.renderer. {Instruction, Instructions}
 import no.lau.vdvil.cache.ScalaCacheHandler
 import no.lau.vdvil.mix.Repo
+import java.io.File
 
 class ScalaComposition(var masterBpm: Float, val parts: List[ScalaAudioPart]) {
   def asInstructions:Instructions = new Instructions { parts.foreach(part => append(part.translateToInstruction(masterBpm.floatValue))) }
@@ -16,7 +16,8 @@ class ScalaAudioPart(val song: ScalaSong, val startCue: Float, val endCue: Float
   val bpm = song.bpm
 
   def translateToInstruction(masterBpm: Float): Instruction = {
-    val audioSource = new MP3Source(new File(ScalaCacheHandler.retrievePathToFileFromCache(song.mediaFile.fileName, song.mediaFile.checksum).get))
+    val mp3File:File = ScalaCacheHandler.fetchMp3File(song.mediaFile.fileName, Some(song.mediaFile.checksum))
+    val audioSource = new MP3Source(mp3File)
     //TODO check why diff neeeds to be opposite
     val partCompositionDiff: Float = bpm / masterBpm
     val compositionPartDiff: Float = masterBpm / bpm

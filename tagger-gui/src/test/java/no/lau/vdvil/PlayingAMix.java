@@ -31,14 +31,10 @@ public class PlayingAMix {
     }
 
     public void beforeMethod() {
-        try {
-            InputStream holdenStream = persistantCache.fetchAsInputStream(holdenUrl);
-            nothing = fetchMediaFile(createSimpleSongFromXML(holdenStream));
-            InputStream psylteFleskStream = persistantCache.fetchAsInputStream(psylteUrl);
-            psylteFlesk = fetchMediaFile(createSimpleSongFromXML(psylteFleskStream));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("Could not download file ", e);
-        }
+        InputStream holdenStream = persistantCache.fetchAsInputStream(holdenUrl);
+        nothing = createSimpleSongFromXML(holdenStream);
+        InputStream psylteFleskStream = persistantCache.fetchAsInputStream(psylteUrl);
+        psylteFlesk = createSimpleSongFromXML(psylteFleskStream);
     }
 
     private SimpleSong createSimpleSongFromXML(InputStream inputStream) {
@@ -48,19 +44,6 @@ public class PlayingAMix {
         return (SimpleSong) xstream.fromXML(inputStream);
     }
 
-    private SimpleSong fetchMediaFile(SimpleSong simpleSong) throws FileNotFoundException {
-        File file = persistantCache.fetchAsFile(simpleSong.mediaFile.fileName, simpleSong.mediaFile.checksum);
-        return new SimpleSong(
-                simpleSong.reference, 
-                new MediaFile(
-                        file.getAbsolutePath(),
-                        simpleSong.mediaFile.checksum,
-                        simpleSong.mediaFile.startingOffset),
-                simpleSong.segments,
-                simpleSong.bpm);
-    }
-
-
     public void testPlayingSomeStuff() throws Exception {
         List<AudioPart> parts = new ArrayList<AudioPart>();
         System.out.println("playing mix");
@@ -69,7 +52,7 @@ public class PlayingAMix {
         parts.add(new AudioPart(nothing, 12F, 52F, nothing.segments.get(6)));
         parts.add(new AudioPart(nothing, 19.99F, 32F, nothing.segments.get(3)));
 
-        PlayStuff playStuff = new PlayStuff((new Composition(130F, parts)));
+        PlayStuff playStuff = new PlayStuff(new Composition(130F, parts), persistantCache);
         playStuff.play(0F);
     }
 }

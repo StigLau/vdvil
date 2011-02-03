@@ -5,13 +5,18 @@ import no.bouvet.kpro.tagger.PlayStuff;
 import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.SimpleSong;
+import no.lau.vdvil.common.VdvilFileCache;
+import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SoundExample {
+    static VdvilFileCache cache = new VdvilCacheStuff(new File("/tmp/vdvil"));
+
     public static void main(String[] args) throws Exception {
-        PlayStuff player = new PlayStuff(new Composition(135F, SoundExample.parts()));
+        PlayStuff player = new PlayStuff(new Composition(135F, SoundExample.parts()), cache);
         try {
             player.play(0F);
             Thread.sleep(3000);
@@ -23,7 +28,6 @@ public class SoundExample {
         }
         System.exit(0);
     }
-
     public static List<AudioPart> parts() {
         SimpleSong returning = new XStreamParser().load("/Users/stiglau/kpro/holden-nothing-93_returning_mix.dvl");
         List<AudioPart> parts = new ArrayList<AudioPart>();

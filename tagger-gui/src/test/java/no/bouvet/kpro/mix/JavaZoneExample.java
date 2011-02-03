@@ -5,11 +5,14 @@ import no.bouvet.kpro.tagger.PlayStuff;
 import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.SimpleSong;
-
+import no.lau.vdvil.common.VdvilFileCache;
+import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JavaZoneExample {
+    static VdvilFileCache cache = new VdvilCacheStuff(new File("/tmp/vdvil"));
 
     SimpleSong returning;
     SimpleSong unfinished_sympathy;
@@ -20,7 +23,7 @@ public class JavaZoneExample {
         JavaZoneExample test = new JavaZoneExample();
         test.beforeMethod();
         try {
-            PlayStuff player = new PlayStuff(new Composition(150F, test.parts()));
+            PlayStuff player = new PlayStuff(new Composition(150F, test.parts()), cache);
             player.play(0F);
         } catch (Exception e) {
             e.printStackTrace();

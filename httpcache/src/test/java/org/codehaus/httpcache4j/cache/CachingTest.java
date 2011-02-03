@@ -65,14 +65,11 @@ public class CachingTest {
     public void persistentStorage() throws Exception {
         SimpleSong ss = (SimpleSong) xstream.fromXML(persistantCache.fetchAsInputStream(dvlUrl));
         //Retrieve mp3 file
-        File fileretrieved = persistantCache.fetchAsFile(ss.mediaFile.fileName);
-        assertEquals("/tmp/vdvil/files/cab1562d1198804b5fb6d62a69004488/default", fileretrieved.getAbsolutePath());
+        Payload payload = persistantCache.downloadPayload(ss.mediaFile.fileName);
+        File file = ((CleanableFilePayload)payload).getFile();
+        assertEquals("/tmp/vdvil/files/cab1562d1198804b5fb6d62a69004488/default", file.getAbsolutePath());
     }
 
-    @Test
-    public void findPathToFile() {
-        assertEquals("/tmp/vdvil/files/b45c6b4bd38020da03afe1f2514a3ba1/default", persistantCache.fetchAsFile(dvlUrl).getAbsolutePath());
-    }
 
     @Test
     public void generateUrlChecksum() {
@@ -86,21 +83,21 @@ public class CachingTest {
     }
 
     @Test
-    public void doesFileAlreadyExistInCache() {
+    public void doesFileAlreadyExistInCache() throws FileNotFoundException {
         System.out.println("first");
         String url = "http://kpro09.googlecode.com/svn/test-files/holden-nothing-93_returning_mix.mp3";
-        persistantCache.fetchAsFile(url);
+        persistantCache.fetchAsStream(url);
         System.out.println("Downloaded 1 file");
-        persistantCache.fetchAsFile(url);
+        persistantCache.fetchAsStream(url);
 
         System.out.println("Downloaded 2 file");
-        persistantCache.fetchAsFile(url);
+        persistantCache.fetchAsStream(url);
 
         System.out.println("Downloaded 3 file");
-        persistantCache.fetchAsFile(url);
+        persistantCache.fetchAsStream(url);
 
         System.out.println("Downloaded 4 file");
-        persistantCache.fetchAsFile(url);
+        persistantCache.fetchAsStream(url);
 
         System.out.println("Downloaded 5 file");
     }

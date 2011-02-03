@@ -33,6 +33,7 @@
     </developers>
 
     <modules>
+        <module>common</module>
         <module>renderer</module>
         <module>renderer.audio</module>
         <module>renderer.lyric</module>
@@ -49,6 +50,11 @@
     <!-- Common dependency management-->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>no.lau.vdvil</groupId>
+                <artifactId>common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>no.lau.vdvil</groupId>
                 <artifactId>renderer</artifactId>

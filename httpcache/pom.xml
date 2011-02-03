@@ -15,6 +15,10 @@
         <!-- VDVIL dependencies -->
         <dependency>
             <groupId>no.lau.vdvil</groupId>
+            <artifactId>common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
             <artifactId>tagger-model</artifactId>
             <scope>test</scope>
         </dependency>

@@ -1,12 +1,12 @@
 package no.lau.tagger.model;
 
+import no.lau.vdvil.common.VdvilFileCache;
 import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.audio.AudioSource;
 import no.bouvet.kpro.renderer.audio.MP3Source;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.SimpleAudioInstruction;
 import java.io.IOException;
-import java.io.File;
 
 public class AudioPart extends AbstractPart{
     public final SimpleSong simpleSong;
@@ -14,6 +14,8 @@ public class AudioPart extends AbstractPart{
     public final Float bpm;
 
     public final Float beginAtCue;
+
+    private VdvilFileCache cache = null;
 
     /*
      * Simple constructor for most usages
@@ -35,7 +37,8 @@ public class AudioPart extends AbstractPart{
         Float partCompositionDiff = bpm / masterBpm;
         Float compositionPartDiff = masterBpm / bpm;
 
-        AudioSource audioSource = new MP3Source(new File(simpleSong.mediaFile.fileName));
+        AudioSource audioSource = new MP3Source(cache.fetchFromRepository(simpleSong.mediaFile.fileName));
+
         AudioInstruction audioInstruction = new SimpleAudioInstruction(
                 startCue,
                 endCue,
@@ -46,5 +49,9 @@ public class AudioPart extends AbstractPart{
                 partCompositionDiff);
         audioInstruction.setInterpolatedRate(compositionPartDiff, compositionPartDiff);
         return audioInstruction;
+    }
+
+    public void setCache(VdvilFileCache cache) {
+        this.cache = cache;
     }
 }

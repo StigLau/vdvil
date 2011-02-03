@@ -103,12 +103,9 @@ class ScalaDynamicDvlTable(dvlUrl: String, song: ScalaSong) {
       player.stop
     isPlaying = true
     song.segmentWithId(segmentId).map{segment =>
-      player = new SegmentPlayer(asPlayableCopy(song), segment.start, segment.end) {
+      player = new SegmentPlayer(song, segment.start, segment.end) {
         start
       }
     }
   }
-  //Don't need to lookup where file lies on disk more than once - a simple cache
-  val pathToMFInCache:String = ScalaCacheHandler.retrievePathToFileFromCache(song.mediaFile.fileName, song.mediaFile.checksum).get
-  def asPlayableCopy(song:ScalaSong):ScalaSong = new ScalaSong(song.reference, new ScalaMediaFile(pathToMFInCache, song.mediaFile.checksum, song.mediaFile.startingOffset), song.segments, song.bpm)
 }

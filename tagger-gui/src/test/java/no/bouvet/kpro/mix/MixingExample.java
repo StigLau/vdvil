@@ -3,11 +3,14 @@ package no.bouvet.kpro.mix;
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.bouvet.kpro.tagger.PlayStuff;
 import no.lau.tagger.model.*;
-
+import no.lau.vdvil.common.VdvilFileCache;
+import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MixingExample {
+    static VdvilFileCache cache = new VdvilCacheStuff(new File("/tmp/vdvil"));
 
     SimpleSong returning;
     SimpleSong unfinished_sympathy;
@@ -19,7 +22,7 @@ public class MixingExample {
         MixingExample test = new MixingExample();
         test.beforeMethod();
         try {
-            PlayStuff player = new PlayStuff(new Composition(135F, test.parts()));
+            PlayStuff player = new PlayStuff(new Composition(135F, test.parts()), cache);
 
             player.play(0F);
         } catch (Exception e) {

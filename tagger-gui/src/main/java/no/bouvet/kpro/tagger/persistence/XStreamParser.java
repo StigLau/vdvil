@@ -35,7 +35,12 @@ public class XStreamParser <T extends SimpleSong> {
         outputStream.write(xml);
         outputStream.close();
     }
+    // TODO Check if File handling should be replaced by Streams!
+    public T load(InputStream inputStream) {
+        return (T) xstream.fromXML(inputStream);
+    }
 
+    @Deprecated
     public T load(String fileName) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(fileName));
