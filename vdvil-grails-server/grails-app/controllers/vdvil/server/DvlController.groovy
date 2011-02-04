@@ -14,7 +14,7 @@ class DvlController {
             def mf = song.mediaFile
             fileName(mf.fileName)
             startingOffset(mf.startingOffset)
-            checksum(mf.startingOffset)
+            checksum(mf.checksum)
           }
           segments {
             for(aSegment in song.segments) {
