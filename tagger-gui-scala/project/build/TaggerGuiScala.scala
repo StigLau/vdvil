@@ -5,8 +5,7 @@ class TaggerGuiProject(info: ProjectInfo) extends DefaultProject(info)
   //  override def managedStyle = ManagedStyle.Maven
   val mavenLocal = "Local Maven Repository" at "file://" + Path.userHome + "/.m2/repository"
 
-  //For running JUnit tests
-  val junitInterface = "com.novocode" %% "junit-interface" % "0.4.0" from "http://github.com/downloads/bryanjswift/junit-interface/junit-interface-0.4.0.jar"
+   val junitInterface = "com.novocode" % "junit-interface" % "0.5" % "test->default"
 
   override def testFrameworks = super.testFrameworks ++ List(new TestFramework("com.novocode.junit.JUnitFrameworkNoMarker"))
 
