@@ -5,9 +5,10 @@ import no.lau.vdvil.cache.ScalaCacheHandler
 import no.lau.tagger.scala.model.ScalaSong
 import no.lau.vdvil.gui. {NeatStuff}
 import no.lau.vdvil.domain.player. {Dvl, MasterMix}
+import org.slf4j.LoggerFactory
 
 class DownloadingCoordinator(masterMix: MasterMix, callBack:DVLCallBack) extends Actor {
-
+  val log = LoggerFactory.getLogger(classOf[DownloadingCoordinator])
   import scala.collection.mutable.Set
   val songSet = Set[ScalaSong]()
 
@@ -35,8 +36,8 @@ class DownloadingCoordinator(masterMix: MasterMix, callBack:DVLCallBack) extends
           exit
         }
         case error: Error => {
-          println("Error downloading: " + error.message)
-          println("Will now stop downloading procedure")
+          log.error("Error downloading: " + error.message)
+          log.info("Will now stop downloading procedure")
           callBack.visible
           exit
         }
@@ -48,7 +49,7 @@ class DownloadingCoordinator(masterMix: MasterMix, callBack:DVLCallBack) extends
 class DownloadActor(dvl:Dvl, coordinator: Actor) extends Actor {
   def act {
     coordinator ! DownloadingDvl(dvl)
-    val unconvertedSong: ScalaSong = ScalaCacheHandler.fetchSimpleSongAndCacheDvlAndMp3(dvl.url, null)
+    val unconvertedSong: ScalaSong = ScalaCacheHandler.fetchSimpleSongAndCacheDvlAndMp3(dvl.url, None)
     coordinator ! ConvertingAndAddingMissingIds(dvl)
     val song = NeatStuff.convertAllNullIDsToRandom(unconvertedSong)
     val mf = song.mediaFile
