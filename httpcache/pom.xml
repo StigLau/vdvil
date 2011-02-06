@@ -9,7 +9,7 @@
         <version>0.6-SNAPSHOT</version>
     </parent>
     
-    <name>Handling file download and stuff for VDvil files</name>
+    <name>Vdvil HttpCache: Handling file download and stuff for VDvil files</name>
 
     <dependencies>
         <!-- VDVIL dependencies -->

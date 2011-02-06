@@ -8,7 +8,7 @@
         <version>0.6-SNAPSHOT</version>
 
     <artifactId>play-gui-scala</artifactId>
-    <name>A simple GUI for playing .vdl files</name>
+    <name>Vdvil: Play Gui Scala - Scala GUI for playing compositions</name>
 
 
     <properties>
