@@ -92,6 +92,10 @@ public class VdvilCacheStuff implements VdvilFileCache {
         return locationOnDisk.exists() && locationOnDisk.canRead();
     }
 
+    public boolean existsInRepository(String url, String checksum) {
+        return existsInRepository(url) && validateChecksum(url, checksum);
+    }
+
     /**
      * A shorthand for fetching files if they have been downloaded to disk
      *
