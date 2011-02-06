@@ -10,7 +10,7 @@ import no.lau.vdvil.domain.player.ScalaComposition
 class ScalaCompositionPlayer(var scalaCompositionOption: Option[ScalaComposition]) {
   var rendererOption: Option[Renderer] = None
 
-  def play(startCue: Float, playBpm:Float) {
+  def play(startCue: Int, playBpm:Float) {
     scalaCompositionOption.map {
       composition =>
         rendererOption = Some(new Renderer(composition.asInstructions) {
