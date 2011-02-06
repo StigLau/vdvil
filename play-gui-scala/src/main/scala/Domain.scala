@@ -6,6 +6,7 @@ import no.bouvet.kpro.renderer. {Instruction, Instructions}
 import no.lau.vdvil.cache.ScalaCacheHandler
 import no.lau.vdvil.mix.Repo
 import java.io.File
+import org.slf4j.LoggerFactory
 
 class ScalaComposition(var masterBpm: Float, val parts: List[ScalaAudioPart]) {
   def asInstructions:Instructions = new Instructions { parts.foreach(part => append(part.translateToInstruction(masterBpm.floatValue))) }
@@ -13,10 +14,13 @@ class ScalaComposition(var masterBpm: Float, val parts: List[ScalaAudioPart]) {
 }
 
 class ScalaAudioPart(val song: ScalaSong, val startCue: Float, val endCue: Float, val segment: ScalaSegment) {
+  val log = LoggerFactory.getLogger(classOf[ScalaAudioPart])
   val bpm = song.bpm
 
   def translateToInstruction(masterBpm: Float): Instruction = {
+    log.info("Fetching from repository or web: " + song.mediaFile.fileName)
     val mp3File:File = ScalaCacheHandler.fetchMp3File(song.mediaFile.fileName, Some(song.mediaFile.checksum))
+    log.info("Downloaded: " + song.mediaFile.fileName)
     val audioSource = new MP3Source(mp3File)
     //TODO check why diff neeeds to be opposite
     val partCompositionDiff: Float = bpm / masterBpm
