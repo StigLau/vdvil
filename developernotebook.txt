@@ -22,3 +22,4 @@ Todo's
  * TaggerGUIScala should use the new improved downloader to fetch files
  * TaggerGUIScala should show URL of files and segment identifiers
  * Downloader should cater for .dvl's and mp3's, not songs. However, multiple songs should be added by outside GUI.. Not quite sure how to implement this...
+ * Now downloads the world - needs to cut down on downloading
