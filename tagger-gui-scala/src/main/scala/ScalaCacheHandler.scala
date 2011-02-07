@@ -30,8 +30,13 @@ object ScalaCacheHandler {
     case None => httpCache.fetchAsStream(urlOfFile)
     case Some(checksum) => httpCache.fetchAsStream(urlOfFile, checksum)
   }
-  //TODO Use mp3 file Checksum!!!
-  def fetchMp3File(urlOfFile:String, checksum:Option[String]):File = httpCache.fetchFromRepository(urlOfFile)
+
+  /**
+   * Tries to fetch mp3 file from cache
+   * If it is not in cache or checksum is wrong - tries to download from the web
+   * At any rate, the reference is always to where the file lies in the cache
+   */
+  def fetchMp3File(urlOfFile:String, checksum:String):File = httpCache.fetchAsFile(urlOfFile, checksum)
 
   def save(song: ScalaSong, path: String): Unit = parser.save(TranslateTo.from(song), path)
 
