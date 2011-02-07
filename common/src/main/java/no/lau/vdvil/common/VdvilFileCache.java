@@ -9,17 +9,16 @@ import java.io.InputStream;
  */
 public interface VdvilFileCache {
 
-    /**
-     * Performs a dual-check to verify if the file exists in both repository and has correct checksum
-     * @param url location on the internet
-     * @param checksum file MD5 checksum to verify with
-     * @return true if both both are correct
-     */
-    boolean existsInRepository(String url, String checksum);
-
-    File fetchFromRepository(String url) throws FileNotFoundException;
-
     InputStream fetchAsStream(String urlOfFile) throws FileNotFoundException;
 
+    /**
+     * The preferred way of downloading files from the web. Does not matter whether the file could be persisted to cache or not
+     * @param urlOfFile
+     * @param checksum
+     * @return
+     * @throws FileNotFoundException
+     */
     InputStream fetchAsStream(String urlOfFile, String checksum) throws FileNotFoundException;
+
+    File fetchAsFile(String url, String checksum) throws FileNotFoundException;
 }
