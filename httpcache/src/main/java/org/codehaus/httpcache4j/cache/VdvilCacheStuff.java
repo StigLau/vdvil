@@ -60,7 +60,7 @@ public class VdvilCacheStuff {
         }
     }
 
-    private static  HTTPResponse download(String url) {
+    private static HTTPResponse download(String url) {
         log.info("Downloading from " +  url + " to cache: " + url);
         HTTPRequest fileRequest = new HTTPRequest(URI.create(url));
         HTTPResponse fileResponse = persistentcache.doCachedRequest(fileRequest);
@@ -72,7 +72,7 @@ public class VdvilCacheStuff {
         return fileResponse;
     }
 
-    static File fileLocation(String url) {
+    public static File fileLocation(String url) {
         String urlChecksum = DigestUtils.md5Hex(url);
         return new File(storeLocation + "/files/" + urlChecksum + "/default");
     }

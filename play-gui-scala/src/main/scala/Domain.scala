@@ -17,9 +17,7 @@ class ScalaAudioPart(val song: ScalaSong, val startCue: Float, val endCue: Float
   val bpm = song.bpm
 
   def translateToInstruction(masterBpm: Float): Instruction = {
-    log.info("Fetching from repository or web: " + song.mediaFile.fileName)
-    val audioSource = new MP3Source(VdvilCacheStuff.fetchAsFile(song.mediaFile.fileName, song.mediaFile.checksum))
-    log.info("Downloaded: " + song.mediaFile.fileName)
+    val audioSource = new MP3Source(VdvilCacheStuff.fileLocation(song.mediaFile.fileName))
     //TODO check why diff neeeds to be opposite
     val partCompositionDiff: Float = bpm / masterBpm
     val compositionPartDiff: Float = masterBpm / bpm

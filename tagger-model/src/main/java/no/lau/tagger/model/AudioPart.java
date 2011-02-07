@@ -34,7 +34,7 @@ public class AudioPart extends AbstractPart{
         //TODO check why diff neeeds to be opposite        
         Float partCompositionDiff = bpm / masterBpm;
         Float compositionPartDiff = masterBpm / bpm;
-        File mp3File = org.codehaus.httpcache4j.cache.VdvilCacheStuff.fetchAsFile(simpleSong.mediaFile.fileName, simpleSong.mediaFile.checksum);
+        File mp3File = org.codehaus.httpcache4j.cache.VdvilCacheStuff.fileLocation(simpleSong.mediaFile.fileName);
         AudioSource audioSource = new MP3Source(mp3File);
 
         AudioInstruction audioInstruction = new SimpleAudioInstruction(

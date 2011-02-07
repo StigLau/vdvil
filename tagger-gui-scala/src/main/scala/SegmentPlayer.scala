@@ -9,7 +9,7 @@ import actors.Actor
 import org.codehaus.httpcache4j.cache.VdvilCacheStuff
 
 class SegmentPlayer(var song: ScalaSong, startCue: Float, endCue: Float) extends Actor {
-  val mp3File = VdvilCacheStuff.fetchAsFile(song.mediaFile.fileName, song.mediaFile.checksum)
+  val mp3File = VdvilCacheStuff.fileLocation(song.mediaFile.fileName)
   val audioSource: AudioSource = new MP3Source(mp3File)
   val player = new AudioPlayer
   val log = LoggerFactory.getLogger(classOf[SegmentPlayer])

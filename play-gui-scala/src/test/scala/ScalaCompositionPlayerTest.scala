@@ -1,10 +1,28 @@
 package no.lau.vdvil.player
 
-import org.junit.Test
+import org.codehaus.httpcache4j.cache.VdvilCacheStuff
+import org.junit.{Before, Test}
+import no.lau.vdvil.domain.player.ScalaComposition
+import no.bouvet.kpro.tagger.persistence.XStreamParser
+import no.lau.tagger.model.SimpleSong
 
 
 class ScalaCompositionPlayerTest {
-  val composition = JavaZoneDemoComposition.masterMix.asComposition
+  var composition:ScalaComposition = null
+
+  @Before
+  def cacheMp3Files() {
+    val baseUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/"
+    cacheFile(baseUrl + "holden-nothing-93_returning_mix.dvl")
+    cacheFile(baseUrl + "olive-youre_not_alone.dvl")
+    cacheFile(baseUrl + "christian_cambas-it_scares_me.dvl")
+    composition = JavaZoneDemoComposition.masterMix.asComposition
+  }
+
+  def cacheFile(url:String) {
+    val song:SimpleSong = new XStreamParser().load(VdvilCacheStuff.fetchAsStream(url))
+    VdvilCacheStuff.fetchAsStream(song.mediaFile.fileName, song.mediaFile.checksum)
+  }
 
   @Test def createInstructionsFromParts {
     assert(composition.parts.size == 14)

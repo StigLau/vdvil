@@ -4,6 +4,8 @@ import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.SimpleSong;
+import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +15,8 @@ public class PlayingStuffDemo {
     SimpleSong unfinished_sympathy;
     public static void main(String[] args) {
         PlayingStuffDemo test = new PlayingStuffDemo();
-        test.beforeMethod();
         try {
+            test.beforeMethod();
             PlayStuff playStuff = new PlayStuff(new Composition(160F, test.parts()));
             playStuff.play(0F);
         } catch (Exception e) {
@@ -22,10 +24,9 @@ public class PlayingStuffDemo {
         }
     }
 
-    public void beforeMethod() {
-        XStreamParser parser = new XStreamParser();
-        returning = parser.load("/Users/stiglau/kpro/holden-nothing-93_returning_mix.dvl");
-        unfinished_sympathy = parser.load("/Users/stiglau/kpro/unfinished_sympathy.dvl");
+    public void beforeMethod() throws FileNotFoundException {
+        returning = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"));
+        unfinished_sympathy = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/unfinished_sympathy.dvl"));
     }
 
     public List<AudioPart> parts(){
