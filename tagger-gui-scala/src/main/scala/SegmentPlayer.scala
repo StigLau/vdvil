@@ -1,15 +1,16 @@
 package no.lau.vdvil.player
 
 import no.bouvet.kpro.tagger.AudioPlayer
-import java.io.File
 import no.bouvet.kpro.renderer.Instructions
 import no.bouvet.kpro.renderer.audio.{SimpleAudioInstruction, MP3Source, AudioSource}
 import org.slf4j.LoggerFactory
 import no.lau.tagger.scala.model.ScalaSong
 import actors.Actor
+import org.codehaus.httpcache4j.cache.VdvilCacheStuff
 
 class SegmentPlayer(var song: ScalaSong, startCue: Float, endCue: Float) extends Actor {
-  val audioSource: AudioSource = new MP3Source(new File(song.mediaFile.fileName))
+  val mp3File = VdvilCacheStuff.fetchAsFile(song.mediaFile.fileName, song.mediaFile.checksum)
+  val audioSource: AudioSource = new MP3Source(mp3File)
   val player = new AudioPlayer
   val log = LoggerFactory.getLogger(classOf[SegmentPlayer])
 

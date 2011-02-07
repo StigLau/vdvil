@@ -3,7 +3,7 @@ package no.lau.vdvil.gui
 import scala.swing._
 import scala.swing.event._
 import org.slf4j.LoggerFactory
-import no.lau.vdvil.cache.ScalaCacheHandler
+import no.lau.vdvil.cache.ScalaSongXmlPersister
 import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSegment, ScalaSong}
 import no.lau.vdvil.player.SegmentPlayer
 
@@ -75,14 +75,14 @@ class ScalaDynamicDvlTable(dvlUrl: String, song: ScalaSong) {
       reactions += {case ButtonClicked(_) => song.segments = addEmptySegmentToList}
     }    
     contents += new Button("View .dvl XML") {
-      reactions += {case ButtonClicked(_) => log.info(ScalaCacheHandler.printableXml(song))}
+      reactions += {case ButtonClicked(_) => log.info(ScalaSongXmlPersister.printableXml(song))}
     }
     contents += new Button("Save as .dvl file") {
       reactions += {
         case ButtonClicked(_) => {
           Dialog.showInput(this, "", "Save to", Dialog.Message.Plain, Swing.EmptyIcon, Nil, dvlUrl).map{ pathToSaveTo =>
             log.info("Saving to {}", pathToSaveTo)
-            try {ScalaCacheHandler.save(song, pathToSaveTo)}
+            try {ScalaSongXmlPersister.save(song, pathToSaveTo)}
             catch {case ioE: java.io.IOException => log.error("Could not save file")}
           }
         }

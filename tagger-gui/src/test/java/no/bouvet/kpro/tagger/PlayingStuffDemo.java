@@ -4,10 +4,6 @@ import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.SimpleSong;
-import no.lau.vdvil.common.VdvilFileCache;
-import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +11,11 @@ public class PlayingStuffDemo {
 
     SimpleSong returning;
     SimpleSong unfinished_sympathy;
-    static VdvilFileCache cache = new VdvilCacheStuff(new File("/tmp/vdvil"));
-
     public static void main(String[] args) {
         PlayingStuffDemo test = new PlayingStuffDemo();
         test.beforeMethod();
         try {
-            PlayStuff playStuff = new PlayStuff(new Composition(160F, test.parts()), cache);
+            PlayStuff playStuff = new PlayStuff(new Composition(160F, test.parts()));
             playStuff.play(0F);
         } catch (Exception e) {
             e.printStackTrace();  

@@ -5,20 +5,15 @@ import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.SimpleSong;
-import no.lau.vdvil.common.VdvilFileCache;
 import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JavaZoneHttpCacheExample {
-    static VdvilFileCache cache = new VdvilCacheStuff(new File("/tmp/vdvil"));
-
     final static Logger log = LoggerFactory.getLogger(JavaZoneHttpCacheExample.class);
 
     final static String returningDvlUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl";
@@ -35,7 +30,7 @@ public class JavaZoneHttpCacheExample {
         JavaZoneHttpCacheExample example = new JavaZoneHttpCacheExample();
         try {
             example.cacheFilesBeforePlayback();
-            PlayStuff player = new PlayStuff(new Composition(150F, example.parts()), cache);
+            PlayStuff player = new PlayStuff(new Composition(150F, example.parts()));
             log.info("Starting JavaZoneHttpCacheExample playback");
             player.play(0F);
         } catch (Exception e) {
@@ -52,7 +47,7 @@ public class JavaZoneHttpCacheExample {
     }
 
     private SimpleSong fetchSimpleSongAndCacheDvlAndMp3(String dvlUrl) throws FileNotFoundException {
-        InputStream dvlStream = cache.fetchAsStream(dvlUrl);
+        InputStream dvlStream = VdvilCacheStuff.fetchAsStream(dvlUrl);
         return new XStreamParser().load(dvlStream);
     }
 

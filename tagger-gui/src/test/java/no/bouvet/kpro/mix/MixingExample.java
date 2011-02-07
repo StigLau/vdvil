@@ -3,26 +3,23 @@ package no.bouvet.kpro.mix;
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.bouvet.kpro.tagger.PlayStuff;
 import no.lau.tagger.model.*;
-import no.lau.vdvil.common.VdvilFileCache;
 import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MixingExample {
-    static VdvilFileCache cache = new VdvilCacheStuff(new File("/tmp/vdvil"));
-
     SimpleSong returning;
     SimpleSong unfinished_sympathy;
     SimpleSong not_alone;
     SimpleSong scares_me;
     SimpleSong space;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         MixingExample test = new MixingExample();
         test.beforeMethod();
         try {
-            PlayStuff player = new PlayStuff(new Composition(135F, test.parts()), cache);
+            PlayStuff player = new PlayStuff(new Composition(135F, test.parts()));
 
             player.play(0F);
         } catch (Exception e) {
@@ -30,13 +27,13 @@ public class MixingExample {
         }
     }
 
-    public void beforeMethod() {
-        XStreamParser parser = new XStreamParser();
-        returning = parser.load("/Users/stiglau/kpro/holden-nothing-93_returning_mix.dvl");
-        unfinished_sympathy = parser.load("/Users/stiglau/kpro/unfinished_sympathy.dvl");
-        not_alone = parser.load("/Users/stiglau/kpro/olive-youre_not_alone.dvl");
-        scares_me = parser.load("/Users/stiglau/kpro/christian_cambas-it_scares_me.dvl");
-        space = parser.load("/Users/stiglau/kpro/space_manoeuvres-stage_one_original.dvl");
+    //TODO Checksums don't match
+    public void beforeMethod() throws FileNotFoundException {
+        returning = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"));
+        unfinished_sympathy = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/unfinished_sympathy.dvl"));
+        not_alone = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/olive-youre_not_alone.dvl"));
+        scares_me = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl"));
+        space = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/space_manoeuvres-stage_one_original.dvl"));
     }
 
 

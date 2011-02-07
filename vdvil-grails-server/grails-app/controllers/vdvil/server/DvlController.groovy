@@ -2,6 +2,8 @@ package vdvil.server
 
 class DvlController {
   def xml = {
+    cache shared: true, validUntil: new Date()+7
+
     def songs = Song.get(params.id)
     if (!songs) songs = Song.list()
 

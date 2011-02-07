@@ -5,15 +5,13 @@ import no.bouvet.kpro.tagger.PlayStuff;
 import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.SimpleSong;
-import no.lau.vdvil.common.VdvilFileCache;
 import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
-import java.io.File;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JavaZoneExample {
-    static VdvilFileCache cache = new VdvilCacheStuff(new File("/tmp/vdvil"));
-
     SimpleSong returning;
     SimpleSong unfinished_sympathy;
     SimpleSong not_alone;
@@ -21,22 +19,20 @@ public class JavaZoneExample {
 
     public static void main(String[] args) {
         JavaZoneExample test = new JavaZoneExample();
-        test.beforeMethod();
         try {
-            PlayStuff player = new PlayStuff(new Composition(150F, test.parts()), cache);
+            test.beforeMethod();
+            PlayStuff player = new PlayStuff(new Composition(150F, test.parts()));
             player.play(0F);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void beforeMethod() {
-        XStreamParser parser = new XStreamParser();
-        returning = parser.load("/Users/stiglau/kpro/holden-nothing-93_returning_mix.dvl");
-        unfinished_sympathy = parser.load("/Users/stiglau/kpro/unfinished_sympathy.dvl");
-        not_alone = parser.load("/Users/stiglau/kpro/olive-youre_not_alone.dvl");
-        scares_me = parser.load("/Users/stiglau/kpro/christian_cambas-it_scares_me.dvl");
-
+    public void beforeMethod() throws FileNotFoundException {
+        returning = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"));
+        unfinished_sympathy = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/unfinished_sympathy.dvl"));
+        not_alone = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/olive-youre_not_alone.dvl"));
+        scares_me = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl"));
     }
 
 

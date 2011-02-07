@@ -1,10 +1,9 @@
 package no.lau.vdvil.mix
 
 import actors.Actor
-import no.lau.vdvil.cache.ScalaCacheHandler
 import no.lau.vdvil.downloading.DVLCallBack
 import org.slf4j.LoggerFactory
-import java.io.InputStream
+import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
 
 class GenericDownloadingCoordinator(downloadGUICallback:DVLCallBack) extends Actor {
 
@@ -34,12 +33,16 @@ class GenericDownloadingCoordinator(downloadGUICallback:DVLCallBack) extends Act
 
 class DownloadActor(download:Download, coordinator: Actor) extends Actor {
   def act {
-    val inputStream:InputStream = ScalaCacheHandler.retrieveInputStream(download.url, None)
-    download.callBack.finished(inputStream)
+    //TODO Should use matchers
+    val asInputStream = download.checksum match {
+      case Some(checksum) => VdvilCacheStuff.fetchAsStream(download.url, checksum)
+      case None => VdvilCacheStuff.fetchAsStream(download.url)
+    }
+    download.callBack.finished(asInputStream)
     coordinator ! FinishedDownloading(download)
   }
 }
 
 
-case class Download(url:String, callBack:DownloadableFileCallback)
+case class Download(url:String, checksum:Option[String], callBack:DownloadableFileCallback)
 case class FinishedDownloading(download:Download)

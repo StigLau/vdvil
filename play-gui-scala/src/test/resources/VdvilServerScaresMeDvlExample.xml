@@ -1,0 +1,41 @@
+<track>
+    <reference>Christian Cambas - Scares me</reference>
+    <bpm>131.3</bpm>
+    <mediaFile>
+        <fileName>http://kpro09.googlecode.com/svn/test-files/Christian_Cambas-It_Scares_Me-Original_Mix.mp3</fileName>
+        <startingOffset>1.002</startingOffset>
+        <checksum>2fe47d1571a7cb085895749de25a3b2c</checksum>
+    </mediaFile>
+    <segments>
+        <segment>
+            <id>1826025806904317462</id>
+            <text>Scares me uten bass</text>
+            <start>606</start>
+            <end>670</end>
+        </segment>
+        <segment>
+            <id>8625548638869601505</id>
+            <text>It scares me</text>
+            <start>542</start>
+            <end>606</end>
+        </segment>
+        <segment>
+            <id>7324762330771573681</id>
+            <text></text>
+            <start>350</start>
+            <end>478</end>
+        </segment>
+        <segment>
+            <id>1454140698385911843</id>
+            <text></text>
+            <start>30</start>
+            <end>350</end>
+        </segment>
+        <segment>
+            <id>5403996530329584526</id>
+            <text>Cool base</text>
+            <start>478</start>
+            <end>542</end>
+        </segment>
+    </segments>
+</track>

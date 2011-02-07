@@ -1,0 +1,41 @@
+<track>
+    <reference>Olive - You're not alone</reference>
+    <bpm>134.2</bpm>
+    <mediaFile>
+        <fileName>http://kpro09.googlecode.com/svn/test-files/olive-youre_not_alone.mp3</fileName>
+        <startingOffset>14.75</startingOffset>
+        <checksum>cf9e64d28bff496cd4ac3d51201795b7</checksum>
+    </mediaFile>
+    <segments>
+        <segment>
+            <id>775308953279502385</id>
+            <text>It is the distance that makes life a little hard</text>
+            <start>152</start>
+            <end>320</end>
+        </segment>
+        <segment>
+            <id>4479230163500364845</id>
+            <text>Alone singing</text>
+            <start>0</start>
+            <end>64</end>
+        </segment>
+        <segment>
+            <id>8313187524105777940</id>
+            <text></text>
+            <start>64</start>
+            <end>128</end>
+        </segment>
+        <segment>
+            <id>6708181734132071585</id>
+            <text>Youre not alone + strings</text>
+            <start>64</start>
+            <end>256</end>
+        </segment>
+        <segment>
+            <id>7000374134360427377</id>
+            <text>Youre not alone + strings + d'b</text>
+            <start>216</start>
+            <end>416</end>
+        </segment>
+    </segments>
+</track>

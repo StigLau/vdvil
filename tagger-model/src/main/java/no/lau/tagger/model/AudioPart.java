@@ -1,11 +1,11 @@
 package no.lau.tagger.model;
 
-import no.lau.vdvil.common.VdvilFileCache;
 import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.audio.AudioSource;
 import no.bouvet.kpro.renderer.audio.MP3Source;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.SimpleAudioInstruction;
+import java.io.File;
 import java.io.IOException;
 
 public class AudioPart extends AbstractPart{
@@ -14,8 +14,6 @@ public class AudioPart extends AbstractPart{
     public final Float bpm;
 
     public final Float beginAtCue;
-
-    private VdvilFileCache cache = null;
 
     /*
      * Simple constructor for most usages
@@ -36,8 +34,8 @@ public class AudioPart extends AbstractPart{
         //TODO check why diff neeeds to be opposite        
         Float partCompositionDiff = bpm / masterBpm;
         Float compositionPartDiff = masterBpm / bpm;
-
-        AudioSource audioSource = new MP3Source(cache.fetchAsFile(simpleSong.mediaFile.fileName, simpleSong.mediaFile.checksum));
+        File mp3File = org.codehaus.httpcache4j.cache.VdvilCacheStuff.fetchAsFile(simpleSong.mediaFile.fileName, simpleSong.mediaFile.checksum);
+        AudioSource audioSource = new MP3Source(mp3File);
 
         AudioInstruction audioInstruction = new SimpleAudioInstruction(
                 startCue,
@@ -49,9 +47,5 @@ public class AudioPart extends AbstractPart{
                 partCompositionDiff);
         audioInstruction.setInterpolatedRate(compositionPartDiff, compositionPartDiff);
         return audioInstruction;
-    }
-
-    public void setCache(VdvilFileCache cache) {
-        this.cache = cache;
     }
 }

@@ -2,10 +2,8 @@ package no.bouvet.kpro.tagger;
 
 import no.bouvet.kpro.renderer.*;
 import no.bouvet.kpro.renderer.audio.*;
-import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AbstractPart;
-import no.lau.vdvil.common.VdvilFileCache;
 import org.apache.log4j.Logger;
 import javax.sound.sampled.LineUnavailableException;
 
@@ -16,10 +14,8 @@ public class PlayStuff {
     private final Renderer renderer;
     private final Float masterBpm;
     static Logger log = Logger.getLogger(PlayStuff.class);
-    private VdvilFileCache cache;
 
-    public PlayStuff(Composition composition, VdvilFileCache cache) {
-        this.cache = cache;
+    public PlayStuff(Composition composition) {
         masterBpm = composition.masterBpm;
         Instructions instructions = createInstructionsFromParts(composition);
         renderer = new Renderer(instructions);
@@ -33,9 +29,6 @@ public class PlayStuff {
     public Instructions createInstructionsFromParts(Composition composition) {
         Instructions instructions = new Instructions();
         for (AbstractPart part : composition.parts) {
-            if (part instanceof AudioPart) {
-                ((AudioPart) part).setCache(cache);
-            }
             try {
                 instructions.append(part.translateToInstruction(composition.masterBpm));
             } catch (Exception e) {

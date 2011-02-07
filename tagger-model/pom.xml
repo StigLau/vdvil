@@ -20,5 +20,10 @@
             <groupId>no.lau.vdvil</groupId>
             <artifactId>renderer.audio</artifactId>
         </dependency>
+        <!-- Needed for a hack for downloading mp3 files during conversion -->
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>httpcache</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -5,18 +5,15 @@ import no.bouvet.kpro.tagger.PlayStuff;
 import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.SimpleSong;
-import no.lau.vdvil.common.VdvilFileCache;
 import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
 
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SoundExample {
-    static VdvilFileCache cache = new VdvilCacheStuff(new File("/tmp/vdvil"));
-
     public static void main(String[] args) throws Exception {
-        PlayStuff player = new PlayStuff(new Composition(135F, SoundExample.parts()), cache);
+        PlayStuff player = new PlayStuff(new Composition(135F, SoundExample.parts()));
         try {
             player.play(0F);
             Thread.sleep(3000);
@@ -28,8 +25,8 @@ public class SoundExample {
         }
         System.exit(0);
     }
-    public static List<AudioPart> parts() {
-        SimpleSong returning = new XStreamParser().load("/Users/stiglau/kpro/holden-nothing-93_returning_mix.dvl");
+    public static List<AudioPart> parts() throws FileNotFoundException {
+        SimpleSong returning = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"));
         List<AudioPart> parts = new ArrayList<AudioPart>();
         parts.add(new AudioPart(returning, 0F, 16F, returning.segments.get(3)));
         parts.add(new AudioPart(returning, 12F, 32F, returning.segments.get(6)));

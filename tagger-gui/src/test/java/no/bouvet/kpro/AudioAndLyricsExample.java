@@ -2,7 +2,6 @@ package no.bouvet.kpro;
 
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.Renderer;
-import no.lau.vdvil.common.VdvilFileCache;
 import no.vdvil.renderer.lyric.LyricGUI;
 import no.vdvil.renderer.lyric.LyricRenderer;
 import no.vdvil.renderer.lyric.LyricPart;
@@ -13,8 +12,6 @@ import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AbstractPart;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.SimpleSong;
-import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +20,6 @@ import java.util.List;
  */
 public class AudioAndLyricsExample {
 
-    static VdvilFileCache cache = new VdvilCacheStuff(new File("/tmp/vdvil"));
     final LyricGUI lyricGUI = createLyricGUI();
 
     public static void main(String[] args) throws Exception {
@@ -32,7 +28,7 @@ public class AudioAndLyricsExample {
 
     private void setUpStuff() throws Exception {
         Composition composition = new Composition(135F, parts());
-        Instructions instructions = new PlayStuff(composition, cache).createInstructionsFromParts(composition);
+        Instructions instructions = new PlayStuff(composition).createInstructionsFromParts(composition);
 
         AudioTarget target = new AudioPlaybackTarget();
         Renderer renderer = null;

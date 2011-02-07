@@ -1,11 +1,9 @@
 package org.codehaus.httpcache4j.cache;
 
-import no.lau.vdvil.common.VdvilFileCache;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.codehaus.httpcache4j.HTTPRequest;
 import org.codehaus.httpcache4j.HTTPResponse;
 import org.codehaus.httpcache4j.client.HTTPClientResponseResolver;
-import org.codehaus.httpcache4j.payload.Payload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,22 +13,12 @@ import java.net.URI;
 /**
  * Wrapper class around HttpCache4J to make it more usable for VDvil usage
  * TODO Make function for invalidatingAllCaches
- * TODO Cache should be static and use a "/tmp/vdvil" for cache storage
  */
-public class VdvilCacheStuff implements VdvilFileCache {
+public class VdvilCacheStuff {
 
-    final Logger log =  LoggerFactory.getLogger(VdvilCacheStuff.class);
-    public final HTTPCache persistentcache;
-    final File storeLocation;
-    final String storeName = "vaudeville";
-
-    /**
-     * @param location Where to persist the cache files
-     */
-    public VdvilCacheStuff(File location) {
-        storeLocation = location;
-        persistentcache = new HTTPCache(new PersistentCacheStorage(1000, location, storeName), HTTPClientResponseResolver.createMultithreadedInstance());
-    }
+    static Logger log =  LoggerFactory.getLogger(VdvilCacheStuff.class);
+    static String storeLocation = "/tmp/vdvil";
+    static HTTPCache persistentcache = new HTTPCache(new PersistentCacheStorage(1000, new File(storeLocation), "vaudeville"), HTTPClientResponseResolver.createMultithreadedInstance());
 
     /**
      * First performs a validation. Then, tries to download from local file repo before trying to download from the web
@@ -40,9 +28,9 @@ public class VdvilCacheStuff implements VdvilFileCache {
      * @return the downloaded file, null if not found
      * @throws java.io.FileNotFoundException if the file could not be downloaded from url of found in cache
      */
-    public InputStream fetchAsStream(String url, String checksum) throws FileNotFoundException {
+    public static InputStream fetchAsStream(String url, String checksum) throws FileNotFoundException {
         if (validateChecksum(url, checksum)) {
-            log.error("{} located on disk with correct checksum", url);
+            log.info("Located on disk with correct checksum {}", url);
             return fetchAsStream(url);
         } else {
             log.info("File missing in cache or failed to pass checksum. Retrying downloading from URL");
@@ -60,19 +48,20 @@ public class VdvilCacheStuff implements VdvilFileCache {
      * @return the file or null if file not found. Not a good thing to do!
      * @throws java.io.FileNotFoundException Could not find file
      */
-    public InputStream fetchAsStream(String url) throws FileNotFoundException {
+    public static InputStream fetchAsStream(String url) throws FileNotFoundException {
         if(existsInRepository(url)) {
             File fileInRepository = fileLocation(url);
             log.info(url + " File already in cache: " + fileInRepository.getAbsolutePath());
             return new FileInputStream(fileInRepository);
         }
         else {
+            log.info("Did not find " + url + " in cache, downloading");
             return download(url).getPayload().getInputStream();
         }
     }
 
-    private HTTPResponse download(String url) {
-        log.info("Downloading from" +  url + " to cache: " + url);
+    private static  HTTPResponse download(String url) {
+        log.info("Downloading from " +  url + " to cache: " + url);
         HTTPRequest fileRequest = new HTTPRequest(URI.create(url));
         HTTPResponse fileResponse = persistentcache.doCachedRequest(fileRequest);
         if(null != fileResponse.getETag()) {
@@ -83,12 +72,12 @@ public class VdvilCacheStuff implements VdvilFileCache {
         return fileResponse;
     }
 
-    File fileLocation(String url) {
+    static File fileLocation(String url) {
         String urlChecksum = DigestUtils.md5Hex(url);
         return new File(storeLocation + "/files/" + urlChecksum + "/default");
     }
 
-    boolean existsInRepository(String url) {
+    static boolean existsInRepository(String url) {
         File locationOnDisk = fileLocation(url);
         return locationOnDisk.exists() && locationOnDisk.canRead();
     }
@@ -99,7 +88,7 @@ public class VdvilCacheStuff implements VdvilFileCache {
      * @param checksum file MD5 checksum to verify with
      * @return true if both both are correct
      */
-    boolean existsInRepository(String url, String checksum) {
+    public static boolean existsInRepository(String url, String checksum) {
         return existsInRepository(url) && validateChecksum(url, checksum);
     }
 
@@ -109,7 +98,7 @@ public class VdvilCacheStuff implements VdvilFileCache {
      * @param url to the file
      * @return the file or null if empty
      */
-    File fetchFromRepository(String url) {
+    static File fetchFromRepository(String url) {
         if(existsInRepository(url)) {
             return fileLocation(url);
         } else {
@@ -118,7 +107,7 @@ public class VdvilCacheStuff implements VdvilFileCache {
         }
     }
 
-    public File fetchAsFile(String url, String checksum) throws FileNotFoundException {
+    public static File fetchAsFile(String url, String checksum) throws FileNotFoundException {
         //Download the file in case is it is not located in cache
         if (!existsInRepository(url, checksum)) {
             fetchAsStream(url, checksum); //Cache
@@ -136,7 +125,7 @@ public class VdvilCacheStuff implements VdvilFileCache {
      * @param checksum to check the file with
      * @return whether the file validates with the checksum
      */
-    boolean validateChecksum(String url, String checksum) {
+    static boolean validateChecksum(String url, String checksum) {
         try {
             String fileChecksum = DigestUtils.md5Hex(new FileInputStream(fileLocation(url)));
             if(fileChecksum.equals(checksum)) {

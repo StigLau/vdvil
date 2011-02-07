@@ -2,10 +2,12 @@ package no.lau.vdvil.gui
 
 import scala.swing._
 import TabbedPane._
-import no.lau.tagger.scala.model.{ScalaSegment, ScalaSong}
-import org.slf4j.LoggerFactory
-import no.lau.vdvil.cache.ScalaCacheHandler
 import java.io.FileInputStream
+import no.lau.tagger.scala.model.{ToScalaSong, ScalaSegment, ScalaSong}
+import no.bouvet.kpro.tagger.persistence.{XStreamParser}
+import no.lau.tagger.model.SimpleSong
+import org.codehaus.httpcache4j.cache.VdvilCacheStuff
+import org.slf4j.LoggerFactory
 
 /**
  * Note - to make the TagGUI functional, it can be necessary to make a small change to the file and recompile.
@@ -33,7 +35,7 @@ object TagGUI extends SimpleSwingApplication {
             dvlFilePath = fileChooser.selectedFile.getAbsolutePath
             val dvlAsStream = new FileInputStream(dvlFilePath)
             try {
-              val loadedSong = ScalaCacheHandler.loadSimpleSongFromDvlStream(dvlAsStream)
+              val loadedSong = ToScalaSong.fromJava(new XStreamParser[SimpleSong].load(dvlAsStream))
               addEditingPanel(dvlFilePath, NeatStuff.convertAllNullIDsToRandom(loadedSong))
             } catch {case _ => log.error("Could not parse file {}", dvlFilePath)} 
           }
@@ -59,9 +61,15 @@ object TagGUI extends SimpleSwingApplication {
 
   def fetchDvlAndMp3FromWeb(url: String): Option[ScalaSong] = {
     try {
-      val song:ScalaSong = ScalaCacheHandler.fetchSimpleSongAndCacheDvlAndMp3(url, None)
+      val stream = VdvilCacheStuff.fetchAsStream(url)
+      val xml = new XStreamParser[SimpleSong].load(stream)
+      val song = ToScalaSong.fromJava(xml)
+      NeatStuff.cacheMp3(song.mediaFile.fileName, song.mediaFile.checksum)
       Some(NeatStuff.convertAllNullIDsToRandom(song))
-    } catch {case _ => log.error("Could not download or parse {}", url); None} // TODO This catch all is not working -> WHY!? 
+    } catch {
+      case e: Exception => log.error("Some problem", e); None
+      case _ => log.error("Could not download or parse {}", url); None
+    }
   }
 
   def addEditingPanel(input: String, song: ScalaSong) = {
@@ -92,6 +100,8 @@ object NeatStuff {
   }
 
   def generateRandomId:String = String.valueOf(math.abs(Random.nextLong))
+
+  def cacheMp3(url:String, checksum:String) = VdvilCacheStuff.fetchAsFile(url, checksum)
 }
 
 

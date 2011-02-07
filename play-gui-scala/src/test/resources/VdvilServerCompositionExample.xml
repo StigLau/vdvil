@@ -1,0 +1,33 @@
+<composition>
+    <name>JavaZone Demo</name>
+    <masterBpm>150.0</masterBpm>
+    <parts>
+        <part>
+            <id>4479230163500364845</id>
+            <dvl>
+                <name>Olive - You're not alone</name>
+                <url>http://localhost:8080/vdvil-server/dvl/xml/2</url>
+            </dvl>
+            <start>0</start>
+            <end>32</end>
+        </part>
+        <part>
+            <id>8313187524105777940</id>
+            <dvl>
+                <name>Olive - You're not alone</name>
+                <url>http://localhost:8080/vdvil-server/dvl/xml/2</url>
+            </dvl>
+            <start>32</start>
+            <end>70</end>
+        </part>
+        <part>
+            <id>5403996530329584526</id>
+            <dvl>
+                <name>Christian Cambas - Scares me</name>
+                <url>http://localhost:8080/vdvil-server/dvl/xml/3</url>
+            </dvl>
+            <start>16</start>
+            <end>48</end>
+        </part>
+    </parts>
+</composition>
