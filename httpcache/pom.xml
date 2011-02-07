@@ -12,16 +12,6 @@
     <name>Vdvil HttpCache: Handling file download and stuff for VDvil files</name>
 
     <dependencies>
-        <!-- VDVIL dependencies -->
-        <dependency>
-            <groupId>no.lau.vdvil</groupId>
-            <artifactId>common</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.lau.vdvil</groupId>
-            <artifactId>tagger-model</artifactId>
-            <scope>test</scope>
-        </dependency>
         <!-- Caching dependencies -->
         <dependency>
             <groupId>org.codehaus.httpcache4j</groupId>
