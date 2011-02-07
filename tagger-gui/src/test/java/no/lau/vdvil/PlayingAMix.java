@@ -25,7 +25,9 @@ public class PlayingAMix {
         List<AudioPart> parts = testPlayingSomeStuff(nothing, psylteFlesk);
         PlayStuff playStuff = new PlayStuff(new Composition(130F, parts), cache);
         playStuff.play(4F);
-        Thread.sleep(2000);
+        Thread.sleep(4*1000*130/60);
+        playStuff.stop();
+        Thread.sleep(50);
     }
 
 
