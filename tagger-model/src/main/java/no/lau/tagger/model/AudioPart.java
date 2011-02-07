@@ -37,7 +37,13 @@ public class AudioPart extends AbstractPart{
         Float partCompositionDiff = bpm / masterBpm;
         Float compositionPartDiff = masterBpm / bpm;
 
-        AudioSource audioSource = new MP3Source(cache.fetchFromRepository(simpleSong.mediaFile.fileName));
+        String url = simpleSong.mediaFile.fileName;
+        String checksum = simpleSong.mediaFile.checksum;
+        //Download the file in case is it is not located in cache
+        if(!cache.existsInRepository(url, checksum)) {
+            cache.fetchAsStream(url, checksum);
+        }
+        AudioSource audioSource = new MP3Source(cache.fetchFromRepository(url));
 
         AudioInstruction audioInstruction = new SimpleAudioInstruction(
                 startCue,
