@@ -15,6 +15,7 @@ import java.net.URI;
 /**
  * Wrapper class around HttpCache4J to make it more usable for VDvil usage
  * TODO Make function for invalidatingAllCaches
+ * TODO Cache should be static and use a "/tmp/vdvil" for cache storage
  */
 public class VdvilCacheStuff implements VdvilFileCache {
 
@@ -87,12 +88,18 @@ public class VdvilCacheStuff implements VdvilFileCache {
         return new File(storeLocation + "/files/" + urlChecksum + "/default");
     }
 
-    public boolean existsInRepository(String url) {
+    boolean existsInRepository(String url) {
         File locationOnDisk = fileLocation(url);
         return locationOnDisk.exists() && locationOnDisk.canRead();
     }
 
-    public boolean existsInRepository(String url, String checksum) {
+    /**
+     * Performs a dual-check to verify if the file exists in both repository and has correct checksum
+     * @param url location on the internet
+     * @param checksum file MD5 checksum to verify with
+     * @return true if both both are correct
+     */
+    boolean existsInRepository(String url, String checksum) {
         return existsInRepository(url) && validateChecksum(url, checksum);
     }
 
@@ -102,7 +109,7 @@ public class VdvilCacheStuff implements VdvilFileCache {
      * @param url to the file
      * @return the file or null if empty
      */
-    public File fetchFromRepository(String url) {
+    File fetchFromRepository(String url) {
         if(existsInRepository(url)) {
             return fileLocation(url);
         } else {
@@ -110,6 +117,18 @@ public class VdvilCacheStuff implements VdvilFileCache {
             return null;
         }
     }
+
+    public File fetchAsFile(String url, String checksum) throws FileNotFoundException {
+        //Download the file in case is it is not located in cache
+        if (!existsInRepository(url, checksum)) {
+            fetchAsStream(url, checksum); //Cache
+        } //Perform a second check
+        if(existsInRepository(url, checksum))
+            return fetchFromRepository(url);
+        else
+            throw new FileNotFoundException("Erronous checksum in file in repository");
+    }
+
 
     /**
      * Calculates the checksum of the Url to find where it is located in cache, then validates the file on disk with the checksum
