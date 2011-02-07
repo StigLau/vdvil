@@ -2,9 +2,9 @@ package no.lau.vdvil.player.test
 
 import org.junit.Test
 import no.lau.vdvil.player. {JavaZoneDemoComposition, ScalaCompositionPlayer}
-import no.lau.vdvil.cache.ScalaCacheHandler
 
 class PlayingTest {
+  //TODO Why does it download so many files!?!
   @Test def playMix {
     val composition = JavaZoneDemoComposition.masterMix.asComposition
     val player = new ScalaCompositionPlayer(Some(composition))
