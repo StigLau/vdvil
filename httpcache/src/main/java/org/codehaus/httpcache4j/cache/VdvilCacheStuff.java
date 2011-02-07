@@ -33,7 +33,7 @@ public class VdvilCacheStuff {
             log.info("Located on disk with correct checksum {}", url);
             return fetchAsStream(url);
         } else {
-            log.info("File missing in cache or failed to pass checksum. Retrying downloading from URL");
+            log.info("File missing in cache or failed to pass checksum. Retrying downloading from URL: " + url);
             InputStream downloadedFromTheInternet = download(url).getPayload().getInputStream();
             if(validateChecksum(url, checksum)) {
                 return downloadedFromTheInternet;
@@ -51,7 +51,7 @@ public class VdvilCacheStuff {
     public static InputStream fetchAsStream(String url) throws FileNotFoundException {
         if(existsInRepository(url)) {
             File fileInRepository = fileLocation(url);
-            log.info(url + " File already in cache: " + fileInRepository.getAbsolutePath());
+            log.debug(url + " File already in cache: " + fileInRepository.getAbsolutePath());
             return new FileInputStream(fileInRepository);
         }
         else {
