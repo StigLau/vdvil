@@ -2,6 +2,8 @@ package vdvil.server
 
 class CompositionController {
   def xml = {
+    cache shared: true, validUntil: new Date()+7
+
     def mixList = MasterMix.get(params.id)
     if (!mixList) mixList = MasterMix.list()
 
@@ -12,15 +14,15 @@ class CompositionController {
           masterBpm(mix.masterBpm)
           //builder.part(id: mix.id) {
           parts {
-            part {
-              for (part in mix.parts) {
-                id(part.segment.segmentId)
+            for (aPart in mix.parts) {
+              part {
+                id(aPart.segment.segmentId)
                 dvl {
-                  name(part.segment.song.reference)
-                  url("http://localhost:8080/vdvil-server/dvl/xml/" + part.segment.song.id)
+                  name(aPart.segment.song.reference)
+                  url("http://localhost:8080/vdvil-server/dvl/xml/" + aPart.segment.song.id)
                 }
-                start(part.startCue)
-                end(part.endCue)
+                start(aPart.startCue)
+                end(aPart.endCue)
               }
             }
           }
