@@ -13,6 +13,7 @@ import org.junit.Test;
 import java.io.*;
 import java.net.URI;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Warning, these tests are fairly volatile and depend on one another!
@@ -28,7 +29,7 @@ public class CachingTest {
 
     XStream xstream;
     HTTPRequest request = new HTTPRequest(URI.create(dvlUrl));
-    VdvilCacheStuff persistantCache = new VdvilCacheStuff(new File("/tmp/vdvil"));
+    VdvilCacheStuff cache = new VdvilCacheStuff(new File("/tmp/vdvil"));
 
     @Before
     public void before() {
@@ -39,7 +40,7 @@ public class CachingTest {
 
     @Test
     public void testHowCachingWorks() throws IOException {
-        HTTPResponse response = persistantCache.persistentcache.doCachedRequest(request);
+        HTTPResponse response = cache.persistentcache.doCachedRequest(request);
         Payload payload = response.getPayload();
         assertEquals("text", payload.getMimeType().getPrimaryType());
         assertEquals("plain", payload.getMimeType().getSubType());
@@ -53,23 +54,13 @@ public class CachingTest {
 
     @Test
     public void parsingTheXmlFromStream() {
-        HTTPResponse response = persistantCache.persistentcache.doCachedRequest(request);
+        HTTPResponse response = cache.persistentcache.doCachedRequest(request);
         InputStream inputStream = response.getPayload().getInputStream();
 
         SimpleSong ss = (SimpleSong) xstream.fromXML(inputStream);
         assertEquals(new Float(130.0), ss.bpm);
         assertEquals("http://kpro09.googlecode.com/svn/test-files/holden-nothing-93_returning_mix.mp3", ss.mediaFile.fileName);
     }
-
-    @Test
-    public void persistentStorage() throws Exception {
-        SimpleSong ss = (SimpleSong) xstream.fromXML(persistantCache.fetchAsInputStream(dvlUrl));
-        //Retrieve mp3 file
-        Payload payload = persistantCache.downloadPayload(ss.mediaFile.fileName);
-        File file = ((CleanableFilePayload)payload).getFile();
-        assertEquals("/tmp/vdvil/files/cab1562d1198804b5fb6d62a69004488/default", file.getAbsolutePath());
-    }
-
 
     @Test
     public void generateUrlChecksum() {
@@ -86,26 +77,35 @@ public class CachingTest {
     public void doesFileAlreadyExistInCache() throws FileNotFoundException {
         System.out.println("first");
         String url = "http://kpro09.googlecode.com/svn/test-files/holden-nothing-93_returning_mix.mp3";
-        persistantCache.fetchAsStream(url);
+        cache.fetchAsStream(url);
         System.out.println("Downloaded 1 file");
-        persistantCache.fetchAsStream(url);
+        cache.fetchAsStream(url);
 
         System.out.println("Downloaded 2 file");
-        persistantCache.fetchAsStream(url);
+        cache.fetchAsStream(url);
 
         System.out.println("Downloaded 3 file");
-        persistantCache.fetchAsStream(url);
+        cache.fetchAsStream(url);
 
         System.out.println("Downloaded 4 file");
-        persistantCache.fetchAsStream(url);
+        cache.fetchAsStream(url);
 
         System.out.println("Downloaded 5 file");
     }
 
     @Test
+    public void loadingFromDiskWithoutDownloading() throws Exception {
+        SimpleSong ss = (SimpleSong) xstream.fromXML(cache.fetchAsStream(dvlUrl));
+        //Retrieve mp3 file
+        assertTrue("Either a seperate test has not been run that downloads the file, or something is wrong with the caching mekanism", cache.existsInRepository(ss.mediaFile.fileName));
+        File file = cache.fetchFromRepository(ss.mediaFile.fileName);
+        assertEquals("/tmp/vdvil/files/cab1562d1198804b5fb6d62a69004488/default", file.getAbsolutePath());
+    }
+
+    @Test
     public void validateChecksumOfLocalFiles() {
         String url = dvlUrl;
-        assertEquals(false, persistantCache.validateChecksum(url, "not the correct hex checksum"));
-        assertEquals(true, persistantCache.validateChecksum(url, "a2dc2ed2e87c74897e0a7bd7160fd810"));
+        assertEquals(false, cache.validateChecksum(url, "not the correct hex checksum"));
+        assertEquals(true, cache.validateChecksum(url, "a2dc2ed2e87c74897e0a7bd7160fd810"));
     }
 }
