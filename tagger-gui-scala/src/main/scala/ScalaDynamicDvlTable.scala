@@ -3,8 +3,7 @@ package no.lau.vdvil.gui
 import scala.swing._
 import scala.swing.event._
 import org.slf4j.LoggerFactory
-import no.lau.vdvil.cache.ScalaSongXmlPersister
-import no.lau.tagger.scala.model.{ScalaMediaFile, ScalaSegment, ScalaSong}
+import no.lau.tagger.scala.model.{ScalaSegment, ScalaSong}
 import no.lau.vdvil.player.SegmentPlayer
 
 class ScalaDynamicDvlTable(dvlUrl: String, song: ScalaSong) {
