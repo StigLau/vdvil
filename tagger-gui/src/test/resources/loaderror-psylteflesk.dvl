@@ -9,78 +9,63 @@
   <segments>
     <segment>
       <text>klokke x2</text>
-      <start>0.0</start>
-      <end>16.0</end>
+      <start>0</start>
+      <end>16</end>
     </segment>
     <segment>
       <text>klokke + tromme</text>
-      <start>16.0</start>
-      <end>32.0</end>
+      <start>16</start>
+      <end>32</end>
     </segment>
     <segment>
       <text>klokke + tromme + bass</text>
-      <start>32.0</start>
-      <end>64.0</end>
+      <start>32</start>
+      <end>64</end>
     </segment>
     <segment>
       <text>static</text>
-      <start>64.0</start>
-      <end>72.0</end>
+      <start>64</start>
+      <end>72</end>
     </segment>
     <segment>
       <text>tromme + bass</text>
-      <start>72.0</start>
-      <end>104.0</end>
+      <start>72</start>
+      <end>104</end>
     </segment>
     <segment>
       <text>tromme + bass</text>
-      <start>104.0</start>
-      <end>136.0</end>
+      <start>104</start>
+      <end>136</end>
     </segment>
     <segment>
       <text>tromme + bass + riff + klokke + static</text>
-      <start>136.0</start>
-      <end>168.0</end>
+      <start>136</start>
+      <end>168</end>
     </segment>
     <segment>
       <text>tromme + bass + riff</text>
-      <start>168.0</start>
-      <end>200.0</end>
+      <start>168</start>
+      <end>200</end>
     </segment>
     <segment>
       <text>tromme + bass + riff + klokke + static</text>
-      <start>200.0</start>
-      <end>232.0</end>
+      <start>200</start>
+      <end>232</end>
     </segment>
     <segment>
       <text>tromme + klokke + static</text>
-      <start>232.0</start>
-      <end>240.0</end>
+      <start>232</start>
+      <end>240</end>
     </segment>
     <segment>
       <text>klokke x3</text>
-      <start>240.0</start>
-      <end>264.0</end>
+      <start>240</start>
+      <end>264</end>
     </segment>
     <segment>
       <text>static</text>
-      <start>264.0</start>
-      <end>276.0</end>
-    </segment>
-    <segment>
-      <text></text>
-      <start>0.0</start>
-      <end>0.0</end>
-    </segment>
-    <segment>
-      <text></text>
-      <start>0.0</start>
-      <end>0.0</end>
-    </segment>
-    <segment>
-      <text></text>
-      <start>0.0</start>
-      <end>0.0</end>
+      <start>264</start>
+      <end>276</end>
     </segment>
   </segments>
 </track>
