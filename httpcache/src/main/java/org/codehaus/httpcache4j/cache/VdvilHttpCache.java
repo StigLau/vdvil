@@ -70,12 +70,12 @@ public class VdvilHttpCache implements VdvilCache{
         return new File(storeLocation + "/files/" + urlChecksum + "/default");
     }
 
-    public void removeFromCache(String url) {
-        throw new RuntimeException("Not implemented yet");
-    }
-
     public boolean existsInRepository(File pathToFileOnDisk, String checksum) {
         return pathToFileOnDisk.exists() && pathToFileOnDisk.canRead() && validateChecksum(pathToFileOnDisk, checksum);
+    }
+
+    public void removeFromCache(String url) {
+        throw new RuntimeException("Not implemented yet");
     }
 
     private HTTPResponse download(String url) {
