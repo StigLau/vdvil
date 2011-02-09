@@ -35,7 +35,7 @@ public class CachingTest {
         BufferedReader in = new BufferedReader(new InputStreamReader(payload.getInputStream()));
         String line;
         while ((line = in.readLine()) != null) {
-            System.out.println(line);
+            log.info(line);
         }
     }
 
@@ -53,22 +53,22 @@ public class CachingTest {
 
     @Test
     public void doesFileAlreadyExistInCache() throws FileNotFoundException {
-        System.out.println("first");
+        log.info("first");
         String url = "http://kpro09.googlecode.com/svn/test-files/holden-nothing-93_returning_mix.mp3";
         fetchAsStream(url);
-        System.out.println("Downloaded 1 file");
+        log.info("Downloaded 1 file");
         fetchAsStream(url);
 
-        System.out.println("Downloaded 2 file");
+        log.info("Downloaded 2 file");
         fetchAsStream(url);
 
-        System.out.println("Downloaded 3 file");
+        log.info("Downloaded 3 file");
         fetchAsStream(url);
 
-        System.out.println("Downloaded 4 file");
+        log.info("Downloaded 4 file");
         fetchAsStream(url);
 
-        System.out.println("Downloaded 5 file");
+        log.info("Downloaded 5 file");
     }
 
     @Test

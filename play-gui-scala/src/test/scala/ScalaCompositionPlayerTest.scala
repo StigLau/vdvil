@@ -5,10 +5,12 @@ import org.junit.{Before, Test}
 import no.lau.vdvil.domain.player.ScalaComposition
 import no.bouvet.kpro.tagger.persistence.XStreamParser
 import no.lau.tagger.model.SimpleSong
+import org.slf4j.LoggerFactory
 
 
 class ScalaCompositionPlayerTest {
   var composition:ScalaComposition = null
+  val log = LoggerFactory.getLogger(classOf[ScalaCompositionPlayerTest])
 
   @Before
   def cacheMp3Files() {
@@ -32,7 +34,7 @@ class ScalaCompositionPlayerTest {
   }
 
   @Test def durationCalculator {
-    println("Duration " +     composition.durationAsBeats)
+    log.info("Duration " +     composition.durationAsBeats)
     assert(composition.durationAsBeats == 252F)
   }
 }

@@ -12,6 +12,8 @@ import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AbstractPart;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.SimpleSong;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,7 @@ import java.util.List;
  * Simple test for setting up a test of lyric/GUI and music
  */
 public class AudioAndLyricsExample {
+    Logger log = LoggerFactory.getLogger(AudioAndLyricsExample.class);
 
     final LyricGUI lyricGUI = createLyricGUI();
 
@@ -36,7 +39,7 @@ public class AudioAndLyricsExample {
 
 
         try {
-            System.out.println("Duration Time: " + instructions.getDuration() / Renderer.RATE + " seconds");
+            log.info("Duration Time: " + instructions.getDuration() / Renderer.RATE + " seconds");
 
             // Create the Renderer with an AudioRenderer instance
             renderer = new Renderer(instructions);
@@ -44,7 +47,7 @@ public class AudioAndLyricsExample {
             renderer.addRenderer(new LyricRenderer(lyricGUI));
 
             // Start the renderer at the beginning
-            System.out.println("Starting renderer...");
+            log.info("Starting renderer...");
             renderer.start(0);
 
             // Wait for the renderer to finish
@@ -55,9 +58,9 @@ public class AudioAndLyricsExample {
                 int samples = target.getOutputPosition();
                 double percent = Math.floor((double) samples / (double) instructions.getDuration() * 1000) / 10;
 
-                System.out.println("Rendered " + samples + " samples (" + percent + "%)...");
+                log.info("Rendered " + samples + " samples (" + percent + "%)...");
             }
-            System.out.println("Fin");
+            log.info("Fin");
         } finally {
             if (renderer != null)
                 renderer.stop();

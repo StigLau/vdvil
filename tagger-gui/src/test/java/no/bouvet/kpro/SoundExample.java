@@ -6,6 +6,8 @@ import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.SimpleSong;
 import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -13,12 +15,13 @@ import java.util.List;
 
 public class SoundExample {
     public static void main(String[] args) throws Exception {
+        Logger log = LoggerFactory.getLogger(SoundExample.class);
         PlayStuff player = new PlayStuff(new Composition(135F, SoundExample.parts()));
         try {
             player.play(0F);
             Thread.sleep(3000);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Problem playing", e);
         }finally {
             player.stop();
             Thread.sleep(200);

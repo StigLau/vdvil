@@ -48,7 +48,7 @@ object PlayGUI extends SimpleSwingApplication {
     coordinator.start
     new MyRepo(coordinator).fetchComposition(url, new CompositionCallback {
       def finished(compositionOption: Option[MasterMix]) {
-        println("composition = " + compositionOption)
+        log.info("composition = " + compositionOption)
         if (compositionOption.isDefined) {
           val masterMix = compositionOption.get
           val downloadingCoordinator = new DownloadingCoordinator(masterMix, new DVLCallBackGUI(masterMix)) {
