@@ -39,22 +39,22 @@ public class MixingExample {
 
     public List<AudioPart> parts() throws Exception {
         List<AudioPart> parts = new ArrayList<AudioPart>();
-        parts.add(new AudioPart(space, 0F, 96F, space.segments.get(0)));
+        parts.add(new AudioPart(space, 0, 96, space.segments.get(0)));
 
-        Float startMixinAt = 32F;
+        int startMixinAt = 32;
         List<Segment> returningSegments = returning.segments;
-        parts.add(new AudioPart(returning, startMixinAt + -1F, startMixinAt + 16F, returningSegments.get(4)));
+        parts.add(new AudioPart(returning, startMixinAt + -1, startMixinAt + 16, returningSegments.get(4)));
 
         startMixinAt += 64F;
-        parts.add(new AudioPart(space, 80F, 96F, space.segments.get(1)));
+        parts.add(new AudioPart(space, 80, 96, space.segments.get(1)));
         
-        parts.add(new AudioPart(returning, startMixinAt + -8.05F, startMixinAt + -6.7F, returningSegments.get(7)));
-        parts.add(new AudioPart(returning, startMixinAt + -6.05F, startMixinAt + -4.7F, returningSegments.get(7)));
-        parts.add(new AudioPart(returning, startMixinAt + -4.05F, startMixinAt + -3.2F, returningSegments.get(7)));
-        parts.add(new AudioPart(returning, startMixinAt + -3F, startMixinAt + -2.2F, returningSegments.get(7)));
-        parts.add(new AudioPart(returning, startMixinAt + -2F, startMixinAt + -1.2F, returningSegments.get(7)));
-        parts.add(new AudioPart(returning, startMixinAt + -1F, startMixinAt + -0.2F, returningSegments.get(7)));
-        parts.add(new AudioPart(returning, startMixinAt + 0F, startMixinAt + 128F, returningSegments.get(7)));
+        parts.add(new AudioPart(returning, startMixinAt + -8, startMixinAt + -6, returningSegments.get(7)));
+        parts.add(new AudioPart(returning, startMixinAt + -6, startMixinAt + -4, returningSegments.get(7)));
+        parts.add(new AudioPart(returning, startMixinAt + -4, startMixinAt + -3, returningSegments.get(7)));
+        parts.add(new AudioPart(returning, startMixinAt + -3, startMixinAt + -2, returningSegments.get(7)));
+        parts.add(new AudioPart(returning, startMixinAt + -2, startMixinAt + -1, returningSegments.get(7)));
+        parts.add(new AudioPart(returning, startMixinAt + -1, startMixinAt + -0, returningSegments.get(7)));
+        parts.add(new AudioPart(returning, startMixinAt + 0, startMixinAt + 128, returningSegments.get(7)));
         return parts;
     }
 }

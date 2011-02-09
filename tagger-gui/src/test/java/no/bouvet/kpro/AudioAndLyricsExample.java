@@ -2,18 +2,20 @@ package no.bouvet.kpro;
 
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.Renderer;
+import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.vdvil.renderer.lyric.LyricGUI;
 import no.vdvil.renderer.lyric.LyricRenderer;
 import no.vdvil.renderer.lyric.LyricPart;
 import no.bouvet.kpro.renderer.audio.*;
 import no.bouvet.kpro.tagger.PlayStuff;
-import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AbstractPart;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.SimpleSong;
+import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,19 +83,19 @@ public class AudioAndLyricsExample {
     }
 
 
-    public static List<? extends AbstractPart> parts() {
-        SimpleSong returning = new XStreamParser().load("/Users/stiglau/kpro/holden-nothing-93_returning_mix.dvl");
+    public static List<? extends AbstractPart> parts() throws FileNotFoundException {
+        SimpleSong returning = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"));
         List<AbstractPart> parts = new ArrayList<AbstractPart>();
-        parts.add(new AudioPart(returning, 0F, 16F, returning.segments.get(3)));
-        parts.add(new LyricPart("Hello World!", 0F, 12F));
-        parts.add(new AudioPart(returning, 12F, 32F, returning.segments.get(6)));
-        parts.add(new LyricPart("Stig er kul!", 12F, 32F));
-        parts.add(new AudioPart(returning, 32F, 62.5F, returning.segments.get(9)));
-        parts.add(new LyricPart("And so on!", 32F, 62F));
-        parts.add(new AudioPart(returning, 62F, 63.5F, returning.segments.get(10)));
-        parts.add(new AudioPart(returning, 63F, 64.5F, returning.segments.get(11)));
-        parts.add(new AudioPart(returning, 64F, 128F, returning.segments.get(12)));
-        parts.add(new AudioPart(returning, 128F, 256F, returning.segments.get(14)));
+        parts.add(new AudioPart(returning, 0, 16, returning.segments.get(3)));
+        parts.add(new LyricPart("Hello World!", 0, 12));
+        parts.add(new AudioPart(returning, 12, 32, returning.segments.get(6)));
+        parts.add(new LyricPart("Stig er kul!", 12, 32));
+        parts.add(new AudioPart(returning, 32, 62, returning.segments.get(9)));
+        parts.add(new LyricPart("And so on!", 32, 62));
+        parts.add(new AudioPart(returning, 62, 63, returning.segments.get(10)));
+        parts.add(new AudioPart(returning, 63, 64, returning.segments.get(11)));
+        parts.add(new AudioPart(returning, 64, 128, returning.segments.get(12)));
+        parts.add(new AudioPart(returning, 128, 256, returning.segments.get(14)));
         return parts;
     }
 }

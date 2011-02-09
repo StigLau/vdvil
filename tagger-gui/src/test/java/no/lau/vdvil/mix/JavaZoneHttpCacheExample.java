@@ -54,20 +54,20 @@ public class JavaZoneHttpCacheExample {
 
     public List<AudioPart> parts() throws Exception {
         List<AudioPart> parts = new ArrayList<AudioPart>();
-        parts.add(new AudioPart(not_alone, 0F, 32F, not_alone.segments.get(0)));
-        parts.add(new AudioPart(scares_me, 16F, 48F, scares_me.segments.get(2)));
-        parts.add(new AudioPart(not_alone, 32F, 70F, not_alone.segments.get(1)));
-        parts.add(new AudioPart(scares_me, 48F, 64F, scares_me.segments.get(2)));
-        parts.add(new AudioPart(scares_me, 64F, 112F, scares_me.segments.get(4)));
-        parts.add(new AudioPart(returning, 96F, 140F, returning.segments.get(4)));
-        parts.add(new AudioPart(returning, 96F, 140F, returning.segments.get(4)));
-        parts.add(new AudioPart(returning, 128F, 174F, returning.segments.get(6)));
-        parts.add(new AudioPart(returning, 144F, 174.5F, returning.segments.get(9)));
-        parts.add(new AudioPart(returning, 174F, 175.5F, returning.segments.get(10)));
-        parts.add(new AudioPart(returning, 175F, 176.5F, returning.segments.get(11)));
-        parts.add(new AudioPart(returning, 176F, 240F, returning.segments.get(12)));
-        parts.add(new AudioPart(scares_me, 208F, 224F, scares_me.segments.get(12)));
-        parts.add(new AudioPart(scares_me, 224F, 252F, scares_me.segments.get(13)));
+        parts.add(new AudioPart(not_alone, 0, 32, not_alone.segments.get(0)));
+        parts.add(new AudioPart(scares_me, 16, 48, scares_me.segments.get(2)));
+        parts.add(new AudioPart(not_alone, 32, 70, not_alone.segments.get(1)));
+        parts.add(new AudioPart(scares_me, 48, 64, scares_me.segments.get(2)));
+        parts.add(new AudioPart(scares_me, 64, 112, scares_me.segments.get(4)));
+        parts.add(new AudioPart(returning, 96, 140, returning.segments.get(4)));
+        parts.add(new AudioPart(returning, 96, 140, returning.segments.get(4)));
+        parts.add(new AudioPart(returning, 128, 174, returning.segments.get(6)));
+        parts.add(new AudioPart(returning, 144, 174, returning.segments.get(9)));
+        parts.add(new AudioPart(returning, 174, 175, returning.segments.get(10)));
+        parts.add(new AudioPart(returning, 175, 176, returning.segments.get(11)));
+        parts.add(new AudioPart(returning, 176, 240, returning.segments.get(12)));
+        parts.add(new AudioPart(scares_me, 208, 224, scares_me.segments.get(12)));
+        parts.add(new AudioPart(scares_me, 224, 252, scares_me.segments.get(13)));
 
         return parts;
     }

@@ -3,6 +3,7 @@ package no.bouvet.kpro.tagger;
 import no.lau.tagger.model.SimpleSong;
 import no.bouvet.kpro.tagger.gui.Worker;
 
+@Deprecated //Should perhaps use a diferent player!?
 public class PlayerBase {
 
     private boolean started;
@@ -13,7 +14,7 @@ public class PlayerBase {
         this.simpleSong = simpleSong;
     }
 
-    public void playPause(Float startCue, Float endCue) throws Exception {
+    public void playPause(int startCue, int endCue) throws Exception {
         if (!started) {
             worker = new Worker(simpleSong, startCue, endCue);
             worker.execute();

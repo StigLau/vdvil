@@ -52,10 +52,10 @@ class ScalaDynamicDvlTable(dvlUrl: String, song: ScalaSong) {
       segment =>
         contents += new Label(segment.id)
         contents += new TextField(segment.start.toString, 3) {
-          reactions += {case _ => song.segmentWithId(segment.id).get.start = text.toFloat}
+          reactions += {case _ => song.segmentWithId(segment.id).get.start = text.toInt}
         }
         contents += new TextField(segment.end.toString, 3) {
-          reactions += {case _ => song.segmentWithId(segment.id).get.end = text.toFloat}
+          reactions += {case _ => song.segmentWithId(segment.id).get.end = text.toInt}
         }
         contents += new TextField(segment.text, 40) {
           reactions += {case _ => song.segmentWithId(segment.id).get.text = text}
@@ -89,7 +89,7 @@ class ScalaDynamicDvlTable(dvlUrl: String, song: ScalaSong) {
     }
   }
 
-  def addEmptySegmentToList: List[ScalaSegment] = new ScalaSegment(NeatStuff.generateRandomId, 0F, 0F, "") :: song.segments
+  def addEmptySegmentToList: List[ScalaSegment] = new ScalaSegment(NeatStuff.generateRandomId, 0, 0, "") :: song.segments
 
   def removeSegmentFromList(segmentId: String): List[ScalaSegment] = for{segment <- song.segments if (segment.id != segmentId)} yield segment
 

@@ -12,7 +12,8 @@ import java.net.URI;
 
 /**
  * Wrapper class around HttpCache4J to make it more usable for VDvil usage
- * TODO Make function for invalidatingAllCaches
+ * TODO Make function for invalidatingAllCaches or a single .mp3 file!!!!
+ * TODO Revamp file retrieving to be less confusing!!!
  */
 public class VdvilCacheStuff {
 
@@ -28,6 +29,7 @@ public class VdvilCacheStuff {
      * @return the downloaded file, null if not found
      * @throws java.io.FileNotFoundException if the file could not be downloaded from url of found in cache
      */
+    @Deprecated //Prefer using the one without checksum
     public static InputStream fetchAsStream(String url, String checksum) throws FileNotFoundException {
         if (validateChecksum(url, checksum)) {
             log.info("Located on disk with correct checksum {}", url);
@@ -71,7 +73,7 @@ public class VdvilCacheStuff {
         }
         return fileResponse;
     }
-
+    @Deprecated //Should not be used to retrieve file location! - Should return a string
     public static File fileLocation(String url) {
         String urlChecksum = DigestUtils.md5Hex(url);
         return new File(storeLocation + "/files/" + urlChecksum + "/default");
@@ -98,7 +100,7 @@ public class VdvilCacheStuff {
      * @param url to the file
      * @return the file or null if empty
      */
-    static File fetchFromRepository(String url) {
+    public static File fetchFromRepository(String url) {
         if(existsInRepository(url)) {
             return fileLocation(url);
         } else {
@@ -106,11 +108,11 @@ public class VdvilCacheStuff {
             return null;
         }
     }
-
+    @Deprecated //Prefer using fetchAsStream for caching, ecistsInRepository and fetchFromRepository afterwards
     public static File fetchAsFile(String url, String checksum) throws FileNotFoundException {
         //Download the file in case is it is not located in cache
         if (!existsInRepository(url, checksum)) {
-            fetchAsStream(url, checksum); //Cache
+            fetchAsStream(url); //Cache
         } //Perform a second check
         if(existsInRepository(url, checksum))
             return fetchFromRepository(url);

@@ -4,10 +4,10 @@ import no.bouvet.kpro.renderer.Instruction;
 import java.io.IOException;
 
 public abstract class AbstractPart {
-    public final Float startCue;
-    public final Float endCue;
+    public final int startCue;
+    public final int endCue;
 
-    public AbstractPart(Float startCue, Float endCue) {
+    public AbstractPart(int startCue, int endCue) {
         this.startCue = startCue;
         this.endCue = endCue;
     }
