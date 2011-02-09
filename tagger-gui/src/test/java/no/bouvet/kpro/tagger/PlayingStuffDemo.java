@@ -31,13 +31,13 @@ public class PlayingStuffDemo {
 
     public List<AudioPart> parts(){
         List<AudioPart> parts = new ArrayList<AudioPart>();
-        parts.add(new AudioPart(returning, 0F, 16F, returning.segments.get(3)));
-        parts.add(new AudioPart(returning, 12F, 32F, returning.segments.get(6)));
-        parts.add(new AudioPart(returning, 32F, 62.5F, returning.segments.get(9)));
-        parts.add(new AudioPart(returning, 62F, 63.5F, returning.segments.get(10)));
-        parts.add(new AudioPart(returning, 63F, 64.5F, returning.segments.get(11)));
-        parts.add(new AudioPart(returning, 64F, 128F, returning.segments.get(12)));
-        parts.add(new AudioPart(returning, 128F, 256F, returning.segments.get(14)));
+        parts.add(new AudioPart(returning, 0, 16, returning.segments.get(3)));
+        parts.add(new AudioPart(returning, 12, 32, returning.segments.get(6)));
+        parts.add(new AudioPart(returning, 32, 62, returning.segments.get(9)));
+        parts.add(new AudioPart(returning, 62, 63, returning.segments.get(10)));
+        parts.add(new AudioPart(returning, 63, 64, returning.segments.get(11)));
+        parts.add(new AudioPart(returning, 64, 128, returning.segments.get(12)));
+        parts.add(new AudioPart(returning, 128, 256, returning.segments.get(14)));
         return parts;
     }
 }

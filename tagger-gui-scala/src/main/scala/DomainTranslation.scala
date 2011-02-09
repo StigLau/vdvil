@@ -18,13 +18,13 @@ object ToScalaSegment {
   def fromJavaList(segmentList: java.util.List[no.lau.tagger.model.Segment]): List[ScalaSegment] =
     for{segment <- JavaConversions.asBuffer(segmentList).toList} yield ToScalaSegment.fromJava(segment)
 
-  def fromJava(segment: no.lau.tagger.model.Segment): ScalaSegment = new ScalaSegment(segment.id, segment.start.floatValue, segment.end.floatValue, segment.text)
+  def fromJava(segment: no.lau.tagger.model.Segment): ScalaSegment = new ScalaSegment(segment.id, segment.start, segment.end, segment.text)
 }
 
 object TranslateTo {
   def from(song: ScalaSong): no.lau.tagger.model.SimpleSong = new no.lau.tagger.model.SimpleSong(song.reference, from(song.mediaFile), segmentsFrom(song), song.bpm)
 
-  def from(segment: ScalaSegment): no.lau.tagger.model.Segment = new no.lau.tagger.model.Segment(segment.id, segment.start.floatValue, segment.end.floatValue, segment.text)
+  def from(segment: ScalaSegment): no.lau.tagger.model.Segment = new no.lau.tagger.model.Segment(segment.id, segment.start, segment.end, segment.text)
 
   def from(mf: ScalaMediaFile): no.lau.tagger.model.MediaFile = new no.lau.tagger.model.MediaFile(mf.fileName, mf.checksum, mf.startingOffset.floatValue)
 

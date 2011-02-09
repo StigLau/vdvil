@@ -10,6 +10,8 @@ import java.io.*;
 import java.net.URI;
 import static org.junit.Assert.assertEquals;
 import static org.codehaus.httpcache4j.cache.VdvilCacheStuff.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Warning, these tests are fairly volatile and depend on one another!
@@ -48,7 +50,7 @@ public class CachingTest {
 
     @Test
     public void generateMD5ChecksumFromFile() throws IOException {
-        assertEquals("a2dc2ed2e87c74897e0a7bd7160fd810", DigestUtils.md5Hex(Files.toByteArray(new File("/tmp/vdvil/files/b45c6b4bd38020da03afe1f2514a3ba1/default"))));
+        assertEquals("2e24054eb28edd38c9a846022587955b", DigestUtils.md5Hex(Files.toByteArray(new File("/tmp/vdvil/files/b45c6b4bd38020da03afe1f2514a3ba1/default"))));
     }
 
     @Test
@@ -74,7 +76,7 @@ public class CachingTest {
     @Test
     public void validateChecksumOfLocalFiles() {
         String url = dvlUrl;
-        assertEquals(false, validateChecksum(url, "not the correct hex checksum"));
-        assertEquals(true, validateChecksum(url, "a2dc2ed2e87c74897e0a7bd7160fd810"));
+        assertFalse(validateChecksum(url, "not the correct hex checksum"));
+        assertTrue(validateChecksum(url, "2e24054eb28edd38c9a846022587955b"));
     }
 }

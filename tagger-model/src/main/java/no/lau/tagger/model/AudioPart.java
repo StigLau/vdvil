@@ -13,16 +13,16 @@ public class AudioPart extends AbstractPart{
     public final Segment segment;
     public final Float bpm;
 
-    public final Float beginAtCue;
+    public final int beginAtCue;
 
     /*
      * Simple constructor for most usages
      */
-    public AudioPart(SimpleSong simpleSong, Float startCue, Float endCue, Segment segment) {
-        this(simpleSong, segment, simpleSong.bpm, startCue, endCue, 0F);
+    public AudioPart(SimpleSong simpleSong, int startCue, int endCue, Segment segment) {
+        this(simpleSong, segment, simpleSong.bpm, startCue, endCue, 0);
     }
 
-    public AudioPart(SimpleSong simpleSong, Segment segment, Float bpm, Float startCue, Float endCue, Float beginAtCue) {
+    public AudioPart(SimpleSong simpleSong, Segment segment, Float bpm, int startCue, int endCue, int beginAtCue) {
         super(startCue, endCue);
         this.simpleSong = simpleSong;
         this.segment = segment;

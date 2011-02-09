@@ -16,7 +16,7 @@ import no.bouvet.kpro.renderer.Instruction;
 public class LyricPart extends AbstractPart {
     public final String text;
 
-    public LyricPart(String text, Float startCue, Float endCue) {
+    public LyricPart(String text, int startCue, int endCue) {
         super(startCue, endCue);
         this.text = text;
     }

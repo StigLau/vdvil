@@ -1,25 +1,23 @@
 package no.lau.vdvil;
 
-import com.thoughtworks.xstream.XStream;
 import no.bouvet.kpro.tagger.PlayStuff;
+import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.lau.tagger.model.*;
 import static org.codehaus.httpcache4j.cache.VdvilCacheStuff.*;
 import org.junit.Test;
-
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlayingAMix {
 
     String holdenUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl";
-    String psylteUrl = "http://github.com/StigLau/vdvil/raw/master/tagger-gui/src/test/resources/loaderror-psylteflesk.dvl";
+    String psylteUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/loaderror-psylteflesk.dvl";
 
     @Test
     public void testMixing() throws FileNotFoundException, InterruptedException {
-        SimpleSong nothing = createSimpleSongFromXML(fetchAsStream(holdenUrl));
-        SimpleSong psylteFlesk = createSimpleSongFromXML(fetchAsStream(psylteUrl));
+        SimpleSong nothing = new XStreamParser().load(fetchAsStream(holdenUrl));
+        SimpleSong psylteFlesk = new XStreamParser().load(fetchAsStream(psylteUrl));
         List<AudioPart> parts = testPlayingSomeStuff(nothing, psylteFlesk);
         PlayStuff playStuff = new PlayStuff(new Composition(130F, parts));
         playStuff.play(4F);
@@ -28,20 +26,12 @@ public class PlayingAMix {
         Thread.sleep(50);
     }
 
-
-    private SimpleSong createSimpleSongFromXML(InputStream inputStream) {
-        XStream xstream = new XStream();
-        xstream.alias("track", SimpleSong.class);
-        xstream.alias("segment", Segment.class);
-        return (SimpleSong) xstream.fromXML(inputStream);
-    }
-
     public List<AudioPart> testPlayingSomeStuff(SimpleSong nothing, SimpleSong psylteFlesk) {
         List<AudioPart> parts = new ArrayList<AudioPart>();
-        parts.add(new AudioPart(nothing, 0F, 20F, nothing.segments.get(3)));
-        parts.add(new AudioPart(psylteFlesk, 8F, 16F, psylteFlesk.segments.get(4)));
-        parts.add(new AudioPart(nothing, 12F, 52F, nothing.segments.get(6)));
-        parts.add(new AudioPart(nothing, 19.99F, 32F, nothing.segments.get(3)));
+        parts.add(new AudioPart(nothing, 0, 20, nothing.segments.get(3)));
+        parts.add(new AudioPart(psylteFlesk, 8, 16, psylteFlesk.segments.get(4)));
+        parts.add(new AudioPart(nothing, 12, 52, nothing.segments.get(6)));
+        parts.add(new AudioPart(nothing, 20, 32, nothing.segments.get(3)));
         return parts;
     }
 }
