@@ -3,7 +3,7 @@ package no.lau.vdvil.mix
 import actors.Actor
 import no.lau.vdvil.downloading.DVLCallBack
 import org.slf4j.LoggerFactory
-import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
+import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 
 class GenericDownloadingCoordinator(downloadGUICallback:DVLCallBack) extends Actor {
 
@@ -32,8 +32,10 @@ class GenericDownloadingCoordinator(downloadGUICallback:DVLCallBack) extends Act
 }
 
 class DownloadActor(download:Download, coordinator: Actor) extends Actor {
+  val cache = VdvilHttpCache.create()
+
   def act {
-    val inputStream = VdvilCacheStuff.fetchAsStream(download.url)
+    val inputStream = cache.fetchAsStream(download.url)
     download.callBack.finished(inputStream)
     coordinator ! FinishedDownloading(download)
   }

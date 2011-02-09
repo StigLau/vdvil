@@ -7,13 +7,15 @@ import xml.XML
 import java.io.InputStream
 import no.lau.tagger.model.SimpleSong
 import no.bouvet.kpro.tagger.persistence.XStreamParser
-import org.codehaus.httpcache4j.cache.VdvilCacheStuff
+import org.codehaus.httpcache4j.cache.VdvilHttpCache
 
 object Repo {
+  val cache = VdvilHttpCache.create();
+
   def findSegment(id:String, dvl:Dvl):Option[ScalaSegment] = findSong(dvl).segments.find(segment => id == segment.id)
 
   def findSong(dvl:Dvl):ScalaSong = {
-    val xml = new XStreamParser[SimpleSong].load(VdvilCacheStuff.fetchAsStream(dvl.url))
+    val xml = new XStreamParser[SimpleSong].load(cache.fetchAsStream(dvl.url))
     ToScalaSong.fromJava(xml)
   }
 }

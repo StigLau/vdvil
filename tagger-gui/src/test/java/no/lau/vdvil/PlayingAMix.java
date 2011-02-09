@@ -3,7 +3,8 @@ package no.lau.vdvil;
 import no.bouvet.kpro.tagger.PlayStuff;
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.lau.tagger.model.*;
-import static org.codehaus.httpcache4j.cache.VdvilCacheStuff.*;
+import no.lau.vdvil.cache.VdvilCache;
+import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import org.junit.Test;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -13,11 +14,12 @@ public class PlayingAMix {
 
     String holdenUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl";
     String psylteUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/loaderror-psylteflesk.dvl";
+    VdvilCache cache = VdvilHttpCache.create();
 
     @Test
     public void testMixing() throws FileNotFoundException, InterruptedException {
-        SimpleSong nothing = new XStreamParser().load(fetchAsStream(holdenUrl));
-        SimpleSong psylteFlesk = new XStreamParser().load(fetchAsStream(psylteUrl));
+        SimpleSong nothing = new XStreamParser().load(cache.fetchAsStream(holdenUrl));
+        SimpleSong psylteFlesk = new XStreamParser().load(cache.fetchAsStream(psylteUrl));
         List<AudioPart> parts = testPlayingSomeStuff(nothing, psylteFlesk);
         PlayStuff playStuff = new PlayStuff(new Composition(130F, parts));
         playStuff.play(4F);

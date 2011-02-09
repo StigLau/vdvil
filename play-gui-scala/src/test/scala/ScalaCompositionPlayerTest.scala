@@ -1,6 +1,6 @@
 package no.lau.vdvil.player
 
-import org.codehaus.httpcache4j.cache.VdvilCacheStuff
+import org.codehaus.httpcache4j.cache.VdvilHttpCache
 import org.junit.{Before, Test}
 import no.lau.vdvil.domain.player.ScalaComposition
 import no.bouvet.kpro.tagger.persistence.XStreamParser
@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory
 class ScalaCompositionPlayerTest {
   var composition:ScalaComposition = null
   val log = LoggerFactory.getLogger(classOf[ScalaCompositionPlayerTest])
+  val cache = VdvilHttpCache.create()
 
   @Before
   def cacheMp3Files() {
@@ -22,8 +23,8 @@ class ScalaCompositionPlayerTest {
   }
 
   def cacheFile(url:String) {
-    val song:SimpleSong = new XStreamParser().load(VdvilCacheStuff.fetchAsStream(url))
-    VdvilCacheStuff.fetchAsStream(song.mediaFile.fileName)
+    val song:SimpleSong = new XStreamParser().load(cache.fetchAsStream(url))
+    cache.fetchAsStream(song.mediaFile.fileName)
   }
 
   @Test def createInstructionsFromParts {

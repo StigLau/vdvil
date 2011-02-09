@@ -5,13 +5,14 @@ import no.bouvet.kpro.tagger.PlayStuff;
 import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.SimpleSong;
-import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
-
+import no.lau.vdvil.cache.VdvilCache;
+import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JavaZoneExample {
+    VdvilCache cache = VdvilHttpCache.create();
     SimpleSong returning;
     SimpleSong unfinished_sympathy;
     SimpleSong not_alone;
@@ -29,10 +30,10 @@ public class JavaZoneExample {
     }
 
     public void beforeMethod() throws FileNotFoundException {
-        returning = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"));
-        unfinished_sympathy = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/unfinished_sympathy.dvl"));
-        not_alone = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/olive-youre_not_alone.dvl"));
-        scares_me = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl"));
+        returning = new XStreamParser().load(cache.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"));
+        unfinished_sympathy = new XStreamParser().load(cache.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/unfinished_sympathy.dvl"));
+        not_alone = new XStreamParser().load(cache.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/olive-youre_not_alone.dvl"));
+        scares_me = new XStreamParser().load(cache.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl"));
     }
 
 

@@ -4,7 +4,7 @@ import actors.Actor
 import no.lau.vdvil.gui. {NeatStuff}
 import no.lau.vdvil.domain.player. {Dvl, MasterMix}
 import org.slf4j.LoggerFactory
-import org.codehaus.httpcache4j.cache.VdvilCacheStuff
+import org.codehaus.httpcache4j.cache.VdvilHttpCache
 import no.lau.tagger.scala.model.{ToScalaSong, ScalaSong}
 import no.bouvet.kpro.tagger.persistence.XStreamParser
 import no.lau.tagger.model.SimpleSong
@@ -49,9 +49,11 @@ class DownloadingCoordinator(masterMix: MasterMix, callBack:DVLCallBack) extends
 }
 
 class DownloadActor(dvl:Dvl, coordinator: Actor) extends Actor {
+  val cache = VdvilHttpCache.create()
+
   def act {
     coordinator ! DownloadingDvl(dvl)
-    val xml = new XStreamParser[SimpleSong].load(VdvilCacheStuff.fetchAsStream(dvl.url))
+    val xml = new XStreamParser[SimpleSong].load(cache.fetchAsStream(dvl.url))
     val unconvertedSong = ToScalaSong.fromJava(xml)
 
     coordinator ! ConvertingAndAddingMissingIds(dvl)
@@ -59,7 +61,7 @@ class DownloadActor(dvl:Dvl, coordinator: Actor) extends Actor {
     val mf = song.mediaFile
     coordinator ! DownloadingMp3(dvl)
     //Caching mp3 file
-    VdvilCacheStuff.fetchAsStream(mf.fileName)
+    cache.fetchAsStream(mf.fileName)
     coordinator ! FinishedDownloading(dvl, unconvertedSong) //TODO Big oversimplification
   }
 }

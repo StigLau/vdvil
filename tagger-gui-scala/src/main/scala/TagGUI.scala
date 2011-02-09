@@ -6,7 +6,7 @@ import java.io.FileInputStream
 import no.lau.tagger.scala.model.{ToScalaSong, ScalaSegment, ScalaSong}
 import no.bouvet.kpro.tagger.persistence.{XStreamParser}
 import no.lau.tagger.model.SimpleSong
-import org.codehaus.httpcache4j.cache.VdvilCacheStuff
+import org.codehaus.httpcache4j.cache.VdvilHttpCache
 import org.slf4j.LoggerFactory
 
 /**
@@ -61,7 +61,7 @@ object TagGUI extends SimpleSwingApplication {
 
   def fetchDvlAndMp3FromWeb(url: String): Option[ScalaSong] = {
     try {
-      val stream = VdvilCacheStuff.fetchAsStream(url)
+      val stream = VdvilHttpCache.create().fetchAsStream(url)
       val xml = new XStreamParser[SimpleSong].load(stream)
       val song = ToScalaSong.fromJava(xml)
       NeatStuff.cacheMp3(song.mediaFile.fileName, song.mediaFile.checksum)
@@ -101,7 +101,7 @@ object NeatStuff {
 
   def generateRandomId:String = String.valueOf(math.abs(Random.nextLong))
 
-  def cacheMp3(url:String, checksum:String) = VdvilCacheStuff.fetchAsStream(url)
+  def cacheMp3(url:String, checksum:String) = VdvilHttpCache.create().fetchAsStream(url)
 }
 
 

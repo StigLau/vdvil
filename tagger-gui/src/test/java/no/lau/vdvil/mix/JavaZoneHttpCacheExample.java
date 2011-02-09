@@ -5,7 +5,8 @@ import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.SimpleSong;
-import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
+import no.lau.vdvil.cache.VdvilCache;
+import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.FileNotFoundException;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class JavaZoneHttpCacheExample {
     final static Logger log = LoggerFactory.getLogger(JavaZoneHttpCacheExample.class);
+    VdvilCache cache = VdvilHttpCache.create();
 
     final static String returningDvlUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl";
     final static String notAloneDvlUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/olive-youre_not_alone.dvl";
@@ -47,7 +49,7 @@ public class JavaZoneHttpCacheExample {
     }
 
     private SimpleSong fetchSimpleSongAndCacheDvlAndMp3(String dvlUrl) throws FileNotFoundException {
-        InputStream dvlStream = VdvilCacheStuff.fetchAsStream(dvlUrl);
+        InputStream dvlStream = cache.fetchAsStream(dvlUrl);
         return new XStreamParser().load(dvlStream);
     }
 

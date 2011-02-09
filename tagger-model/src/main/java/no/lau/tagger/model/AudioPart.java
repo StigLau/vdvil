@@ -5,10 +5,13 @@ import no.bouvet.kpro.renderer.audio.AudioSource;
 import no.bouvet.kpro.renderer.audio.MP3Source;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.SimpleAudioInstruction;
+import no.lau.vdvil.cache.VdvilCache;
+import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import java.io.File;
 import java.io.IOException;
 
 public class AudioPart extends AbstractPart{
+    VdvilCache cache = VdvilHttpCache.create();
     public final SimpleSong simpleSong;
     public final Segment segment;
     public final Float bpm;
@@ -34,7 +37,7 @@ public class AudioPart extends AbstractPart{
         //TODO check why diff neeeds to be opposite        
         Float partCompositionDiff = bpm / masterBpm;
         Float compositionPartDiff = masterBpm / bpm;
-        File mp3File = org.codehaus.httpcache4j.cache.VdvilCacheStuff.fileLocation(simpleSong.mediaFile.fileName);
+        File mp3File = cache.fileLocation(simpleSong.mediaFile.fileName);
         AudioSource audioSource = new MP3Source(mp3File);
 
         AudioInstruction audioInstruction = new SimpleAudioInstruction(

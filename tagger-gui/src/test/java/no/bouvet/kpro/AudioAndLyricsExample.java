@@ -12,7 +12,7 @@ import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AbstractPart;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.SimpleSong;
-import org.codehaus.httpcache4j.cache.VdvilCacheStuff;
+import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.FileNotFoundException;
@@ -84,7 +84,7 @@ public class AudioAndLyricsExample {
 
 
     public static List<? extends AbstractPart> parts() throws FileNotFoundException {
-        SimpleSong returning = new XStreamParser().load(VdvilCacheStuff.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"));
+        SimpleSong returning = new XStreamParser().load(VdvilHttpCache.create().fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"));
         List<AbstractPart> parts = new ArrayList<AbstractPart>();
         parts.add(new AudioPart(returning, 0, 16, returning.segments.get(3)));
         parts.add(new LyricPart("Hello World!", 0, 12));

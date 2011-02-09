@@ -6,10 +6,12 @@ import no.bouvet.kpro.renderer.audio.{SimpleAudioInstruction, MP3Source, AudioSo
 import org.slf4j.LoggerFactory
 import no.lau.tagger.scala.model.ScalaSong
 import actors.Actor
-import org.codehaus.httpcache4j.cache.VdvilCacheStuff
+import org.codehaus.httpcache4j.cache.VdvilHttpCache
 
 class SegmentPlayer(var song: ScalaSong, startCue: Int, endCue: Int) extends Actor {
-  val mp3File = VdvilCacheStuff.fileLocation(song.mediaFile.fileName)
+  val cache = VdvilHttpCache.create();
+
+  val mp3File = cache.fileLocation(song.mediaFile.fileName)
   val audioSource: AudioSource = new MP3Source(mp3File)
   val player = new AudioPlayer
   val log = LoggerFactory.getLogger(classOf[SegmentPlayer])

@@ -1,5 +1,6 @@
 package org.codehaus.httpcache4j.cache;
 
+import no.lau.vdvil.cache.VdvilCache;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.codehaus.httpcache4j.HTTPRequest;
 import org.codehaus.httpcache4j.HTTPResponse;
@@ -12,14 +13,20 @@ import java.net.URI;
 
 /**
  * Wrapper class around HttpCache4J to make it more usable for VDvil usage
- * TODO Make function for invalidatingAllCaches or a single .mp3 file!!!!
- * TODO Should not be static and implement an interface!
  */
-public class VdvilCacheStuff {
+public class VdvilHttpCache implements VdvilCache{
 
-    static Logger log =  LoggerFactory.getLogger(VdvilCacheStuff.class);
-    static String storeLocation = "/tmp/vdvil";
-    static HTTPCache persistentcache = new HTTPCache(new PersistentCacheStorage(1000, new File(storeLocation), "vaudeville"), HTTPClientResponseResolver.createMultithreadedInstance());
+    Logger log =  LoggerFactory.getLogger(VdvilHttpCache.class);
+    String storeLocation = "/tmp/vdvil";
+    HTTPCache persistentcache = new HTTPCache(new PersistentCacheStorage(1000, new File(storeLocation), "vaudeville"), HTTPClientResponseResolver.createMultithreadedInstance());
+
+    /*
+    To avoid instantiating the old fashioned way
+     */
+    private VdvilHttpCache() { }
+    public static VdvilHttpCache create() {
+        return new VdvilHttpCache();
+    }
 
     /**
      * A shorthand for fetching files if they have been downloaded to disk
@@ -28,7 +35,7 @@ public class VdvilCacheStuff {
      * @param url to the file
      * @return the file or null if empty
      */
-    public static File fetchFromInternetOrRepository(String url, String checksum) throws FileNotFoundException {
+    public File fetchFromInternetOrRepository(String url, String checksum) throws FileNotFoundException {
         fetchAsStream(url);
         File locationOnDisk = fileLocation(url);
         if(existsInRepository(locationOnDisk, checksum))
@@ -40,13 +47,17 @@ public class VdvilCacheStuff {
     /**
      * @param url location of file to download
      * @return the file or null if file not found. Not a good thing to do!
-     * @throws java.io.FileNotFoundException Could not find file
      */
-    public static InputStream fetchAsStream(String url) throws FileNotFoundException {
+    public InputStream fetchAsStream(String url) {
         File locationOnDisk = fileLocation(url);
         if(locationOnDisk.exists() && locationOnDisk.canRead()) {
             log.debug(url + " File already in cache: " + locationOnDisk.getAbsolutePath());
-            return new FileInputStream(locationOnDisk);
+            try {
+                return new FileInputStream(locationOnDisk);
+            } catch (FileNotFoundException e) {
+                log.error("This should not happen - the file has already been checked that it is located on disk!", e);
+                throw new RuntimeException("Should not have happened - File has been verified that it is on disk", e);
+            }
         }
         else {
             log.info("Did not find " + url + " in cache, downloading");
@@ -54,16 +65,20 @@ public class VdvilCacheStuff {
         }
     }
 
-    public static File fileLocation(String url) {
+    public File fileLocation(String url) {
         String urlChecksum = DigestUtils.md5Hex(url);
         return new File(storeLocation + "/files/" + urlChecksum + "/default");
     }
 
-    public static boolean existsInRepository(File locationOnDisk, String checksum) {
-        return locationOnDisk.exists() && locationOnDisk.canRead() && validateChecksum(locationOnDisk, checksum);
+    public void removeFromCache(String url) {
+        throw new RuntimeException("Not implemented yet");
     }
 
-    private static HTTPResponse download(String url) {
+    public boolean existsInRepository(File pathToFileOnDisk, String checksum) {
+        return pathToFileOnDisk.exists() && pathToFileOnDisk.canRead() && validateChecksum(pathToFileOnDisk, checksum);
+    }
+
+    private HTTPResponse download(String url) {
         log.info("Downloading from " +  url + " to cache: " + url);
         HTTPRequest fileRequest = new HTTPRequest(URI.create(url));
         HTTPResponse fileResponse = persistentcache.doCachedRequest(fileRequest);
@@ -81,7 +96,7 @@ public class VdvilCacheStuff {
      * @param checksum to check the file with
      * @return whether the file validates with the checksum
      */
-    static boolean validateChecksum(File file, String checksum) {
+    boolean validateChecksum(File file, String checksum) {
         try {
             String fileChecksum = DigestUtils.md5Hex(new FileInputStream(file));
             if(fileChecksum.equals(checksum)) {
