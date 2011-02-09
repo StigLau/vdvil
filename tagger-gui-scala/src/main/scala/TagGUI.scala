@@ -101,7 +101,7 @@ object NeatStuff {
 
   def generateRandomId:String = String.valueOf(math.abs(Random.nextLong))
 
-  def cacheMp3(url:String, checksum:String) = VdvilCacheStuff.fetchAsFile(url, checksum)
+  def cacheMp3(url:String, checksum:String) = VdvilCacheStuff.fetchAsStream(url)
 }
 
 

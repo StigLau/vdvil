@@ -23,7 +23,7 @@ class ScalaCompositionPlayerTest {
 
   def cacheFile(url:String) {
     val song:SimpleSong = new XStreamParser().load(VdvilCacheStuff.fetchAsStream(url))
-    VdvilCacheStuff.fetchAsStream(song.mediaFile.fileName, song.mediaFile.checksum)
+    VdvilCacheStuff.fetchAsStream(song.mediaFile.fileName)
   }
 
   @Test def createInstructionsFromParts {

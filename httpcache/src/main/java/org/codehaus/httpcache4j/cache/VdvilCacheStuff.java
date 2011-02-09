@@ -13,7 +13,7 @@ import java.net.URI;
 /**
  * Wrapper class around HttpCache4J to make it more usable for VDvil usage
  * TODO Make function for invalidatingAllCaches or a single .mp3 file!!!!
- * TODO Revamp file retrieving to be less confusing!!!
+ * TODO Should not be static and implement an interface!
  */
 public class VdvilCacheStuff {
 
@@ -22,27 +22,19 @@ public class VdvilCacheStuff {
     static HTTPCache persistentcache = new HTTPCache(new PersistentCacheStorage(1000, new File(storeLocation), "vaudeville"), HTTPClientResponseResolver.createMultithreadedInstance());
 
     /**
-     * First performs a validation. Then, tries to download from local file repo before trying to download from the web
-     * If the file was downloaded from the internet, perform a second validation to confirm that the file was downloaded successfully
-     * @param url location of file to download
-     * @param checksum to validate against
-     * @return the downloaded file, null if not found
-     * @throws java.io.FileNotFoundException if the file could not be downloaded from url of found in cache
+     * A shorthand for fetching files if they have been downloaded to disk
+     * Used by testing purposes
+     *
+     * @param url to the file
+     * @return the file or null if empty
      */
-    @Deprecated //Prefer using the one without checksum
-    public static InputStream fetchAsStream(String url, String checksum) throws FileNotFoundException {
-        if (validateChecksum(url, checksum)) {
-            log.info("Located on disk with correct checksum {}", url);
-            return fetchAsStream(url);
-        } else {
-            log.info("File missing in cache or failed to pass checksum. Retrying downloading from URL: " + url);
-            InputStream downloadedFromTheInternet = download(url).getPayload().getInputStream();
-            if(validateChecksum(url, checksum)) {
-                return downloadedFromTheInternet;
-            } else {
-                throw new FileNotFoundException("Could not download " + url + " to cache. File in cache failed validation with checksum " + checksum);
-            }
-        }
+    public static File fetchFromInternetOrRepository(String url, String checksum) throws FileNotFoundException {
+        fetchAsStream(url);
+        File locationOnDisk = fileLocation(url);
+        if(existsInRepository(locationOnDisk, checksum))
+            return locationOnDisk;
+        else
+            throw new FileNotFoundException(url + " could not be downloaded and retrieved in repository");
     }
 
     /**
@@ -51,15 +43,24 @@ public class VdvilCacheStuff {
      * @throws java.io.FileNotFoundException Could not find file
      */
     public static InputStream fetchAsStream(String url) throws FileNotFoundException {
-        if(existsInRepository(url)) {
-            File fileInRepository = fileLocation(url);
-            log.debug(url + " File already in cache: " + fileInRepository.getAbsolutePath());
-            return new FileInputStream(fileInRepository);
+        File locationOnDisk = fileLocation(url);
+        if(locationOnDisk.exists() && locationOnDisk.canRead()) {
+            log.debug(url + " File already in cache: " + locationOnDisk.getAbsolutePath());
+            return new FileInputStream(locationOnDisk);
         }
         else {
             log.info("Did not find " + url + " in cache, downloading");
             return download(url).getPayload().getInputStream();
         }
+    }
+
+    public static File fileLocation(String url) {
+        String urlChecksum = DigestUtils.md5Hex(url);
+        return new File(storeLocation + "/files/" + urlChecksum + "/default");
+    }
+
+    public static boolean existsInRepository(File locationOnDisk, String checksum) {
+        return locationOnDisk.exists() && locationOnDisk.canRead() && validateChecksum(locationOnDisk, checksum);
     }
 
     private static HTTPResponse download(String url) {
@@ -73,63 +74,16 @@ public class VdvilCacheStuff {
         }
         return fileResponse;
     }
-    @Deprecated //Should not be used to retrieve file location! - Should return a string
-    public static File fileLocation(String url) {
-        String urlChecksum = DigestUtils.md5Hex(url);
-        return new File(storeLocation + "/files/" + urlChecksum + "/default");
-    }
-
-    static boolean existsInRepository(String url) {
-        File locationOnDisk = fileLocation(url);
-        return locationOnDisk.exists() && locationOnDisk.canRead();
-    }
-
-    /**
-     * Performs a dual-check to verify if the file exists in both repository and has correct checksum
-     * @param url location on the internet
-     * @param checksum file MD5 checksum to verify with
-     * @return true if both both are correct
-     */
-    public static boolean existsInRepository(String url, String checksum) {
-        return existsInRepository(url) && validateChecksum(url, checksum);
-    }
-
-    /**
-     * A shorthand for fetching files if they have been downloaded to disk
-     *
-     * @param url to the file
-     * @return the file or null if empty
-     */
-    public static File fetchFromRepository(String url) {
-        if(existsInRepository(url)) {
-            return fileLocation(url);
-        } else {
-            log.error("File not found at {} in local repository", fileLocation(url).getAbsolutePath());
-            return null;
-        }
-    }
-    @Deprecated //Prefer using fetchAsStream for caching, ecistsInRepository and fetchFromRepository afterwards
-    public static File fetchAsFile(String url, String checksum) throws FileNotFoundException {
-        //Download the file in case is it is not located in cache
-        if (!existsInRepository(url, checksum)) {
-            fetchAsStream(url); //Cache
-        } //Perform a second check
-        if(existsInRepository(url, checksum))
-            return fetchFromRepository(url);
-        else
-            throw new FileNotFoundException("Erronous checksum in file in repository");
-    }
-
 
     /**
      * Calculates the checksum of the Url to find where it is located in cache, then validates the file on disk with the checksum
-     * @param url Where the file is located on the web
+     * @param file location of the file to verify
      * @param checksum to check the file with
      * @return whether the file validates with the checksum
      */
-    static boolean validateChecksum(String url, String checksum) {
+    static boolean validateChecksum(File file, String checksum) {
         try {
-            String fileChecksum = DigestUtils.md5Hex(new FileInputStream(fileLocation(url)));
+            String fileChecksum = DigestUtils.md5Hex(new FileInputStream(file));
             if(fileChecksum.equals(checksum)) {
                 log.debug("Checksum of file on disk matched the provided checksum");
                 return true;

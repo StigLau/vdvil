@@ -28,7 +28,7 @@ trait CompositionCallback {
 
 class MyRepo(downloadingCoordinator:GenericDownloadingCoordinator) {
   def fetchComposition(url:String, compositionCallBack:CompositionCallback) {
-    downloadingCoordinator ! Download(url, None, new DownloadableFileCallback {
+    downloadingCoordinator ! Download(url, new DownloadableFileCallback {
       def finished(mixAsStream:InputStream){
         compositionCallBack.finished(Some(MasterMix.fromXML(XML.load(mixAsStream))))
       }

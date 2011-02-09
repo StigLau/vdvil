@@ -76,7 +76,7 @@ public class CachingTest {
     @Test
     public void validateChecksumOfLocalFiles() {
         String url = dvlUrl;
-        assertFalse(validateChecksum(url, "not the correct hex checksum"));
-        assertTrue(validateChecksum(url, "2e24054eb28edd38c9a846022587955b"));
+        assertFalse(validateChecksum(fileLocation(url), "not the correct hex checksum"));
+        assertTrue(validateChecksum(fileLocation(url), "2e24054eb28edd38c9a846022587955b"));
     }
 }

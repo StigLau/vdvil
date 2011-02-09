@@ -59,7 +59,7 @@ class DownloadActor(dvl:Dvl, coordinator: Actor) extends Actor {
     val mf = song.mediaFile
     coordinator ! DownloadingMp3(dvl)
     //Caching mp3 file
-    VdvilCacheStuff.fetchAsStream(mf.fileName, mf.checksum)
+    VdvilCacheStuff.fetchAsStream(mf.fileName)
     coordinator ! FinishedDownloading(dvl, unconvertedSong) //TODO Big oversimplification
   }
 }

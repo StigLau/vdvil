@@ -14,7 +14,7 @@ public class PlayerTest {
         String psylteDvl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/loaderror-psylteflesk.dvl";
         SimpleSong s = new XStreamParser().load(fetchAsStream(psylteDvl));
         fetchAsStream(s.mediaFile.fileName);//Caching
-        assertTrue(existsInRepository(s.mediaFile.fileName, s.mediaFile.checksum));//Verifying
+        assertTrue(existsInRepository(fileLocation(s.mediaFile.fileName), s.mediaFile.checksum));//Verifying
         fileLocation(s.mediaFile.fileName);//Ready for using
         SimpleSong simpleSong2 = new SimpleSong(s.reference, new MediaFile(s.mediaFile.fileName,"", s.mediaFile.startingOffset), s.segments, s.bpm);
 
