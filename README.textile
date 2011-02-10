@@ -1,3 +1,11 @@
 h2. The Vdvil project
 
 This is an infrastructure for a dj-mixing application
+
+[DeveloperNotebook.textile]
+
+h2. Setting up the Vdvil-Server on a fresh git clone
+cd vdvil-grails-server
+grails init
+grails install-plugin cache-headers
+git checkout .

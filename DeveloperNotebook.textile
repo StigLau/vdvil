@@ -26,3 +26,36 @@ Todo's
 
 h2. Undoing releases
 Deleting remote tags can be done with:  git push origin :root-0.7
+
+
+h2. Dirigent Architectural Description
+Dirigenten, which has not been implemented yet, is responsible for downloading, parsing and playing all the multimedia content.
+It is a higher-level concept which just holds together the major building blocks of Vdvil
+
+Functions:
+ * play/stop
+ * startAtCue (120 beats)
+ * playbackSpeed (130.5 BPM)
+ * loadComposition(url)
+
+h3. Downloaders
+Responsible for downloading files from different file transfer protocols
+Examples of systems:
+ * httpCache
+ * spotify
+ * torrent
+VdvilCache has the details
+ * Note: Vdvil should preferrably have control of its own cache storage since not all downloaders have their own caching solution
+ * Note: MimeType/HTTP Headers should be stored in cache!
+
+ h3. Renderers
+  * MP3
+  * JPG
+  * Vdvil
+  * Composition
+Should also know how to read the different metadata/xml file formats.
+Based on MimeType
+Functions:
+ * load(File location)
+ * load(InputStream inputStream)
+ * accepts(String mimeType)

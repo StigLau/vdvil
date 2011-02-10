@@ -30,18 +30,26 @@ public interface VdvilCache {
      * @param checksum to verify integrity of file
      * @return Whether the file exists
      */
-    public boolean existsInRepository(File pathToFileOnDisk, String checksum);
+    boolean existsInRepository(File pathToFileOnDisk, String checksum);
 
     /**
      * Return path to file on disk
      * @param url where the file is originally located on the web
      * @return the file itself
      */
-    public File fileLocation(String url);
+    File fileLocation(String url);
 
     /**
      * Invalidates a file in the local cache
      * @param url the original url of the file
      */
-    public void removeFromCache(String url);
+    void removeFromCache(String url);
+
+    /**
+     * The mime-type of the files downloaded
+     * Examples - "composition/xml", "vdl/xml"
+     * @param url location of file
+     * @return mime type of the file
+     */
+    String mimeType(String url);
 }
