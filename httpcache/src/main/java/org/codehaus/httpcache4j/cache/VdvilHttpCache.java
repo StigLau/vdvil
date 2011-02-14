@@ -82,6 +82,10 @@ public class VdvilHttpCache implements VdvilCache{
         throw new RuntimeException("Not implemented yet");
     }
 
+    public boolean acceptsUrl(String url) {
+        throw new RuntimeException("Not implemented yet");
+    }
+
     private HTTPResponse download(String url) {
         log.info("Downloading from " +  url + " to cache: " + url);
         HTTPRequest fileRequest = new HTTPRequest(URI.create(url));

@@ -52,4 +52,9 @@ public interface VdvilCache {
      * @return mime type of the file
      */
     String mimeType(String url);
+
+    /*
+     * Checks whether the downloader accepts the URL format
+     */
+    boolean acceptsUrl(String url);
 }
