@@ -1,13 +1,13 @@
 package no.lau.vdvil.dirigent
 
 import no.lau.vdvil.cache.VdvilCache
+import no.lau.vdvil.domain.player.{ScalaComposition, MasterMix}
 import org.codehaus.httpcache4j.cache.VdvilHttpCache
 import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.InputStream
 import xml.XML
-import no.lau.vdvil.domain.player.{ScalaComposition, MasterMix}
 
 /**
  * A Simple structuring of the dirigent
@@ -16,8 +16,10 @@ class DirigentTest {
   var compositionUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml"
 
   @Test def testSetupAndPlaying {
-    val dirigent = new Dirigent(compositionUrl, VdvilHttpCache.create :: Nil, new CompositionHandler :: Nil) {
+    val player = new no.lau.vdvil.player.ScalaCompositionPlayer(None)
+    val dirigent = new Dirigent(VdvilHttpCache.create :: Nil, new CompositionHandler :: Nil, player) {
       playbackBpm = 150F
+      prepare(compositionUrl)
     }
     dirigent.play(32)
     Thread.sleep(5000)
@@ -25,27 +27,24 @@ class DirigentTest {
   }
 }
 
-class Dirigent(compositionUrl: String, downloaders: List[VdvilCache], handlers:List[VdvilHandler]) {
+class Dirigent(downloaders: List[VdvilCache], handlers:List[VdvilHandler], var player:no.lau.vdvil.player.ScalaCompositionPlayer) {
   val log: Logger = LoggerFactory.getLogger(classOf[Dirigent])
   var playbackBpm: Float = 0F
-  val compositionOption:Option[ScalaComposition] = prepare(compositionUrl)
-  val player = new no.lau.vdvil.player.ScalaCompositionPlayer(compositionOption)
 
-  def prepare(compositionUrl: String): Option[ScalaComposition] = {
+  def prepare(compositionUrl: String) {
     for (downloader <- downloaders) {
-      if (downloader.accepts(compositionUrl))
+      if (downloader.accepts(compositionUrl)) {
         log.info("Trying to download {} with ", compositionUrl, downloader)
-      var inputStream: InputStream = downloader.fetchAsStream(compositionUrl)
-      var mimeType: String = downloader.mimeType(compositionUrl)
-      mimeType = "composition/xml"
-      log.info("{} has Mime type {}", compositionUrl, mimeType)
-      for (handler <- handlers) {
-        if (handler.accepts(mimeType)) {
-          return handler.load(inputStream, mimeType)
+        var inputStream: InputStream = downloader.fetchAsStream(compositionUrl)
+        var mimeType: String = downloader.mimeType(compositionUrl)
+        mimeType = "composition/xml" //TODO Set the mimetype staticly until server is finished.
+        for (handler <- handlers) {
+          if (handler.accepts(mimeType)) {
+            player.scalaCompositionOption = handler.load(inputStream, mimeType)
+          }
         }
       }
     }
-    None
   }
 
 
