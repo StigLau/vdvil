@@ -74,17 +74,19 @@ public class VdvilHttpCache implements VdvilCache{
         return pathToFileOnDisk.exists() && pathToFileOnDisk.canRead() && validateChecksum(pathToFileOnDisk, checksum);
     }
 
+/*
     public void removeFromCache(String url) {
         throw new RuntimeException("Not implemented yet");
     }
 
-    public String mimeType(String url) {
-        throw new RuntimeException("Not implemented yet");
+    public boolean accepts(String url) {
+        return !url.startsWith("http://");
     }
 
-    public boolean acceptsUrl(String url) {
-        throw new RuntimeException("Not implemented yet");
+    public String mimeType(String url) {
+        return download(url).getPayload().getMimeType().toString();
     }
+    */
 
     private HTTPResponse download(String url) {
         log.info("Downloading from " +  url + " to cache: " + url);

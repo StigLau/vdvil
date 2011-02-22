@@ -43,7 +43,7 @@ public interface VdvilCache {
      * Invalidates a file in the local cache
      * @param url the original url of the file
      */
-    void removeFromCache(String url);
+    //void removeFromCache(String url);
 
     /**
      * The mime-type of the files downloaded
@@ -51,10 +51,10 @@ public interface VdvilCache {
      * @param url location of file
      * @return mime type of the file
      */
-    String mimeType(String url);
+    //String mimeType(String url);
 
     /*
      * Checks whether the downloader accepts the URL format
      */
-    boolean acceptsUrl(String url);
+    //boolean accepts(String url);
 }
