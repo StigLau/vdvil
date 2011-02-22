@@ -8,6 +8,8 @@ import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.InputStream
+import no.lau.vdvil.domain.player.{MasterMix, ScalaComposition}
+import xml.XML
 
 /**
  * A Simple structuring of the dirigent
@@ -45,15 +47,15 @@ class Dirigent(compositionUrl: String, downloaders: List[VdvilCache], handlers:L
   }
 
 
-  def play(startAtCue: Int) { }
+  def play(startAtCue: Int) { log.info("Play ")}
 
-  def stop { }
+  def stop { log.info("Stop ") }
 }
 
 trait VdvilHandler {
   def accepts(mimeType: String): Boolean
 
-  def load(inputStream: InputStream, mimeType: String)
+  def load(inputStream: InputStream, mimeType: String): Option[MasterMix]
 }
 
 class CompositionHandler extends VdvilHandler {
@@ -61,10 +63,10 @@ class CompositionHandler extends VdvilHandler {
 
   def accepts(mimeType: String): Boolean = "composition/xml".equals(mimeType)
 
-  def load(inputStream: InputStream, mimeType: String) {
-    log.info("Composition", inputStream, mimeType)
+  def load(inputStream: InputStream, mimeType: String): Option[MasterMix] = {
     if (accepts(mimeType)) {
-      val composition: SimpleSong  = new XStreamParser().load(inputStream)
-    }
+      Some(MasterMix.fromXML(XML.load(inputStream)))
+    } else
+      None
   }
 }
