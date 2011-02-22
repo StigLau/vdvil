@@ -78,6 +78,7 @@ public class VdvilHttpCache implements VdvilCache{
     public void removeFromCache(String url) {
         throw new RuntimeException("Not implemented yet");
     }
+    */
 
     public boolean accepts(String url) {
         return !url.startsWith("http://");
@@ -86,7 +87,6 @@ public class VdvilHttpCache implements VdvilCache{
     public String mimeType(String url) {
         return download(url).getPayload().getMimeType().toString();
     }
-    */
 
     private HTTPResponse download(String url) {
         log.info("Downloading from " +  url + " to cache: " + url);
