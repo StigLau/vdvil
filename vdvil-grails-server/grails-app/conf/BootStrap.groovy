@@ -1,8 +1,8 @@
-import vdvil.server.Song
-import vdvil.server.MediaFile
-import vdvil.server.Segment
-import vdvil.server.MasterMix
-import vdvil.server.MixPart
+import vdvil.repository.Song
+import vdvil.repository.MediaFile
+import vdvil.repository.Segment
+import vdvil.repository.MasterMix
+import vdvil.repository.MixPart
 
 class BootStrap {
 

@@ -1,4 +1,4 @@
-package vdvil.server
+package vdvil.repository
 
 /**
  * A mixPart is a reference to a Segment which is played as part of a masterMix

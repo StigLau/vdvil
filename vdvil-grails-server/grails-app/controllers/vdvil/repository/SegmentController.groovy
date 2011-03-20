@@ -1,4 +1,4 @@
-package vdvil.server
+package vdvil.repository
 
 class SegmentController {
   def scaffold = true

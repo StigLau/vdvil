@@ -1,4 +1,6 @@
-package vdvil.server
+package vdvil.xml
+
+import vdvil.repository.MasterMix
 
 class CompositionController {
   def xml = {
