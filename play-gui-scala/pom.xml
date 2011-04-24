@@ -21,6 +21,11 @@
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
+            <artifactId>renderer.lyric</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
             <artifactId>tagger-gui-scala</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -35,12 +40,14 @@
             <artifactId>scala-swing</artifactId>
             <version>${scala.version}</version>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest</artifactId>
             <version>1.2</version>
             <scope>test</scope>
         </dependency>
+        -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

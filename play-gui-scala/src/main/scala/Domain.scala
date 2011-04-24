@@ -6,9 +6,16 @@ import no.bouvet.kpro.renderer. {Instruction, Instructions}
 import no.lau.vdvil.mix.Repo
 import org.slf4j.LoggerFactory
 import org.codehaus.httpcache4j.cache.VdvilHttpCache
+import no.vdvil.renderer.lyric.LyricInstruction
 
-class ScalaComposition(var masterBpm: Float, val parts: List[ScalaAudioPart]) {
-  def asInstructions:Instructions = new Instructions { parts.foreach(part => append(part.translateToInstruction(masterBpm.floatValue))) }
+class ScalaComposition(var masterBpm: Float, val parts: List[AnyRef]) {
+  def asInstructions:Instructions = new Instructions {
+    for(part <- parts) part match {
+      case audio:ScalaAudioPart => append(audio.translateToInstruction(masterBpm.floatValue))
+      case lyric:LyricPart => append(new LyricInstruction(lyric.start, lyric.end, masterBpm.floatValue, lyric.text))
+      case jalla:Object => println("Fuck it " + jalla)
+    }
+  }
   def durationAsBeats:Float = asInstructions.getDuration * masterBpm / (44100 * 60)
 }
 
@@ -51,6 +58,7 @@ case class MasterMix(name:String, var masterBpm:Float, parts:List[MasterPart]) {
 }
 
 case class MasterPart(dvl:Dvl, start:Int, end:Int, id:String)
+case class LyricPart(text:String, start:Int, end:Int)
 case class Dvl(url: String, name:String)
 
 object MasterMix {
