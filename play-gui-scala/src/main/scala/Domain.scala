@@ -13,7 +13,6 @@ class ScalaComposition(var masterBpm: Float, val parts: List[AnyRef]) {
     for(part <- parts) part match {
       case audio:ScalaAudioPart => append(audio.translateToInstruction(masterBpm.floatValue))
       case lyric:LyricPart => append(new LyricInstruction(lyric.start, lyric.end, masterBpm.floatValue, lyric.text))
-      case jalla:Object => println("Fuck it " + jalla)
     }
   }
   def durationAsBeats:Float = asInstructions.getDuration * masterBpm / (44100 * 60)
@@ -45,16 +44,24 @@ class ScalaAudioPart(val song: ScalaSong, val startCue: Int, val endCue: Int, va
 /**
  * A MasterMix contains the mix which can be played to anyone. It will reference one or more MasterParts, which can contain .dvl's
  */
-case class MasterMix(name:String, var masterBpm:Float, parts:List[MasterPart]) {
+case class MasterMix(name:String, var masterBpm:Float, parts:List[AnyRef]) {
  def asComposition:ScalaComposition = {
-   val scalaParts = for(part <- parts) yield new ScalaAudioPart(Repo.findSong(part.dvl), part.start, part.end, Repo.findSegment(part.id, part.dvl)
-     .getOrElse(throw new Exception("Segment with id " + part.id + " Not found in " + part.dvl.name)))
+   val scalaParts:List[AnyRef] = for(part <- parts) yield part match {
+     case audio:MasterPart => {
+       new ScalaAudioPart(Repo.findSong(audio.dvl), audio.start, audio.end, Repo.findSegment(audio.id, audio.dvl)
+         .getOrElse(throw new Exception("Segment with id " + audio.id + " Not found in " + audio.dvl.name)))
+     }
+
+     case lyric:LyricPart => lyric
+   }
    return new ScalaComposition(masterBpm, scalaParts)
  }
-
-  def dvls = parts.groupBy[Dvl](part => part.dvl).keySet
-
-  def durationAsBeats:Float = parts.foldLeft(0F)((max,part) => if(part.end > max) part.end else max)
+  //TODO FIX Back
+  //def dvls = parts.groupBy[Dvl](part => part.dvl).keySet
+  def dvls:Set[Dvl] = null
+  //TODO FIX Back
+  //def durationAsBeats:Float = parts.foldLeft(0F)((max,part) => if(part.end > max) part.end else max)
+  def durationAsBeats = null
 }
 
 case class MasterPart(dvl:Dvl, start:Int, end:Int, id:String)
@@ -67,7 +74,9 @@ object MasterMix {
     (node \ "masterBpm").text.toFloat,
     (for( part <- (node \ "parts" \ "part")) yield MasterPart.fromXML(part)).toList
   )
-  def toXML(composition:MasterMix) =
+  //TODO FIX Back
+  def toXML(composition:MasterMix) = <composition/>
+  /*
 <composition>
   <name>{composition.name}</name>
   <masterBpm>{composition.masterBpm}</masterBpm>
@@ -75,6 +84,7 @@ object MasterMix {
     {composition.parts.map(MasterPart.toXML)}
   </parts>
 </composition>
+*/
 }
 
 object MasterPart {
@@ -84,14 +94,16 @@ object MasterPart {
     (node \ "end").text.toInt,
     (node \ "id").text
   )
-
-  def toXML(part: MasterPart) =
+  //TODO FIX Back
+  def toXML(part: MasterPart) = <part/>
+  /*
   <part>
     <id>{part.id}</id>
     {Dvl.toXML(part.dvl)}
     <start>{part.start}</start>
     <end>{part.end}</end>
   </part>
+  */
 
 }
 
@@ -100,9 +112,12 @@ object Dvl {
     (node \ "url").text,
     (node \ "name").text
   )
-  def toXML(dvl:Dvl) =
+  //TODO FIX Back
+  def toXML(dvl:Dvl) = <dvl/>
+  /*
     <dvl>
       <url>{dvl.url}</url>
       <name>{dvl.name}</name>
     </dvl>
+    */
 }
