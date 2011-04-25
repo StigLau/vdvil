@@ -12,11 +12,11 @@ public class ImageRenderer extends AbstractRenderer {
 
     public void handleInstruction(int time, Instruction instruction) {
         if (instruction instanceof ImageInstruction) {
-            shoutHello((ImageInstruction) instruction);
+            invokeListener((ImageInstruction) instruction);
         }
     }
 
-    private void shoutHello(final ImageInstruction imageInstruction) {
+    private void invokeListener(final ImageInstruction imageInstruction) {
         for (final ImageListener imageListener : listener) {
             javax.swing.SwingUtilities.invokeLater(new Runnable() {
                 public void run() {

@@ -1,6 +1,6 @@
 package no.lau.vdvil.renderer.image;
 
-import no.vdvil.renderer.image.ImageGUI;
+import no.vdvil.renderer.image.swinggui.ImageGUI;
 import no.vdvil.renderer.image.ImageListener;
 import org.junit.Test;
 import java.net.MalformedURLException;

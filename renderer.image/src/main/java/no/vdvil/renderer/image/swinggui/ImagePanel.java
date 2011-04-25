@@ -1,4 +1,6 @@
-package no.vdvil.renderer.image;
+package no.vdvil.renderer.image.swinggui;
+
+import no.vdvil.renderer.image.ImageListener;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
