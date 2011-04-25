@@ -10,7 +10,9 @@ import java.io.InputStream
 import xml.XML
 
 /**
- * A Simple structuring of the dirigent
+ * A Simple structuring of the Dirigent
+ * The Dirigent is a simple generic way of handling the domain of multimedia playback
+ *
  */
 class DirigentTest {
   var compositionUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml"

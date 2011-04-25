@@ -8,6 +8,7 @@ import java.io.InputStream
 import no.lau.tagger.model.SimpleSong
 import no.bouvet.kpro.tagger.persistence.XStreamParser
 import org.codehaus.httpcache4j.cache.VdvilHttpCache
+import java.net.URL
 
 object Repo {
   val cache = VdvilHttpCache.create();
@@ -18,6 +19,8 @@ object Repo {
     val xml = new XStreamParser[SimpleSong].load(cache.fetchAsStream(dvl.url))
     ToScalaSong.fromJava(xml)
   }
+
+  def findFile(url:URL):InputStream = cache.fetchAsStream(url.toString)
 }
 
 trait DownloadableFileCallback {

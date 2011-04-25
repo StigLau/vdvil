@@ -15,7 +15,7 @@ class ScalaComposition(var masterBpm: Float, val parts: List[Any]) {
     for(part <- parts) part match {
       case audio:ScalaAudioPart => append(audio.translateToInstruction(masterBpm.floatValue))
       case lyric:LyricPart => append(new LyricInstruction(lyric.start, lyric.end, masterBpm.floatValue, lyric.text))
-      case image:ImagePart => append(new ImageInstruction(image.start, image.end, masterBpm.floatValue, image.imageUrl))
+      case image:ImagePart => append(new ImageInstruction(image.start, image.end, masterBpm.floatValue, Repo.findFile(image.imageUrl)))
     }
   }
   def durationAsBeats:Float = asInstructions.getDuration * masterBpm / (44100 * 60)
@@ -55,7 +55,8 @@ case class MasterMix(name:String, var masterBpm:Float, parts:List[AnyRef]) {
          .getOrElse(throw new Exception("Segment with id " + audio.id + " Not found in " + audio.dvl.name)))
      }
      case lyric:LyricPart => lyric
-     case image:ImagePart => image
+     //Caches the images to repository
+     case image:ImagePart => Repo.findFile(image.imageUrl); image
    }
    return new ScalaComposition(masterBpm, scalaParts)
  }
@@ -99,16 +100,14 @@ object AudioPart {
     (node \ "id").text
   )
   //TODO FIX Back
-  def toXML(part: AudioPart) = <part/>
-  /*
-  <part>
-    <id>{part.id}</id>
-    {Dvl.toXML(part.dvl)}
-    <start>{part.start}</start>
-    <end>{part.end}</end>
-  </part>
-  */
+  def toXML(audioPart: AudioPart) = <part/>
 
+  <part>
+    <id>{audioPart.id}</id>
+    {Dvl.toXML(audioPart.dvl)}
+    <start>{audioPart.start}</start>
+    <end>{audioPart.end}</end>
+  </part>
 }
 
 object Dvl {
