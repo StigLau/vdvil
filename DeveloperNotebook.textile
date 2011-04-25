@@ -23,6 +23,8 @@ Todo's
  * TaggerGUIScala should show URL of files and segment identifiers
  * Downloader should cater for .dvl's and mp3's, not songs. However, multiple songs should be added by outside GUI.. Not quite sure how to implement this...
  * Now downloads the world - needs to cut down on downloading
+ * Probable timing problem between different renderers. Need to implement functionality to synchronize renderers inter-vm or via HTTP.
+ * Implement XML storage for image .dvl's
 
 h2. Undoing releases
 Deleting remote tags can be done with:  git push origin :root-0.7
