@@ -7,22 +7,8 @@ h2. Romjula 2009/2010
  * Moved project from internal to GitHub repository
 
 Todo's
- * Some tests depend on .dvl and .mp3 files that should be part of the project so anyone can build without errors in tests
-  * Introduce Psylteflesk .dvl/.mp3
- * Create API for describing how resources (.mp3s, videos aso) can be downloaded and locally cached, and referenced by the renderers.
- * FactorMagic should perhaps be removed!
-
- * !!!! TaggerGUI Does not stop playback
-
- * Rewrite CompositionExample so it can be persisted to file
- * Move Domain into case class
- * Persistence to XML
- * Load compositions from web instead of from hardcoded
-
  * TaggerGUIScala should use the new improved downloader to fetch files
- * TaggerGUIScala should show URL of files and segment identifiers
  * Downloader should cater for .dvl's and mp3's, not songs. However, multiple songs should be added by outside GUI.. Not quite sure how to implement this...
- * Now downloads the world - needs to cut down on downloading
  * Probable timing problem between different renderers. Need to implement functionality to synchronize renderers inter-vm or via HTTP.
  * Implement XML storage for image .dvl's
 
@@ -52,7 +38,7 @@ VdvilCache has the details
 
  h3. Renderers
   * MP3
-  * JPG
+  * JPG/image
   * Vdvil
   * Composition
 Should also know how to read the different metadata/xml file formats.
@@ -61,3 +47,20 @@ Functions:
  * load(File location)
  * load(InputStream inputStream)
  * accepts(String mimeType)
+
+
+ h2. Finished todos
+
+  * Some tests depend on .dvl and .mp3 files that should be part of the project so anyone can build without errors in tests
+   * Introduce Psylteflesk .dvl/.mp3
+  * Create API for describing how resources (.mp3s, videos aso) can be downloaded and locally cached, and referenced by the renderers.
+  * FactorMagic should perhaps be removed!
+
+  * !!!! TaggerGUI Does not stop playback
+
+  * Rewrite CompositionExample so it can be persisted to file
+  * Move Domain into case class
+  * Persistence to XML
+  * Load compositions from web instead of from hardcoded
+  * TaggerGUIScala should show URL of files and segment identifiers
+  * Now downloads the world - needs to cut down on downloading
