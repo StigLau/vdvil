@@ -8,13 +8,14 @@ import org.slf4j.LoggerFactory
 import org.codehaus.httpcache4j.cache.VdvilHttpCache
 import no.vdvil.renderer.lyric.LyricInstruction
 import no.vdvil.renderer.image.ImageInstruction
+import java.net.URL
 
 class ScalaComposition(var masterBpm: Float, val parts: List[Any]) {
   def asInstructions:Instructions = new Instructions {
     for(part <- parts) part match {
       case audio:ScalaAudioPart => append(audio.translateToInstruction(masterBpm.floatValue))
       case lyric:LyricPart => append(new LyricInstruction(lyric.start, lyric.end, masterBpm.floatValue, lyric.text))
-      case image:ImagePart => append(new ImageInstruction(image.start, image.end, masterBpm.floatValue, image.url))
+      case image:ImagePart => append(new ImageInstruction(image.start, image.end, masterBpm.floatValue, image.imageUrl))
     }
   }
   def durationAsBeats:Float = asInstructions.getDuration * masterBpm / (44100 * 60)
@@ -68,7 +69,7 @@ case class MasterMix(name:String, var masterBpm:Float, parts:List[AnyRef]) {
 class SuperPart
 case class AudioPart(dvl:Dvl, start:Int, end:Int, id:String) extends SuperPart
 case class LyricPart(text:String, start:Int, end:Int) extends SuperPart
-case class ImagePart(url:String, start:Int, end:Int) extends SuperPart
+case class ImagePart(imageUrl:URL, start:Int, end:Int) extends SuperPart
 case class Dvl(url: String, name:String)
 
 object MasterMix {

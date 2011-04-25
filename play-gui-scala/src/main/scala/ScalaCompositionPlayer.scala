@@ -6,7 +6,7 @@ import no.lau.vdvil.domain.player.ScalaComposition
 import no.vdvil.renderer.lyric.LyricRenderer
 import no.vdvil.renderer.lyric.LyricGUI
 import no.vdvil.renderer.image.ImageRenderer
-import no.vdvil.renderer.image.ImageGUI
+import no.vdvil.renderer.image.swinggui.ImageGUI
 
 /**
  * This is the master class, responsible for playing a small demoset of VDVIL music
@@ -24,11 +24,8 @@ class ScalaCompositionPlayer(var scalaCompositionOption: Option[ScalaComposition
             show
           }
           addRenderer(new LyricRenderer(lyricGUI))
-          val imageGUI = new ImageGUI() {
-            create
-            show
-          }
-          addRenderer(new ImageRenderer(imageGUI))
+          val imageGUI = new ImageGUI(800, 600)
+          addRenderer(new ImageRenderer(imageGUI.getImageListener))
           val startCueInMillis: Float = (startCue * 44100 * 60) / playBpm
           start(startCueInMillis.intValue())
         })
