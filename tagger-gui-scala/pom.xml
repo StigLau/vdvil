@@ -41,12 +41,14 @@
             <artifactId>scala-swing</artifactId>
             <version>${scala.version}</version>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest</artifactId>
             <version>1.2</version>
             <scope>test</scope>
         </dependency>
+        -->
     </dependencies>
 
     <build>

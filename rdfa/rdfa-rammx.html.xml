@@ -12,8 +12,8 @@
     <head>
         <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
         <title>ramm.x Specification - Exif Example</title>
-        <link href="xmlns-style.css" rel="stylesheet" type="text/css"/>
-        <link href="rammx_style.css" rel="stylesheet" type="text/css"/>
+        <link href="xmlns-style.css" rel="stylesheet" type="url/css"/>
+        <link href="rammx_style.css" rel="stylesheet" type="url/css"/>
     </head>
 
     <body>
