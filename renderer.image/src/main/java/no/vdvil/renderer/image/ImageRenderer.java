@@ -3,8 +3,7 @@ package no.vdvil.renderer.image;
 import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Instruction;
 
-public class ImageRenderer extends AbstractRenderer
-{
+public class ImageRenderer extends AbstractRenderer {
     private ImageListener[] listener;
 
     public ImageRenderer(ImageListener... listener) {
@@ -18,15 +17,12 @@ public class ImageRenderer extends AbstractRenderer
     }
 
     private void shoutHello(final ImageInstruction imageInstruction) {
-        for (ImageListener imageListener : listener) {
-            if (imageListener instanceof ImageGUI) {
-                final ImageGUI lyricGUI = (ImageGUI) imageListener;
-                javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        lyricGUI.fire(imageInstruction.url);
-                    }
-                });
-            }
+        for (final ImageListener imageListener : listener) {
+            javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    imageListener.show(imageInstruction.url);
+                }
+            });
         }
     }
 }

@@ -1,5 +1,8 @@
 package no.vdvil.renderer.image;
 
+import java.io.IOException;
+import java.net.URL;
+
 public interface ImageListener {
-    void fire(String text);
+    void show(URL imageURL) ;
 }

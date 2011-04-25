@@ -3,11 +3,13 @@ package no.vdvil.renderer.image;
 import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Renderer;
 
+import java.net.URL;
+
 
 public class ImageInstruction extends Instruction {
-    public final String url;
+    public final URL url;
 
-    public ImageInstruction(int start, int end, float bpm, final String url) {
+    public ImageInstruction(int start, int end, float bpm, final URL url) {
         this.url = url;
         float speedFactor = Renderer.RATE * 60 / bpm;
 

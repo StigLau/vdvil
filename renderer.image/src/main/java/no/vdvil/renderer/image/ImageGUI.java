@@ -2,27 +2,19 @@ package no.vdvil.renderer.image;
 
 import no.vdvil.renderer.image.ImageListener;
 import javax.swing.*;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-public class ImageGUI implements ImageListener {
+public class ImageGUI {
     JFrame frame;
-    JLabel label;
-    String text = "";
+    public final ImagePanel imagePanel = new ImagePanel();
 
-    public void create() {
-        frame = new JFrame("LyricRendererGUITest");
+    public ImageGUI(int width, int height) {
+        frame = new JFrame("ImageRendererGUITest");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        label = new JLabel("Hello World");
-        frame.getContentPane().add(label);
-        //frame.pack();
-        frame.setSize(1000, 100);
-    }
-    public void show() {
+        frame.setSize(width, height);
+        frame.getContentPane().add(imagePanel);
         frame.setVisible(true);
-    }
-
-    public void fire(String text) {
-        this.text += " " + text;
-        label.setText(this.text);
     }
 }

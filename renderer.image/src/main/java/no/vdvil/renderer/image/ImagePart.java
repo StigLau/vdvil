@@ -3,20 +3,18 @@ package no.vdvil.renderer.image;
 import no.lau.tagger.model.AbstractPart;
 import no.bouvet.kpro.renderer.Instruction;
 
+import java.net.URL;
+
 /**
- * ImagePart is a part concerned with lyrics that are to be shown to the user
- * At the moment, it is just an ugly hack :)
- *
- * Will eventually contain
- * url - what is to be displayed
+ * ImagePart is used for displaying images in context of a swing GUI or equvalent
  *
  * @author Stig@Lau.no
- * @since January 2010
+ * @since April 2011
  */
 public class ImagePart extends AbstractPart {
-    public final String url;
+    public final URL url;
 
-    public ImagePart(String url, int startCue, int endCue) {
+    public ImagePart(URL url, int startCue, int endCue) {
         super(startCue, endCue);
         this.url = url;
     }
