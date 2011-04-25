@@ -7,12 +7,14 @@ import no.lau.vdvil.mix.Repo
 import org.slf4j.LoggerFactory
 import org.codehaus.httpcache4j.cache.VdvilHttpCache
 import no.vdvil.renderer.lyric.LyricInstruction
+import no.vdvil.renderer.image.ImageInstruction
 
-class ScalaComposition(var masterBpm: Float, val parts: List[AnyRef]) {
+class ScalaComposition(var masterBpm: Float, val parts: List[Any]) {
   def asInstructions:Instructions = new Instructions {
     for(part <- parts) part match {
       case audio:ScalaAudioPart => append(audio.translateToInstruction(masterBpm.floatValue))
       case lyric:LyricPart => append(new LyricInstruction(lyric.start, lyric.end, masterBpm.floatValue, lyric.text))
+      case image:ImagePart => append(new ImageInstruction(image.start, image.end, masterBpm.floatValue, image.url))
     }
   }
   def durationAsBeats:Float = asInstructions.getDuration * masterBpm / (44100 * 60)
@@ -47,12 +49,12 @@ class ScalaAudioPart(val song: ScalaSong, val startCue: Int, val endCue: Int, va
 case class MasterMix(name:String, var masterBpm:Float, parts:List[AnyRef]) {
  def asComposition:ScalaComposition = {
    val scalaParts:List[AnyRef] = for(part <- parts) yield part match {
-     case audio:MasterPart => {
+     case audio:AudioPart => {
        new ScalaAudioPart(Repo.findSong(audio.dvl), audio.start, audio.end, Repo.findSegment(audio.id, audio.dvl)
          .getOrElse(throw new Exception("Segment with id " + audio.id + " Not found in " + audio.dvl.name)))
      }
-
      case lyric:LyricPart => lyric
+     case image:ImagePart => image
    }
    return new ScalaComposition(masterBpm, scalaParts)
  }
@@ -63,16 +65,17 @@ case class MasterMix(name:String, var masterBpm:Float, parts:List[AnyRef]) {
   //def durationAsBeats:Float = parts.foldLeft(0F)((max,part) => if(part.end > max) part.end else max)
   def durationAsBeats = null
 }
-
-case class MasterPart(dvl:Dvl, start:Int, end:Int, id:String)
-case class LyricPart(text:String, start:Int, end:Int)
+class SuperPart
+case class AudioPart(dvl:Dvl, start:Int, end:Int, id:String) extends SuperPart
+case class LyricPart(text:String, start:Int, end:Int) extends SuperPart
+case class ImagePart(url:String, start:Int, end:Int) extends SuperPart
 case class Dvl(url: String, name:String)
 
 object MasterMix {
   def fromXML(node:xml.Node) = MasterMix(
     (node \ "name").text,
     (node \ "masterBpm").text.toFloat,
-    (for( part <- (node \ "parts" \ "part")) yield MasterPart.fromXML(part)).toList
+    (for( part <- (node \ "parts" \ "part")) yield AudioPart.fromXML(part)).toList
   )
   //TODO FIX Back
   def toXML(composition:MasterMix) = <composition/>
@@ -81,21 +84,21 @@ object MasterMix {
   <name>{composition.name}</name>
   <masterBpm>{composition.masterBpm}</masterBpm>
   <parts>
-    {composition.parts.map(MasterPart.toXML)}
+    {composition.parts.map(AudioPart.toXML)}
   </parts>
 </composition>
 */
 }
 
-object MasterPart {
-  def fromXML(node:xml.Node) = MasterPart(
+object AudioPart {
+  def fromXML(node:xml.Node) = AudioPart(
     Dvl.fromXML((node \ "dvl").head),
     (node \ "start").text.toInt,
     (node \ "end").text.toInt,
     (node \ "id").text
   )
   //TODO FIX Back
-  def toXML(part: MasterPart) = <part/>
+  def toXML(part: AudioPart) = <part/>
   /*
   <part>
     <id>{part.id}</id>

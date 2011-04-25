@@ -5,6 +5,8 @@ import no.bouvet.kpro.renderer.Renderer
 import no.lau.vdvil.domain.player.ScalaComposition
 import no.vdvil.renderer.lyric.LyricRenderer
 import no.vdvil.renderer.lyric.LyricGUI
+import no.vdvil.renderer.image.ImageRenderer
+import no.vdvil.renderer.image.ImageGUI
 
 /**
  * This is the master class, responsible for playing a small demoset of VDVIL music
@@ -17,10 +19,16 @@ class ScalaCompositionPlayer(var scalaCompositionOption: Option[ScalaComposition
       composition =>
         rendererOption = Some(new Renderer(composition.asInstructions) {
           addRenderer(new AudioRenderer(new AudioPlaybackTarget()))
-          val lyricGUI = new LyricGUI()
-          lyricGUI.create
+          val lyricGUI = new LyricGUI() {
+            create
+            show
+          }
           addRenderer(new LyricRenderer(lyricGUI))
-          lyricGUI.show
+          val imageGUI = new ImageGUI() {
+            create
+            show
+          }
+          addRenderer(new ImageRenderer(imageGUI))
           val startCueInMillis: Float = (startCue * 44100 * 60) / playBpm
           start(startCueInMillis.intValue())
         })

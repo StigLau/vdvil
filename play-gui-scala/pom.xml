@@ -26,6 +26,11 @@
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
+            <artifactId>renderer.image</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
             <artifactId>tagger-gui-scala</artifactId>
             <version>${project.version}</version>
         </dependency>
