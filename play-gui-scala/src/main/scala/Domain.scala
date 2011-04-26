@@ -60,12 +60,14 @@ case class MasterMix(name:String, var masterBpm:Float, parts:List[SuperPart]) {
    }
    return new ScalaComposition(masterBpm, scalaParts)
  }
-  //TODO FIX Back
-  //def dvls = parts.groupBy[Dvl](part => part.dvl).keySet
-  def dvls:Set[Dvl] = null
-  //TODO FIX Back
-  //def durationAsBeats:Float = parts.foldLeft(0F)((max,part) => if(part.end > max) part.end else max)
-  def durationAsBeats = null
+
+  def dvls:scala.collection.Set[Dvl] = audioParts.groupBy[Dvl](audioPart => audioPart.dvl).keySet
+
+  //Will now only calculate the length of the audioParts!
+  def durationAsBeats:Float = audioParts.foldLeft(0F)((max,audioPart) => if(audioPart.end > max) audioPart.end else max)
+
+  //Filter out only audioParts
+  val audioParts:Seq[AudioPart] = parts.map{case x:AudioPart => x }
 }
 trait SuperPart
 case class AudioPart(dvl:Dvl, start:Int, end:Int, id:String) extends SuperPart
@@ -80,16 +82,15 @@ object MasterMix {
     (for( part <- (node \ "parts" \ "part")) yield AudioPart.fromXML(part)).toList
   )
   //TODO FIX Back
-  def toXML(composition:MasterMix) = <composition/>
-  /*
+  def toXML(composition:MasterMix) = {
 <composition>
   <name>{composition.name}</name>
   <masterBpm>{composition.masterBpm}</masterBpm>
   <parts>
-    {composition.parts.map(AudioPart.toXML)}
+    {composition.audioParts.map(AudioPart.toXML)}
   </parts>
 </composition>
-*/
+}
 }
 
 object AudioPart {
@@ -99,9 +100,7 @@ object AudioPart {
     (node \ "end").text.toInt,
     (node \ "id").text
   )
-  //TODO FIX Back
-  def toXML(audioPart: AudioPart) = <part/>
-
+  def toXML(audioPart: AudioPart) =
   <part>
     <id>{audioPart.id}</id>
     {Dvl.toXML(audioPart.dvl)}
@@ -115,12 +114,10 @@ object Dvl {
     (node \ "url").text,
     (node \ "name").text
   )
-  //TODO FIX Back
-  def toXML(dvl:Dvl) = <dvl/>
-  /*
+
+  def toXML(dvl:Dvl) =
     <dvl>
       <url>{dvl.url}</url>
       <name>{dvl.name}</name>
     </dvl>
-    */
 }
