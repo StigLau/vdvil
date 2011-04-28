@@ -15,7 +15,7 @@ class PlayGuiProject(info: ProjectInfo) extends DefaultProject(info)
   val lyric_renderer = "no.lau.vdvil" % "lyric-renderer" % "0.9-SNAPSHOT"
   val image_renderer = "no.lau.vdvil" % "image-renderer" % "0.9-SNAPSHOT"
   //For running JUnit tests
-   val junitInterface = "com.novocode" % "junit-interface" % "0.5" % "test->default"
+   val junitInterface = "com.novocode" % "junit-interface" % "0.6" % "test->default"
 
   val junit = "junit" % "junit" % "4.8.1"
 }
