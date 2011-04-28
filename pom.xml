@@ -57,12 +57,12 @@
             </dependency>
             <dependency>
                 <groupId>no.lau.vdvil</groupId>
-                <artifactId>renderer.audio</artifactId>
+                <artifactId>audio-renderer</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>no.lau.vdvil</groupId>
-                <artifactId>renderer.lyric</artifactId>
+                <artifactId>lyric-renderer</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -74,11 +74,6 @@
                 <groupId>no.lau.vdvil</groupId>
                 <artifactId>httpcache</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.groovy</groupId>
-                <artifactId>groovy-all</artifactId>
-                <version>1.7.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -18,11 +18,11 @@
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
-            <artifactId>renderer.audio</artifactId>
+            <artifactId>audio-renderer</artifactId>
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
-            <artifactId>renderer.lyric</artifactId>
+            <artifactId>lyric-renderer</artifactId>
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
