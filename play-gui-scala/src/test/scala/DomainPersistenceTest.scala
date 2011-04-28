@@ -3,8 +3,8 @@ package no.lau.vdvil.player
 import org.junit.Test
 import org.junit.Assert._
 import org.slf4j.LoggerFactory
-import no.lau.vdvil.domain.player.{LyricPart, ImagePart, AudioPart, MasterMix, Dvl}
 import java.net.URL
+import no.lau.vdvil.domain.player._
 
 class DomainPersistenceTest {
 
@@ -21,8 +21,8 @@ class DomainPersistenceTest {
     assertEquals(1, composition.dvls.size)
     assertEquals(2, composition.parts.size)
     val part1 = composition.parts.head
-    //assertEquals(0, part1.start.intValue)
-    //assertEquals(32, part1.end.intValue)
+    assertEquals(0, part1.startCue)
+    assertEquals(32, part1.endCue)
   }
 
   @Test def printCompositionToLog {
@@ -36,7 +36,7 @@ object JavaZoneDemoComposition {
   val not_alone = Dvl(baseUrl + "olive-youre_not_alone.dvl", "You're not alone")
   val scares_me = Dvl(baseUrl + "christian_cambas-it_scares_me.dvl", "It scares me")
 
-  val mixTape = AudioPart(not_alone, 0, 32, "4479230163500364845") ::
+  val mixTape:List[MultimediaPartTrait] = AudioPart(not_alone, 0, 32, "4479230163500364845") ::
     LyricPart("Vegen til mitt hjarte går gjennom skivane mine", 2, 8) ::
     ImagePart(new URL("http://farm3.static.flickr.com/2095/2282261838_276a37d325_o_d.jpg"), 2, 8) ::
     AudioPart(scares_me, 16, 48, "5403996530329584526") ::

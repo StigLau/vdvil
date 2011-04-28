@@ -21,12 +21,12 @@
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
-            <artifactId>renderer.lyric</artifactId>
+            <artifactId>image-renderer</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
-            <artifactId>renderer.image</artifactId>
+            <artifactId>lyric-renderer</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

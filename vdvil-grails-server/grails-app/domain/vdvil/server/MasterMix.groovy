@@ -1,5 +1,5 @@
 package vdvil.server
-
+//Should be renamed to Composition and merged with CompositionController
 class MasterMix {
   String name
   float masterBpm

@@ -1,20 +1,19 @@
 package no.lau.vdvil.renderer.image;
 
-import no.vdvil.renderer.image.swinggui.ImageGUI;
-import no.vdvil.renderer.image.ImageListener;
+import no.vdvil.renderer.image.ImageInstruction;
+import no.vdvil.renderer.image.ImageRenderer;
 import org.junit.Test;
-
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 public class ImageRenderingTest {
     @Test
     public void testRenderingImage() throws InterruptedException, IOException {
-        ImageListener listener = new ImageGUI(800, 600).getImageListener();
-        Thread.sleep(100);
-        listener.show(ClassLoader.getSystemResource("pink_teddy.jpg").openStream());
-        Thread.sleep(200);
-        listener.show(ClassLoader.getSystemResource("dj-teddy.jpg").openStream());
-        Thread.sleep(200);
+        ImageRenderer renderer = new ImageRenderer(800, 600);
+        renderer.handleInstruction(0, new ImageInstruction(-0, -0, -0F, ClassLoader.getSystemResource("pink_teddy.jpg").openStream()));
+        renderer.start(0);
+        Thread.sleep(400);
+        renderer.handleInstruction(0, new ImageInstruction(-0, -0, -0F, ClassLoader.getSystemResource("dj-teddy.jpg").openStream()));
+        Thread.sleep(1000);
+        renderer.stop();
     }
 }
