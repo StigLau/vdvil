@@ -29,7 +29,7 @@ class ScalaCompositionPlayerTest {
   }
 
   @Test def createInstructionsFromParts {
-    assertEquals(14, composition.parts.size)
+    assertEquals(20, composition.parts.size)
     val instructions = composition.asInstructions
     assert(instructions.getDuration == 4445280)
     assert(instructions.getDuration == 252*44100*60/150)
