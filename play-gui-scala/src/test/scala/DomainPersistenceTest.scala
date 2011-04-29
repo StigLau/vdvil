@@ -47,7 +47,6 @@ object JavaZoneDemoComposition {
     LyricPart("Not Alone 2", 32, 33) ::
     AudioPart(scares_me, 48, 64, "5403996530329584526") ::
     AudioPart(scares_me, 64, 112, "1826025806904317462") ::
-    ImagePart(new URL("http://farm3.static.flickr.com/2187/2054210711_8034ee7d6b_o_d.jpg"), 64, 65) ::
     AudioPart(returning, 96, 140, "6401936245564505757") ::
     AudioPart(returning, 96, 140, "6401936245564505757") ::
     AudioPart(returning, 128, 174, "6182122145512625145") ::
