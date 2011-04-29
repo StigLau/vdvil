@@ -1,11 +1,12 @@
 package no.lau.vdvil.player
 
 import org.codehaus.httpcache4j.cache.VdvilHttpCache
-import org.junit.{Before, Test}
 import no.lau.vdvil.domain.player.ScalaComposition
 import no.bouvet.kpro.tagger.persistence.XStreamParser
 import no.lau.tagger.model.SimpleSong
 import org.slf4j.LoggerFactory
+import org.junit.{Before, Test}
+import org.junit.Assert._
 
 
 class ScalaCompositionPlayerTest {
@@ -28,7 +29,7 @@ class ScalaCompositionPlayerTest {
   }
 
   @Test def createInstructionsFromParts {
-    assert(composition.parts.size == 14)
+    assertEquals(14, composition.parts.size)
     val instructions = composition.asInstructions
     assert(instructions.getDuration == 4445280)
     assert(instructions.getDuration == 252*44100*60/150)

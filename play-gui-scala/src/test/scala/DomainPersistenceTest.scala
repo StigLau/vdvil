@@ -5,6 +5,7 @@ import org.junit.Assert._
 import org.slf4j.LoggerFactory
 import java.net.URL
 import no.lau.vdvil.domain.player._
+import no.lau.vdvil.persistence.MasterMixXML
 
 class DomainPersistenceTest {
 
@@ -14,9 +15,9 @@ class DomainPersistenceTest {
   val log = LoggerFactory.getLogger(classOf[DomainPersistenceTest])
 
   @Test def testXmlPersistence {
-    val asXml = MasterMix.toXML(example)
+    val asXml = MasterMixXML.toXML(example)
     log.debug(asXml.toString)
-    val composition = MasterMix.fromXML(asXml)
+    val composition = MasterMixXML.fromXML(asXml)
     assertEquals(150, composition.masterBpm.intValue)
     assertEquals(1, composition.dvls.size)
     assertEquals(2, composition.parts.size)
@@ -26,7 +27,7 @@ class DomainPersistenceTest {
   }
 
   @Test def printCompositionToLog {
-    log.debug(MasterMix.toXML(JavaZoneDemoComposition.masterMix).toString)
+    log.debug(MasterMixXML.toXML(JavaZoneDemoComposition.masterMix).toString)
   }
 }
 

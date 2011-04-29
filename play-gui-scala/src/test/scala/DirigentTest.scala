@@ -8,6 +8,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.InputStream
 import xml.XML
+import no.lau.vdvil.persistence.MasterMixXML
 
 /**
  * A Simple structuring of the Dirigent
@@ -74,7 +75,7 @@ class CompositionHandler extends VdvilHandler {
 
   def load(inputStream: InputStream, mimeType: String): Option[ScalaComposition] = {
     if (accepts(mimeType))
-      Some(MasterMix.fromXML(XML.load(inputStream)).asComposition)
+      Some(MasterMixXML.fromXML(XML.load(inputStream)).asComposition)
     else
       None
   }
