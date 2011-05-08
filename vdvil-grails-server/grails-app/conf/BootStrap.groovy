@@ -3,6 +3,7 @@ import vdvil.server.MediaFile
 import vdvil.server.Segment
 import vdvil.server.MasterMix
 import vdvil.server.MixPart
+import vdvil.server.ImageDescription
 
 class BootStrap {
 
@@ -51,6 +52,8 @@ class BootStrap {
                     new Segment(startCue: 542, endCue: 606, segmentId: "8625548638869601505", text: "It scares me"),
                     new Segment(startCue: 606, endCue: 670, segmentId: "1826025806904317462", text: "Scares me uten bass")
             ])
+
+      new ImageDescription(text:"Hello", src:"http://i2.blogs.indiewire.com/images/blogs/jamesisrael/archives/the-green-lantern-comic-image.jpg").save()
 
     def songs = [nothing, notAlone, scaresMe]
     songs.each{song ->
