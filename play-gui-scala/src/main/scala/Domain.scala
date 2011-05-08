@@ -15,7 +15,7 @@ class ScalaComposition(var masterBpm: Float, val parts: List[MultimediaPartTrait
     for(part <- parts) part match {
       case audio:ScalaAudioPart => append(audio.translateToInstruction(masterBpm.floatValue))
       case lyric:LyricPart => append(new LyricInstruction(lyric.startCue, lyric.endCue, masterBpm.floatValue, lyric.text))
-      case image:ImagePart => append(new ImageInstruction(image.startCue, image.endCue, masterBpm.floatValue, Repo.findFile(image.imageUrl)))
+      case image:ImagePart => append(new ImageInstruction(image.startCue, image.endCue, masterBpm.floatValue, Repo.findFile(image.url)))
     }
   }
   def durationAsBeats:Float = asInstructions.getDuration * masterBpm / (44100 * 60)
@@ -56,7 +56,7 @@ case class MasterMix(name:String, var masterBpm:Float, parts:List[MultimediaPart
      }
      case lyric:LyricPart => lyric
      //Caches the images to repository
-     case image:ImagePart => println("Image URL " + image.imageUrl);Repo.findFile(image.imageUrl); image
+     case image:ImagePart => println("Image URL " + image.url);Repo.findFile(image.url); image
    }
    return new ScalaComposition(masterBpm, scalaParts)
  }
@@ -75,5 +75,5 @@ trait MultimediaPartTrait {
 }
 case class AudioPart(dvl:Dvl, startCue:Int, endCue:Int, id:String) extends MultimediaPartTrait
 case class LyricPart(text:String, startCue:Int, endCue:Int) extends MultimediaPartTrait
-case class ImagePart(imageUrl:URL, startCue:Int, endCue:Int) extends MultimediaPartTrait
+case class ImagePart(id:String, url:URL, startCue:Int, endCue:Int) extends MultimediaPartTrait
 case class Dvl(url: String, name:String)

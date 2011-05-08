@@ -35,7 +35,7 @@ class Dirigent(downloaders: List[VdvilCache], handlers:List[VdvilHandler], var p
   var playbackBpm: Float = 0F
 
   def prepare(compositionUrl: String) {
-    for (downloader <- downloaders) {
+    for (downloader <- downloaders) { //TODO Perhaps use for-comprehension for matching correct downloader, and avoiding nagging error logging!
       if (downloader.accepts(compositionUrl)) {
         log.info("Trying to download {} with ", compositionUrl, downloader)
         var inputStream: InputStream = downloader.fetchAsStream(compositionUrl)
@@ -47,6 +47,7 @@ class Dirigent(downloaders: List[VdvilCache], handlers:List[VdvilHandler], var p
           }
         }
       }
+      else log.warn("Downloader {} did not accept {}", downloader, compositionUrl)
     }
   }
 

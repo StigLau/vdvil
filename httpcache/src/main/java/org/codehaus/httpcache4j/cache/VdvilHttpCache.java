@@ -81,7 +81,7 @@ public class VdvilHttpCache implements VdvilCache{
     */
 
     public boolean accepts(String url) {
-        return !url.startsWith("http://");
+        return url.startsWith("http://");
     }
 
     public String mimeType(String url) {
