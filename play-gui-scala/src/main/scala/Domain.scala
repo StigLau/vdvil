@@ -6,13 +6,22 @@ import no.bouvet.kpro.renderer. {Instruction, Instructions}
 import no.lau.vdvil.mix.Repo
 import org.slf4j.LoggerFactory
 import org.codehaus.httpcache4j.cache.VdvilHttpCache
+import no.vdvil.renderer.lyric.LyricInstruction
+import no.vdvil.renderer.image.ImageInstruction
+import java.net.URL
 
-class ScalaComposition(var masterBpm: Float, val parts: List[ScalaAudioPart]) {
-  def asInstructions:Instructions = new Instructions { parts.foreach(part => append(part.translateToInstruction(masterBpm.floatValue))) }
+class ScalaComposition(var masterBpm: Float, val parts: List[MultimediaPartTrait]) {
+  def asInstructions:Instructions = new Instructions {
+    for(part <- parts) part match {
+      case audio:ScalaAudioPart => append(audio.translateToInstruction(masterBpm.floatValue))
+      case lyric:LyricPart => append(new LyricInstruction(lyric.startCue, lyric.endCue, masterBpm.floatValue, lyric.text))
+      case image:ImagePart => append(new ImageInstruction(image.startCue, image.endCue, masterBpm.floatValue, Repo.findFile(image.url)))
+    }
+  }
   def durationAsBeats:Float = asInstructions.getDuration * masterBpm / (44100 * 60)
 }
 
-class ScalaAudioPart(val song: ScalaSong, val startCue: Int, val endCue: Int, val segment: ScalaSegment) {
+case class ScalaAudioPart(song: ScalaSong, startCue:Int, endCue:Int, segment: ScalaSegment) extends MultimediaPartTrait {
   val log = LoggerFactory.getLogger(classOf[ScalaAudioPart])
   val bpm = song.bpm
 
@@ -38,63 +47,33 @@ class ScalaAudioPart(val song: ScalaSong, val startCue: Int, val endCue: Int, va
 /**
  * A MasterMix contains the mix which can be played to anyone. It will reference one or more MasterParts, which can contain .dvl's
  */
-case class MasterMix(name:String, var masterBpm:Float, parts:List[MasterPart]) {
+case class MasterMix(name:String, var masterBpm:Float, parts:List[MultimediaPartTrait]) {
  def asComposition:ScalaComposition = {
-   val scalaParts = for(part <- parts) yield new ScalaAudioPart(Repo.findSong(part.dvl), part.start, part.end, Repo.findSegment(part.id, part.dvl)
-     .getOrElse(throw new Exception("Segment with id " + part.id + " Not found in " + part.dvl.name)))
+   val scalaParts:List[MultimediaPartTrait] = for(part <- parts) yield part match {
+     case audio:AudioPart => {
+       new ScalaAudioPart(Repo.findSong(audio.dvl), audio.startCue, audio.endCue, Repo.findSegment(audio.id, audio.dvl)
+         .getOrElse(throw new Exception("Segment with id " + audio.id + " Not found in " + audio.dvl.name)))
+     }
+     case lyric:LyricPart => lyric
+     //Caches the images to repository
+     case image:ImagePart => println("Image URL " + image.url);Repo.findFile(image.url); image
+   }
    return new ScalaComposition(masterBpm, scalaParts)
  }
 
-  def dvls = parts.groupBy[Dvl](part => part.dvl).keySet
+  def dvls:scala.collection.Set[Dvl] = audioParts.groupBy[Dvl](audioPart => audioPart.dvl).keySet
 
-  def durationAsBeats:Float = parts.foldLeft(0F)((max,part) => if(part.end > max) part.end else max)
+  //Will now only calculate the length of the audioParts!
+  def durationAsBeats:Float = parts.foldLeft(0F)((max,audioPart) => if(audioPart.endCue > max) audioPart.endCue else max)
+
+  //Filter out only audioParts
+  val audioParts:List[AudioPart] =  parts.collect{case x:AudioPart => x}
 }
-
-case class MasterPart(dvl:Dvl, start:Int, end:Int, id:String)
+trait MultimediaPartTrait {
+  val startCue:Int
+  val endCue:Int
+}
+case class AudioPart(dvl:Dvl, startCue:Int, endCue:Int, id:String) extends MultimediaPartTrait
+case class LyricPart(text:String, startCue:Int, endCue:Int) extends MultimediaPartTrait
+case class ImagePart(id:String, url:URL, startCue:Int, endCue:Int) extends MultimediaPartTrait
 case class Dvl(url: String, name:String)
-
-object MasterMix {
-  def fromXML(node:xml.Node) = MasterMix(
-    (node \ "name").text,
-    (node \ "masterBpm").text.toFloat,
-    (for( part <- (node \ "parts" \ "part")) yield MasterPart.fromXML(part)).toList
-  )
-  def toXML(composition:MasterMix) =
-<composition>
-  <name>{composition.name}</name>
-  <masterBpm>{composition.masterBpm}</masterBpm>
-  <parts>
-    {composition.parts.map(MasterPart.toXML)}
-  </parts>
-</composition>
-}
-
-object MasterPart {
-  def fromXML(node:xml.Node) = MasterPart(
-    Dvl.fromXML((node \ "dvl").head),
-    (node \ "start").text.toInt,
-    (node \ "end").text.toInt,
-    (node \ "id").text
-  )
-
-  def toXML(part: MasterPart) =
-  <part>
-    <id>{part.id}</id>
-    {Dvl.toXML(part.dvl)}
-    <start>{part.start}</start>
-    <end>{part.end}</end>
-  </part>
-
-}
-
-object Dvl {
-  def fromXML(node:xml.Node) = Dvl(
-    (node \ "url").text,
-    (node \ "name").text
-  )
-  def toXML(dvl:Dvl) =
-    <dvl>
-      <url>{dvl.url}</url>
-      <name>{dvl.name}</name>
-    </dvl>
-}

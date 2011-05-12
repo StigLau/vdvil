@@ -18,7 +18,7 @@
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
-            <artifactId>renderer.audio</artifactId>
+            <artifactId>audio-renderer</artifactId>
         </dependency>
         <!-- Needed for a hack for downloading mp3 files during conversion -->
         <dependency>

@@ -25,7 +25,7 @@
             <exclusions>
                 <exclusion>
                     <groupId>no.lau.vdvil</groupId>
-                    <artifactId>renderer.lyric</artifactId>
+                    <artifactId>lyric-renderer</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.swinglabs</groupId>

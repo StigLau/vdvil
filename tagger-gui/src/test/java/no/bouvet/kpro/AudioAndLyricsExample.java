@@ -3,7 +3,6 @@ package no.bouvet.kpro;
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.Renderer;
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
-import no.vdvil.renderer.lyric.LyricGUI;
 import no.vdvil.renderer.lyric.LyricRenderer;
 import no.vdvil.renderer.lyric.LyricPart;
 import no.bouvet.kpro.renderer.audio.*;
@@ -25,8 +24,6 @@ import java.util.List;
 public class AudioAndLyricsExample {
     Logger log = LoggerFactory.getLogger(AudioAndLyricsExample.class);
 
-    final LyricGUI lyricGUI = createLyricGUI();
-
     public static void main(String[] args) throws Exception {
         new AudioAndLyricsExample().setUpStuff();
     }
@@ -46,7 +43,7 @@ public class AudioAndLyricsExample {
             // Create the Renderer with an AudioRenderer instance
             renderer = new Renderer(instructions);
             renderer.addRenderer(new AudioRenderer(target));
-            renderer.addRenderer(new LyricRenderer(lyricGUI));
+            renderer.addRenderer(new LyricRenderer(1000, 100));
 
             // Start the renderer at the beginning
             log.info("Starting renderer...");
@@ -69,19 +66,6 @@ public class AudioAndLyricsExample {
             target.close();
         }
     }
-
-
-    public LyricGUI createLyricGUI() {
-        final LyricGUI lyricGUI = new LyricGUI();
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                lyricGUI.create();
-                lyricGUI.show();
-            }
-        });
-        return lyricGUI;
-    }
-
 
     public static List<? extends AbstractPart> parts() throws FileNotFoundException {
         SimpleSong returning = new XStreamParser().load(VdvilHttpCache.create().fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"));

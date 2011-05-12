@@ -2,12 +2,14 @@ package no.lau.vdvil.mix
 
 import no.lau.tagger.scala.model.ToScalaSong
 import no.lau.tagger.scala.model. {ScalaSegment, ScalaSong}
-import no.lau.vdvil.domain.player. {MasterMix, Dvl}
 import xml.XML
 import java.io.InputStream
 import no.lau.tagger.model.SimpleSong
 import no.bouvet.kpro.tagger.persistence.XStreamParser
 import org.codehaus.httpcache4j.cache.VdvilHttpCache
+import java.net.URL
+import no.lau.vdvil.domain.player.{MasterMix, Dvl}
+import no.lau.vdvil.persistence.MasterMixXML
 
 object Repo {
   val cache = VdvilHttpCache.create();
@@ -18,6 +20,8 @@ object Repo {
     val xml = new XStreamParser[SimpleSong].load(cache.fetchAsStream(dvl.url))
     ToScalaSong.fromJava(xml)
   }
+
+  def findFile(url:URL):InputStream = cache.fetchAsStream(url.toString)
 }
 
 trait DownloadableFileCallback {
@@ -32,7 +36,7 @@ class MyRepo(downloadingCoordinator:GenericDownloadingCoordinator) {
   def fetchComposition(url:String, compositionCallBack:CompositionCallback) {
     downloadingCoordinator ! Download(url, new DownloadableFileCallback {
       def finished(mixAsStream:InputStream){
-        compositionCallBack.finished(Some(MasterMix.fromXML(XML.load(mixAsStream))))
+        compositionCallBack.finished(Some(MasterMixXML.fromXML(XML.load(mixAsStream))))
       }
     })
   }
