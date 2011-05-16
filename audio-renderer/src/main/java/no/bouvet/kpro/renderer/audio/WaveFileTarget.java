@@ -1,6 +1,7 @@
 package no.bouvet.kpro.renderer.audio;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.RandomAccessFile;
 
@@ -14,7 +15,7 @@ public class WaveFileTarget implements AudioTarget {
 	protected File _file;
 	protected RandomAccessFile _raf;
 	protected int _duration = 0;
-    static Logger log = Logger.getLogger(WaveFileTarget.class);
+    Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * Constructs a new WaveFileTarget. The file to create or overwrite is

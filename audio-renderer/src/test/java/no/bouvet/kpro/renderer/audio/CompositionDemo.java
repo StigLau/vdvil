@@ -4,10 +4,11 @@ import java.io.File;
 
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.Renderer;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class CompositionDemo {
-    static Logger log = Logger.getLogger(CompositionDemo.class);
+    static Logger log = LoggerFactory.getLogger(CompositionDemo.class);
 
     public static void main(String[] args) throws Exception {
 		AudioSource sourceA = null; // First source

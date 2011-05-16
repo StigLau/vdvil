@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Renderer;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The AudioRenderer class is a specialization of the AbstractRenderer class. It
@@ -35,7 +36,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 	protected boolean _finished;
 
 	protected ArrayList<AudioInstruction> _active = new ArrayList<AudioInstruction>();
-    static Logger log = Logger.getLogger(AudioRenderer.class);
+    Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * Construct a new AudioRenderer instance that will mix audio and send it to

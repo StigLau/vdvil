@@ -7,12 +7,12 @@ import java.net.URL;
 
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.Renderer;
-
-import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AudioRendererTest {
-    static Logger log = Logger.getLogger(AudioRendererTest.class);
+    Logger log = LoggerFactory.getLogger(getClass());
 
 	@Test
 	public void test() {
@@ -67,7 +67,7 @@ public class AudioRendererTest {
 
 			assertEquals(instructions.getDuration(), target.getOutputPosition());
         } catch (Exception e) {
-            log.error(e);
+            log.error("Some problem - TODO Bad errormessage!", e);
         } finally {
 			if (renderer != null)
 				renderer.stop();

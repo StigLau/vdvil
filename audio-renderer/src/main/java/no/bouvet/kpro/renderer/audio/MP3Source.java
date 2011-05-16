@@ -7,7 +7,8 @@ import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.Decoder;
 import javazoom.jl.decoder.Header;
 import javazoom.jl.decoder.Obuffer;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The MP3Source class is an audio source implementation that reads audio data
@@ -68,7 +69,7 @@ public class MP3Source implements AudioSource {
 	protected Decoder _decoder;
 	protected Bitstream _bitstream;
 	protected int _nextFrame;
-    static Logger log = Logger.getLogger(MP3Source.class);
+    Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * Constructs a new MP3Source, reading from file. The file will be opened

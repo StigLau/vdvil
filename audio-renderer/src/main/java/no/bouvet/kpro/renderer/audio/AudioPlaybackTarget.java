@@ -1,7 +1,8 @@
 package no.bouvet.kpro.renderer.audio;
 
 import no.bouvet.kpro.renderer.Renderer;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
@@ -17,7 +18,7 @@ import javax.sound.sampled.SourceDataLine;
 public class AudioPlaybackTarget implements AudioTarget {
 	protected SourceDataLine _line;
 	protected int _base;
-    static Logger log = Logger.getLogger(AudioPlaybackTarget.class);
+    Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * Constructs a new AudioPlaybackTarget. The audio output device is opened
