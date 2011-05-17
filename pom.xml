@@ -34,6 +34,7 @@
 
     <modules>
         <module>renderer</module>
+        <module>composition-handler</module>
         <module>audio-renderer</module>
         <module>lyric-renderer</module>
         <module>image-renderer</module>
