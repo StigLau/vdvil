@@ -5,11 +5,12 @@ import no.bouvet.kpro.renderer.Renderer
 import no.lau.vdvil.domain.player.ScalaComposition
 import no.vdvil.renderer.lyric.LyricRenderer
 import no.vdvil.renderer.image.ImageRenderer
+import no.lau.vdvil.cache.SimpleVdvilCache
 
 /**
  * This is the master class, responsible for playing a small demoset of VDVIL music
  */
-class ScalaCompositionPlayer(var scalaCompositionOption: Option[ScalaComposition]) {
+class ScalaCompositionPlayer(var scalaCompositionOption: Option[ScalaComposition], cache:SimpleVdvilCache) {
   var rendererOption: Option[Renderer] = None
 
   //"Constructor"
@@ -18,7 +19,7 @@ class ScalaCompositionPlayer(var scalaCompositionOption: Option[ScalaComposition
         rendererOption = Some(new Renderer(composition.asInstructions) {
           addRenderer(new AudioRenderer(new AudioPlaybackTarget()))
           addRenderer(new LyricRenderer(1000, 100))
-          addRenderer(new ImageRenderer(800, 600))
+          addRenderer(new ImageRenderer(800, 600, cache))
         })
     }
 

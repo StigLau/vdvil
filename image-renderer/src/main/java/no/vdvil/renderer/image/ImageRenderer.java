@@ -2,15 +2,24 @@ package no.vdvil.renderer.image;
 
 import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Instruction;
+import no.lau.vdvil.cache.SimpleVdvilCache;
 import no.vdvil.renderer.image.swinggui.ImagePanel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class ImageRenderer extends AbstractRenderer {
     private ImageListener[] listener;
     JFrame frame;
+    private SimpleVdvilCache cache;
+    Logger log = LoggerFactory.getLogger(getClass());
 
-    public ImageRenderer(int width, int height) {
+    public ImageRenderer(int width, int height, SimpleVdvilCache cache) {
+        this.cache = cache;
         listener = new ImageListener[] {new ImagePanel()};
 
         frame = new JFrame("ImageRendererGUITest");
@@ -37,11 +46,16 @@ public class ImageRenderer extends AbstractRenderer {
         if (instruction instanceof ImageInstruction) {
             final ImageInstruction imageInstruction = (ImageInstruction) instruction;
             for (final ImageListener imageListener : listener) {
+                try {
+                    final InputStream imageStream = cache.fetchAsStream(imageInstruction.imageUrl);
                 javax.swing.SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
-                        imageListener.show(imageInstruction.imageStream);
+                        imageListener.show(imageStream);
                     }
                 });
+                } catch (IOException e) {
+                    log.error("Error loading image {}", imageInstruction.imageUrl, e);
+                }
             }
         }
     }

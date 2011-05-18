@@ -1,5 +1,6 @@
 package org.codehaus.httpcache4j.cache;
 
+import no.lau.vdvil.cache.SimpleVdvilCache;
 import no.lau.vdvil.cache.VdvilCache;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.codehaus.httpcache4j.HTTPRequest;
@@ -10,11 +11,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URI;
+import java.net.URL;
 
 /**
  * Wrapper class around HttpCache4J to make it more usable for VDvil usage
  */
-public class VdvilHttpCache implements VdvilCache{
+public class VdvilHttpCache implements VdvilCache, SimpleVdvilCache{
 
     Logger log =  LoggerFactory.getLogger(VdvilHttpCache.class);
     String storeLocation = "/tmp/vdvil";
@@ -47,6 +49,7 @@ public class VdvilHttpCache implements VdvilCache{
     /**
      * @param url location of file to download
      * @return the file or null if file not found. Not a good thing to do!
+     * @deprecated Use with URL!
      */
     public InputStream fetchAsStream(String url) {
         File locationOnDisk = fileLocation(url);
@@ -79,11 +82,12 @@ public class VdvilHttpCache implements VdvilCache{
         throw new RuntimeException("Not implemented yet");
     }
     */
-
+    @Deprecated
     public boolean accepts(String url) {
         return url.startsWith("http://");
     }
 
+    @Deprecated
     public String mimeType(String url) {
         return download(url).getPayload().getMimeType().toString();
     }
@@ -119,5 +123,17 @@ public class VdvilHttpCache implements VdvilCache{
         } catch (IOException e) {
             return false;
         }
+    }
+
+    public InputStream fetchAsStream(URL url) throws IOException {
+        return this.fetchAsStream(url.toString());
+    }
+
+    public boolean accepts(URL url) {
+        return accepts(url.toString());
+    }
+
+    public String mimeType(URL url) {
+        return mimeType(url.toString());
     }
 }

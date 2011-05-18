@@ -7,6 +7,7 @@ import swing.TabbedPane.Page
 import no.lau.vdvil.domain.player. {MasterMix, Dvl}
 import no.lau.vdvil.mix. {CompositionCallback, MyRepo, GenericDownloadingCoordinator}
 import org.slf4j.LoggerFactory
+import org.codehaus.httpcache4j.cache.VdvilHttpCache
 
 /**
  * Play GUI for playing .vdl files
@@ -79,7 +80,7 @@ class PlayPanel(val masterMix: MasterMix) {
   val playCompositionButton = new Button("Play Composition") {
     reactions += {case ButtonClicked(_) => compositionPlayer.pauseAndplay(startField.text.toInt)}
   }
-  val compositionPlayer = new ScalaCompositionPlayer(None) {
+  val compositionPlayer = new ScalaCompositionPlayer(None, VdvilHttpCache.create) {
     def pauseAndplay(startFrom: Int) {
       stop
       masterMix.masterBpm = bpmField.text.toFloat

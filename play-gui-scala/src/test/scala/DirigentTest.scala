@@ -13,7 +13,7 @@ class DirigentTest {
   var compositionUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml"
 
   @Test def testSetupAndPlaying {
-    val player = new no.lau.vdvil.player.ScalaCompositionPlayer(None)
+    val player = new no.lau.vdvil.player.ScalaCompositionPlayer(None, VdvilHttpCache.create)
     val dirigent = new Dirigent(ScalaHttpCache :: LocalFileCache :: Nil, new CompositionHandler :: Nil, player) {
       playbackBpm = 150F
       prepare(new URL(compositionUrl))

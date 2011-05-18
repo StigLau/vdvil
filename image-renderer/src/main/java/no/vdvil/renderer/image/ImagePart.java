@@ -2,8 +2,7 @@ package no.vdvil.renderer.image;
 
 import no.lau.tagger.model.AbstractPart;
 import no.bouvet.kpro.renderer.Instruction;
-
-import java.io.InputStream;
+import java.net.URL;
 
 /**
  * ImagePart is used for displaying images in context of a swing GUI or equvalent
@@ -12,15 +11,15 @@ import java.io.InputStream;
  * @since April 2011
  */
 public class ImagePart extends AbstractPart {
-    public final InputStream imageStream;
+    public final URL imageUrl;
 
-    public ImagePart(InputStream imageStream, int startCue, int endCue) {
+    public ImagePart(URL imageUrl, int startCue, int endCue) {
         super(startCue, endCue);
-        this.imageStream = imageStream;
+        this.imageUrl = imageUrl;
     }
 
     @Override
     public Instruction translateToInstruction(Float masterBpm) {
-        return new ImageInstruction(startCue, endCue, masterBpm, imageStream);
+        return new ImageInstruction(startCue, endCue, masterBpm, imageUrl);
     }
 }

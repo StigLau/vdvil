@@ -17,7 +17,7 @@ class PlayingTest {
   //TODO Why does it download so many files!?!
   @Test def playMix {
     val composition:ScalaComposition = JavaZoneDemoComposition.masterMix.asComposition
-    val player = new ScalaCompositionPlayer(Some(composition))
+    val player = new ScalaCompositionPlayer(Some(composition), VdvilHttpCache.create)
     player.play(0, 150F)
     Thread.sleep((16*60/150)*1000)
     player.stop
