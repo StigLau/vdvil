@@ -4,6 +4,7 @@ import no.lau.vdvil.cache.SimpleVdvilCache;
 import no.vdvil.renderer.image.ImageInstruction;
 import no.vdvil.renderer.image.ImageRenderer;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
+import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
 import no.vdvil.renderer.image.cacheinfrastructure.SimpleFileCache;
 import org.junit.Test;
 import java.io.IOException;
@@ -34,10 +35,10 @@ public class ImageRenderingTest {
     public void newInfrastructureTest() throws Exception{
         ImageRenderer renderer = new ImageRenderer(800, 600, cache);
 
-        renderer.handleInstruction(0, ImageDescription.parse(cache.fetchAsStream(imageDesc)).asInstruction(-0, -0, -0F));
+        renderer.handleInstruction(0, new ImageDescriptionXMLParser().parse(cache.fetchAsStream(imageDesc)).asInstruction(-0, -0, -0F));
         renderer.start(0);
         Thread.sleep(400);
-        renderer.handleInstruction(0, ImageDescription.parse(cache.fetchAsStream(imageDesc2)).asInstruction(-0, -0, -0F));
+        renderer.handleInstruction(0, new ImageDescriptionXMLParser().parse(cache.fetchAsStream(imageDesc2)).asInstruction(-0, -0, -0F));
         Thread.sleep(2000);
         renderer.stop();
     }

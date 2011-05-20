@@ -15,17 +15,5 @@ public class Composition implements MultimediaPart {
         this.multimediaParts = multimediaParts;
         this.url = url;
     }
-
-    public int getStartCue() {
-        throw new RuntimeException("Not implemented yet - has to be calculated based on its parts");
-    }
-
-    public int getEndCue() {
-        throw new RuntimeException("Not implemented yet - has to be calculated based on its parts");
-    }
-
-    public URL getUrl() {
-        return url;
-    }
 }
 

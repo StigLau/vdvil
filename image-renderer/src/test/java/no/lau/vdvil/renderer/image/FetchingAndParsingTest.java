@@ -3,6 +3,7 @@ package no.lau.vdvil.renderer.image;
 import no.lau.vdvil.cache.SimpleVdvilCache;
 import no.vdvil.renderer.image.ImageInstruction;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
+import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
 import no.vdvil.renderer.image.cacheinfrastructure.SimpleFileCache;
 import org.junit.Test;
 import java.io.InputStream;
@@ -26,7 +27,7 @@ public class FetchingAndParsingTest {
         InputStream imageDescriptionInputStream = testCache.fetchAsStream(imageDescriptionURL);
 
 
-        ImageDescription imageDescription = ImageDescription.parse(imageDescriptionInputStream);
+        ImageDescription imageDescription = new ImageDescriptionXMLParser().parse(imageDescriptionInputStream);
 
         ImageInstruction imageInstruction = new ImageInstruction(start, end, bpm, imageDescription.src);
         //Cache
