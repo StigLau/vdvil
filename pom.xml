@@ -76,6 +76,11 @@
                 <artifactId>httpcache</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>no.lau.vdvil</groupId>
+                <artifactId>composition-handler</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
