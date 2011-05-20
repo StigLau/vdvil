@@ -7,6 +7,6 @@ import java.net.URL;
 /**
  * The simplest possible interface for a downloader
  */
-public interface Downloader {
+public interface DownloaderFacade {
     InputStream fetchAsStream(URL url) throws IOException;
 }

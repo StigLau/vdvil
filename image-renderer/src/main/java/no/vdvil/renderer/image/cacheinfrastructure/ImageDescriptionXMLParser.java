@@ -1,6 +1,6 @@
 package no.vdvil.renderer.image.cacheinfrastructure;
 
-import no.lau.vdvil.cache.Downloader;
+import no.lau.vdvil.cache.DownloaderFacade;
 import no.lau.vdvil.handler.MultimediaParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -11,10 +11,12 @@ import java.io.InputStream;
 import java.net.URL;
 
 public class ImageDescriptionXMLParser implements MultimediaParser{
-    private Downloader dvlDownloader;
+    private DownloaderFacade downloaderFacade;
 
-    public ImageDescriptionXMLParser(Downloader downloader) {
-        this.dvlDownloader = downloader;
+    public ImageDescriptionXMLParser(){}
+
+    public ImageDescriptionXMLParser(DownloaderFacade downloaderFacade){
+        this.downloaderFacade = downloaderFacade;
     }
 
     /**
@@ -28,7 +30,7 @@ public class ImageDescriptionXMLParser implements MultimediaParser{
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         documentBuilderFactory.setNamespaceAware(true); // never forget this!
         try {
-            InputStream inputStream = dvlDownloader.fetchAsStream(url);
+            InputStream inputStream = downloaderFacade.fetchAsStream(url);
             Document doc = documentBuilderFactory.newDocumentBuilder().parse(inputStream);
 
             //String xpathExpression = "//book[author='Neal Stephenson']/title/text()";
@@ -42,6 +44,10 @@ public class ImageDescriptionXMLParser implements MultimediaParser{
         } catch (Exception e) {
             throw new IOException("Unable to parse", e);
         }
+    }
+
+    public void setDownloaderFacade(DownloaderFacade downloaderFacade) {
+        this.downloaderFacade = downloaderFacade;
     }
 
     public String toString() {

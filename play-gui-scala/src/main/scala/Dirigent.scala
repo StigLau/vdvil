@@ -28,7 +28,7 @@ class Dirigent(downloaders: List[FileCache], handlers:List[VdvilHandler], var pl
           }
         }
       }
-      else log.warn("Downloader {} did not accept {}", downloader, compositionUrl)
+      else log.warn("DownloaderFacade {} did not accept {}", downloader, compositionUrl)
     }
   }
 
