@@ -1,0 +1,24 @@
+<composition>
+    <name>JavaZone Demo</name>
+    <masterBpm>150.0</masterBpm>
+    <parts>
+        <part>
+            <id>4479230163500364845</id>
+            <dvl>
+                <url>file://localhost/C:/utvikling/vdvil/image-renderer/src/test/resources/ImageDescription.html</url>
+                <name>Pimp Teddy</name>
+            </dvl>
+            <start>0</start>
+            <end>32</end>
+        </part>
+        <part>
+            <id>5403996530329584526</id>
+            <dvl>
+                <url>http://www.lau.no/stig/Portafolio/main.html</url>
+                <name>Pimp teddy 2</name>
+            </dvl>
+            <start>16</start>
+            <end>48</end>
+        </part>
+    </parts>
+</composition>

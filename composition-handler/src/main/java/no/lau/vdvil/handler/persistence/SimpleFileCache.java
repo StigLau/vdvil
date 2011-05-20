@@ -1,4 +1,4 @@
-package no.vdvil.renderer.image.cacheinfrastructure;
+package no.lau.vdvil.handler.persistence;
 
 import no.lau.vdvil.cache.SimpleVdvilCache;
 
@@ -28,4 +28,6 @@ public class SimpleFileCache implements SimpleVdvilCache {
     public String mimeType(URL url) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    public String name = getClass().getName();
 }

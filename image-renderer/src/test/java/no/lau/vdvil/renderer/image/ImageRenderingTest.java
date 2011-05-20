@@ -3,20 +3,20 @@ package no.lau.vdvil.renderer.image;
 import no.lau.vdvil.cache.SimpleVdvilCache;
 import no.vdvil.renderer.image.ImageInstruction;
 import no.vdvil.renderer.image.ImageRenderer;
-import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
-import no.vdvil.renderer.image.cacheinfrastructure.SimpleFileCache;
+import no.lau.vdvil.handler.persistence.SimpleFileCache;
 import org.junit.Test;
 import java.io.IOException;
 import java.net.URL;
 
 public class ImageRenderingTest {
-    SimpleVdvilCache cache = new SimpleFileCache();
     URL pinkTeddy = ClassLoader.getSystemResource("pink_teddy.jpg");
     URL dj_teddy = ClassLoader.getSystemResource("dj-teddy.jpg");
     URL imageDesc = ClassLoader.getSystemResource("ImageDescription.html");
     URL imageDesc2 = ClassLoader.getSystemResource("ImageDescription2.html");
 
+    SimpleVdvilCache cache = new SimpleFileCache();
+    ImageDescriptionXMLParser parser = new ImageDescriptionXMLParser(cache);
 
     @Test
     public void testRenderingImage() throws InterruptedException, IOException {
@@ -35,10 +35,10 @@ public class ImageRenderingTest {
     public void newInfrastructureTest() throws Exception{
         ImageRenderer renderer = new ImageRenderer(800, 600, cache);
 
-        renderer.handleInstruction(0, new ImageDescriptionXMLParser().parse(cache.fetchAsStream(imageDesc)).asInstruction(-0, -0, -0F));
+        renderer.handleInstruction(0, parser.parse(imageDesc).asInstruction(-0, -0, -0F));
         renderer.start(0);
         Thread.sleep(400);
-        renderer.handleInstruction(0, new ImageDescriptionXMLParser().parse(cache.fetchAsStream(imageDesc2)).asInstruction(-0, -0, -0F));
+        renderer.handleInstruction(0, parser.parse(imageDesc2).asInstruction(-0, -0, -0F));
         Thread.sleep(2000);
         renderer.stop();
     }

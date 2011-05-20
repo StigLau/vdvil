@@ -1,16 +1,17 @@
 package no.lau.vdvil.renderer.image;
 
 import no.lau.vdvil.cache.SimpleVdvilCache;
+import no.lau.vdvil.handler.persistence.SimpleFileCache;
 import no.vdvil.renderer.image.ImageInstruction;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
-import no.vdvil.renderer.image.cacheinfrastructure.SimpleFileCache;
 import org.junit.Test;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class FetchingAndParsingTest {
@@ -24,14 +25,11 @@ public class FetchingAndParsingTest {
         float bpm = 130F;
 
         URL imageDescriptionURL = getClass().getResource("/ImageDescription.html");
-        InputStream imageDescriptionInputStream = testCache.fetchAsStream(imageDescriptionURL);
-
-
-        ImageDescription imageDescription = new ImageDescriptionXMLParser().parse(imageDescriptionInputStream);
+        ImageDescription imageDescription = new ImageDescriptionXMLParser(testCache).parse(imageDescriptionURL);
 
         ImageInstruction imageInstruction = new ImageInstruction(start, end, bpm, imageDescription.src);
         //Cache
-        InputStream imageStream = testCache.fetchAsStream(imageDescription.src);
+        assertNotNull(testCache.fetchAsStream(imageDescription.src));
     }
 
     @Test

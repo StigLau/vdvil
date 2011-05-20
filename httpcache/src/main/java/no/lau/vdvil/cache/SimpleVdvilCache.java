@@ -1,12 +1,11 @@
 package no.lau.vdvil.cache;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 
-public interface SimpleVdvilCache {
-    InputStream fetchAsStream(URL url) throws IOException;
-
+/**
+ * Interface for a cache
+ */
+public interface SimpleVdvilCache extends Downloader {
     boolean accepts(URL url);
 
     String mimeType(URL url);

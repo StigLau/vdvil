@@ -1,7 +1,8 @@
 package no.lau.vdvil.handler;
 
-import java.io.InputStream;
+import java.io.IOException;
+import java.net.URL;
 
 public interface MultimediaParser{
-    MultimediaPart parse(InputStream inputStream) throws Exception;
+    MultimediaPart parse(URL url) throws IOException;
 }
