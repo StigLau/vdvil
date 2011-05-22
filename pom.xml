@@ -63,6 +63,11 @@
             </dependency>
             <dependency>
                 <groupId>no.lau.vdvil</groupId>
+                <artifactId>image-renderer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>no.lau.vdvil</groupId>
                 <artifactId>lyric-renderer</artifactId>
                 <version>${project.version}</version>
             </dependency>

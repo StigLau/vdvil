@@ -2,9 +2,9 @@ package no.lau.vdvil.handler;
 
 import no.lau.vdvil.cache.DownloaderFacade;
 import no.lau.vdvil.cache.SimpleVdvilCache;
+import no.lau.vdvil.cache.VdvilCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -67,5 +67,15 @@ public class DownloadAndParseFacade implements MultimediaParser, DownloaderFacad
 
     public void addParser(MultimediaParser parser) {
         this.parsers.add(parser);
+    }
+
+    public URL fetchFromCache(URL url, String checksum) throws IOException {
+        for (SimpleVdvilCache cache : caches) {
+            if (cache instanceof VdvilCache) {
+                VdvilCache vdvilCache = (VdvilCache) cache;
+                return vdvilCache.fetchFromInternetOrRepository(url, checksum).toURI().toURL();
+            }
+        }
+        throw new IOException("No VdvilCache configured for " + getClass().getName());
     }
 }
