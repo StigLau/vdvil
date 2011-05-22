@@ -2,17 +2,20 @@ package no.lau.vdvil.domain.player
 
 import org.junit.Assert._
 import org.junit.{Ignore, Test}
+import java.net.URL
 
 
 class DomainTest {
   @Test def calculateDuration {
     val testThing = testData
-    //assertEquals(64, testThing.durationAsBeats.intValue)
+    assertEquals(64, testThing.durationAsBeats.intValue)
   }
 
   def testData:MasterMix = {
     MasterMix("name", 140F,
-      AudioPart(Dvl("url", "name"),0, 16, "0") ::AudioPart(Dvl("url", "name1"),32, 64, "0") ::AudioPart(Dvl("url", "name"),16, 32, "0") :: Nil)
+      AudioPart(Dvl(new URL("http://test.com"), "name"), 0, 16, "0") ::
+      AudioPart(Dvl(new URL("http://test.com"), "name"),32, 64, "0") ::
+      AudioPart(Dvl(new URL("http://test.com"), "name"),16, 32, "0") :: Nil)
   }
 
   @Ignore

@@ -8,6 +8,8 @@ import no.bouvet.kpro.tagger.persistence.{XStreamParser}
 import no.lau.tagger.model.SimpleSong
 import org.codehaus.httpcache4j.cache.VdvilHttpCache
 import org.slf4j.LoggerFactory
+import java.net.URL
+import no.lau.vdvil.cache.testresources.TestMp3s
 
 /**
  * Note - to make the TagGUI functional, it can be necessary to make a small change to the file and recompile.
@@ -18,7 +20,7 @@ object TagGUI extends SimpleSwingApplication {
 
   var dvlTable: ScalaDynamicDvlTable = null
   //These are just test variables
-  val returningDvlUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"
+  val returningDvlUrl = TestMp3s.returningDvl
 
   val tabs = new TabbedPane
 
@@ -36,7 +38,7 @@ object TagGUI extends SimpleSwingApplication {
             val dvlAsStream = new FileInputStream(dvlFilePath)
             try {
               val loadedSong = ToScalaSong.fromJava(new XStreamParser[SimpleSong].load(dvlAsStream))
-              addEditingPanel(dvlFilePath, NeatStuff.convertAllNullIDsToRandom(loadedSong))
+              addEditingPanel(new URL(dvlFilePath), NeatStuff.convertAllNullIDsToRandom(loadedSong))
             } catch {case _ => log.error("Could not parse file {}", dvlFilePath)} 
           }
         })
@@ -59,12 +61,12 @@ object TagGUI extends SimpleSwingApplication {
    t.visible = true
   }
 
-  def fetchDvlAndMp3FromWeb(url: String): Option[ScalaSong] = {
+  def fetchDvlAndMp3FromWeb(url: URL): Option[ScalaSong] = {
     try {
       val stream = VdvilHttpCache.create().fetchAsStream(url)
       val xml = new XStreamParser[SimpleSong].load(stream)
       val song = ToScalaSong.fromJava(xml)
-      NeatStuff.cacheMp3(song.mediaFile.fileName, song.mediaFile.checksum)
+      NeatStuff.cacheMp3(song.mediaFile.url, song.mediaFile.checksum)
       Some(NeatStuff.convertAllNullIDsToRandom(song))
     } catch {
       case e: Exception => log.error("Some problem", e); None
@@ -72,7 +74,7 @@ object TagGUI extends SimpleSwingApplication {
     }
   }
 
-  def addEditingPanel(input: String, song: ScalaSong) = {
+  def addEditingPanel(input: URL, song: ScalaSong) = {
     dvlTable = new ScalaDynamicDvlTable(input, song)
     //TODO Frame Repack
     tabs.pages += new Page(song.reference, dvlTable.ui)
@@ -101,7 +103,7 @@ object NeatStuff {
 
   def generateRandomId:String = String.valueOf(math.abs(Random.nextLong))
 
-  def cacheMp3(url:String, checksum:String) = VdvilHttpCache.create().fetchAsStream(url)
+  def cacheMp3(url:URL, checksum:String) = VdvilHttpCache.create().fetchAsStream(url)
 }
 
 

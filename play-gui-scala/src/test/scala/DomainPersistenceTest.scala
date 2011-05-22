@@ -6,10 +6,11 @@ import org.slf4j.LoggerFactory
 import java.net.URL
 import no.lau.vdvil.domain.player._
 import no.lau.vdvil.persistence.MasterMixXML
+import no.lau.vdvil.cache.testresources.TestMp3s
 
 class DomainPersistenceTest {
 
-  val dvl = Dvl("http://dvl.lau.no/dvls/yey.dvl", "yey")
+  val dvl = Dvl(new URL("http://dvl.lau.no/dvls/yey.dvl"), "yey")
   val example = MasterMix("A simple example", 150F,
     AudioPart(dvl, 0, 32, "1") :: AudioPart(dvl, 32, 64, "2") :: Nil)
   val log = LoggerFactory.getLogger(classOf[DomainPersistenceTest])
@@ -31,11 +32,12 @@ class DomainPersistenceTest {
   }
 }
 
+@Deprecated // Remove usage of "baseurl + something
 object JavaZoneDemoComposition {
   val baseUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/"
-  val returning = Dvl(baseUrl + "holden-nothing-93_returning_mix.dvl", "returning")
-  val not_alone = Dvl(baseUrl + "olive-youre_not_alone.dvl", "You're not alone")
-  val scares_me = Dvl(baseUrl + "christian_cambas-it_scares_me.dvl", "It scares me")
+  val returning = Dvl(TestMp3s.returningDvl, "returning")
+  val not_alone = Dvl(TestMp3s.not_aloneDvl, "You're not alone")
+  val scares_me = Dvl(TestMp3s.scares_meDvl, "It scares me")
 
   val mixTape:List[MultimediaPartTrait] = AudioPart(not_alone, 0, 32, "4479230163500364845") ::
     LyricPart("Vegen til mitt hjarte går gjennom skivane mine", 2, 8) ::

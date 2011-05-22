@@ -1,12 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-        <groupId>no.lau.vdvil</groupId>
-        <version>0.9-SNAPSHOT</version>
-
     <artifactId>play-gui-scala</artifactId>
     <name>Vdvil: Play Gui Scala - Scala GUI for playing compositions</name>
 
+    <parent>
+        <groupId>no.lau.vdvil</groupId>
+        <artifactId>root</artifactId>
+        <version>0.9-SNAPSHOT</version>
+    </parent>
 
     <properties>
         <scala.version>2.8.0</scala.version>
@@ -17,22 +19,18 @@
         <dependency>
             <groupId>no.lau.vdvil</groupId>
             <artifactId>tagger-model</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
             <artifactId>audio-renderer</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
             <artifactId>image-renderer</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
             <artifactId>lyric-renderer</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>

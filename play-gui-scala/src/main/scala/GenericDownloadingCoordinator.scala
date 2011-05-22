@@ -3,7 +3,8 @@ package no.lau.vdvil.mix
 import actors.Actor
 import no.lau.vdvil.downloading.DVLCallBack
 import org.slf4j.LoggerFactory
-import org.codehaus.httpcache4j.cache.VdvilHttpCache;
+import org.codehaus.httpcache4j.cache.VdvilHttpCache
+import java.net.URL;
 
 class GenericDownloadingCoordinator(downloadGUICallback:DVLCallBack) extends Actor {
 
@@ -42,5 +43,5 @@ class DownloadActor(download:Download, coordinator: Actor) extends Actor {
 }
 
 
-case class Download(url:String, callBack:DownloadableFileCallback)
+case class Download(url:URL, callBack:DownloadableFileCallback)
 case class FinishedDownloading(download:Download)

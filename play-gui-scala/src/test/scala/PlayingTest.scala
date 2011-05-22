@@ -12,7 +12,7 @@ class PlayingTest {
   def cacheFiles{
     val imagePart:List[ImagePart] = JavaZoneDemoComposition.masterMix.parts.collect{case x:ImagePart => x}
     val cache = VdvilHttpCache.create()
-    imagePart.foreach{image => cache.fetchFromInternetOrRepository(image.url.toString, "Woot")}
+    imagePart.foreach{image => cache.fetchFromInternetOrRepository(image.url, "Erronous checksum")}
   }
   //TODO Why does it download so many files!?!
   @Test def playMix {

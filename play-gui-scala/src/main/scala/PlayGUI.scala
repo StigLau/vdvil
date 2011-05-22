@@ -8,6 +8,7 @@ import no.lau.vdvil.domain.player. {MasterMix, Dvl}
 import no.lau.vdvil.mix. {CompositionCallback, MyRepo, GenericDownloadingCoordinator}
 import org.slf4j.LoggerFactory
 import org.codehaus.httpcache4j.cache.VdvilHttpCache
+import java.net.URL
 
 /**
  * Play GUI for playing .vdl files
@@ -23,7 +24,7 @@ object PlayGUI extends SimpleSwingApplication {
     menuBar = new MenuBar {
       contents += new Menu("Load") {
         contents += new MenuItem(Action("from web") {
-          Dialog.showInput(menuBar, "", "Load from", Dialog.Message.Plain, Swing.EmptyIcon, Nil, javaZoneDemoCompositionUrl).map(startDownload(_))
+          Dialog.showInput(menuBar, "", "Load from", Dialog.Message.Plain, Swing.EmptyIcon, Nil, javaZoneDemoCompositionUrl).map(chosenPath => startDownload(new URL(chosenPath)))
         })
       }
     }
@@ -39,7 +40,7 @@ object PlayGUI extends SimpleSwingApplication {
   t.visible = true
  }
 
-  def startDownload(url:String) {
+  def startDownload(url:URL) {
     val guiCallback = new DVLCallBack {
         def setLabel(dvl: Dvl, text: String) {log.info("label set") }
         def visible { log.info("Visible") }
@@ -96,7 +97,7 @@ class DVLCallBackGUI (masterMix:MasterMix) extends DVLCallBack {
       dvlLabels.foreach(contents += _._2)
     }
   }
-  lazy val dvlLabels: Map[Dvl, Label] = Map.empty ++ masterMix.dvls.map(dvl => dvl -> new Label(dvl.url))
+  lazy val dvlLabels: Map[Dvl, Label] = Map.empty ++ masterMix.dvls.map(dvl => dvl -> new Label(dvl.url.toString))
   def setLabel(dvl: Dvl, text: String) {dvlLabels(dvl).text_=(text)}
   def visible { downloadingPanel.visible_=(true) }
   def finished {

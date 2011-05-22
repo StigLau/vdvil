@@ -11,6 +11,7 @@ import java.net.URL
 import no.lau.vdvil.domain.player.{MasterMix, Dvl}
 import no.lau.vdvil.persistence.MasterMixXML
 
+@Deprecated
 object Repo {
   val cache = VdvilHttpCache.create();
 
@@ -21,7 +22,7 @@ object Repo {
     ToScalaSong.fromJava(xml)
   }
 
-  def findFile(url:URL):InputStream = cache.fetchAsStream(url.toString)
+  def findFile(url:URL):InputStream = cache.fetchAsStream(url)
 }
 
 trait DownloadableFileCallback {
@@ -33,7 +34,7 @@ trait CompositionCallback {
 }
 
 class MyRepo(downloadingCoordinator:GenericDownloadingCoordinator) {
-  def fetchComposition(url:String, compositionCallBack:CompositionCallback) {
+  def fetchComposition(url:URL , compositionCallBack:CompositionCallback) {
     downloadingCoordinator ! Download(url, new DownloadableFileCallback {
       def finished(mixAsStream:InputStream){
         compositionCallBack.finished(Some(MasterMixXML.fromXML(XML.load(mixAsStream))))

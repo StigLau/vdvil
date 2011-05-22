@@ -9,6 +9,7 @@ import org.codehaus.httpcache4j.cache.VdvilHttpCache
 import no.vdvil.renderer.lyric.LyricInstruction
 import no.vdvil.renderer.image.ImageInstruction
 import java.net.URL
+import java.io.File
 
 class ScalaComposition(var masterBpm: Float, val parts: List[MultimediaPartTrait]) {
   def asInstructions:Instructions = new Instructions {
@@ -18,6 +19,7 @@ class ScalaComposition(var masterBpm: Float, val parts: List[MultimediaPartTrait
       case image:ImagePart => append(new ImageInstruction(image.startCue, image.endCue, masterBpm.floatValue, image.url))
     }
   }
+  @Deprecated //Return int!
   def durationAsBeats:Float = asInstructions.getDuration * masterBpm / (44100 * 60)
 }
 
@@ -26,7 +28,8 @@ case class ScalaAudioPart(song: ScalaSong, startCue:Int, endCue:Int, segment: Sc
   val bpm = song.bpm
 
   def translateToInstruction(masterBpm: Float): Instruction = {
-    val audioSource = new MP3Source(VdvilHttpCache.create.fileLocation(song.mediaFile.fileName))
+    val mp3File:File = VdvilHttpCache.create.fetchFromInternetOrRepository(song.mediaFile.url, song.mediaFile.checksum)
+    val audioSource = new MP3Source(mp3File)
     //TODO check why diff neeeds to be opposite
     val partCompositionDiff: Float = bpm / masterBpm
     val compositionPartDiff: Float = masterBpm / bpm
@@ -76,4 +79,4 @@ trait MultimediaPartTrait {
 case class AudioPart(dvl:Dvl, startCue:Int, endCue:Int, id:String) extends MultimediaPartTrait
 case class LyricPart(text:String, startCue:Int, endCue:Int) extends MultimediaPartTrait
 case class ImagePart(id:String, url:URL, startCue:Int, endCue:Int) extends MultimediaPartTrait
-case class Dvl(url: String, name:String)
+case class Dvl(url: URL, name:String)

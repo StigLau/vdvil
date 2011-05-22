@@ -1,6 +1,7 @@
 package no.lau.vdvil.persistence
 
 import no.lau.vdvil.domain.player.{Dvl, AudioPart, MasterMix}
+import java.net.URL
 
 object MasterMixXML {
   def fromXML(node:xml.Node) = MasterMix(
@@ -38,7 +39,7 @@ object AudioPartXML {
 
 object DvlXML {
   def fromXML(node:xml.Node) = Dvl(
-    (node \ "url").text,
+    new URL((node \ "url").text),
     (node \ "name").text
   )
 

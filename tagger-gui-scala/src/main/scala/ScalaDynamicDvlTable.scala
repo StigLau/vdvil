@@ -5,8 +5,9 @@ import scala.swing.event._
 import org.slf4j.LoggerFactory
 import no.lau.tagger.scala.model.{ScalaSegment, ScalaSong}
 import no.lau.vdvil.player.SegmentPlayer
+import java.net.URL
 
-class ScalaDynamicDvlTable(dvlUrl: String, song: ScalaSong) {
+class ScalaDynamicDvlTable(dvlUrl: URL, song: ScalaSong) {
 
   var player: SegmentPlayer = null
   var isPlaying = false
@@ -18,8 +19,8 @@ class ScalaDynamicDvlTable(dvlUrl: String, song: ScalaSong) {
    * Main GUI Panel
    */
   lazy val ui = new BorderPanel {
-    add(new TextField(song.mediaFile.fileName, 80) {
-      reactions += {case _ => song.mediaFile.fileName = text}
+    add(new TextField(song.mediaFile.url.toString, 80) {
+      reactions += {case _ => song.mediaFile.url = new URL(text)}
     }, BorderPanel.Position.North)
 
     add(new BorderPanel {

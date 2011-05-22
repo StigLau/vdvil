@@ -11,7 +11,7 @@ import org.codehaus.httpcache4j.cache.VdvilHttpCache
 class SegmentPlayer(var song: ScalaSong, startCue: Int, endCue: Int) extends Actor {
   val cache = VdvilHttpCache.create();
 
-  val mp3File = cache.fileLocation(song.mediaFile.fileName)
+  val mp3File = cache.fetchFromInternetOrRepository(song.mediaFile.url, song.mediaFile.checksum)
   val audioSource: AudioSource = new MP3Source(mp3File)
   val player = new AudioPlayer
   val log = LoggerFactory.getLogger(classOf[SegmentPlayer])

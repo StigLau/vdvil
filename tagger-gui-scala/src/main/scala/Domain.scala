@@ -1,5 +1,7 @@
 package no.lau.tagger.scala.model
 
+import java.net.URL
+
 /**
  * The domain model works as the bridge between the Java and Scala world
  */
@@ -10,4 +12,4 @@ class ScalaSong(val reference: String, val mediaFile: ScalaMediaFile, var segmen
   def segmentWithId(id:String):Option[ScalaSegment] = segments.filter(segment=> segment.id == id).headOption
 }
 
-class ScalaMediaFile(var fileName: String, var checksum: String, var startingOffset: Float)
+class ScalaMediaFile(var url: URL, var checksum: String, var startingOffset: Float)
