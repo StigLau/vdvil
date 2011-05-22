@@ -2,7 +2,9 @@ package no.lau.vdvil.cache;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 /**
  * A generic interface for all caches
@@ -15,29 +17,14 @@ public interface VdvilCache {
      * @return the file if it is found
      * @throws FileNotFoundException if the file was not found
      */
-    File fetchFromInternetOrRepository(String url, String checksum) throws FileNotFoundException;
+    File fetchFromInternetOrRepository(URL url, String checksum) throws IOException;
 
     /**
      * Preferred way of downloading files - as streams
      * @param url path to stream
      * @return inputStream
      */
-    InputStream fetchAsStream(String url);
-
-    /**
-     * Verify that file is correct on disk. Used when downloading mp3's and such
-     * @param pathToFileOnDisk path on disk
-     * @param checksum to verify integrity of file
-     * @return Whether the file exists
-     */
-    boolean existsInRepository(File pathToFileOnDisk, String checksum);
-
-    /**
-     * Return path to file on disk
-     * @param url where the file is originally located on the web
-     * @return the file itself
-     */
-    File fileLocation(String url);
+    InputStream fetchAsStream(URL url);
 
     /**
      * Invalidates a file in the local cache
@@ -51,10 +38,10 @@ public interface VdvilCache {
      * @param url location of file
      * @return mime type of the file
      */
-    String mimeType(String url);
+    String mimeType(URL url);
 
     /*
      * Checks whether the downloader accepts the URL format
      */
-    boolean accepts(String url);
+    boolean accepts(URL url);
 }

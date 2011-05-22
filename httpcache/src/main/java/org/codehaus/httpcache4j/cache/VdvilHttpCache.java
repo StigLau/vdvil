@@ -37,21 +37,20 @@ public class VdvilHttpCache implements VdvilCache, SimpleVdvilCache{
      * @param url to the file
      * @return the file or null if empty
      */
-    public File fetchFromInternetOrRepository(String url, String checksum) throws FileNotFoundException {
-        fetchAsStream(url);
+    public File fetchFromInternetOrRepository(URL url, String checksum) throws IOException {
+        fetchAsStream(url);//Load to cache
         File locationOnDisk = fileLocation(url);
         if(existsInRepository(locationOnDisk, checksum))
             return locationOnDisk;
         else
-            throw new FileNotFoundException(url + " could not be downloaded and retrieved in repository");
+            throw new FileNotFoundException(url + " could not be downloaded and retrieved in repository. Checksum was:" + checksum);
     }
 
     /**
      * @param url location of file to download
      * @return the file or null if file not found. Not a good thing to do!
-     * @deprecated Use with URL!
      */
-    public InputStream fetchAsStream(String url) {
+    public InputStream fetchAsStream(URL url) {
         File locationOnDisk = fileLocation(url);
         if(locationOnDisk.exists() && locationOnDisk.canRead()) {
             log.debug(url + " File already in cache: " + locationOnDisk.getAbsolutePath());
@@ -68,11 +67,22 @@ public class VdvilHttpCache implements VdvilCache, SimpleVdvilCache{
         }
     }
 
-    public File fileLocation(String url) {
-        String urlChecksum = DigestUtils.md5Hex(url);
+    /**
+     * Return path to file on disk
+     * @param url where the file is originally located on the web
+     * @return the file itself
+     */
+    File fileLocation(URL url) {
+        String urlChecksum = DigestUtils.md5Hex(url.toString());
         return new File(storeLocation + "/files/" + urlChecksum + "/default");
     }
 
+    /**
+     * Verify that file is correct on disk. Used when downloading mp3's and such
+     * @param pathToFileOnDisk path on disk
+     * @param checksum to verify integrity of file
+     * @return Whether the file exists
+     */
     public boolean existsInRepository(File pathToFileOnDisk, String checksum) {
         return pathToFileOnDisk.exists() && pathToFileOnDisk.canRead() && validateChecksum(pathToFileOnDisk, checksum);
     }
@@ -82,19 +92,18 @@ public class VdvilHttpCache implements VdvilCache, SimpleVdvilCache{
         throw new RuntimeException("Not implemented yet");
     }
     */
-    @Deprecated
-    public boolean accepts(String url) {
-        return url.startsWith("http://");
+    public boolean accepts(URL url) {
+        return url.getProtocol().equals("http");
     }
 
     @Deprecated
-    public String mimeType(String url) {
+    public String mimeType(URL url) {
         return download(url).getPayload().getMimeType().toString();
     }
 
-    private HTTPResponse download(String url) {
+    private HTTPResponse download(URL url) {
         log.info("Downloading from " +  url + " to cache: " + url);
-        HTTPRequest fileRequest = new HTTPRequest(URI.create(url));
+        HTTPRequest fileRequest = new HTTPRequest(URI.create(url.toString()));
         HTTPResponse fileResponse = persistentcache.doCachedRequest(fileRequest);
         if(null != fileResponse.getETag()) {
             log.debug("ET Tag description " + fileResponse.getETag().getDescription());
@@ -123,17 +132,5 @@ public class VdvilHttpCache implements VdvilCache, SimpleVdvilCache{
         } catch (IOException e) {
             return false;
         }
-    }
-
-    public InputStream fetchAsStream(URL url) throws IOException {
-        return this.fetchAsStream(url.toString());
-    }
-
-    public boolean accepts(URL url) {
-        return accepts(url.toString());
-    }
-
-    public String mimeType(URL url) {
-        return mimeType(url.toString());
     }
 }

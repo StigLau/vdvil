@@ -1,6 +1,7 @@
 package org.codehaus.httpcache4j.cache;
 
 import com.google.common.io.Files;
+import no.lau.vdvil.cache.testresources.TestMp3s;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.codehaus.httpcache4j.HTTPRequest;
 import org.codehaus.httpcache4j.HTTPResponse;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.URI;
+import java.net.URL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -18,7 +20,9 @@ import static org.junit.Assert.assertTrue;
  * Warning, these tests are fairly volatile and depend on one another!
  */
 public class CachingTest {
-    Logger log =  LoggerFactory.getLogger(CachingTest.class);
+    Logger log =  LoggerFactory.getLogger(getClass());
+    URL returningmp3 = TestMp3s.returningmp3;
+    URL dvlUrl = TestMp3s.returningDvl;
 
     //Pull down .vdl file from url reference
     //Read .vdl file and find where its media files, mp3's and pictures, are located
@@ -26,9 +30,7 @@ public class CachingTest {
     //If in memoryCache use them, else download to memoryCache
     //Now, ready to be used
 
-    final String dvlUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl";
-
-    HTTPRequest request = new HTTPRequest(URI.create(dvlUrl));
+    HTTPRequest request = new HTTPRequest(URI.create(dvlUrl.toString()));
     VdvilHttpCache cache = VdvilHttpCache.create();
 
     @Test
@@ -44,7 +46,7 @@ public class CachingTest {
 
     @Test
     public void generateUrlChecksum() {
-        String uriHex = DigestUtils.md5Hex(dvlUrl);
+        String uriHex = DigestUtils.md5Hex(dvlUrl.toString());
         assertEquals("b45c6b4bd38020da03afe1f2514a3ba1", uriHex);
     }
 
@@ -56,27 +58,25 @@ public class CachingTest {
     @Test
     public void doesFileAlreadyExistInCache() throws FileNotFoundException {
         log.info("first");
-        String url = "http://kpro09.googlecode.com/svn/test-files/holden-nothing-93_returning_mix.mp3";
-        cache.fetchAsStream(url);
+        cache.fetchAsStream(returningmp3);
         log.info("Downloaded 1 file");
-        cache.fetchAsStream(url);
+        cache.fetchAsStream(returningmp3);
 
         log.info("Downloaded 2 file");
-        cache.fetchAsStream(url);
+        cache.fetchAsStream(returningmp3);
 
         log.info("Downloaded 3 file");
-        cache.fetchAsStream(url);
+        cache.fetchAsStream(returningmp3);
 
         log.info("Downloaded 4 file");
-        cache.fetchAsStream(url);
+        cache.fetchAsStream(returningmp3);
 
         log.info("Downloaded 5 file");
     }
 
     @Test
     public void validateChecksumOfLocalFiles() {
-        String url = dvlUrl;
-        assertFalse(cache.validateChecksum(cache.fileLocation(url), "not the correct hex checksum"));
-        assertTrue(cache.validateChecksum(cache.fileLocation(url), "2e24054eb28edd38c9a846022587955b"));
+        assertFalse(cache.validateChecksum(cache.fileLocation(dvlUrl), "not the correct hex checksum"));
+        assertTrue(cache.validateChecksum(cache.fileLocation(dvlUrl), "2e24054eb28edd38c9a846022587955b"));
     }
 }
