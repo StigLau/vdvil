@@ -1,0 +1,101 @@
+<track>
+  <reference>Holden an Thompsen - Nothing</reference>
+  <mediaFile>
+    <fileName>http://kpro09.googlecode.com/svn/test-files/holden-nothing-93_returning_mix.mp3</fileName>
+    <startingOffset>5.945</startingOffset>
+    <checksum>3e3477a6ccba67aa9f3196390f48b67d</checksum>
+  </mediaFile>
+  <bpm>130.0</bpm>
+  <segments>
+    <segment>
+      <id>4336519975847252321</id>
+      <text>low</text>
+      <start>0</start>
+      <end>64</end>
+    </segment>
+    <segment>
+      <id>4638184666682848978</id>
+      <text></text>
+      <start>64</start>
+      <end>128</end>
+    </segment>
+    <segment>
+      <id>2754708889643705332</id>
+      <text>Up</text>
+      <start>128</start>
+      <end>256</end>
+    </segment>
+    <segment>
+      <id>4533227407229953527</id>
+      <text>Down</text>
+      <start>256</start>
+      <end>320</end>
+    </segment>
+    <segment>
+      <id>6401936245564505757</id>
+      <text>Setting up</text>
+      <start>320</start>
+      <end>416</end>
+    </segment>
+    <segment>
+      <id>30189981949854134</id>
+      <text>Want nothing 1. time</text>
+      <start>416</start>
+      <end>448</end>
+    </segment>
+    <segment>
+      <id>6182122145512625145</id>
+      <text></text>
+      <start>448</start>
+      <end>480</end>
+    </segment>
+    <segment>
+      <id>6978423701190173373</id>
+      <text>Action satisfaction</text>
+      <start>480</start>
+      <end>512</end>
+    </segment>
+    <segment>
+      <id>3657904262668647219</id>
+      <text>Calming synth</text>
+      <start>512</start>
+      <end>544</end>
+    </segment>
+    <segment>
+      <id>3378726703924324403</id>
+      <text>Lyrics - 1. part</text>
+      <start>544</start>
+      <end>576</end>
+    </segment>
+    <segment>
+      <id>4823965795648964701</id>
+      <text>want nothing - 2. part</text>
+      <start>576</start>
+      <end>608</end>
+    </segment>
+    <segment>
+      <id>5560598317419002938</id>
+      <text>want nothing - 2. time</text>
+      <start>608</start>
+      <end>640</end>
+    </segment>
+    <segment>
+      <id>9040781467677187716</id>
+      <text>want nothing - 3. time</text>
+      <start>640</start>
+      <end>704</end>
+    </segment>
+    <segment>
+      <id>5762690949488488062</id>
+      <text>synth</text>
+      <start>704</start>
+      <end>768</end>
+    </segment>
+    <segment>
+      <id>651352148519104110</id>
+      <text>Want nothing - 3. time</text>
+      <start>768</start>
+      <end>1024</end>
+    </segment>
+  </segments>
+</track>
