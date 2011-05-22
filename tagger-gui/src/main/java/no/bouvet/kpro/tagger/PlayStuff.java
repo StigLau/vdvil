@@ -4,7 +4,8 @@ import no.bouvet.kpro.renderer.*;
 import no.bouvet.kpro.renderer.audio.*;
 import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AbstractPart;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.sound.sampled.LineUnavailableException;
 
 /**
@@ -13,7 +14,7 @@ import javax.sound.sampled.LineUnavailableException;
 public class PlayStuff {
     private final Renderer renderer;
     private final Float masterBpm;
-    static Logger log = Logger.getLogger(PlayStuff.class);
+    Logger log = LoggerFactory.getLogger(getClass());
 
     public PlayStuff(Composition composition) {
         masterBpm = composition.masterBpm;

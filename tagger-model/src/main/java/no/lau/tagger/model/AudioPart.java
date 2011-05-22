@@ -37,7 +37,7 @@ public class AudioPart extends AbstractPart{
         //TODO check why diff neeeds to be opposite        
         Float partCompositionDiff = bpm / masterBpm;
         Float compositionPartDiff = masterBpm / bpm;
-        File mp3File = cache.fileLocation(simpleSong.mediaFile.fileName);
+        File mp3File = cache.fetchFromInternetOrRepository(simpleSong.mediaFile.fileName, simpleSong.mediaFile.checksum);
         AudioSource audioSource = new MP3Source(mp3File);
 
         AudioInstruction audioInstruction = new SimpleAudioInstruction(

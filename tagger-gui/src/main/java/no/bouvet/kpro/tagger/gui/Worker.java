@@ -5,12 +5,14 @@ import no.bouvet.kpro.renderer.audio.SimpleAudioInstruction;
 import no.bouvet.kpro.renderer.audio.MP3Source;
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.tagger.AudioPlayer;
+import java.io.File;
 import java.util.List;
 import no.lau.tagger.model.SimpleSong;
-import org.apache.log4j.Logger;
 import no.lau.vdvil.cache.VdvilCache;
 import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import org.jdesktop.swingworker.SwingWorker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Worker extends SwingWorker<Object, Object> {
     VdvilCache cache = VdvilHttpCache.create();
@@ -21,14 +23,15 @@ public class Worker extends SwingWorker<Object, Object> {
     private int startCue;
     private int endCue;
     private AudioPlayer player;
-    static Logger log = Logger.getLogger(Worker.class);
+    Logger log = LoggerFactory.getLogger(getClass());
 
     public Worker(SimpleSong simpleSong, int startCue, int endCue) {
         this.simpleSong = simpleSong;
         this.startCue = startCue;
         this.endCue = endCue;
         try {
-            audioSource = new MP3Source(cache.fileLocation(simpleSong.mediaFile.fileName));
+            File fileInCache = cache.fetchFromInternetOrRepository(simpleSong.mediaFile.fileName, simpleSong.mediaFile.checksum);
+            audioSource = new MP3Source(fileInCache);
         } catch (Exception e) {
             log.error("Problem fetching mp3 file", e);
         }

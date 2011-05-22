@@ -3,8 +3,8 @@ package no.bouvet.kpro.tagger.persistence;
 import no.lau.tagger.model.Segment;
 import no.lau.tagger.model.SimpleSong;
 import com.thoughtworks.xstream.XStream;
-
 import java.io.*;
+import java.net.URL;
 
 public class XStreamParser <T extends SimpleSong> {
 
@@ -25,13 +25,13 @@ public class XStreamParser <T extends SimpleSong> {
         return (SimpleSong) xstream.fromXML(fromXML);
     }
 
-    public void save(T songToSave, String fileToSave) throws IOException {
+    public void save(T songToSave, URL fileToSave) throws IOException {
         String xml = toXml(songToSave);
         File folder = new File(path);
         if (!folder.exists()) {
             folder.mkdirs();
         }
-        BufferedWriter outputStream = new BufferedWriter(new FileWriter(fileToSave));
+        BufferedWriter outputStream = new BufferedWriter(new FileWriter(fileToSave.getFile()));
         outputStream.write(xml);
         outputStream.close();
     }

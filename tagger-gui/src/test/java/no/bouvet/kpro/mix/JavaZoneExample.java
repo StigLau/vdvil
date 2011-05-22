@@ -1,11 +1,12 @@
 package no.bouvet.kpro.mix;
 
-import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.bouvet.kpro.tagger.PlayStuff;
+import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.SimpleSong;
 import no.lau.vdvil.cache.VdvilCache;
+import no.lau.vdvil.cache.testresources.TestMp3s;
 import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -30,10 +31,10 @@ public class JavaZoneExample {
     }
 
     public void beforeMethod() throws FileNotFoundException {
-        returning = new XStreamParser().load(cache.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"));
-        unfinished_sympathy = new XStreamParser().load(cache.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/unfinished_sympathy.dvl"));
-        not_alone = new XStreamParser().load(cache.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/olive-youre_not_alone.dvl"));
-        scares_me = new XStreamParser().load(cache.fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl"));
+        returning = new XStreamParser().load(cache.fetchAsStream(TestMp3s.returningDvl));
+        unfinished_sympathy = new XStreamParser().load(cache.fetchAsStream(TestMp3s.unfinishedSympathyDvl));
+        not_alone = new XStreamParser().load(cache.fetchAsStream(TestMp3s.not_aloneDvl));
+        scares_me = new XStreamParser().load(cache.fetchAsStream(TestMp3s.scares_meDvl));
     }
 
 

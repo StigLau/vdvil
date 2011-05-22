@@ -4,16 +4,18 @@ import no.bouvet.kpro.tagger.PlayStuff;
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.lau.tagger.model.*;
 import no.lau.vdvil.cache.VdvilCache;
+import no.lau.vdvil.cache.testresources.TestMp3s;
 import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import org.junit.Test;
 import java.io.FileNotFoundException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlayingAMix {
 
-    String holdenUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl";
-    String psylteUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/loaderror-psylteflesk.dvl";
+    URL holdenUrl = TestMp3s.returningDvl;
+    URL psylteUrl = TestMp3s.psylteDvl;
     VdvilCache cache = VdvilHttpCache.create();
 
     @Test

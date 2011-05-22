@@ -4,15 +4,20 @@ import no.lau.tagger.model.MediaFile;
 import no.lau.tagger.model.Segment;
 import no.lau.tagger.model.SimpleSong;
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
-import org.apache.log4j.Logger;
+import no.lau.vdvil.cache.testresources.TestMp3s;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 //TODO Check out this outdated test!!!
 public class XstreamParserTest {
     XStreamParser parser = new XStreamParser();
-    static Logger log = Logger.getLogger(XstreamParserTest.class);
+    Logger log = LoggerFactory.getLogger(getClass());
+
+    URL coronaURL = TestMp3s.coronamp3;
 
     @Test
     public void parseWithXStream() {
@@ -31,11 +36,11 @@ public class XstreamParserTest {
         String xml = parser.toXml(coronaTest());
         
         SimpleSong simpleSong = parser.fromXML(xml);
-        Assert.assertEquals(simpleSong.mediaFile.fileName, "/Users/stiglau/jobb/utvikling/bouvet/playground/stig.lau/kpro2007/renderer.audio/src/test/resources/Corona_-_Baby_Baby.mp3");
+        Assert.assertEquals(simpleSong.mediaFile.fileName, coronaURL);
     }
 
-    public static SimpleSong coronaTest() {
-        MediaFile mediaFile = new MediaFile("/Users/stiglau/jobb/utvikling/bouvet/playground/stig.lau/kpro2007/renderer.audio/src/test/resources/Corona_-_Baby_Baby.mp3", "",
+    public SimpleSong coronaTest() {
+        MediaFile mediaFile = new MediaFile(coronaURL, "",
                 44100 * 0.445f);
         List<Segment> segments = new ArrayList<Segment>();
         segments.add(new Segment("a", 0, 16,  "Baby, why can't we just stay together"));

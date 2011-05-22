@@ -5,6 +5,7 @@ import no.bouvet.kpro.tagger.PlayStuff;
 import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.SimpleSong;
+import no.lau.vdvil.cache.testresources.TestMp3s;
 import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class SoundExample {
         System.exit(0);
     }
     public static List<AudioPart> parts() throws FileNotFoundException {
-        SimpleSong returning = new XStreamParser().load(VdvilHttpCache.create().fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"));
+        SimpleSong returning = new XStreamParser().load(VdvilHttpCache.create().fetchAsStream(TestMp3s.returningDvl));
         List<AudioPart> parts = new ArrayList<AudioPart>();
         parts.add(new AudioPart(returning, 0, 16, returning.segments.get(3)));
         parts.add(new AudioPart(returning, 12, 32, returning.segments.get(6)));

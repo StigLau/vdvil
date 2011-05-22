@@ -3,6 +3,7 @@ package no.bouvet.kpro;
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.Renderer;
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
+import no.lau.vdvil.cache.testresources.TestMp3s;
 import no.vdvil.renderer.lyric.LyricRenderer;
 import no.vdvil.renderer.lyric.LyricPart;
 import no.bouvet.kpro.renderer.audio.*;
@@ -15,6 +16,7 @@ import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.FileNotFoundException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,7 @@ import java.util.List;
  */
 public class AudioAndLyricsExample {
     Logger log = LoggerFactory.getLogger(AudioAndLyricsExample.class);
+    private static URL returningDvl = TestMp3s.returningDvl;
 
     public static void main(String[] args) throws Exception {
         new AudioAndLyricsExample().setUpStuff();
@@ -68,7 +71,7 @@ public class AudioAndLyricsExample {
     }
 
     public static List<? extends AbstractPart> parts() throws FileNotFoundException {
-        SimpleSong returning = new XStreamParser().load(VdvilHttpCache.create().fetchAsStream("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"));
+        SimpleSong returning = new XStreamParser().load(VdvilHttpCache.create().fetchAsStream(returningDvl));
         List<AbstractPart> parts = new ArrayList<AbstractPart>();
         parts.add(new AudioPart(returning, 0, 16, returning.segments.get(3)));
         parts.add(new LyricPart("Hello World!", 0, 12));
