@@ -6,7 +6,6 @@ import no.vdvil.renderer.image.ImageInstruction;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
 import org.junit.Test;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
