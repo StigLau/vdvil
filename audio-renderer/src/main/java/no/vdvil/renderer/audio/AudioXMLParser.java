@@ -13,6 +13,10 @@ public class AudioXMLParser implements MultimediaParser {
     XStream xstream;
 
     public AudioXMLParser() {
+        this(null);
+    }
+    public AudioXMLParser(DownloadAndParseFacade downloaderAndParseFacade) {
+        this.downloaderAndParseFacade = downloaderAndParseFacade;
         xstream = new XStream();
         xstream.alias("track", Track.class);
         xstream.alias("mediaFile", MediaFile.class);
