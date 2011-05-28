@@ -12,7 +12,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayingAMix {
+public class PlayingAMixTest {
 
     URL holdenUrl = TestMp3s.returningDvl;
     URL psylteUrl = TestMp3s.psylteDvl;
