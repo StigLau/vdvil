@@ -12,6 +12,7 @@ class PlayGuiProject(info: ProjectInfo) extends DefaultProject(info)
   val scala_swing = "org.scala-lang" % "scala-swing" % "2.8.0"
   val tagger_gui = "no.lau.vdvil" % "tagger-gui-scala" % "0.9-SNAPSHOT"
   val tagger_model = "no.lau.vdvil" % "tagger-model" % "0.9-SNAPSHOT"
+  val composition_handler = "no.lau.vdvil" % "composition-handler" % "0.9-SNAPSHOT"
   val lyric_renderer = "no.lau.vdvil" % "lyric-renderer" % "0.9-SNAPSHOT"
   val image_renderer = "no.lau.vdvil" % "image-renderer" % "0.9-SNAPSHOT"
   //For running JUnit tests

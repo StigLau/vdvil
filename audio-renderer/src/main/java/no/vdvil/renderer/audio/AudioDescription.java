@@ -9,32 +9,29 @@ import java.net.URL;
 
 public class AudioDescription implements MultimediaPart {
 
+    private Segment segment;
     final Track track;
     final URL dvlSrc;
     private URL urlInLocalCache;
 
-    public AudioDescription(Track track, URL dvlSrc, URL urlInLocalCache) {
+    public AudioDescription(Segment segment, Track track, URL dvlSrc, URL urlInLocalCache) {
+        this.segment = segment;
         this.track = track;
         this.dvlSrc = dvlSrc;
         this.urlInLocalCache = urlInLocalCache;
     }
-    public AudioInstruction asInstruction(String id, int start, int end, int cue, Float bpm, Float masterBpm) throws IOException{
-        for (Segment segment : track.segments) {
-            if(id.equals(segment.id)) {
-                Float speedFactor = 44100 * 60 / bpm;
-                Float differenceBetweenMasterSongAndPart = bpm / masterBpm;
 
-                int _start = new Float(start * speedFactor * differenceBetweenMasterSongAndPart).intValue();
-                int _end = new Float(end * speedFactor * differenceBetweenMasterSongAndPart).intValue();
-                int _cue = new Float((cue * speedFactor) + (track.mediaFile.startingOffset * 44100)).intValue();
-                int _duration = _end - _start;
+    public AudioInstruction asInstruction(int cue, int end, Float masterBpm) throws IOException{
+        Float speedFactor = 44100 * 60 / track.bpm;
+        Float differenceBetweenMasterSongAndPart = track.bpm / masterBpm;
 
-                MP3Source mp3Source = new MP3Source(new File(urlInLocalCache.getFile()));
-                return new AudioInstruction(_start, _end, mp3Source, _cue, _duration);
-                //TODO NOT FINISHED WITH creating AudioInstruction correctly
-            }
-        }
-        //return new AudioInstruction(start, end, bpm, dvlSrc);
-        throw new RuntimeException("Not implemented yet");
+        int _start = new Float(segment.start * speedFactor * differenceBetweenMasterSongAndPart).intValue();
+        int _end = new Float(segment.end * speedFactor * differenceBetweenMasterSongAndPart).intValue();
+        int _cue = new Float((cue * speedFactor) + (track.mediaFile.startingOffset * 44100)).intValue();
+        int _duration = _end - _start;
+
+        MP3Source mp3Source = new MP3Source(new File(urlInLocalCache.getFile()));
+        return new AudioInstruction(_start, _end, mp3Source, _cue, _duration);
+        //TODO NOT FINISHED WITH creating AudioInstruction correctly
     }
 }

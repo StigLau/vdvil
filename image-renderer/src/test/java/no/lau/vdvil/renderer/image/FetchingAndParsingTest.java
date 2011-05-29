@@ -24,7 +24,7 @@ public class FetchingAndParsingTest {
         float bpm = 130F;
 
         URL imageDescriptionURL = getClass().getResource("/ImageDescription.html");
-        ImageDescription imageDescription = new ImageDescriptionXMLParser(testCache).parse(imageDescriptionURL);
+        ImageDescription imageDescription = new ImageDescriptionXMLParser(testCache).parse("", imageDescriptionURL);
 
         ImageInstruction imageInstruction = new ImageInstruction(start, end, bpm, imageDescription.src);
         //Cache

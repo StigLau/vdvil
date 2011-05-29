@@ -23,11 +23,11 @@ public class AudioXMLParser implements MultimediaParser {
         xstream.alias("segment", Segment.class);
     }
 
-    public AudioDescription parse(URL dvlUrl) throws IOException {
+    public AudioDescription parse(String id, URL dvlUrl) throws IOException {
         Track track = (Track) xstream.fromXML(downloaderAndParseFacade.fetchAsStream(dvlUrl));
-
+        Segment segment = track.findSegment(id);
         URL fileInCache = downloaderAndParseFacade.fetchFromCache(track.mediaFile.fileName, track.mediaFile.checksum);
-        return new AudioDescription(track, dvlUrl, fileInCache);
+        return new AudioDescription(segment, track, dvlUrl, fileInCache);
     }
 
     public void setDownloaderAndParseFacade(DownloadAndParseFacade downloaderAndParseFacade) {
@@ -40,6 +40,18 @@ class Track {
     Float bpm;
     MediaFile mediaFile;
     List<Segment> segments;
+
+    /**
+     * @param id Searches for a Segment by its id
+     * @return Segment.NULL if no segment found with this ID
+     */
+    public Segment findSegment(String id) {
+        for (Segment segment : segments) {
+            if(segment.id.equals(id))
+                return segment;
+        }
+        return Segment.NULL;
+    }
 }
 
 class MediaFile {
@@ -49,6 +61,7 @@ class MediaFile {
 }
 
 class Segment {
+    public static final Segment NULL = new Segment();
     String id;
     String text;
     int start;

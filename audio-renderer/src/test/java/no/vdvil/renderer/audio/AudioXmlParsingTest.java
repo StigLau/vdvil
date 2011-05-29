@@ -24,14 +24,16 @@ public class AudioXmlParsingTest {
         parseFacade.addCache(VdvilHttpCache.create());
         parseFacade.addCache(new SimpleFileCache());
         audioXMLParser.setDownloaderAndParseFacade(parseFacade);
-        AudioDescription audioDescription = audioXMLParser.parse(url);
+        String segmentId = "4336519975847252321";
+        AudioDescription audioDescription = audioXMLParser.parse(segmentId, url);
 
-        AudioInstruction audioInstruction = audioDescription.asInstruction("4336519975847252321", 1, 2, 3, 120F, 3F);
+        AudioInstruction audioInstruction = audioDescription.asInstruction(0, 16, 120F);
         assertNotNull(audioInstruction);
     }
 
     @Test
     public void compositionWithAudioParsing() throws IOException {
+        String segmentId = "4479230163500364845";
         URL compositionUrl = new URL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml");
         DownloadAndParseFacade parseFacade = new DownloadAndParseFacade();
         parseFacade.addCache(VdvilHttpCache.create());
@@ -39,7 +41,7 @@ public class AudioXmlParsingTest {
         parseFacade.addParser(new CompositionXMLParser(parseFacade));
         parseFacade.addParser(new AudioXMLParser(parseFacade));
 
-        Composition composition = (Composition) parseFacade.parse(compositionUrl);
+        Composition composition = (Composition) parseFacade.parse(segmentId, compositionUrl);
         assertEquals(14, composition.multimediaParts.size());
     }
 }

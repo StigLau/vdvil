@@ -22,5 +22,10 @@
             <artifactId>httpcache</artifactId>
             <version>0.9-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>renderer</artifactId>
+            <version>0.9-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

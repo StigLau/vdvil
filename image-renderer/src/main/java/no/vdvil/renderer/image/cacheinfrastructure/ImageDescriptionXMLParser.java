@@ -26,7 +26,7 @@ public class ImageDescriptionXMLParser implements MultimediaParser{
      * @return an ImageDescription
      * @throws Exception if anything blows up in your face. There will be lots of these :)
      */
-    public ImageDescription parse(URL url) throws IOException{
+    public ImageDescription parse(String id, URL url) throws IOException{
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         documentBuilderFactory.setNamespaceAware(true); // never forget this!
         try {

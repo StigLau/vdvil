@@ -28,7 +28,7 @@ public class CompositionXMLParser implements MultimediaParser{
         xstream.alias("dvl", DvlXML.class);
     }
 
-    public Composition parse(URL url) throws IOException {
+    public Composition parse(String id, URL url) throws IOException {
         return convert((CompositionXML) xstream.fromXML(downloadAndParseFacade.fetchAsStream(url)), url);
     }
 
@@ -36,7 +36,7 @@ public class CompositionXMLParser implements MultimediaParser{
         List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
         for (final PartXML partXML : cXML.parts) {
             try{
-                parts.add(downloadAndParseFacade.parse(partXML.dvl.url));
+                parts.add(downloadAndParseFacade.parse(partXML.id, partXML.dvl.url));
             } catch (IOException e) {
                 log.error("Unable to parse or download {}", partXML.dvl.name);
             }

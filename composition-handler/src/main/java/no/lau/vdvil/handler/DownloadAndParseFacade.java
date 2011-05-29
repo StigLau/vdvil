@@ -31,10 +31,10 @@ public class DownloadAndParseFacade implements MultimediaParser, DownloaderFacad
      * @param url to parse
      * @return a parsed MultimediaPart. MultimediaPart.NULL if unsuccessful
      */
-    public MultimediaPart parse(URL url) throws IOException{
+    public MultimediaPart parse(String id, URL url) throws IOException{
         for (MultimediaParser parser : parsers) {
             try {
-                return parser.parse(url);
+                return parser.parse(id, url);
             } catch (Exception e) {
                 log.error("{} could not parse {}", new Object[]{parser, url}, e);
             }
