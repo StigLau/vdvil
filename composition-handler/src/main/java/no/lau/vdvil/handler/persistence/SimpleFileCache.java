@@ -8,7 +8,7 @@ import java.net.URL;
 
 public class SimpleFileCache implements SimpleVdvilCache {
     enum accepts {
-        HTTP, FILE
+        HTTP, HTTPS, FILE
     }
 
     public InputStream fetchAsStream(URL url) throws IOException {
