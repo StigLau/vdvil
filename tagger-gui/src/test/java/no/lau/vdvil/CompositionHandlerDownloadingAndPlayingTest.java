@@ -33,10 +33,10 @@ public class CompositionHandlerDownloadingAndPlayingTest {
 
         URL compositionURL = TestMp3s.javaZoneComposition;
         Composition composition = (Composition) downloadAndParseFacade.parse("", compositionURL);
-        Instructions instructions = composition.instructions(0, 128, 120F);
+        Instructions instructions = composition.instructions(0, 128, 150F);
 
         AbstractRenderer[] renderers = new AbstractRenderer[] {
-                new ImageRenderer(100, 100, downloadAndParseFacade),
+                new ImageRenderer(800, 600, downloadAndParseFacade),
                 new AudioRenderer(new AudioPlaybackTarget())
         };
         VdvilPlayer player = new InstructionPlayer(instructions, renderers);

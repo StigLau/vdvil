@@ -93,7 +93,12 @@ public class VdvilHttpCache implements VdvilCache, SimpleVdvilCache{
     }
     */
     public boolean accepts(URL url) {
-        return url.getProtocol().equals("http");
+        if(url.getProtocol().equals("http"))
+            return true;
+        else if(url.getProtocol().equals("https"))
+            return true;
+        else
+            return false;
     }
 
     @Deprecated
