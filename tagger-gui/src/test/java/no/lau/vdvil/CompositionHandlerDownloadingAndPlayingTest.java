@@ -15,12 +15,9 @@ import no.vdvil.renderer.image.ImageRenderer;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
 import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import org.junit.Test;
-
 import javax.sound.sampled.LineUnavailableException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Test out downloading and playing with the new (2011) handler interface
