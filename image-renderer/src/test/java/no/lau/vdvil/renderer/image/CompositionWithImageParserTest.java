@@ -19,7 +19,6 @@ public class CompositionWithImageParserTest {
 
     @Test
     public void compositionParsing() throws Exception {
-        //URL compositionXmlUrl = new URL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml");
         URL compositionXmlUrl = getClass().getResource("/testCompositionWithImageDvls.xml");
 
         DownloadAndParseFacade facade = new DownloadAndParseFacade();

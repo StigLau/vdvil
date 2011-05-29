@@ -9,6 +9,7 @@ import no.lau.vdvil.mix. {CompositionCallback, MyRepo, GenericDownloadingCoordin
 import org.slf4j.LoggerFactory
 import org.codehaus.httpcache4j.cache.VdvilHttpCache
 import java.net.URL
+import no.lau.vdvil.cache.testresources.TestMp3s
 
 /**
  * Play GUI for playing .vdl files
@@ -17,14 +18,14 @@ object PlayGUI extends SimpleSwingApplication {
   val tabs = new TabbedPane
 
   val log = LoggerFactory.getLogger(PlayGUI.getClass)
-  val javaZoneDemoCompositionUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml"
+  val javaZoneDemoCompositionUrl = TestMp3s.javaZoneComposition
 
   def top = new MainFrame {
     title = "Play GUI"
     menuBar = new MenuBar {
       contents += new Menu("Load") {
         contents += new MenuItem(Action("from web") {
-          Dialog.showInput(menuBar, "", "Load from", Dialog.Message.Plain, Swing.EmptyIcon, Nil, javaZoneDemoCompositionUrl).map(chosenPath => startDownload(new URL(chosenPath)))
+          Dialog.showInput(menuBar, "", "Load from", Dialog.Message.Plain, Swing.EmptyIcon, Nil, javaZoneDemoCompositionUrl.toString).map(chosenPath => startDownload(new URL(chosenPath)))
         })
       }
     }

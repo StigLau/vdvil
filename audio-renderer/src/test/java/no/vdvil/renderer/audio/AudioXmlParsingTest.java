@@ -1,6 +1,7 @@
 package no.vdvil.renderer.audio;
 
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
+import no.lau.vdvil.cache.testresources.TestMp3s;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.persistence.CompositionXMLParser;
@@ -34,7 +35,7 @@ public class AudioXmlParsingTest {
     @Test
     public void compositionWithAudioParsing() throws IOException {
         String segmentId = "4479230163500364845";
-        URL compositionUrl = new URL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml");
+        URL compositionUrl = TestMp3s.javaZoneComposition;
         DownloadAndParseFacade parseFacade = new DownloadAndParseFacade();
         parseFacade.addCache(VdvilHttpCache.create());
         parseFacade.addCache(new SimpleFileCache());

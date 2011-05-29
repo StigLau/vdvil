@@ -14,7 +14,6 @@ public class CompositionTest {
         downloadAndParseFacade.addCache(new SimpleFileCache());
         downloadAndParseFacade.addParser(new CompositionXMLParser(downloadAndParseFacade));
 
-        //URL url = new URL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml");
         URL url = ClassLoader.getSystemResource("CompositionExample.xml");
         Composition composition = (Composition) downloadAndParseFacade.parse("", url);
         System.out.println("composition = " + composition);

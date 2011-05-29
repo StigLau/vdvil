@@ -4,7 +4,7 @@ import org.junit.Test
 import org.slf4j.LoggerFactory
 import no.lau.vdvil.mix._
 import no.lau.vdvil.domain.player. {MasterMix, Dvl}
-import java.net.URL
+import no.lau.vdvil.cache.testresources.TestMp3s
 
 class DownloadingRepoTest {
 
@@ -21,7 +21,7 @@ class DownloadingRepoTest {
     val coordinator = new GenericDownloadingCoordinator(guiCallback)
     coordinator.start
 
-    new MyRepo(coordinator).fetchComposition(new URL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml"),
+    new MyRepo(coordinator).fetchComposition(TestMp3s.javaZoneComposition,
       new CompositionCallback {
         def finished(compositionOption:Option[MasterMix]) {
           log.info("Finished downloading composition {}", compositionOption.get.name)
