@@ -2,11 +2,10 @@ package no.vdvil.renderer.image;
 
 import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Instruction;
-import no.lau.vdvil.cache.SimpleVdvilCache;
+import no.lau.vdvil.cache.DownloaderFacade;
 import no.vdvil.renderer.image.swinggui.ImagePanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -15,10 +14,10 @@ import java.io.InputStream;
 public class ImageRenderer extends AbstractRenderer {
     private ImageListener[] listener;
     JFrame frame;
-    private SimpleVdvilCache cache;
+    private DownloaderFacade cache;
     Logger log = LoggerFactory.getLogger(getClass());
 
-    public ImageRenderer(int width, int height, SimpleVdvilCache cache) {
+    public ImageRenderer(int width, int height, DownloaderFacade cache) {
         this.cache = cache;
         listener = new ImageListener[] {new ImagePanel()};
 
