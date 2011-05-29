@@ -1,4 +1,4 @@
-package no.bouvet.kpro.tagger;
+package no.lau.vdvil.player;
 
 import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Instructions;
@@ -9,7 +9,7 @@ import java.util.List;
  * Simplified player for different instructions
  * Can be improved with a
  */
-public class InstructionPlayer {
+public class InstructionPlayer implements VdvilPlayer {
 
     final Renderer renderer;
 

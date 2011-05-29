@@ -4,10 +4,11 @@ import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.AudioRenderer;
-import no.bouvet.kpro.tagger.InstructionPlayer;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.persistence.CompositionXMLParser;
+import no.lau.vdvil.player.InstructionPlayer;
+import no.lau.vdvil.player.VdvilPlayer;
 import no.vdvil.renderer.audio.AudioXMLParser;
 import no.vdvil.renderer.image.ImageRenderer;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
@@ -16,7 +17,6 @@ import org.junit.Test;
 
 import javax.sound.sampled.LineUnavailableException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +42,10 @@ public class CompositionHandlerDownloadingAndPlayingTest {
         renderers.add(new ImageRenderer(100, 100, downloadAndParseFacade));
         renderers.add(new AudioRenderer(new AudioPlaybackTarget()));
 
-        InstructionPlayer player = new InstructionPlayer(instructions, renderers);
+        VdvilPlayer player = new InstructionPlayer(instructions, renderers);
         player.play(0);
 
-        Thread.sleep(10000);
+        Thread.sleep(5000);
 
             /*
         PlayStuff playStuff = new PlayStuff(new Composition(130F, parts));
