@@ -24,7 +24,7 @@ public class JavaZoneExample {
         try {
             test.beforeMethod();
             PlayStuff player = new PlayStuff(new Composition(150F, test.parts()));
-            player.play(0F);
+            player.play(0);
         } catch (Exception e) {
             e.printStackTrace();
         }

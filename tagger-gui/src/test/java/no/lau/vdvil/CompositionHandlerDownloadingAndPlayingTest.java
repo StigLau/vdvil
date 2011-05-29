@@ -38,11 +38,10 @@ public class CompositionHandlerDownloadingAndPlayingTest {
         Composition composition = (Composition) downloadAndParseFacade.parse("", compositionURL);
         Instructions instructions = composition.instructions(0, 128, 120F);
 
-        System.out.println("instructions = " + instructions);
-        List<AbstractRenderer> renderers = new ArrayList<AbstractRenderer>();
-        renderers.add(new ImageRenderer(100, 100, downloadAndParseFacade));
-        renderers.add(new AudioRenderer(new AudioPlaybackTarget()));
-
+        AbstractRenderer[] renderers = new AbstractRenderer[] {
+                new ImageRenderer(100, 100, downloadAndParseFacade),
+                new AudioRenderer(new AudioPlaybackTarget())
+        };
         VdvilPlayer player = new InstructionPlayer(instructions, renderers);
         player.play(0);
 

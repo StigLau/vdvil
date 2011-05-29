@@ -24,7 +24,7 @@ public class MixingExample {
         try {
             PlayStuff player = new PlayStuff(new Composition(135F, test.parts()));
 
-            player.play(0F);
+            player.play(0);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -36,7 +36,7 @@ public class JavaZoneHttpCacheExample {
             example.cacheFilesBeforePlayback();
             PlayStuff player = new PlayStuff(new Composition(150F, example.parts()));
             log.info("Starting JavaZoneHttpCacheExample playback");
-            player.play(0F);
+            player.play(0);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -19,7 +19,7 @@ public class SoundExample {
         Logger log = LoggerFactory.getLogger(SoundExample.class);
         PlayStuff player = new PlayStuff(new Composition(135F, SoundExample.parts()));
         try {
-            player.play(0F);
+            player.play(0);
             Thread.sleep(3000);
         } catch (Exception e) {
             log.error("Problem playing", e);

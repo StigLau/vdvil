@@ -13,7 +13,7 @@ public class InstructionPlayer implements VdvilPlayer {
 
     final Renderer renderer;
 
-    public InstructionPlayer(Instructions instructions, List<AbstractRenderer> renderers) {
+    public InstructionPlayer(Instructions instructions, AbstractRenderer... renderers) {
         renderer = new Renderer(instructions);
         for (AbstractRenderer abstractRenderer : renderers) {
             renderer.addRenderer(abstractRenderer);

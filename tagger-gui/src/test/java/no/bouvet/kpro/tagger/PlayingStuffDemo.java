@@ -21,7 +21,7 @@ public class PlayingStuffDemo {
         try {
             test.beforeMethod();
             PlayStuff playStuff = new PlayStuff(new Composition(160F, test.parts()));
-            playStuff.play(0F);
+            playStuff.play(0);
         } catch (Exception e) {
             e.printStackTrace();  
         }

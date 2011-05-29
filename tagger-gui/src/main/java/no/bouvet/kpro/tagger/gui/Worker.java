@@ -1,14 +1,13 @@
 package no.bouvet.kpro.tagger.gui;
 
-import no.bouvet.kpro.renderer.audio.AudioSource;
-import no.bouvet.kpro.renderer.audio.SimpleAudioInstruction;
-import no.bouvet.kpro.renderer.audio.MP3Source;
+import no.bouvet.kpro.renderer.audio.*;
 import no.bouvet.kpro.renderer.Instructions;
-import no.bouvet.kpro.tagger.AudioPlayer;
 import java.io.File;
 import java.util.List;
 import no.lau.tagger.model.SimpleSong;
 import no.lau.vdvil.cache.VdvilCache;
+import no.lau.vdvil.player.InstructionPlayer;
+import no.lau.vdvil.player.VdvilPlayer;
 import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import org.jdesktop.swingworker.SwingWorker;
 import org.slf4j.Logger;
@@ -22,7 +21,7 @@ public class Worker extends SwingWorker<Object, Object> {
     private SimpleSong simpleSong;
     private int startCue;
     private int endCue;
-    private AudioPlayer player;
+    private VdvilPlayer player;
     Logger log = LoggerFactory.getLogger(getClass());
 
     public Worker(SimpleSong simpleSong, int startCue, int endCue) {
@@ -42,8 +41,8 @@ public class Worker extends SwingWorker<Object, Object> {
         log.debug("startCue playing = " + startCue);
         int playLength = endCue - startCue;
         instructions.append(new SimpleAudioInstruction(0, playLength, simpleSong.bpm, startCue, simpleSong.mediaFile.startingOffset, audioSource, 1F));
-        player = new AudioPlayer();
-        player.playMusic(instructions);
+        player = new InstructionPlayer(instructions, new AudioRenderer(new AudioPlaybackTarget()));
+        player.play(0);
         return "worker finished";
     }
 

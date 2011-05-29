@@ -24,7 +24,7 @@ public class PlayingAMixTest {
         SimpleSong psylteFlesk = new XStreamParser().load(cache.fetchAsStream(psylteUrl));
         List<AudioPart> parts = testPlayingSomeStuff(nothing, psylteFlesk);
         PlayStuff playStuff = new PlayStuff(new Composition(130F, parts));
-        playStuff.play(4F);
+        playStuff.play(4);
         Thread.sleep(4*1000*130/60);
         playStuff.stop();
         Thread.sleep(50);
