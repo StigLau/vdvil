@@ -38,7 +38,7 @@ public class CompositionWithImageParserTest {
         assertEquals(ImageDescription.class,  composition.multimediaParts.get(0).getClass());
         ImageDescription imageDescription = (ImageDescription) composition.multimediaParts.get(0);
         assertEquals(xmlImageUrl, imageDescription.src);
-        ImageInstruction imageInstruction = imageDescription.asInstruction(0, 16, 120F);
+        ImageInstruction imageInstruction = imageDescription.asInstruction(120F);
         assertEquals(xmlImageUrl, imageInstruction.imageUrl);
     }
 }

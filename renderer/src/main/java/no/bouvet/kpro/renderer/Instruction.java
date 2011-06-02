@@ -7,7 +7,7 @@ package no.bouvet.kpro.renderer;
  * 
  * @author Michael Stokes
  */
-public abstract class Instruction {
+public abstract class Instruction implements Comparable {
 	protected int _start = 0;
 	protected int _end = 0;
 
@@ -39,4 +39,17 @@ public abstract class Instruction {
 	public int getEnd() {
 		return _end;
 	}
+
+    public int compareTo(Object o) {
+        if (o instanceof Instruction) {
+            Instruction other = (Instruction) o;
+            if (other.getStart() < this.getStart())
+                return 1;
+            else if(other._start == this.getStart() && other.getEnd() < this.getEnd())
+                return 1;
+            else if (other.getStart() > this.getStart())
+                return -1;
+        }
+        return 0;
+    }
 }

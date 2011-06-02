@@ -28,7 +28,7 @@ public class AudioXmlParsingTest {
         String segmentId = "4336519975847252321";
         AudioDescription audioDescription = audioXMLParser.parse(segmentId, url);
 
-        AudioInstruction audioInstruction = audioDescription.asInstruction(0, 16, 120F);
+        AudioInstruction audioInstruction = audioDescription.asInstruction(120F);
         assertNotNull(audioInstruction);
     }
 

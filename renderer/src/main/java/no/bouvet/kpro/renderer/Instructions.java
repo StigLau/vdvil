@@ -1,6 +1,7 @@
 package no.bouvet.kpro.renderer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * The Instructions class is a collection of renderer Instructions. It supports
@@ -70,6 +71,7 @@ public class Instructions {
 			_list.add(instruction);
 			if (instruction.getEnd() > _duration)
 				_duration = instruction.getEnd();
+            Collections.sort(_list);
 		}
 	}
 
@@ -82,4 +84,10 @@ public class Instructions {
 	public synchronized int getDuration() {
 		return _duration;
 	}
+
+    public void endAt(int end) {
+        System.out.println("stopAt = " + end);
+        append(new StopInstruction(end));
+    }
 }
+

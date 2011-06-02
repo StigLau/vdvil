@@ -7,10 +7,10 @@ import java.io.IOException;
 public interface MultimediaPart {
     MultimediaPart NULL = new MultimediaPart() {
 
-        public Instruction asInstruction(int cue, int end, Float masterBpm) throws IOException {
+        public Instruction asInstruction(Float masterBpm) throws IOException {
             return null;  //To change body of implemented methods use File | Settings | File Templates.
         }
     };
 
-    Instruction asInstruction(int cue, int end, Float masterBpm) throws IOException;
+    Instruction asInstruction(Float masterBpm) throws IOException;
 }

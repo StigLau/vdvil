@@ -41,7 +41,7 @@ public class Worker extends SwingWorker<Object, Object> {
         log.debug("startCue playing = " + startCue);
         int playLength = endCue - startCue;
         instructions.append(new SimpleAudioInstruction(0, playLength, simpleSong.bpm, startCue, simpleSong.mediaFile.startingOffset, audioSource, 1F));
-        player = new InstructionPlayer(instructions, new AudioRenderer(new AudioPlaybackTarget()));
+        player = new InstructionPlayer(simpleSong.bpm, instructions, new AudioRenderer(new AudioPlaybackTarget()));
         player.play(0);
         return "worker finished";
     }

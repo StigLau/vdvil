@@ -8,12 +8,15 @@ import java.net.URL;
 public class ImageDescription implements MultimediaPart{
 
     final public URL src;
+    int start;
+    int end;
+    //TODO THIS IS CRAAAAZY, need to set start/end correctly!
 
     public ImageDescription(URL src) {
         this.src = src;
     }
 
-    public ImageInstruction asInstruction(int cue, int end, Float masterBpm) throws IOException {
-        return new ImageInstruction(cue, end, masterBpm, src);
+    public ImageInstruction asInstruction(Float masterBpm) throws IOException {
+        return new ImageInstruction(start, end, masterBpm, src);
     }
 }

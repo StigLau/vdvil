@@ -21,17 +21,22 @@ public class AudioDescription implements MultimediaPart {
         this.urlInLocalCache = urlInLocalCache;
     }
 
-    public AudioInstruction asInstruction(int cue, int end, Float masterBpm) throws IOException{
+    public AudioInstruction asInstruction(Float masterBpm) throws IOException{
         Float speedFactor = 44100 * 60 / track.bpm;
         Float differenceBetweenMasterSongAndPart = track.bpm / masterBpm;
 
         int _start = new Float(segment.start * speedFactor * differenceBetweenMasterSongAndPart).intValue();
         int _end = new Float(segment.end * speedFactor * differenceBetweenMasterSongAndPart).intValue();
-        int _cue = new Float((cue * speedFactor) + (track.mediaFile.startingOffset * 44100)).intValue();
+        //int _cue = new Float((cue * speedFactor) + (track.mediaFile.startingOffset * 44100)).intValue();
+        Float _cue = track.mediaFile.startingOffset * 44100;
         int _duration = _end - _start;
 
         MP3Source mp3Source = new MP3Source(new File(urlInLocalCache.getFile()));
-        return new AudioInstruction(_start, _end, mp3Source, _cue, _duration);
+        AudioInstruction audioInstruction = new AudioInstruction(_start, _end, mp3Source, _cue.intValue(), _duration);
+
+        //Playback speed is a different equation!!
+        audioInstruction.setConstantRate(masterBpm / track.bpm);
+        return audioInstruction;
         //TODO NOT FINISHED WITH creating AudioInstruction correctly
     }
 }

@@ -35,10 +35,10 @@ public class ImageRenderingTest {
     public void newInfrastructureTest() throws Exception{
         ImageRenderer renderer = new ImageRenderer(800, 600, cache);
 
-        renderer.handleInstruction(0, parser.parse("", imageDesc).asInstruction(0, 16, 120F));
+        renderer.handleInstruction(0, parser.parse("", imageDesc).asInstruction(120F));
         renderer.start(0);
         Thread.sleep(400);
-        renderer.handleInstruction(0, parser.parse("", imageDesc2).asInstruction(4, 16, 120F));
+        renderer.handleInstruction(0, parser.parse("", imageDesc2).asInstruction(120F));
         Thread.sleep(2000);
         renderer.stop();
     }
