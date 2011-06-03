@@ -9,9 +9,11 @@ import no.lau.vdvil.cache.testresources.TestMp3s;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.persistence.CompositionXMLParser;
+import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.player.InstructionPlayer;
 import no.lau.vdvil.player.VdvilPlayer;
 import no.vdvil.renderer.audio.AudioXMLParser;
+import no.vdvil.renderer.image.ImageRenderer;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
 import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import org.junit.Test;
@@ -33,11 +35,11 @@ public class CompositionHandlerDownloadingAndPlayingTest {
         downloadAndParseFacade.addParser(new AudioXMLParser(downloadAndParseFacade));
 
         URL compositionURL = TestMp3s.javaZoneComposition;
-        Composition composition = (Composition) downloadAndParseFacade.parse("", compositionURL);
+        Composition composition = (Composition) downloadAndParseFacade.parse(PartXML.create(compositionURL));
         Float masterBpm = 150F;
         Instructions instructions = composition.instructions(masterBpm);
         //To tell the renderer to stop after the last instruction
-        instructions.endAt(4 * 44100);
+        instructions.endAt(16 * 100* 4410);
 
         for (Instruction instruction : instructions.lock()) {
             System.out.println("instruction.getStart() + instruction.getEnd()   = " + instruction.getClass().getSimpleName()  + " " + instruction.getStart() + " " + instruction.getEnd());
@@ -46,17 +48,13 @@ public class CompositionHandlerDownloadingAndPlayingTest {
 
 
         AbstractRenderer[] renderers = new AbstractRenderer[] {
-                //new ImageRenderer(800, 600, downloadAndParseFacade),
+                new ImageRenderer(800, 600, downloadAndParseFacade),
                 new AudioRenderer(new AudioPlaybackTarget())
         };
         VdvilPlayer player = new InstructionPlayer(masterBpm, instructions, renderers);
         player.play(0);
-        boolean isPlaying = true;
-        while(isPlaying) {
-            System.out.println("isPlaying = " + isPlaying);
-            Thread.sleep(2000);
-            //Todo Check out what field isPlaying fetches, because it doesn't work now!!!
-            isPlaying = ((InstructionPlayer)player).isPlaying();
+        while(player.isPlaying()) {
+            Thread.sleep(500);
         }
     }
 }

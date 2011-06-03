@@ -3,6 +3,7 @@ package no.vdvil.renderer.audio;
 import com.thoughtworks.xstream.XStream;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaParser;
+import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -23,11 +24,12 @@ public class AudioXMLParser implements MultimediaParser {
         xstream.alias("segment", Segment.class);
     }
 
-    public AudioDescription parse(String id, URL dvlUrl) throws IOException {
+    public AudioDescription parse(CompositionInstruction compositionInstruction) throws IOException {
+        URL dvlUrl = compositionInstruction.dvl().url();
         Track track = (Track) xstream.fromXML(downloaderAndParseFacade.fetchAsStream(dvlUrl));
-        Segment segment = track.findSegment(id);
+        Segment segment = track.findSegment(compositionInstruction.id());
         URL fileInCache = downloaderAndParseFacade.fetchFromCache(track.mediaFile.fileName, track.mediaFile.checksum);
-        return new AudioDescription(segment, track, dvlUrl, fileInCache);
+        return new AudioDescription(segment, compositionInstruction, track, fileInCache);
     }
 
     public void setDownloaderAndParseFacade(DownloadAndParseFacade downloaderAndParseFacade) {

@@ -148,14 +148,10 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 	 */
 	@Override
 	public void handleInstruction(int time, Instruction instruction) {
-        System.out.println("instruction = " + instruction);
-        System.out.println("time = " + time);
-        //todo Instruction == null is legacy and should be removed! @Stig Lau
-        if (instruction == null || instruction instanceof StopInstruction) {
-            System.out.println("_finished = " + _finished);
+        log.info("Got instruction {} to be played at {}", instruction, time);
+        if (instruction instanceof StopInstruction) {
 			_finished = true;
 		} else if (instruction instanceof AudioInstruction) {
-            log.debug(("Running instruction " + ((AudioInstruction)instruction).getSource()));
 			synchronized (_active) {
 				_active.add((AudioInstruction) instruction);
 			}

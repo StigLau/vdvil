@@ -2,6 +2,7 @@ package no.vdvil.renderer.image.cacheinfrastructure;
 
 import no.lau.vdvil.cache.DownloaderFacade;
 import no.lau.vdvil.handler.MultimediaParser;
+import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -22,15 +23,15 @@ public class ImageDescriptionXMLParser implements MultimediaParser{
     /**
      * Ugly implemented Parser of "xml" documents to fetch out values which result in an ImageDescription
      *
-     * @param url the XML/HTML Document to parse
+     * @param compositionInstruction representation of the XML/HTML Document to parse
      * @return an ImageDescription
-     * @throws Exception if anything blows up in your face. There will be lots of these :)
+     * @throws IOException if anything blows up in your face. There will be lots of these :)
      */
-    public ImageDescription parse(String id, URL url) throws IOException{
+    public ImageDescription parse(CompositionInstruction compositionInstruction) throws IOException {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         documentBuilderFactory.setNamespaceAware(true); // never forget this!
         try {
-            InputStream inputStream = downloaderFacade.fetchAsStream(url);
+            InputStream inputStream = downloaderFacade.fetchAsStream(compositionInstruction.dvl().url());
             Document doc = documentBuilderFactory.newDocumentBuilder().parse(inputStream);
 
             //String xpathExpression = "//book[author='Neal Stephenson']/title/text()";
@@ -40,7 +41,7 @@ public class ImageDescriptionXMLParser implements MultimediaParser{
             NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 
             URL imageSource = new URL(nodes.item(0).getNodeValue());
-            return new ImageDescription(imageSource);
+            return new ImageDescription(compositionInstruction, imageSource);
         } catch (Exception e) {
             throw new IOException("Unable to parse", e);
         }

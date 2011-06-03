@@ -1,6 +1,7 @@
 package no.lau.vdvil.renderer.image;
 
 import no.lau.vdvil.cache.SimpleVdvilCache;
+import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.handler.persistence.SimpleFileCache;
 import no.vdvil.renderer.image.ImageInstruction;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
@@ -24,7 +25,7 @@ public class FetchingAndParsingTest {
         float bpm = 130F;
 
         URL imageDescriptionURL = getClass().getResource("/ImageDescription.html");
-        ImageDescription imageDescription = new ImageDescriptionXMLParser(testCache).parse("", imageDescriptionURL);
+        ImageDescription imageDescription = new ImageDescriptionXMLParser(testCache).parse(PartXML.create(imageDescriptionURL));
 
         ImageInstruction imageInstruction = new ImageInstruction(start, end, bpm, imageDescription.src);
         //Cache
