@@ -6,6 +6,5 @@ package no.lau.vdvil.player;
 public interface VdvilPlayer {
     void play(int startAt);
     void stop();
-
     boolean isPlaying();
 }

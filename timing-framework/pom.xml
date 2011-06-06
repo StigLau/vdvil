@@ -58,9 +58,12 @@
                 </includes>
             </resource>
         </resources>
-        
     </build>
-    
+
+     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <scm>
         <connection>scm:svn:https://svn.java.net/svn/timingframework~svn</connection>
         <url>http://java.net/projects/timingframework/sources/svn/show</url>
