@@ -1,0 +1,167 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.surelogic</groupId>
+  <artifactId>promises</artifactId>
+  <packaging>jar</packaging>
+  <name>SureLogic Promise Annotations</name>
+  <version>4.0.0</version>
+  <description>
+    Provides the annotations necessary to express models of programmer
+    design intent in Java code. Promises are supra-linguistic formal
+    annotations to programs. Each promise has a precise meaning and
+    constrains the implementation and evolution of the code it targets.
+    Promises are also (typically) modular, meaning that the
+    implementation constraint on the code of a promise is limited in
+    scope.
+  </description>
+  <url>http://surelogic.com</url>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <connection>scm:svn:https://fluid.surelogic.com/svn/public/trunk/promises</connection>
+    <url>https://fluid.surelogic.com/svn/public/trunk/promises</url>
+  </scm>
+
+  <organization>
+    <name>Surelogic, Inc.</name>
+    <url>http://surelogic.com</url>
+  </organization>
+
+  <issueManagement>
+    <system>Bugzilla</system>
+    <url>http://surelogic.com/bugzilla/index.cgi</url>
+  </issueManagement>
+  
+  <developers>
+    <developer>
+      <name>Tim Halloran</name>
+      <email>tim.halloran@surelogic.com</email>
+      <organization>SureLogic</organization>
+      <organizationUrl>http://surelogic.com</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>-5</timezone>
+    </developer>
+    <developer>
+      <name>Nathan Boy</name>
+      <email>nathan.boy@surelogic.com</email>
+      <organization>SureLogic</organization>
+      <organizationUrl>http://surelogic.com</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-5</timezone>
+    </developer>
+    <developer>
+      <name>Edwin Chan</name>
+      <email>edwin.chan@surelogic.com</email>
+      <organization>SureLogic</organization>
+      <organizationUrl>http://surelogic.com</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-5</timezone>
+    </developer>
+    <developer>
+      <name>Aaron Greenhouse</name>
+      <email>aaron.greenhouse@surelogic.com</email>
+      <organization>SureLogic</organization>
+      <organizationUrl>http://surelogic.com</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-5</timezone>
+    </developer>
+  </developers>
+
+  <distributionManagement>
+    <repository>
+      <id>sl-repo</id>
+      <uniqueVersion>false</uniqueVersion>
+      <name>SureLogic Repository</name>
+      <url>scp://surelogic.com/home/rsync/m2repo</url>
+      <layout>default</layout>
+    </repository>
+  </distributionManagement>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-compiler-plugin</artifactId>
+	<configuration>
+	  <encoding>UTF-8</encoding>
+	  <showDeprecation>true</showDeprecation>
+	  <source>1.5</source>
+	  <target>1.5</target>
+	</configuration>
+      </plugin>
+      <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-javadoc-plugin</artifactId>
+	<executions>
+	  <execution>
+	    <goals>
+	      <goal>jar</goal>
+	    </goals>
+	  </execution>
+	</executions>
+      </plugin>
+      <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-source-plugin</artifactId>
+	<executions>
+	  <execution>
+	    <goals>
+	      <goal>jar</goal>
+	    </goals>
+	  </execution>
+	</executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.6.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changelog-plugin</artifactId>      
+	<reportSets>
+          <reportSet>
+            <id>single-report</id>
+            <configuration>
+              <type>range</type>
+              <range>30</range>
+            </configuration>
+            <reports>
+              <report>changelog</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+
+      </plugin>
+    </plugins>
+  </reporting>
+
+</project>

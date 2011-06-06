@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/timingframework~svn/!svn/ver/233/trunk/timingframework-swt
+END
+.classpath
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/timingframework~svn/!svn/ver/89/trunk/timingframework-swt/.classpath
+END
+.project
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/timingframework~svn/!svn/ver/89/trunk/timingframework-swt/.project
+END
+build-release.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/timingframework~svn/!svn/ver/224/trunk/timingframework-swt/build-release.xml
+END

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/timingframework~svn/!svn/ver/103/trunk/timingframework-classic/src/org/jdesktop/animation/timing
+END
+TimingEventListener.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/timingframework~svn/!svn/ver/81/trunk/timingframework-classic/src/org/jdesktop/animation/timing/TimingEventListener.java
+END
+TimingTargetAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/timingframework~svn/!svn/ver/81/trunk/timingframework-classic/src/org/jdesktop/animation/timing/TimingTargetAdapter.java
+END
+TimingSource.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/timingframework~svn/!svn/ver/81/trunk/timingframework-classic/src/org/jdesktop/animation/timing/TimingSource.java
+END
+Animator.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/timingframework~svn/!svn/ver/102/trunk/timingframework-classic/src/org/jdesktop/animation/timing/Animator.java
+END
+TimingTarget.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/timingframework~svn/!svn/ver/81/trunk/timingframework-classic/src/org/jdesktop/animation/timing/TimingTarget.java
+END
+package.html
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/timingframework~svn/!svn/ver/81/trunk/timingframework-classic/src/org/jdesktop/animation/timing/package.html
+END

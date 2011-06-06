@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/timingframework~svn/!svn/ver/233/trunk/timingframework-swt/src/org/jdesktop/swt/animation/rendering
+END
+package-info.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/timingframework~svn/!svn/ver/107/trunk/timingframework-swt/src/org/jdesktop/swt/animation/rendering/package-info.java
+END
+JRendererFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/timingframework~svn/!svn/ver/233/trunk/timingframework-swt/src/org/jdesktop/swt/animation/rendering/JRendererFactory.java
+END
+JPassiveRenderer.java
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/timingframework~svn/!svn/ver/224/trunk/timingframework-swt/src/org/jdesktop/swt/animation/rendering/JPassiveRenderer.java
+END

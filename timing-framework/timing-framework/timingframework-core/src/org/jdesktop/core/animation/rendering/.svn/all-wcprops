@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/timingframework~svn/!svn/ver/233/trunk/timingframework-core/src/org/jdesktop/core/animation/rendering
+END
+Viewport.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/timingframework~svn/!svn/ver/233/trunk/timingframework-core/src/org/jdesktop/core/animation/rendering/Viewport.java
+END
+JRenderer.java
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/timingframework~svn/!svn/ver/112/trunk/timingframework-core/src/org/jdesktop/core/animation/rendering/JRenderer.java
+END
+package-info.java
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/timingframework~svn/!svn/ver/108/trunk/timingframework-core/src/org/jdesktop/core/animation/rendering/package-info.java
+END
+JRendererTarget.java
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/timingframework~svn/!svn/ver/194/trunk/timingframework-core/src/org/jdesktop/core/animation/rendering/JRendererTarget.java
+END

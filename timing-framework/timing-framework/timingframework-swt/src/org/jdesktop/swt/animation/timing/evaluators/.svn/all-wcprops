@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/timingframework~svn/!svn/ver/127/trunk/timingframework-swt/src/org/jdesktop/swt/animation/timing/evaluators
+END
+package-info.java
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/timingframework~svn/!svn/ver/89/trunk/timingframework-swt/src/org/jdesktop/swt/animation/timing/evaluators/package-info.java
+END
+EvaluatorRectangle.java
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/timingframework~svn/!svn/ver/127/trunk/timingframework-swt/src/org/jdesktop/swt/animation/timing/evaluators/EvaluatorRectangle.java
+END
+EvaluatorPoint.java
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/svn/timingframework~svn/!svn/ver/127/trunk/timingframework-swt/src/org/jdesktop/swt/animation/timing/evaluators/EvaluatorPoint.java
+END
+EvaluatorRGB.java
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/timingframework~svn/!svn/ver/127/trunk/timingframework-swt/src/org/jdesktop/swt/animation/timing/evaluators/EvaluatorRGB.java
+END

@@ -1,0 +1,12 @@
+About SureLogic Promise Annotations
+
+  Provides the annotations necessary to express models of programmer
+  design intent in Java code. Promises are supra-linguistic formal
+  annotations to programs. Each promise has a precise meaning and
+  constrains the implementation and evolution of the code it targets.
+  Promises are also (typically) modular, meaning that the implementation
+  constraint on the code of a promise is limited in scope.
+    
+  You can download the jar {{{http://surelogic.com/promises/jars}here}}.
+  
+  You can view the Javadoc {{{http://surelogic.com/promises/apidocs/index.html}here}}.

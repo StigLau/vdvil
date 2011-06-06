@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/timingframework~svn/!svn/ver/233/trunk/timingframework-swing/src/org/jdesktop/swing/animation/rendering
+END
+JRendererPanel.java
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/timingframework~svn/!svn/ver/126/trunk/timingframework-swing/src/org/jdesktop/swing/animation/rendering/JRendererPanel.java
+END
+package-info.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/timingframework~svn/!svn/ver/89/trunk/timingframework-swing/src/org/jdesktop/swing/animation/rendering/package-info.java
+END
+JRendererFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/timingframework~svn/!svn/ver/233/trunk/timingframework-swing/src/org/jdesktop/swing/animation/rendering/JRendererFactory.java
+END
+JPassiveRenderer.java
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/timingframework~svn/!svn/ver/194/trunk/timingframework-swing/src/org/jdesktop/swing/animation/rendering/JPassiveRenderer.java
+END
+JActiveRenderer.java
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/timingframework~svn/!svn/ver/194/trunk/timingframework-swing/src/org/jdesktop/swing/animation/rendering/JActiveRenderer.java
+END
