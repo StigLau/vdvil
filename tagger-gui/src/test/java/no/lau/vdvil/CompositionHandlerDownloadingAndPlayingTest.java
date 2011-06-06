@@ -13,6 +13,7 @@ import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.player.InstructionPlayer;
 import no.lau.vdvil.player.VdvilPlayer;
 import no.vdvil.renderer.audio.AudioXMLParser;
+import no.vdvil.renderer.image.ImageInstruction;
 import no.vdvil.renderer.image.ImageRenderer;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
 import org.codehaus.httpcache4j.cache.VdvilHttpCache;
@@ -43,8 +44,11 @@ public class CompositionHandlerDownloadingAndPlayingTest {
 
         for (Instruction instruction : instructions.lock()) {
             System.out.println("instruction.getStart() + instruction.getEnd()   = " + instruction.getClass().getSimpleName()  + " " + instruction.getStart() + " " + instruction.getEnd());
-            instructions.unlock();
+            if (instruction instanceof ImageInstruction) {
+                ((ImageInstruction) instruction).cache(downloadAndParseFacade);
+            }
         }
+        instructions.unlock();
 
 
         AbstractRenderer[] renderers = new AbstractRenderer[] {
