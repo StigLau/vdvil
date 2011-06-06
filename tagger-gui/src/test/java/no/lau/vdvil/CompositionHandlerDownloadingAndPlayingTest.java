@@ -39,7 +39,7 @@ public class CompositionHandlerDownloadingAndPlayingTest {
         Float masterBpm = 150F;
         Instructions instructions = composition.instructions(masterBpm);
         //To tell the renderer to stop after the last instruction
-        instructions.endAt(16 * 100* 4410);
+        instructions.endAt(16 * 60 * 4410);
 
         for (Instruction instruction : instructions.lock()) {
             System.out.println("instruction.getStart() + instruction.getEnd()   = " + instruction.getClass().getSimpleName()  + " " + instruction.getStart() + " " + instruction.getEnd());
