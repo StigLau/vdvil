@@ -13,6 +13,7 @@ import org.jdesktop.swingworker.SwingWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Deprecated
 public class Worker extends SwingWorker<Object, Object> {
     VdvilCache cache = VdvilHttpCache.create();
 
