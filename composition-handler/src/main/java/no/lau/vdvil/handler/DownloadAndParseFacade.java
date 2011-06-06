@@ -3,6 +3,7 @@ package no.lau.vdvil.handler;
 import no.lau.vdvil.cache.DownloaderFacade;
 import no.lau.vdvil.cache.SimpleVdvilCache;
 import no.lau.vdvil.cache.VdvilCache;
+import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
@@ -21,25 +22,20 @@ public class DownloadAndParseFacade implements MultimediaParser, DownloaderFacad
         this.parsers = new ArrayList<MultimediaParser>();
     }
 
-    public DownloadAndParseFacade(List<SimpleVdvilCache> caches, List<MultimediaParser> parsers) {
-        this.caches = caches;
-        this.parsers = parsers;
-    }
-
     /**
      * Tries to download a DVL and see if a Parser will create a MultimediaPart from it.
-     * @param url to parse
+     * @param instruction with the relevant data
      * @return a parsed MultimediaPart. MultimediaPart.NULL if unsuccessful
      */
-    public MultimediaPart parse(String id, URL url) throws IOException{
+    public MultimediaPart parse(CompositionInstruction instruction) throws IOException{
         for (MultimediaParser parser : parsers) {
             try {
-                return parser.parse(id, url);
+                return parser.parse(instruction);
             } catch (Exception e) {
-                log.error("{} could not parse {}", new Object[]{parser, url}, e);
+                log.error("{} could not parse {}", new Object[]{parser, instruction.dvl().url()}, e);
             }
         }
-        throw new IOException("Not able to parse " + url + ", check debug log!");
+        throw new IOException("Not able to parse " + instruction.dvl().url() + ", check debug log!");
     }
 
 

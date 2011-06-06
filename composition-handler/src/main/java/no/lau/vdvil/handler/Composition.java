@@ -19,16 +19,15 @@ public class Composition implements MultimediaPart {
         this.url = url;
     }
 
-    public Instructions instructions(int cue, int end, Float masterBpm) throws IOException {
+    public Instructions instructions(Float masterBpm) throws IOException {
         Instructions instructions = new Instructions();
         for (MultimediaPart multimediaPart : multimediaParts) {
-            instructions.append(multimediaPart.asInstruction(cue, end, masterBpm));
+            instructions.append(multimediaPart.asInstruction(masterBpm));
         }
         return instructions;
     }
 
-    @Deprecated
-    public Instruction asInstruction(int cue, int end, Float masterBpm) throws IOException {
+    public Instruction asInstruction(Float masterBpm) throws IOException {
         throw new RuntimeException("Composition should probably not have instructions, or Instruction should be written in a different way");
     }
 }

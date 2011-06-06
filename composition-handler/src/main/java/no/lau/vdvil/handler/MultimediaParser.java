@@ -1,15 +1,14 @@
 package no.lau.vdvil.handler;
 
+import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import java.io.IOException;
-import java.net.URL;
 
 public interface MultimediaParser{
     /**
      *
-     * @param id of an element inside the multimediaObject. Used in cases where more than one exists. Empty if not relevant for mediatype
-     * @param url to relevant media
+     * @param compositionInstruction contains all the instructions from the composition
      * @return a parsed MultimediaPart
      * @throws IOException if shite happens
      */
-    MultimediaPart parse(String id, URL url) throws IOException;
+    MultimediaPart parse(CompositionInstruction compositionInstruction) throws IOException;
 }

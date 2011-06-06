@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Renderer;
+import no.bouvet.kpro.renderer.StopInstruction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -143,13 +144,14 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 	 * @param instruction
 	 *            the instruction that has occurred, or null
 	 * @author Michael Stokes
+     * @author Stig Lau // Todo make StopInstruction common to all renderers
 	 */
 	@Override
 	public void handleInstruction(int time, Instruction instruction) {
-		if (instruction == null) {
+        log.info("Got instruction {} to be played at {}", instruction, time);
+        if (instruction instanceof StopInstruction) {
 			_finished = true;
 		} else if (instruction instanceof AudioInstruction) {
-            log.debug(("Running instruction " + ((AudioInstruction)instruction).getSource()));
 			synchronized (_active) {
 				_active.add((AudioInstruction) instruction);
 			}

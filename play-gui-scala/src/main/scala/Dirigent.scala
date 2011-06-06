@@ -15,6 +15,7 @@ class Dirigent(downloaders: List[FileCache], handlers:List[VdvilHandler], var pl
   val log: Logger = LoggerFactory.getLogger(classOf[Dirigent])
   var playbackBpm: Float = 0F
 
+  /* @deprecated */
   def prepare(compositionUrl: URL) {
     for (downloader <- downloaders) { //TODO Perhaps use for-comprehension for matching correct downloader, and avoiding nagging error logging!
       if (downloader.accepts(compositionUrl)) {
@@ -28,7 +29,7 @@ class Dirigent(downloaders: List[FileCache], handlers:List[VdvilHandler], var pl
           }
         }
       }
-      else log.warn("DownloaderFacade {} did not accept {}", downloader, compositionUrl)
+      else log.warn("Downloader {} did not accept {}", downloader, compositionUrl)
     }
   }
 
@@ -61,6 +62,8 @@ class CompositionHandler extends VdvilHandler {
     else
       None
   }
+
+  def load(inputStream:InputStream):ScalaComposition = MasterMixXML.fromXML(XML.load(inputStream)).asComposition
 }
 
 trait FileCache {
@@ -81,11 +84,11 @@ object LocalFileCache extends FileCache {
 object ScalaHttpCache extends FileCache{
   val vdvilCache:VdvilCache = VdvilHttpCache.create
 
-  def fetchAsStream(url:URL):InputStream = vdvilCache.fetchAsStream(url.toString)
+  def fetchAsStream(url:URL):InputStream = vdvilCache.fetchAsStream(url)
 
  /* Checks whether the downloader accepts the URL format */
-  def accepts(url:URL):Boolean = vdvilCache.accepts(url.toString)
+  def accepts(url:URL):Boolean = vdvilCache.accepts(url)
 
-  def mimeType(url:URL):String = vdvilCache.mimeType(url.toString)
+  def mimeType(url:URL):String = vdvilCache.mimeType(url)
 
 }

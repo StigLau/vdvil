@@ -4,6 +4,7 @@ import no.lau.vdvil.cache.SimpleVdvilCache;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.persistence.CompositionXMLParser;
+import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.handler.persistence.SimpleFileCache;
 import no.vdvil.renderer.image.ImageInstruction;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
@@ -27,7 +28,7 @@ public class CompositionWithImageParserTest {
         facade.addCache(cache);
         //facade.addCache(VdvilHttpCache.create());
 
-        Composition composition = (Composition) facade.parse("", compositionXmlUrl);
+        Composition composition = (Composition) facade.parse(PartXML.create(compositionXmlUrl));
         assertEquals("JavaZone Demo", composition.name);
         assert(composition.url.toString().endsWith("testCompositionWithImageDvls.xml"));
         assertEquals(150, composition.masterBpm.intValue());
@@ -38,7 +39,7 @@ public class CompositionWithImageParserTest {
         assertEquals(ImageDescription.class,  composition.multimediaParts.get(0).getClass());
         ImageDescription imageDescription = (ImageDescription) composition.multimediaParts.get(0);
         assertEquals(xmlImageUrl, imageDescription.src);
-        ImageInstruction imageInstruction = imageDescription.asInstruction(0, 16, 120F);
+        ImageInstruction imageInstruction = imageDescription.asInstruction(120F);
         assertEquals(xmlImageUrl, imageInstruction.imageUrl);
     }
 }

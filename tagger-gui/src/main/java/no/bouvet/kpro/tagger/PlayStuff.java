@@ -48,4 +48,8 @@ public class PlayStuff implements VdvilPlayer{
     public void stop() {
         renderer.stop();
     }
+
+    public boolean isPlaying() {
+        return renderer.isRendering();
+    }
 }

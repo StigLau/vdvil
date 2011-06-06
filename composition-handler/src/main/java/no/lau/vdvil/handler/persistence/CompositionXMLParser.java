@@ -7,7 +7,6 @@ import no.lau.vdvil.handler.MultimediaParser;
 import no.lau.vdvil.handler.MultimediaPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -28,7 +27,8 @@ public class CompositionXMLParser implements MultimediaParser{
         xstream.alias("dvl", DvlXML.class);
     }
 
-    public Composition parse(String id, URL url) throws IOException {
+    public Composition parse(CompositionInstruction compositionInstruction) throws IOException {
+        URL url = compositionInstruction.dvl().url();
         return convert((CompositionXML) xstream.fromXML(downloadAndParseFacade.fetchAsStream(url)), url);
     }
 
@@ -36,7 +36,7 @@ public class CompositionXMLParser implements MultimediaParser{
         List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
         for (final PartXML partXML : cXML.parts) {
             try{
-                parts.add(downloadAndParseFacade.parse(partXML.id, partXML.dvl.url));
+                parts.add(downloadAndParseFacade.parse(partXML));
             } catch (IOException e) {
                 log.error("Unable to parse or download {}", partXML.dvl.name);
             }
@@ -54,14 +54,3 @@ class CompositionXML {
     List<PartXML> parts;
 }
 
-class PartXML {
-    String id;
-    int start;
-    int end;
-    DvlXML dvl;
-}
-
-class DvlXML {
-    String name;
-    URL url;
-}
