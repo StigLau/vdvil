@@ -16,8 +16,9 @@ class SegmentPlayer(var song: ScalaSong, startCue: Int, endCue: Int) extends Vdv
 
     val instructions = new Instructions
     var playLength: Int = endCue - startCue
+    val masterBpm = -1F
     instructions.append(new SimpleAudioInstruction(0, playLength, song.bpm.floatValue, startCue, song.mediaFile.startingOffset.floatValue, audioSource, 1F))
-    new InstructionPlayer(instructions, new AudioRenderer(new AudioPlaybackTarget))
+    new InstructionPlayer(masterBpm, instructions, new AudioRenderer(new AudioPlaybackTarget))
   }
 
 
@@ -29,4 +30,6 @@ class SegmentPlayer(var song: ScalaSong, startCue: Int, endCue: Int) extends Vdv
     player.stop
     audioSource.close
   }
+
+  def isPlaying = true
 }

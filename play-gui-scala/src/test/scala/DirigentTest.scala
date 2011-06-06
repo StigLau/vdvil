@@ -9,6 +9,7 @@ import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser
 import no.vdvil.renderer.audio.AudioXMLParser
 import no.lau.vdvil.handler.{Composition, DownloadAndParseFacade}
 import no.lau.vdvil.cache.testresources.TestMp3s
+import no.lau.vdvil.handler.persistence.PartXML
 
 /**
  * A Simple structuring of the Dirigent
@@ -51,7 +52,8 @@ class ImprovedDirigentTest {
       addParser(new ImageDescriptionXMLParser(this))
       addParser(new AudioXMLParser(this))
     }
-    val composition:Composition = downloadAndParseFacade.parse("", compositionURL).asInstanceOf[Composition]
+    val ci = PartXml.create(compositionURL)
+    val composition:Composition = downloadAndParseFacade.parse(ci).asInstanceOf[Composition]
     println("My compositiion; " + composition)
     /*
     val player = new ScalaCompositionPlayer(Some(composition), VdvilHttpCache.create)
