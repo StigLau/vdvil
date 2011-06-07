@@ -22,7 +22,7 @@ public class VdvilRenderingTimingTarget extends TimingTargetAdapter {
 
     public void begin(Animator source) {
         System.out.println("Begin");
-    }     ''
+    }
     
     public void end(Animator source) {
         System.out.println("End");
