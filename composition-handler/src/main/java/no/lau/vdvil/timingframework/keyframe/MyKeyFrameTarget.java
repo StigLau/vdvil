@@ -1,6 +1,5 @@
 package no.lau.vdvil.timingframework.keyframe;
 
-import no.lau.vdvil.timingframework.MyInstruction;
 import org.jdesktop.core.animation.timing.Animator;
 import org.jdesktop.core.animation.timing.KeyFrames;
 import org.jdesktop.core.animation.timing.KeyFramesTimingTarget;

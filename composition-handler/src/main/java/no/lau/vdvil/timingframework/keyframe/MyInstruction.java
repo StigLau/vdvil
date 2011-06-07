@@ -1,4 +1,4 @@
-package no.lau.vdvil.timingframework;
+package no.lau.vdvil.timingframework.keyframe;
 
 public class MyInstruction {
 

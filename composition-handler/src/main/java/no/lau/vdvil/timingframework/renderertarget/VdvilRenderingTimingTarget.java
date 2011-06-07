@@ -1,6 +1,7 @@
 package no.lau.vdvil.timingframework.renderertarget;
 
 
+import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Instructions;
 import no.lau.vdvil.timingframework.MasterBeatPattern;
 import org.jdesktop.core.animation.timing.Animator;
@@ -30,10 +31,15 @@ public class VdvilRenderingTimingTarget extends TimingTargetAdapter {
     
     public void timingEvent(Animator source, double fraction) {
         System.out.println("Timing " + fraction);
-        int startPoint = instructions.lock().get(instructionPointer).getStart();
+        Instruction instruction= instructions.lock().get(instructionPointer);
 
-        if(beatPattern.duration() > fraction) {
-            System.out.println("Hooray");
+        System.out.println("instruction.getStart() = " + instruction.getStart());
+        System.out.println("fraction = " + fraction);
+
+        if(instruction.getStart() < fraction) {
+            System.out.println("Hooray " + instruction.toString());
+            instructionPointer ++;
         }
+        instructions.unlock();
     }
 }
