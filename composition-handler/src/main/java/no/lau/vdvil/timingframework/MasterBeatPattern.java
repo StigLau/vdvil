@@ -17,6 +17,9 @@ public class MasterBeatPattern {
     }
 
     public Float duration() {
+        return duration(this.fromBeat, this.toBeat);
+    }
+    public Float duration(int fromBeat, int toBeat) {
         int durationBeats = toBeat - fromBeat;
         return durationBeats * 60 * 1000 / masterBpm;
     }
