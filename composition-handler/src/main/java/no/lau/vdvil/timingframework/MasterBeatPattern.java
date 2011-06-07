@@ -12,11 +12,11 @@ public class MasterBeatPattern {
     }
 
 
-    Float getBpm(int beat) {
+    public Float getBpm(int beat) {
         return masterBpm;
     }
 
-    Float duration() {
+    public Float duration() {
         int durationBeats = toBeat - fromBeat;
         return durationBeats * 60 * 1000 / masterBpm;
     }
