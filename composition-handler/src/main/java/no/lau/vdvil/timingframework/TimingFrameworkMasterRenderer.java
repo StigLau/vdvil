@@ -10,9 +10,9 @@ public class TimingFrameworkMasterRenderer implements VdvilPlayer {
     final Animator animator;
     final TimingSource scheduler;
 
-    public TimingFrameworkMasterRenderer(int start, int end, MasterBpm masterBpm, TimingTarget... timingTargets) {
+    public TimingFrameworkMasterRenderer(MasterBeatPattern masterBeatPattern, TimingTarget... timingTargets) {
         scheduler = new ScheduledExecutorTimingSource(200, TimeUnit.MILLISECONDS);
-        animator = createAnimator(start, end, masterBpm, timingTargets);
+        animator = createAnimator(masterBeatPattern, timingTargets);
     }
 
     public void play(int startAtBeat) {
@@ -28,9 +28,9 @@ public class TimingFrameworkMasterRenderer implements VdvilPlayer {
         return animator.isRunning();
     }
 
-    private Animator createAnimator(int start, int end, MasterBpm masterBpm, TimingTarget... timingTargets) {
-        Float duration = masterBpm.duration(start, end);
-        Animator.Builder animatorBuilder = new Animator.Builder(scheduler).setDuration(duration.longValue(), TimeUnit.MILLISECONDS);
+    private Animator createAnimator(MasterBeatPattern masterBeatPattern, TimingTarget... timingTargets) {
+        Animator.Builder animatorBuilder = new Animator.Builder(scheduler)
+                .setDuration(masterBeatPattern.duration().longValue(), TimeUnit.MILLISECONDS);
         for (TimingTarget timingTarget : timingTargets) {
             animatorBuilder.addTarget(timingTarget);
         }

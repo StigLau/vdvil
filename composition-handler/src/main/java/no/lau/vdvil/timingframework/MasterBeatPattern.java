@@ -1,9 +1,13 @@
 package no.lau.vdvil.timingframework;
 
-public class MasterBpm {
+public class MasterBeatPattern {
+    private int fromBeat;
+    private int toBeat;
     final Float masterBpm;
 
-    public MasterBpm(Float masterBpm) {
+    public MasterBeatPattern(int fromBeat, int toBeat, Float masterBpm) {
+        this.fromBeat = fromBeat;
+        this.toBeat = toBeat;
         this.masterBpm = masterBpm;
     }
 
@@ -12,7 +16,7 @@ public class MasterBpm {
         return masterBpm;
     }
 
-    Float duration(int fromBeat, int toBeat) {
+    Float duration() {
         int durationBeats = toBeat - fromBeat;
         return durationBeats * 60 * 1000 / masterBpm;
     }

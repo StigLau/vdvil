@@ -1,6 +1,8 @@
 package no.lau.vdvil.timingframework;
 
 import no.lau.vdvil.player.VdvilPlayer;
+import no.lau.vdvil.timingframework.keyframe.MyEvaluator;
+import no.lau.vdvil.timingframework.keyframe.MyKeyFrameTarget;
 import org.jdesktop.core.animation.timing.KeyFrames;
 import org.jdesktop.core.animation.timing.KeyFramesTimingTarget;
 import org.junit.Test;
@@ -19,7 +21,7 @@ public class TimingFrameworkMasterRendererTest {
         KeyFrames<MyInstruction> keyFrames = builder.build();
 
         KeyFramesTimingTarget timingTarget = new MyKeyFrameTarget(keyFrames);
-        VdvilPlayer timingPlayer = new TimingFrameworkMasterRenderer(0, 16, new MasterBpm(120F), timingTarget);
+        VdvilPlayer timingPlayer = new TimingFrameworkMasterRenderer(new MasterBeatPattern(0, 16, 120F), timingTarget);
 
         timingPlayer.play(0);
         while(timingPlayer.isPlaying()) {
