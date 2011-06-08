@@ -10,12 +10,15 @@ public class TimingInstruction {
     public final TimingTarget renderingTarget;
 
 
-
+    @Deprecated
     public TimingInstruction(MasterBeatPattern beatPattern) {
         this.beatPattern = beatPattern;
         this.renderingTarget = new SimpleTimingTarget();
+    }
 
-
+    public TimingInstruction(MasterBeatPattern beatPattern, TimingTarget timingTarget) {
+        this.beatPattern = beatPattern;
+        this.renderingTarget = timingTarget;
     }
 
     public class SimpleTimingTarget extends TimingTargetAdapter implements TimingTarget {

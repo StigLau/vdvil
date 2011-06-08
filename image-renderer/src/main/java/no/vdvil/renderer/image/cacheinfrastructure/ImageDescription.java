@@ -8,7 +8,7 @@ import java.net.URL;
 
 public class ImageDescription implements MultimediaPart{
 
-    private CompositionInstruction compositionInstruction;
+    public final CompositionInstruction compositionInstruction;
     final public URL src;
 
     public ImageDescription(CompositionInstruction compositionInstruction, URL src) {

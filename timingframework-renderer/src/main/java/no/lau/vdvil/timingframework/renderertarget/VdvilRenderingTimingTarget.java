@@ -35,8 +35,6 @@ public class VdvilRenderingTimingTarget extends TimingTargetAdapter {
             TimingInstruction instruction= instructions[instructionPointer];
 
             if(fraction >= beatPattern.percentage(instruction.beatPattern.fromBeat)) {
-                System.out.println("Hooray " + instruction.toString());
-
                 TimingSource timingSource = new ScheduledExecutorTimingSource();
                 timingSource.init();
                 Animator animator = new Animator.Builder(timingSource)

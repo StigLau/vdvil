@@ -13,14 +13,19 @@
 
     <dependencies>
         <dependency>
+            <groupId>net.java.timingframework</groupId>
+            <version>4.0-SNAPSHOT</version>
+            <artifactId>timingframework-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>no.lau.vdvil</groupId>
             <artifactId>composition-handler</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>net.java.timingframework</groupId>
-            <version>4.0-SNAPSHOT</version>
-            <artifactId>timingframework-core</artifactId>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>image-renderer</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>
