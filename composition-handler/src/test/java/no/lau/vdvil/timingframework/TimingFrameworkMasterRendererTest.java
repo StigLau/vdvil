@@ -1,6 +1,6 @@
 package no.lau.vdvil.timingframework;
 
-import no.bouvet.kpro.renderer.Instructions;
+import no.bouvet.kpro.renderer.Instruction;
 import no.lau.vdvil.player.VdvilPlayer;
 import no.lau.vdvil.timingframework.keyframe.MyEvaluator;
 import no.lau.vdvil.timingframework.keyframe.MyInstruction;
@@ -17,10 +17,11 @@ public class TimingFrameworkMasterRendererTest {
 
     @Test
     public void startItUp() throws InterruptedException, MalformedURLException {
-        Instructions instructions = new Instructions();
-        instructions.append(new SimpleInstruction(0, 8, new URL("http://www.yo.com")));
-        instructions.append(new SimpleInstruction(4, 12, new URL("http://www.yu.com")));
-        instructions.append(new SimpleInstruction(8, 16, new URL("http://www.yui.com")));
+        Instruction[] instructions = new Instruction[]{
+                new SimpleInstruction(0, 8, new URL("http://www.yo.com")),
+                new SimpleInstruction(4, 12, new URL("http://www.yu.com")),
+                new SimpleInstruction(8, 16, new URL("http://www.yui.com"))
+        };
         MasterBeatPattern beatPattern = new MasterBeatPattern(0, 16, 120F);
 
         VdvilPlayer timingPlayer = new TimingFrameworkMasterRenderer(beatPattern,
