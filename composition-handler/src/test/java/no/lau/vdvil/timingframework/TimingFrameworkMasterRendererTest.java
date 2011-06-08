@@ -17,9 +17,9 @@ public class TimingFrameworkMasterRendererTest {
     public void startItUp() throws InterruptedException, MalformedURLException {
         MasterBeatPattern beatPattern = new MasterBeatPattern(0, 16, 120F);
         TimingInstruction[] instructions = new TimingInstruction[]{
-                new TimingInstruction(beatPattern.duration(0, 8)),
-                new TimingInstruction(beatPattern.duration(4, 12)),
-                new TimingInstruction(beatPattern.duration(8, 16))
+                new TimingInstruction(beatPattern.duration(0, 2)),
+                new TimingInstruction(beatPattern.duration(4, 6)),
+                new TimingInstruction(beatPattern.duration(10, 12))
         };
 
         VdvilPlayer timingPlayer = new TimingFrameworkMasterRenderer(beatPattern,

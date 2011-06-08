@@ -41,8 +41,8 @@ public class VdvilRenderingTimingTarget extends TimingTargetAdapter {
                 timingSource.init();
                 Animator animator = new Animator.Builder(timingSource)
                         .setDuration(instruction.beatPattern.durationCalculation().longValue(), TimeUnit.MILLISECONDS)
+                        .addTarget(instruction.renderingTarget)
                         .build();
-
                 animator.start();
                 instructionPointer ++;
             }
