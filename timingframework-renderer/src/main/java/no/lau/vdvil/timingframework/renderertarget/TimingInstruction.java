@@ -2,12 +2,8 @@ package no.lau.vdvil.timingframework.renderertarget;
 
 import no.lau.vdvil.timingframework.MasterBeatPattern;
 import org.jdesktop.core.animation.timing.Animator;
-import org.jdesktop.core.animation.timing.TimingSource;
 import org.jdesktop.core.animation.timing.TimingTarget;
 import org.jdesktop.core.animation.timing.TimingTargetAdapter;
-import org.jdesktop.core.animation.timing.sources.ScheduledExecutorTimingSource;
-
-import java.util.concurrent.TimeUnit;
 
 public class TimingInstruction {
     public final MasterBeatPattern beatPattern;

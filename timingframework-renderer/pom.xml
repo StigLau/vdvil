@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>composition-handler</artifactId>
+    <artifactId>timingframework-renderer</artifactId>
     <packaging>jar</packaging>
-    <name>kpro: Composition Handler</name>
+    <name>kpro: Timing Framework Renderer</name>
 
     <parent>
         <groupId>no.lau.vdvil</groupId>
@@ -13,19 +13,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.thoughtworks.xstream</groupId>
-            <artifactId>xstream</artifactId>
-            <version>1.3.1</version>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>composition-handler</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>no.lau.vdvil</groupId>
-            <artifactId>httpcache</artifactId>
-            <version>0.9-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>no.lau.vdvil</groupId>
-            <artifactId>renderer</artifactId>
-            <version>0.9-SNAPSHOT</version>
+            <groupId>net.java.timingframework</groupId>
+            <version>4.0-SNAPSHOT</version>
+            <artifactId>timingframework-core</artifactId>
         </dependency>
     </dependencies>
 </project>
