@@ -1,28 +1,26 @@
 package no.lau.vdvil.timingframework;
 
-import no.bouvet.kpro.renderer.Instruction;
 import no.lau.vdvil.player.VdvilPlayer;
 import no.lau.vdvil.timingframework.keyframe.MyEvaluator;
 import no.lau.vdvil.timingframework.keyframe.MyInstruction;
 import no.lau.vdvil.timingframework.keyframe.MyKeyFrameTarget;
+import no.lau.vdvil.timingframework.renderertarget.TimingInstruction;
 import no.lau.vdvil.timingframework.renderertarget.VdvilRenderingTimingTarget;
 import org.jdesktop.core.animation.timing.KeyFrames;
 import org.jdesktop.core.animation.timing.KeyFramesTimingTarget;
 import org.junit.Test;
-
 import java.net.MalformedURLException;
-import java.net.URL;
 
 public class TimingFrameworkMasterRendererTest {
 
     @Test
     public void startItUp() throws InterruptedException, MalformedURLException {
-        Instruction[] instructions = new Instruction[]{
-                new SimpleInstruction(0, 8, new URL("http://www.yo.com")),
-                new SimpleInstruction(4, 12, new URL("http://www.yu.com")),
-                new SimpleInstruction(8, 16, new URL("http://www.yui.com"))
-        };
         MasterBeatPattern beatPattern = new MasterBeatPattern(0, 16, 120F);
+        TimingInstruction[] instructions = new TimingInstruction[]{
+                new TimingInstruction(beatPattern.duration(0, 8)),
+                new TimingInstruction(beatPattern.duration(4, 12)),
+                new TimingInstruction(beatPattern.duration(8, 16))
+        };
 
         VdvilPlayer timingPlayer = new TimingFrameworkMasterRenderer(beatPattern,
                 new VdvilRenderingTimingTarget(instructions, beatPattern), keyframeTestData());

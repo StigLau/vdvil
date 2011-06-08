@@ -30,7 +30,7 @@ public class TimingFrameworkMasterRenderer implements VdvilPlayer {
 
     private Animator createAnimator(MasterBeatPattern masterBeatPattern, TimingTarget... timingTargets) {
         Animator.Builder animatorBuilder = new Animator.Builder(scheduler)
-                .setDuration(masterBeatPattern.duration().longValue(), TimeUnit.MILLISECONDS);
+                .setDuration(masterBeatPattern.durationCalculation().longValue(), TimeUnit.MILLISECONDS);
         for (TimingTarget timingTarget : timingTargets) {
             animatorBuilder.addTarget(timingTarget);
         }
