@@ -2,13 +2,14 @@ package no.lau.vdvil.handler;
 
 import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Instructions;
+import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
 public class Composition implements MultimediaPart {
     public final String name;
-    public final Float masterBpm;
+    public Float masterBpm;
     public final List<MultimediaPart> multimediaParts;
     public final URL url;
 
@@ -27,8 +28,12 @@ public class Composition implements MultimediaPart {
         return instructions;
     }
 
-    public Instruction asInstruction(Float masterBpm) throws IOException {
+    public Instruction asInstruction(Float masterBpm) {
         throw new RuntimeException("Composition should probably not have instructions, or Instruction should be written in a different way");
+    }
+
+    public CompositionInstruction compositionInstruction() {
+        throw new RuntimeException("No CompositionInstruction set up for a Composition");
     }
 }
 

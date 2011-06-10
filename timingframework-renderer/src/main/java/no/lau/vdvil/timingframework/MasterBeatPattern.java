@@ -46,4 +46,9 @@ public class MasterBeatPattern {
     public double percentage(Integer startBeat) {
         return startBeat.doubleValue() / toBeat;
     }
+
+    @Override
+    public String toString() {
+        return masterBpm + " BPM from beat " + fromBeat + "-" + toBeat;
+    }
 }

@@ -3,7 +3,6 @@ package no.vdvil.renderer.image.cacheinfrastructure;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.vdvil.renderer.image.ImageInstruction;
-import java.io.IOException;
 import java.net.URL;
 
 public class ImageDescription implements MultimediaPart{
@@ -16,7 +15,11 @@ public class ImageDescription implements MultimediaPart{
         this.src = src;
     }
 
-    public ImageInstruction asInstruction(Float masterBpm) throws IOException {
+    public ImageInstruction asInstruction(Float masterBpm) {
         return new ImageInstruction(compositionInstruction.start(), compositionInstruction.end(), masterBpm, src);
+    }
+
+    public CompositionInstruction compositionInstruction() {
+        return compositionInstruction;
     }
 }
