@@ -4,7 +4,6 @@ import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.MP3Source;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
-import no.lau.vdvil.handler.persistence.MultimediaReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
