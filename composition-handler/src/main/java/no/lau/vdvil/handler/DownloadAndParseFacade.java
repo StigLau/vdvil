@@ -17,6 +17,8 @@ public class DownloadAndParseFacade implements MultimediaParser, DownloaderFacad
     List<SimpleVdvilCache> caches;
     List<MultimediaParser> parsers;
 
+    public static final DownloadAndParseFacade NULL = new DownloadAndParseFacade();
+
     public DownloadAndParseFacade() {
         this.caches = new ArrayList<SimpleVdvilCache>();
         this.parsers = new ArrayList<MultimediaParser>();

@@ -14,7 +14,7 @@ public class AudioXMLParser implements MultimediaParser {
     XStream xstream;
 
     public AudioXMLParser() {
-        this(null);
+        this(DownloadAndParseFacade.NULL);
     }
     public AudioXMLParser(DownloadAndParseFacade downloaderAndParseFacade) {
         this.downloaderAndParseFacade = downloaderAndParseFacade;
