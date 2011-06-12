@@ -50,30 +50,6 @@ public class AudioDescription implements MultimediaPart {
     }
 
     public CompositionInstruction compositionInstruction() {
-        return new CompositionInstruction() {
-            public String id() {
-                return segment.id;
-            }
-
-            public int start() {
-                return segment.start;
-            }
-
-            public int end() {
-                return segment.end;
-            }
-
-            public MultimediaReference dvl() {
-                return new MultimediaReference() {
-                    public String name() {
-                        return track.reference;
-                    }
-
-                    public URL url() {
-                        return track.mediaFile.fileName;
-                    }
-                };
-            }
-        };
+        return compositionInstruction;
     }
 }
