@@ -3,6 +3,7 @@ package no.bouvet.kpro.tagger.gui;
 import no.bouvet.kpro.renderer.audio.*;
 import no.bouvet.kpro.renderer.Instructions;
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 import no.lau.tagger.model.SimpleSong;
 import no.lau.vdvil.cache.VdvilCache;
@@ -42,7 +43,7 @@ public class Worker extends SwingWorker<Object, Object> {
         log.debug("startCue playing = " + startCue);
         int playLength = endCue - startCue;
         instructions.append(new SimpleAudioInstruction(0, playLength, simpleSong.bpm, startCue, simpleSong.mediaFile.startingOffset, audioSource, 1F));
-        player = new InstructionPlayer(simpleSong.bpm, instructions, new AudioRenderer(new AudioPlaybackTarget()));
+        player = new InstructionPlayer(simpleSong.bpm, instructions, Collections.singletonList(new AudioRenderer(new AudioPlaybackTarget())));
         player.play(0);
         return "worker finished";
     }
