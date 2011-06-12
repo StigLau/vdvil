@@ -6,7 +6,7 @@ import org.jdesktop.core.animation.timing.TimingTarget;
 import org.jdesktop.core.animation.timing.TimingTargetAdapter;
 
 public class TimingInstruction {
-    public final MasterBeatPattern beatPattern;
+    public MasterBeatPattern beatPattern;
     public final TimingTarget renderingTarget;
 
 

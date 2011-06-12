@@ -1,12 +1,11 @@
 package no.lau.vdvil.timingframework.renderertarget;
 
 
-import no.bouvet.kpro.renderer.Instruction;
 import no.lau.vdvil.timingframework.MasterBeatPattern;
 import org.jdesktop.core.animation.timing.Animator;
 import org.jdesktop.core.animation.timing.TimingSource;
 import org.jdesktop.core.animation.timing.TimingTargetAdapter;
-import org.jdesktop.core.animation.timing.sources.ScheduledExecutorTimingSource;
+import org.jdesktop.swing.animation.timing.sources.SwingTimerTimingSource;
 import java.util.concurrent.TimeUnit;
 
 public class VdvilRenderingTimingTarget extends TimingTargetAdapter {
@@ -35,7 +34,8 @@ public class VdvilRenderingTimingTarget extends TimingTargetAdapter {
             TimingInstruction instruction= instructions[instructionPointer];
 
             if(fraction >= beatPattern.percentage(instruction.beatPattern.fromBeat)) {
-                TimingSource timingSource = new ScheduledExecutorTimingSource();
+                //TimingSource timingSource = new ScheduledExecutorTimingSource();
+                TimingSource timingSource = new SwingTimerTimingSource();
                 timingSource.init();
                 Animator animator = new Animator.Builder(timingSource)
                         .setDuration(instruction.beatPattern.durationCalculation().longValue(), TimeUnit.MILLISECONDS)

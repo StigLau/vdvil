@@ -3,6 +3,8 @@ package no.lau.vdvil.timingframework;
 import no.lau.vdvil.player.VdvilPlayer;
 import org.jdesktop.core.animation.timing.*;
 import org.jdesktop.core.animation.timing.sources.ScheduledExecutorTimingSource;
+import org.jdesktop.swing.animation.timing.sources.SwingTimerTimingSource;
+
 import java.util.concurrent.TimeUnit;
 
 public class TimingFrameworkMasterRenderer implements VdvilPlayer {
@@ -11,7 +13,8 @@ public class TimingFrameworkMasterRenderer implements VdvilPlayer {
     final TimingSource scheduler;
 
     public TimingFrameworkMasterRenderer(MasterBeatPattern masterBeatPattern, TimingTarget... timingTargets) {
-        scheduler = new ScheduledExecutorTimingSource(200, TimeUnit.MILLISECONDS);
+        //scheduler = new ScheduledExecutorTimingSource(200, TimeUnit.MILLISECONDS);
+        scheduler = new SwingTimerTimingSource(200, TimeUnit.MILLISECONDS);
         animator = createAnimator(masterBeatPattern, timingTargets);
     }
 
