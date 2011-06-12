@@ -1,60 +1,78 @@
 package no.bouvet.kpro.mix;
 
-import no.bouvet.kpro.tagger.PlayStuff;
-import no.bouvet.kpro.tagger.persistence.XStreamParser;
-import no.lau.tagger.model.Composition;
-import no.lau.tagger.model.AudioPart;
-import no.lau.tagger.model.SimpleSong;
-import no.lau.vdvil.cache.VdvilCache;
+import no.bouvet.kpro.renderer.Instructions;
+import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
+import no.bouvet.kpro.renderer.audio.AudioRenderer;
 import no.lau.vdvil.cache.testresources.TestMp3s;
+import no.lau.vdvil.handler.Composition;
+import no.lau.vdvil.handler.DownloadAndParseFacade;
+import no.lau.vdvil.handler.MultimediaPart;
+import no.lau.vdvil.handler.persistence.DvlXML;
+import no.lau.vdvil.handler.persistence.PartXML;
+import no.lau.vdvil.player.InstructionPlayer;
+import no.lau.vdvil.player.VdvilPlayer;
+import no.vdvil.renderer.audio.AudioDescription;
+import no.vdvil.renderer.audio.AudioXMLParser;
 import org.codehaus.httpcache4j.cache.VdvilHttpCache;
-import java.io.FileNotFoundException;
+
+import javax.sound.sampled.LineUnavailableException;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class JavaZoneExample {
-    VdvilCache cache = VdvilHttpCache.create();
-    SimpleSong returning;
-    SimpleSong unfinished_sympathy;
-    SimpleSong not_alone;
-    SimpleSong scares_me;
+    URL returning = TestMp3s.returningDvl;
+    URL not_alone = TestMp3s.not_aloneDvl;
+    URL scares_me = TestMp3s.scares_meDvl;
 
-    public static void main(String[] args) {
-        JavaZoneExample test = new JavaZoneExample();
-        try {
-            test.beforeMethod();
-            PlayStuff player = new PlayStuff(new Composition(150F, test.parts()));
-            player.play(0);
-        } catch (Exception e) {
-            e.printStackTrace();
+    AudioXMLParser audioXMLParser;
+
+    JavaZoneExample() {
+        DownloadAndParseFacade downloadAndParseFacade = new DownloadAndParseFacade();
+        downloadAndParseFacade.addCache(VdvilHttpCache.create());
+        audioXMLParser = new AudioXMLParser(downloadAndParseFacade);
+        downloadAndParseFacade.addParser(audioXMLParser);
+    }
+
+    public static void main(String[] args) throws IOException, LineUnavailableException, InterruptedException {
+        JavaZoneExampleNew test = new JavaZoneExampleNew();
+
+        Composition composition = test.parts();
+        Float masterBpm = 150F;
+        Instructions instructions = composition.instructions(masterBpm);
+        VdvilPlayer player = new InstructionPlayer(masterBpm, instructions, Collections.singletonList(new AudioRenderer(new AudioPlaybackTarget())));
+        player.play(0);
+        while (player.isPlaying()) {
+            Thread.sleep(500);
         }
     }
 
-    public void beforeMethod() throws FileNotFoundException {
-        returning = new XStreamParser().load(cache.fetchAsStream(TestMp3s.returningDvl));
-        unfinished_sympathy = new XStreamParser().load(cache.fetchAsStream(TestMp3s.unfinishedSympathyDvl));
-        not_alone = new XStreamParser().load(cache.fetchAsStream(TestMp3s.not_aloneDvl));
-        scares_me = new XStreamParser().load(cache.fetchAsStream(TestMp3s.scares_meDvl));
+    public Composition parts() {
+        List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
+        try {
+            parts.add(createAudioPart("4479230163500364845", 0, 32, not_alone));
+            parts.add(createAudioPart("5403996530329584526", 16, 48, scares_me));
+            parts.add(createAudioPart("8313187524105777940", 32, 70, not_alone));
+            parts.add(createAudioPart("5403996530329584526", 48, 64, scares_me));
+            parts.add(createAudioPart("1826025806904317462", 64, 112, scares_me));
+            parts.add(createAudioPart("6401936245564505757", 96, 140, returning));
+            parts.add(createAudioPart("6401936245564505757", 96, 140, returning));
+            parts.add(createAudioPart("6182122145512625145", 128, 174, returning));
+            parts.add(createAudioPart("3378726703924324403", 144, 174, returning));
+            parts.add(createAudioPart("4823965795648964701", 174, 175, returning));
+            parts.add(createAudioPart("5560598317419002938", 175, 176, returning));
+            parts.add(createAudioPart("9040781467677187716", 176, 240, returning));
+            parts.add(createAudioPart("8301899110835906945", 208, 224, scares_me));
+            parts.add(createAudioPart("5555459205073513470", 224, 252, scares_me));
+        } catch (IOException e) {
+            throw new RuntimeException("This should not happen");
+        }
+        return new Composition("JavaZone Demo", 150F, parts, TestMp3s.javaZoneComposition);
     }
 
-
-    public List<AudioPart> parts() throws Exception {
-        List<AudioPart> parts = new ArrayList<AudioPart>();
-        parts.add(new AudioPart(not_alone, 0, 32, not_alone.segments.get(0)));
-        parts.add(new AudioPart(scares_me, 16, 48, scares_me.segments.get(2)));
-        parts.add(new AudioPart(not_alone, 32, 70, not_alone.segments.get(1)));
-        parts.add(new AudioPart(scares_me, 48, 64, scares_me.segments.get(2)));
-        parts.add(new AudioPart(scares_me, 64, 112, scares_me.segments.get(4)));
-        parts.add(new AudioPart(returning, 96, 140, returning.segments.get(4)));
-        parts.add(new AudioPart(returning, 96, 140, returning.segments.get(4)));
-        parts.add(new AudioPart(returning, 128, 174, returning.segments.get(6)));
-        parts.add(new AudioPart(returning, 144, 174, returning.segments.get(9)));
-        parts.add(new AudioPart(returning, 174, 175, returning.segments.get(10)));
-        parts.add(new AudioPart(returning, 175, 176, returning.segments.get(11)));
-        parts.add(new AudioPart(returning, 176, 240, returning.segments.get(12)));
-        parts.add(new AudioPart(scares_me, 208, 224, scares_me.segments.get(12)));
-        parts.add(new AudioPart(scares_me, 224, 252, scares_me.segments.get(13)));
-
-        return parts;
+    private AudioDescription createAudioPart(String id, int start, int end, URL url) throws IOException {
+        return audioXMLParser.parse(PartXML.create(id, start, end, DvlXML.create("URL Name", url)));
     }
 }
