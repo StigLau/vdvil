@@ -37,7 +37,7 @@ public class JavaZoneExample {
     }
 
     public static void main(String[] args) throws IOException, LineUnavailableException, InterruptedException {
-        JavaZoneExampleNew test = new JavaZoneExampleNew();
+        JavaZoneExample test = new JavaZoneExample();
 
         Composition composition = test.parts();
         Float masterBpm = 150F;
