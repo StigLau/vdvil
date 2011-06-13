@@ -1,7 +1,7 @@
 package no.lau.vdvil.timingframework.renderertarget;
 
 
-import no.lau.vdvil.timingframework.MasterBeatPattern;
+import no.lau.vdvil.timing.MasterBeatPattern;
 import org.jdesktop.core.animation.timing.Animator;
 import org.jdesktop.core.animation.timing.TimingSource;
 import org.jdesktop.core.animation.timing.TimingTargetAdapter;

@@ -7,4 +7,10 @@ public interface VdvilPlayer {
     void play(int startAt);
     void stop();
     boolean isPlaying();
+
+    VdvilPlayer NULL = new VdvilPlayer() {
+        public void play(int startAt) { throw new RuntimeException("Null Player"); }
+        public void stop() { throw new RuntimeException("Null Player"); }
+        public boolean isPlaying() { return false; }
+    };
 }

@@ -1,8 +1,8 @@
 package no.lau.vdvil.timingframework;
 
 import no.lau.vdvil.player.VdvilPlayer;
+import no.lau.vdvil.timing.MasterBeatPattern;
 import org.jdesktop.core.animation.timing.*;
-import org.jdesktop.core.animation.timing.sources.ScheduledExecutorTimingSource;
 import org.jdesktop.swing.animation.timing.sources.SwingTimerTimingSource;
 
 import java.util.concurrent.TimeUnit;

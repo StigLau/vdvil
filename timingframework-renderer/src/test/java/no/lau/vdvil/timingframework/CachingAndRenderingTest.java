@@ -11,6 +11,7 @@ import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionXMLParser;
 import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.player.VdvilPlayer;
+import no.lau.vdvil.timing.MasterBeatPattern;
 import no.lau.vdvil.timingframework.renderertarget.TimingInstruction;
 import no.lau.vdvil.timingframework.renderertarget.VdvilRenderingTimingTarget;
 import no.vdvil.renderer.audio.AudioXMLParser;

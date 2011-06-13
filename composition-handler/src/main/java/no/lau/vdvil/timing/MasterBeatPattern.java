@@ -1,4 +1,4 @@
-package no.lau.vdvil.timingframework;
+package no.lau.vdvil.timing;
 
 /**
  * This is the ground basis for most of the calculations concerning timing
@@ -8,7 +8,7 @@ package no.lau.vdvil.timingframework;
 public class MasterBeatPattern {
     public final Integer fromBeat;
     public final Integer toBeat;
-    final Float masterBpm;
+    public final Float masterBpm;
     /**
      * Indicating that the most fine-grained timing can be performed at this level.
      * In time will be set higher - 44100 or somehting!

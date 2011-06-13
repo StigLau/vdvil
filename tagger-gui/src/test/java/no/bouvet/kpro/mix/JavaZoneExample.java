@@ -1,25 +1,15 @@
 package no.bouvet.kpro.mix;
 
-import no.bouvet.kpro.renderer.Instructions;
-import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
-import no.bouvet.kpro.renderer.audio.AudioRenderer;
 import no.lau.vdvil.cache.testresources.TestMp3s;
 import no.lau.vdvil.handler.Composition;
-import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.DvlXML;
 import no.lau.vdvil.handler.persistence.PartXML;
-import no.lau.vdvil.player.InstructionPlayer;
-import no.lau.vdvil.player.VdvilPlayer;
-import no.vdvil.renderer.audio.AudioDescription;
-import no.vdvil.renderer.audio.AudioXMLParser;
-import org.codehaus.httpcache4j.cache.VdvilHttpCache;
-
-import javax.sound.sampled.LineUnavailableException;
+import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
+import no.lau.vdvil.timing.MasterBeatPattern;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class JavaZoneExample {
@@ -27,29 +17,26 @@ public class JavaZoneExample {
     URL not_alone = TestMp3s.not_aloneDvl;
     URL scares_me = TestMp3s.scares_meDvl;
 
-    AudioXMLParser audioXMLParser;
+    PreconfiguredVdvilPlayer vdvilPlayer;
 
-    JavaZoneExample() {
-        DownloadAndParseFacade downloadAndParseFacade = new DownloadAndParseFacade();
-        downloadAndParseFacade.addCache(VdvilHttpCache.create());
-        audioXMLParser = new AudioXMLParser(downloadAndParseFacade);
-        downloadAndParseFacade.addParser(audioXMLParser);
+    JavaZoneExample() throws IllegalAccessException {
+        vdvilPlayer = new PreconfiguredVdvilPlayer();
+        vdvilPlayer.init(composition(), new MasterBeatPattern(0, 252, 150F));
     }
 
-    public static void main(String[] args) throws IOException, LineUnavailableException, InterruptedException {
-        JavaZoneExample test = new JavaZoneExample();
-
-        Composition composition = test.parts();
-        Float masterBpm = 150F;
-        Instructions instructions = composition.instructions(masterBpm);
-        VdvilPlayer player = new InstructionPlayer(masterBpm, instructions, Collections.singletonList(new AudioRenderer(new AudioPlaybackTarget())));
-        player.play(0);
-        while (player.isPlaying()) {
+    void play() throws InterruptedException {
+        vdvilPlayer.play(0);
+        while (vdvilPlayer.isPlaying()) {
             Thread.sleep(500);
         }
     }
 
-    public Composition parts() {
+    public static void main(String[] args) throws InterruptedException, IllegalAccessException {
+        JavaZoneExample jz = new JavaZoneExample();
+        jz.play();
+    }
+
+    public Composition composition() {
         List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
         try {
             parts.add(createAudioPart("4479230163500364845", 0, 32, not_alone));
@@ -72,7 +59,7 @@ public class JavaZoneExample {
         return new Composition("JavaZone Demo", 150F, parts, TestMp3s.javaZoneComposition);
     }
 
-    private AudioDescription createAudioPart(String id, int start, int end, URL url) throws IOException {
-        return audioXMLParser.parse(PartXML.create(id, start, end, DvlXML.create("URL Name", url)));
+    private MultimediaPart createAudioPart(String id, int start, int end, URL url) throws IOException {
+        return vdvilPlayer.accessCache().parse(PartXML.create(id, start, end, DvlXML.create("URL Name", url)));
     }
 }

@@ -1,6 +1,7 @@
 package no.lau.vdvil.timingframework;
 
 import no.lau.vdvil.player.VdvilPlayer;
+import no.lau.vdvil.timing.MasterBeatPattern;
 import no.lau.vdvil.timingframework.keyframe.MyEvaluator;
 import no.lau.vdvil.timingframework.keyframe.MyInstruction;
 import no.lau.vdvil.timingframework.keyframe.MyKeyFrameTarget;

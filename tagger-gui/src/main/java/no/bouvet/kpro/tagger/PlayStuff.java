@@ -12,6 +12,7 @@ import javax.sound.sampled.LineUnavailableException;
 /**
  * This is the master class, responsible for playing a small demoset of VDVIL music
  */
+@Deprecated
 public class PlayStuff implements VdvilPlayer{
     private final Renderer renderer;
     private final Float masterBpm;
@@ -21,11 +22,7 @@ public class PlayStuff implements VdvilPlayer{
         masterBpm = composition.masterBpm;
         Instructions instructions = createInstructionsFromParts(composition);
         renderer = new Renderer(instructions);
-        try {
-            renderer.addRenderer(new AudioRenderer(new AudioPlaybackTarget()));
-        } catch (LineUnavailableException e) {
-            log.error("Problem opening Audio line", e);
-        }
+        renderer.addRenderer(new AudioRenderer(new AudioPlaybackTarget()));
     }
 
     public Instructions createInstructionsFromParts(Composition composition) {

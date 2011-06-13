@@ -18,7 +18,7 @@ object PlayGUI extends SimpleSwingApplication {
   val tabs = new TabbedPane
 
   val log = LoggerFactory.getLogger(PlayGUI.getClass)
-  val javaZoneDemoCompositionUrl = TestMp3s.javaZoneComposition
+  val javaZoneDemoCompositionUrl = TestMp3s.javaZoneComposition_WithoutImages
 
   def top = new MainFrame {
     title = "Play GUI"

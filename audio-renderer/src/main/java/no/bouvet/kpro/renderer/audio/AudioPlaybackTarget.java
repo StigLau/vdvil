@@ -26,10 +26,11 @@ public class AudioPlaybackTarget implements AudioTarget {
 	 * succeeds, the close() method must be called to release the audio output
 	 * hardware.
 	 * 
-	 * @throws LineUnavailableException if the audio device could not be opened
+	 * @throws LineUnavailableException wrapped in RuntimeException if the audio device could not be opened
 	 * @author Michael Stokes
+     * @author Stig Lau
 	 */
-	public AudioPlaybackTarget() throws LineUnavailableException {
+	public AudioPlaybackTarget() {
 		log.debug("Opening audio device for " + Renderer.RATE + " Hz stereo 16-bit real-time output" );
 		AudioFormat format = new AudioFormat(Renderer.RATE, 16, 2, true, false);
 
@@ -44,7 +45,7 @@ public class AudioPlaybackTarget implements AudioTarget {
 			} catch (Exception e2) {
                 log.debug("Error closing line");
 			}
-			throw e;
+			throw new RuntimeException("Line unavailable", e);
 		}
 		flush();
 	}
