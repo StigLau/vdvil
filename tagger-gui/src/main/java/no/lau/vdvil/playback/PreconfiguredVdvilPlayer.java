@@ -1,6 +1,7 @@
 package no.lau.vdvil.playback;
 
 import no.bouvet.kpro.renderer.AbstractRenderer;
+import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.AudioRenderer;
@@ -12,6 +13,7 @@ import no.lau.vdvil.player.InstructionPlayer;
 import no.lau.vdvil.player.VdvilPlayer;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.AudioXMLParser;
+import no.vdvil.renderer.image.ImageInstruction;
 import no.vdvil.renderer.image.ImageRenderer;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
 import org.codehaus.httpcache4j.cache.VdvilHttpCache;
@@ -46,13 +48,28 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         if(isPlaying())
             throw new IllegalAccessException("Don't change the player during playback. Please stop first");
         try {
-            Instructions instructions = composition.instructions(beatPattern.masterBpm);
-            player = new InstructionPlayer(beatPattern.masterBpm, instructions, renderers);
+            Instructions timeFilteredInstructions = filterByTime(composition.instructions(beatPattern.masterBpm), beatPattern);
+            cacheInstructions(timeFilteredInstructions);
+            player = new InstructionPlayer(beatPattern.masterBpm, timeFilteredInstructions, renderers);
 
         } catch (IOException e) {
             log.error("These errors should not happen", e);
         }
 
+    }
+
+    private Instructions filterByTime(Instructions instructions, MasterBeatPattern filterBeatPattern) {
+        Instructions filteredInstructions = new Instructions();
+        for (Instruction instruction : instructions.lock()) {
+            if(instruction.getStart() < filterBeatPattern.durationCalculation()) {
+                filteredInstructions.append(instruction);
+                System.out.println("Added instruction " + instruction.getStart() + " while maxtime was " + filterBeatPattern.durationCalculation());
+            }
+        }
+        //To tell the renderer to stop after the last instruction
+        instructions.endAt(filterBeatPattern.durationCalculation().intValue());
+        System.out.println("filterBeatPattern.durationCalculation().intValue() = " + filterBeatPattern.durationCalculation().intValue());
+        return filteredInstructions;
     }
 
     public DownloadAndParseFacade accessCache() {
@@ -69,5 +86,15 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
 
     public boolean isPlaying() {
         return player.isPlaying();
+    }
+
+    private void cacheInstructions(Instructions instructions) throws IOException {
+        for (Instruction instruction : instructions.lock()) {
+            System.out.println("instruction.getStart() + instruction.getEnd()   = " + instruction.getClass().getSimpleName() + " " + instruction.getStart() + " " + instruction.getEnd());
+            if (instruction instanceof ImageInstruction) {
+                ((ImageInstruction) instruction).cache(downloadAndParseFacade);
+            }
+        }
+        instructions.unlock();
     }
 }
