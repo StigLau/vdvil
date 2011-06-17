@@ -1,6 +1,5 @@
 package no.bouvet.kpro;
 
-import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.lau.vdvil.cache.testresources.TestMp3s;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaPart;
@@ -8,10 +7,10 @@ import no.lau.vdvil.handler.persistence.DvlXML;
 import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
 import no.lau.vdvil.timing.MasterBeatPattern;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import no.vdvil.renderer.lyric.LyricDescription;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,24 +19,22 @@ import java.util.List;
  * Simple test for setting up a test of lyric/GUI and music
  */
 public class AudioAndLyricsExample {
-    Logger log = LoggerFactory.getLogger(getClass());
-    private static URL returningDvl = TestMp3s.returningDvl;
+    static URL returningDvl = TestMp3s.returningDvl;
     PreconfiguredVdvilPlayer vdvilPlayer;
 
     public static void main(String[] args) throws Exception {
-        new AudioAndLyricsExample().setUpStuff();
+        new AudioAndLyricsExample();
     }
 
-    private void setUpStuff() throws Exception {
+    AudioAndLyricsExample() throws Exception {
         vdvilPlayer = new PreconfiguredVdvilPlayer();
 
-        vdvilPlayer.init(parts(), new MasterBeatPattern(0, 8, 135F));
+        vdvilPlayer.init(parts(), new MasterBeatPattern(0, 64, 135F));
+        //TODO Not working yet!!!
         vdvilPlayer.play(0);
-        while(vdvilPlayer.isPlaying()) {
+        while (vdvilPlayer.isPlaying()) {
             Thread.sleep(500);
         }
-        //new LyricRenderer(1000, 100)
-        //TODO Not working yet!!!
     }
 
     public Composition parts() throws FileNotFoundException {
@@ -54,14 +51,14 @@ public class AudioAndLyricsExample {
             parts.add(createAudioPart("4823965795648964701", 63, 64, returningDvl));
             parts.add(createAudioPart("5560598317419002938", 64, 128, returningDvl));
             parts.add(createAudioPart("5762690949488488062", 128, 256, returningDvl));
-            } catch (IOException e) {
-            throw new RuntimeException("This should not happen");
+        } catch (IOException e) {
+            throw new RuntimeException("This should not happen", e);
         }
         return new no.lau.vdvil.handler.Composition("JavaZone Demo", 150F, parts, TestMp3s.javaZoneComposition);
     }
 
-    private MultimediaPart createLyricPart(String text, int start, int end) {
-        return null;  //To change body of created methods use File | Settings | File Templates.
+    private MultimediaPart createLyricPart(String text, int start, int end) throws MalformedURLException {
+        return new LyricDescription(text, PartXML.create(text, start, end, DvlXML.create("name", new URL("http://url.com"))));
     }
 
     MultimediaPart createAudioPart(String id, int start, int end, URL url) throws IOException {

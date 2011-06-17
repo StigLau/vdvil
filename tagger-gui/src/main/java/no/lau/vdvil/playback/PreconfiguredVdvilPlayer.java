@@ -16,6 +16,7 @@ import no.vdvil.renderer.audio.AudioXMLParser;
 import no.vdvil.renderer.image.ImageInstruction;
 import no.vdvil.renderer.image.ImageRenderer;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
+import no.vdvil.renderer.lyric.LyricRenderer;
 import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,7 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
 
         renderers = Arrays.asList(
                 new ImageRenderer(800, 600, downloadAndParseFacade),
+                new LyricRenderer(800, 100),
                 new AudioRenderer(new AudioPlaybackTarget()));
     }
 
@@ -63,12 +65,12 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         for (Instruction instruction : instructions.lock()) {
             if(instruction.getStart() < filterBeatPattern.durationCalculation()) {
                 filteredInstructions.append(instruction);
-                System.out.println("Added instruction " + instruction.getStart() + " while maxtime was " + filterBeatPattern.durationCalculation());
+                log.debug("Added instruction " + instruction.getStart() + " while maxtime was " + filterBeatPattern.durationCalculation());
             }
         }
         //To tell the renderer to stop after the last instruction
         instructions.endAt(filterBeatPattern.durationCalculation().intValue());
-        System.out.println("filterBeatPattern.durationCalculation().intValue() = " + filterBeatPattern.durationCalculation().intValue());
+        log.debug("filterBeatPattern.durationCalculation().intValue() = " + filterBeatPattern.durationCalculation().intValue());
         return filteredInstructions;
     }
 
@@ -90,7 +92,7 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
 
     private void cacheInstructions(Instructions instructions) throws IOException {
         for (Instruction instruction : instructions.lock()) {
-            System.out.println("instruction.getStart() + instruction.getEnd()   = " + instruction.getClass().getSimpleName() + " " + instruction.getStart() + " " + instruction.getEnd());
+            log.debug("instruction.getStart() + instruction.getEnd()   = " + instruction.getClass().getSimpleName() + " " + instruction.getStart() + " " + instruction.getEnd());
             if (instruction instanceof ImageInstruction) {
                 ((ImageInstruction) instruction).cache(downloadAndParseFacade);
             }
