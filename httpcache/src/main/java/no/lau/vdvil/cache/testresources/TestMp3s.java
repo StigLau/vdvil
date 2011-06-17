@@ -15,6 +15,7 @@ public class TestMp3s {
 
     public static final URL javaZoneComposition = createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml");
     public static final URL javaZoneComposition_WithoutImages = createURL("http://kpro09.googlecode.com/svn-history/r530/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml");
+    public static final URL NULL = createURL("http://null.com");
 
 
     private static URL createURL(String url) {
