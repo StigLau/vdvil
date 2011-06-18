@@ -20,6 +20,6 @@ public class ImagePart extends AbstractPart {
 
     @Override
     public Instruction translateToInstruction(Float masterBpm) {
-        return new ImageInstruction(startCue, endCue, masterBpm, imageUrl);
+        return new ImageInstruction(startCue, endCue, masterBpm, imageUrl, null);
     }
 }

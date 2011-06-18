@@ -3,19 +3,20 @@ package no.lau.vdvil.handler;
 import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Instructions;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
+import no.lau.vdvil.timing.MasterBeatPattern;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
 public class Composition implements MultimediaPart {
     public final String name;
-    public Float masterBpm;
+    public MasterBeatPattern masterBeatPattern;
     public final List<MultimediaPart> multimediaParts;
     public final URL url;
 
-    public Composition(String name, Float masterBpm, List<MultimediaPart> multimediaParts, URL url) {
+    public Composition(String name, MasterBeatPattern masterBeatPattern, List<MultimediaPart> multimediaParts, URL url) {
         this.name = name;
-        this.masterBpm = masterBpm;
+        this.masterBeatPattern = masterBeatPattern;
         this.multimediaParts = multimediaParts;
         this.url = url;
     }
@@ -25,6 +26,8 @@ public class Composition implements MultimediaPart {
         for (MultimediaPart multimediaPart : multimediaParts) {
             instructions.append(multimediaPart.asInstruction(masterBpm));
         }
+        //To tell the renderer to stop after the last instruction
+        instructions.endAt(masterBeatPattern.durationCalculation().intValue());
         return instructions;
     }
 
@@ -34,6 +37,12 @@ public class Composition implements MultimediaPart {
 
     public CompositionInstruction compositionInstruction() {
         throw new RuntimeException("No CompositionInstruction set up for a Composition");
+    }
+
+    public void cache(DownloadAndParseFacade downloader) throws IOException {
+        for (MultimediaPart multimediaPart : multimediaParts) {
+            multimediaPart.cache(downloader);
+        }
     }
 }
 

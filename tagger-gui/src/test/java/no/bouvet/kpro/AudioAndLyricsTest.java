@@ -22,13 +22,13 @@ public class AudioAndLyricsTest {
     @Test
     public void runTest() throws Exception {
         vdvilPlayer = new PreconfiguredVdvilPlayer();
-        vdvilPlayer.init(composition(), new MasterBeatPattern(0, 64, 135F));
+        vdvilPlayer.init(composition(new MasterBeatPattern(0, 64, 135F)));
         vdvilPlayer.play(0);
         while (vdvilPlayer.isPlaying())
             Thread.sleep(200);
     }
 
-    public Composition composition() throws IOException {
+    public Composition composition(MasterBeatPattern beatPattern) throws IOException {
         List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
         parts.add(JavaZoneExample.createAudioPart("2754708889643705332", 0, 16, returningDvl, vdvilPlayer.accessCache()));
         parts.add(JavaZoneExample.createLyricPart("Hello World!", 0, 12));
@@ -40,6 +40,6 @@ public class AudioAndLyricsTest {
         parts.add(JavaZoneExample.createAudioPart("4823965795648964701", 63, 64, returningDvl, vdvilPlayer.accessCache()));
         parts.add(JavaZoneExample.createAudioPart("5560598317419002938", 64, 128, returningDvl, vdvilPlayer.accessCache()));
         parts.add(JavaZoneExample.createAudioPart("5762690949488488062", 128, 256, returningDvl, vdvilPlayer.accessCache()));
-        return new no.lau.vdvil.handler.Composition("AudioAndLyricsTest", 150F, parts, TestMp3s.NULL);
+        return new no.lau.vdvil.handler.Composition("AudioAndLyricsTest", beatPattern, parts, TestMp3s.NULL);
     }
 }

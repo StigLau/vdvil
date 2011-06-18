@@ -1,8 +1,10 @@
 package no.vdvil.renderer.lyric;
 
 import no.bouvet.kpro.renderer.Instruction;
+import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
+import java.io.IOException;
 
 public class LyricDescription implements MultimediaPart {
 
@@ -21,5 +23,9 @@ public class LyricDescription implements MultimediaPart {
 
     public CompositionInstruction compositionInstruction() {
         return compositionInstruction;
+    }
+
+    public void cache(DownloadAndParseFacade downloader) throws IOException {
+        //No need for caching text
     }
 }

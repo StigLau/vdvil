@@ -1,6 +1,7 @@
 package no.vdvil.renderer.audio;
 
 import com.thoughtworks.xstream.XStream;
+import no.lau.vdvil.cache.DownloaderFacade;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaParser;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
@@ -10,14 +11,14 @@ import java.util.List;
 
 public class AudioXMLParser implements MultimediaParser {
 
-    DownloadAndParseFacade downloaderAndParseFacade;
+    DownloaderFacade downloader;
     XStream xstream;
 
     public AudioXMLParser() {
         this(DownloadAndParseFacade.NULL);
     }
-    public AudioXMLParser(DownloadAndParseFacade downloaderAndParseFacade) {
-        this.downloaderAndParseFacade = downloaderAndParseFacade;
+    public AudioXMLParser(DownloaderFacade downloader) {
+        this.downloader = downloader;
         xstream = new XStream();
         xstream.alias("track", Track.class);
         xstream.alias("mediaFile", MediaFile.class);
@@ -26,14 +27,13 @@ public class AudioXMLParser implements MultimediaParser {
 
     public AudioDescription parse(CompositionInstruction compositionInstruction) throws IOException {
         URL dvlUrl = compositionInstruction.dvl().url();
-        Track track = (Track) xstream.fromXML(downloaderAndParseFacade.fetchAsStream(dvlUrl));
+        Track track = (Track) xstream.fromXML(downloader.fetchAsStream(dvlUrl));
         Segment segment = track.findSegment(compositionInstruction.id());
-        URL fileInCache = downloaderAndParseFacade.fetchFromCache(track.mediaFile.fileName, track.mediaFile.checksum);
-        return new AudioDescription(segment, compositionInstruction, track, fileInCache);
+        return new AudioDescription(segment, compositionInstruction, track, track.mediaFile.fileName, track.mediaFile.checksum);
     }
 
-    public void setDownloaderAndParseFacade(DownloadAndParseFacade downloaderAndParseFacade) {
-        this.downloaderAndParseFacade = downloaderAndParseFacade;
+    public void setDownloaderAndParseFacade(DownloaderFacade downloader) {
+        this.downloader = downloader;
     }
 }
 

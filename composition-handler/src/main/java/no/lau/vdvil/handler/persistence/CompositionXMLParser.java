@@ -5,6 +5,7 @@ import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaParser;
 import no.lau.vdvil.handler.MultimediaPart;
+import no.lau.vdvil.timing.MasterBeatPattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
@@ -34,14 +35,17 @@ public class CompositionXMLParser implements MultimediaParser{
 
     public Composition convert(CompositionXML cXML, URL url) {
         List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
+        int beatLength = 0;
         for (final PartXML partXML : cXML.parts) {
+            if(partXML.end() > beatLength)
+                beatLength = partXML.end();
             try{
                 parts.add(downloadAndParseFacade.parse(partXML));
             } catch (IOException e) {
                 log.error("Unable to parse or download {}", partXML.dvl.name);
             }
         }
-        return new Composition(cXML.name, cXML.masterBpm, parts, url);
+        return new Composition(cXML.name, new MasterBeatPattern(0, beatLength, cXML.masterBpm), parts, url);
     }
 }
 
