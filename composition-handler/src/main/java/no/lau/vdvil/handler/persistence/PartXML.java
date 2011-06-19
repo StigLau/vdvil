@@ -25,4 +25,15 @@ public class PartXML implements CompositionInstruction {
     public static CompositionInstruction create(URL url) {
         return create("Test Part", -1, -1, DvlXML.create("Test DVL", url));
     }
+
+    /**
+     * The end beat may sometimes be moved to facilitate an early ending.
+     * Really don't like this function which makes the CompositionInstruction mutable.
+     * The side effect is that one has to load/parse the original source to get the original state
+     * Should be a way of creating a copy of the original structure without mutating!
+     * @param endBeat set endBeat
+     */
+    public void setEnd(int endBeat) {
+        this.end = endBeat;
+    }
 }

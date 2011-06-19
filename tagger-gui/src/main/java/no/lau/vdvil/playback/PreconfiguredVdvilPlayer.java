@@ -8,6 +8,7 @@ import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.handler.persistence.CompositionXMLParser;
+import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.handler.persistence.SimpleFileCache;
 import no.lau.vdvil.player.InstructionPlayer;
 import no.lau.vdvil.player.VdvilPlayer;
@@ -41,8 +42,8 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         downloadAndParseFacade.addParser(new ImageDescriptionXMLParser(downloadAndParseFacade));
 
         renderers = Arrays.asList(
-                //new ImageRenderer(800, 600, downloadAndParseFacade),
-                //new LyricRenderer(800, 100),
+                new ImageRenderer(800, 600, downloadAndParseFacade),
+                new LyricRenderer(800, 100),
                 new AudioRenderer(new AudioPlaybackTarget()));
     }
 
@@ -50,7 +51,6 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         init(composition, composition.masterBeatPattern);
     }
 
-    @Deprecated //Prefer using the simpler interface
     public void init(Composition composition, MasterBeatPattern beatPatternFilter) throws IllegalAccessException {
         if(isPlaying())
             throw new IllegalAccessException("Don't change the player during playback. Please stop first");
@@ -70,8 +70,13 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         List<MultimediaPart> filteredPartsList = new ArrayList<MultimediaPart>();
         for (MultimediaPart multimediaPart : composition.multimediaParts) {
             CompositionInstruction instruction = multimediaPart.compositionInstruction();
-            if(instruction.start() < filterBeatPattern.toBeat)
+            if(instruction.start() < filterBeatPattern.toBeat) {
+                if(instruction.end() > filterBeatPattern.toBeat) {
+                    log.info("Instruction {} endBeat was set to {} because it ended to late", multimediaPart, filterBeatPattern.toBeat);
+                    ((PartXML)multimediaPart.compositionInstruction()).setEnd(filterBeatPattern.toBeat);
+                }
                 filteredPartsList.add(multimediaPart);
+            }
             else
                 log.info("Instruction {} starting at {} was filtered out of the composition", multimediaPart, instruction.start());
         }
