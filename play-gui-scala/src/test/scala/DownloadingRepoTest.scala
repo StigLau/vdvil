@@ -4,7 +4,7 @@ import org.junit.Test
 import org.slf4j.LoggerFactory
 import no.lau.vdvil.mix._
 import no.lau.vdvil.domain.player. {MasterMix, Dvl}
-import no.lau.vdvil.cache.testresources.TestMp3s
+import no.vdvil.renderer.audio.TestMp3s
 
 class DownloadingRepoTest {
 

@@ -16,7 +16,7 @@ class ScalaComposition(var masterBpm: Float, val parts: List[MultimediaPartTrait
     for(part <- parts) part match {
       case audio:ScalaAudioPart => append(audio.translateToInstruction(masterBpm.floatValue))
       case lyric:LyricPart => append(new LyricInstruction(lyric.startCue, lyric.endCue, masterBpm.floatValue, lyric.text))
-      case image:ImagePart => append(new ImageInstruction(image.startCue, image.endCue, masterBpm.floatValue, image.url))
+      case image:ImagePart => append(new ImageInstruction(image.startCue, image.endCue, masterBpm.floatValue, image.url, null))
     }
   }
   @Deprecated //Return int!

@@ -1,7 +1,6 @@
 package no.vdvil.renderer.audio;
 
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
-import no.lau.vdvil.cache.testresources.TestMp3s;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.persistence.*;
@@ -20,7 +19,7 @@ public class AudioXmlParsingTest {
         URL url = ClassLoader.getSystemResource("AudioExample.dvl.xml");
         AudioXMLParser audioXMLParser = new AudioXMLParser();
         String segmentId = "4336519975847252321";
-        CompositionInstruction ci = PartXML.create(segmentId, -1, -1, DvlXML.create("someDvl", url));
+        CompositionInstruction ci = new PartXML(segmentId, -1, -1, new DvlXML("someDvl", url));
 
         DownloadAndParseFacade parseFacade = new DownloadAndParseFacade();
         parseFacade.addCache(VdvilHttpCache.create());
@@ -28,7 +27,7 @@ public class AudioXmlParsingTest {
         audioXMLParser.setDownloaderAndParseFacade(parseFacade);
 
         AudioDescription audioDescription = audioXMLParser.parse(ci);
-
+        audioDescription.cache(parseFacade);
         AudioInstruction audioInstruction = audioDescription.asInstruction(120F);
         assertNotNull(audioInstruction);
     }
@@ -37,7 +36,7 @@ public class AudioXmlParsingTest {
     public void compositionWithAudioParsing() throws IOException {
         String segmentId = "4479230163500364845";
         URL compositionUrl = TestMp3s.javaZoneComposition;
-        CompositionInstruction ci = PartXML.create(segmentId, -1, -1, DvlXML.create("someDvl", compositionUrl));
+        CompositionInstruction ci = new PartXML(segmentId, -1, -1, new DvlXML("someDvl", compositionUrl));
 
         DownloadAndParseFacade parseFacade = new DownloadAndParseFacade();
         parseFacade.addCache(VdvilHttpCache.create());

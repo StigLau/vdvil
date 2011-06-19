@@ -3,7 +3,7 @@ package no.lau.vdvil.downloading
 import org.junit.Test
 import no.lau.vdvil.domain.player. {Dvl, MasterMix}
 import no.lau.vdvil.player.DVLCallBackGUI
-import no.lau.vdvil.cache.testresources.TestMp3s
+import no.vdvil.renderer.audio.TestMp3s
 
 /**
  * Functional test which downloads the .dvl and .mp3 songs and shows the downloading GUI

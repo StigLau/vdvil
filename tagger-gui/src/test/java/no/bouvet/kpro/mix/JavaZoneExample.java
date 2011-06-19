@@ -1,6 +1,6 @@
 package no.bouvet.kpro.mix;
 
-import no.lau.vdvil.cache.testresources.TestMp3s;
+import no.vdvil.renderer.audio.TestMp3s;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
@@ -9,6 +9,7 @@ import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.lyric.LyricDescription;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -54,9 +55,9 @@ public class JavaZoneExample {
     }
 
     public static MultimediaPart createAudioPart(String id, int start, int end, URL url, DownloadAndParseFacade cache) throws IOException {
-        return cache.parse(PartXML.create(id, start, end, DvlXML.create("URL Name", url)));
+        return cache.parse(new PartXML(id, start, end, new DvlXML("URL Name", url)));
     }
     public static MultimediaPart createLyricPart(String text, int start, int end) throws MalformedURLException {
-        return new LyricDescription(text, PartXML.create(text, start, end, DvlXML.create("name", new URL("http://url.com"))));
+        return new LyricDescription(text, new PartXML(text, start, end, new DvlXML("name", new URL("http://url.com"))));
     }
 }

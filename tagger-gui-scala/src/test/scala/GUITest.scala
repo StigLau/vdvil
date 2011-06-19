@@ -1,6 +1,6 @@
 package no.lau.vdvil
 
-import cache.testresources.TestMp3s
+import no.vdvil.renderer.audio.TestMp3s
 import org.junit.Test
 import org.junit.Assert._
 import no.lau.vdvil.gui.TagGUI

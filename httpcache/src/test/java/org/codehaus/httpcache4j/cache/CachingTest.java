@@ -1,7 +1,6 @@
 package org.codehaus.httpcache4j.cache;
 
 import com.google.common.io.Files;
-import no.lau.vdvil.cache.testresources.TestMp3s;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.codehaus.httpcache4j.HTTPRequest;
 import org.codehaus.httpcache4j.HTTPResponse;
@@ -10,6 +9,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import static org.junit.Assert.assertEquals;
@@ -21,8 +21,9 @@ import static org.junit.Assert.assertTrue;
  */
 public class CachingTest {
     Logger log =  LoggerFactory.getLogger(getClass());
-    URL returningmp3 = TestMp3s.returningmp3;
-    URL dvlUrl = TestMp3s.returningDvl;
+    URL returningmp3 = createURL("http://kpro09.googlecode.com/svn/test-files/holden-nothing-93_returning_mix.mp3");
+    URL dvlUrl = createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl");
+
 
     //Pull down .vdl file from url reference
     //Read .vdl file and find where its media files, mp3's and pictures, are located
@@ -78,5 +79,13 @@ public class CachingTest {
     public void validateChecksumOfLocalFiles() {
         assertFalse(cache.validateChecksum(cache.fileLocation(dvlUrl), "not the correct hex checksum"));
         assertTrue(cache.validateChecksum(cache.fileLocation(dvlUrl), "2e24054eb28edd38c9a846022587955b"));
+    }
+
+    private static URL createURL(String url) {
+        try {
+            return new URL(url);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("This should never happen!", e);
+        }
     }
 }

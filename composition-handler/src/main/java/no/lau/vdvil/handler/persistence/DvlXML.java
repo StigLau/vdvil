@@ -3,16 +3,14 @@ package no.lau.vdvil.handler.persistence;
 import java.net.URL;
 
 public class DvlXML implements MultimediaReference{
-    String name;
-    URL url;
+    final String name;
+    final URL url;
+
+    public DvlXML(String name, URL url) {
+        this.name = name;
+        this.url = url;
+    }
 
     public String name() { return name; }
     public URL url() { return url; }
-
-    public static MultimediaReference create(String name, URL url) {
-        DvlXML dvlXML = new DvlXML();
-        dvlXML.name = name;
-        dvlXML.url = url;
-        return dvlXML;
-    }
 }

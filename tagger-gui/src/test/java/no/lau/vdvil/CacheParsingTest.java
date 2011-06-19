@@ -2,7 +2,7 @@ package no.lau.vdvil;
 
 import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.lau.tagger.model.SimpleSong;
-import no.lau.vdvil.cache.testresources.TestMp3s;
+import no.vdvil.renderer.audio.TestMp3s;
 import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import org.junit.Test;
 import java.io.File;
@@ -19,7 +19,7 @@ public class CacheParsingTest {
     public void parsingTheXmlFromStream() throws FileNotFoundException {
         SimpleSong ss = new XStreamParser().load(cache.fetchAsStream(dvlUrl));
         assertEquals(new Float(130.0), ss.bpm);
-        assertEquals(TestMp3s.returningmp3, ss.mediaFile.fileName);
+        assertEquals(TestMp3s.returning.mediaFile.fileName, ss.mediaFile.fileName);
     }
 
     @Test

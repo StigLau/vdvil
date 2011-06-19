@@ -1,7 +1,7 @@
 package no.bouvet.kpro;
 
 import no.bouvet.kpro.mix.JavaZoneExample;
-import no.lau.vdvil.cache.testresources.TestMp3s;
+import no.vdvil.renderer.audio.TestMp3s;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;

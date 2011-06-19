@@ -7,7 +7,6 @@ import no.lau.vdvil.handler.MultimediaParser;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 
 public class AudioXMLParser implements MultimediaParser {
 
@@ -37,35 +36,3 @@ public class AudioXMLParser implements MultimediaParser {
     }
 }
 
-class Track {
-    String reference;
-    Float bpm;
-    MediaFile mediaFile;
-    List<Segment> segments;
-
-    /**
-     * @param id Searches for a Segment by its id
-     * @return Segment.NULL if no segment found with this ID
-     */
-    public Segment findSegment(String id) {
-        for (Segment segment : segments) {
-            if(segment.id.equals(id))
-                return segment;
-        }
-        return Segment.NULL;
-    }
-}
-
-class MediaFile {
-    URL fileName;
-    Float startingOffset;
-    String checksum;
-}
-
-class Segment {
-    public static final Segment NULL = new Segment();
-    String id;
-    String text;
-    int start;
-    int end;
-}

@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory
 import java.net.URL
 import no.lau.vdvil.domain.player._
 import no.lau.vdvil.persistence.MasterMixXML
-import no.lau.vdvil.cache.testresources.TestMp3s
+import no.vdvil.renderer.audio.TestMp3s
 
 class DomainPersistenceTest {
 

@@ -9,7 +9,7 @@ import no.lau.vdvil.mix. {CompositionCallback, MyRepo, GenericDownloadingCoordin
 import org.slf4j.LoggerFactory
 import org.codehaus.httpcache4j.cache.VdvilHttpCache
 import java.net.URL
-import no.lau.vdvil.cache.testresources.TestMp3s
+import no.vdvil.renderer.audio.TestMp3s
 
 /**
  * Play GUI for playing .vdl files

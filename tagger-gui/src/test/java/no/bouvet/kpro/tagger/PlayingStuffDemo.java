@@ -5,7 +5,7 @@ import no.lau.tagger.model.Composition;
 import no.lau.tagger.model.AudioPart;
 import no.lau.tagger.model.SimpleSong;
 import no.lau.vdvil.cache.VdvilCache;
-import no.lau.vdvil.cache.testresources.TestMp3s;
+import no.vdvil.renderer.audio.TestMp3s;
 import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

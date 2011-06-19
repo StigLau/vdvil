@@ -4,7 +4,7 @@ import no.bouvet.kpro.tagger.persistence.XStreamParser;
 import no.bouvet.kpro.tagger.PlayStuff;
 import no.lau.tagger.model.*;
 import no.lau.vdvil.cache.VdvilCache;
-import no.lau.vdvil.cache.testresources.TestMp3s;
+import no.vdvil.renderer.audio.TestMp3s;
 import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

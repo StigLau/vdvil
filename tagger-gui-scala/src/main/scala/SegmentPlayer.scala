@@ -4,6 +4,7 @@ import no.bouvet.kpro.renderer.Instructions
 import no.lau.tagger.scala.model.ScalaSong
 import org.codehaus.httpcache4j.cache.VdvilHttpCache
 import no.bouvet.kpro.renderer.audio._
+import java.util.Collections
 
 
 @Deprecated //Disuse Segment / playing
@@ -18,7 +19,7 @@ class SegmentPlayer(var song: ScalaSong, startCue: Int, endCue: Int) extends Vdv
     var playLength: Int = endCue - startCue
     val masterBpm = -1F
     instructions.append(new SimpleAudioInstruction(0, playLength, song.bpm.floatValue, startCue, song.mediaFile.startingOffset.floatValue, audioSource, 1F))
-    new InstructionPlayer(masterBpm, instructions, new AudioRenderer(new AudioPlaybackTarget))
+    new InstructionPlayer(masterBpm, instructions, Collections.singletonList(new AudioRenderer(new AudioPlaybackTarget)))
   }
 
 
