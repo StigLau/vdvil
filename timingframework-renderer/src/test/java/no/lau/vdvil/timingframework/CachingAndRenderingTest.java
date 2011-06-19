@@ -4,7 +4,6 @@ import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Renderer;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.AudioRenderer;
-import no.lau.vdvil.cache.testresources.TestMp3s;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
@@ -15,6 +14,7 @@ import no.lau.vdvil.timing.MasterBeatPattern;
 import no.lau.vdvil.timingframework.renderertarget.TimingInstruction;
 import no.lau.vdvil.timingframework.renderertarget.VdvilRenderingTimingTarget;
 import no.vdvil.renderer.audio.AudioXMLParser;
+import no.vdvil.renderer.audio.TestMp3s;
 import no.vdvil.renderer.image.ImageRenderer;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
@@ -47,6 +47,7 @@ public class CachingAndRenderingTest {
         downloadAndParseFacade.addParser(new ImageDescriptionXMLParser(downloadAndParseFacade));
         downloadAndParseFacade.addParser(new AudioXMLParser(downloadAndParseFacade));
         composition = (Composition) downloadAndParseFacade.parse(PartXML.create(compositionURL));
+        composition.cache(downloadAndParseFacade);
         audioRenderer = new AudioRenderer(new AudioPlaybackTarget());
         //imageRenderer.start(0);
     }
@@ -55,7 +56,7 @@ public class CachingAndRenderingTest {
     public void cacheAndRun() throws IOException, InterruptedException {
 
         MasterBeatPattern beatPattern = new MasterBeatPattern(0, 68, 150F);
-        composition.masterBpm = 150F;
+        composition.masterBeatPattern = beatPattern;
         TimingInstruction[] timingInstructions = createInstructionsFromSomethingElse(composition, beatPattern);
 
         //Hardcode a playin
