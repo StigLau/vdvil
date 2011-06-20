@@ -3,4 +3,4 @@ Tagger GUI
 /Volumes/McFeasty/Users/Stig/jobb/utvikling/bouvet/playground/stig.lau/kpro2007/tagger
 mvn exec:java -Dexec.mainClass="no.bouvet.kpro.tagger.gui.TagGui"
 
-mvn exec:java -Dexec.mainClass="no.bouvet.kpro.tagger.PlayingStuffDemo" 
+mvn exec:java -Dexec.mainClass="no.lau.vdvil.mix.ReturningMixTest"
