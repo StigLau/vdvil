@@ -28,7 +28,7 @@ public class AudioXMLParser implements MultimediaParser {
         URL dvlUrl = compositionInstruction.dvl().url();
         Track track = (Track) xstream.fromXML(downloader.fetchAsStream(dvlUrl));
         Segment segment = track.findSegment(compositionInstruction.id());
-        return new AudioDescription(segment, compositionInstruction, track, track.mediaFile.fileName, track.mediaFile.checksum);
+        return new AudioDescription(segment, compositionInstruction, track);
     }
 
     public void setDownloaderAndParseFacade(DownloaderFacade downloader) {

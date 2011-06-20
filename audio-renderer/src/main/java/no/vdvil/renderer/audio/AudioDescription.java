@@ -17,16 +17,12 @@ public class AudioDescription implements MultimediaPart {
     private Segment segment;
     public final CompositionInstruction compositionInstruction;
     final Track track;
-    private URL url;
-    private String checksum;
     private URL urlInLocalCache = null;
 
-    public AudioDescription(Segment segment, CompositionInstruction compositionInstruction, Track track, URL url, String checksum) {
+    public AudioDescription(Segment segment, CompositionInstruction compositionInstruction, Track track) {
         this.segment = segment;
         this.compositionInstruction = compositionInstruction;
         this.track = track;
-        this.url = url;
-        this.checksum = checksum;
     }
 
     public AudioInstruction asInstruction(Float masterBpm) {
@@ -40,7 +36,7 @@ public class AudioDescription implements MultimediaPart {
         int _duration = _end - _start;
 
         if(urlInLocalCache == null)
-            throw new RuntimeException(url + " had not been cached before creating instruction!");
+            throw new RuntimeException(track.mediaFile.fileName + " had not been cached before creating instruction!");
 
         MP3Source mp3Source = null;
         try {
@@ -60,6 +56,6 @@ public class AudioDescription implements MultimediaPart {
     }
 
     public void cache(DownloadAndParseFacade downloader) throws IOException {
-        urlInLocalCache = downloader.fetchFromCache(url, checksum);
+        urlInLocalCache = downloader.fetchFromCache(track.mediaFile.fileName, track.mediaFile.checksum);
     }
 }
