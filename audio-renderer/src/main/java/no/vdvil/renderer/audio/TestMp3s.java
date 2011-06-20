@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestMp3s {
-    public static final URL coronamp3 =             createURL("https://github.com/StigLau/vdvil/blob/master/audio-renderer/src/test/resources/Corona_-_Baby_Baby.mp3");
+    public static final URL coronamp3 =             createURL("http://kpro09.googlecode.com/svn/test-files/Corona_-_Baby_Baby.mp3");
+    public static final URL returningMp3 =          createURL("http://kpro09.googlecode.com/svn/test-files/holden-nothing-93_returning_mix.mp3");
+
     public static final URL psylteDvl =             createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/loaderror-psylteflesk.dvl");
     public static final URL returningDvl =          createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl");
     public static final URL unfinishedSympathyDvl = createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/unfinished_sympathy.dvl");
@@ -30,7 +32,7 @@ public class TestMp3s {
     }
 
     static Track returning() {
-        MediaFile mediaFile = new MediaFile(createURL("http://kpro09.googlecode.com/svn/test-files/holden-nothing-93_returning_mix.mp3"), 5.945F, "3e3477a6ccba67aa9f3196390f48b67d");
+        MediaFile mediaFile = new MediaFile(returningMp3, 5.945F, "3e3477a6ccba67aa9f3196390f48b67d");
         List<Segment> segments = new ArrayList<Segment>();
         segments.add(new Segment("4336519975847252321",  0, 64, "low"));
         segments.add(new Segment("4638184666682848978", 64, 128, ""));
@@ -51,7 +53,7 @@ public class TestMp3s {
     }
 
     static Track corona() {
-        MediaFile mediaFile = new MediaFile(coronamp3, 44100 * 0.445f, "No Checksum");
+        MediaFile mediaFile = new MediaFile(coronamp3, 44100 * 0.445f, "e0e5beecd6a34f6a8ebae2c8840769af");
         List<Segment> segments = new ArrayList<Segment>();
         segments.add(new Segment("a", 0, 16,  "Baby, why can't we just stay together"));
         segments.add(new Segment("b", 16, 32,  "Baby, why can't we just stay together"));

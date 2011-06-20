@@ -9,7 +9,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import static no.lau.vdvil.mix.JavaZoneExample.createAudioPart;
 
 public class ReturningMixTest extends SuperPlayingSetup {
     Track returning = TestMp3s.returning;

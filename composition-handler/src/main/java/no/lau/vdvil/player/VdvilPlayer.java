@@ -9,7 +9,7 @@ public interface VdvilPlayer {
     boolean isPlaying();
 
     VdvilPlayer NULL = new VdvilPlayer() {
-        public void play(int startAt) { throw new RuntimeException("Null Player"); }
+        public void play(int startAt) { throw new RuntimeException("NULL PLAYER USED - CHECK USAGE!"); }
         public void stop() { throw new RuntimeException("Null Player"); }
         public boolean isPlaying() { return false; }
     };

@@ -148,7 +148,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 	 */
 	@Override
 	public void handleInstruction(int time, Instruction instruction) {
-        log.info("Got instruction {} to be played at {}", instruction, time);
+        log.debug("Got instruction {} to be played at {}", instruction, time);
         if (instruction instanceof StopInstruction) {
 			_finished = true;
 		} else if (instruction instanceof AudioInstruction) {

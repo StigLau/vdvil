@@ -42,7 +42,7 @@ public class ImageRenderer extends AbstractRenderer {
     }
 
     public void handleInstruction(int time, Instruction instruction) {
-        log.info("Got instruction {} to be played at {}", instruction, time);
+        log.debug("Got instruction {} to be played at {}", instruction, time);
         if (instruction instanceof ImageInstruction) {
             final ImageInstruction imageInstruction = (ImageInstruction) instruction;
             for (final ImageListener imageListener : listener) {

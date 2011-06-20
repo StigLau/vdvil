@@ -86,7 +86,6 @@ public class Instructions {
 	}
 
     public void endAt(int end) {
-        System.out.println("stopAt = " + end);
         append(new StopInstruction(end));
     }
 }
