@@ -8,6 +8,8 @@ import java.net.URL
 import no.vdvil.renderer.audio.TestMp3s
 import no.lau.vdvil.handler.Composition
 import no.lau.vdvil.playback.PreconfiguredVdvilPlayer
+import no.lau.vdvil.handler._
+import no.lau.vdvil.handler.persistence._
 
 /**
  * Play GUI for playing .vdl files
@@ -23,7 +25,7 @@ object PlayGUI extends SimpleSwingApplication {
     menuBar = new MenuBar {
       contents += new Menu("Load") {
         contents += new MenuItem(Action("from web") {
-          //Dialog.showInput(menuBar, "", "Load from", Dialog.Message.Plain, Swing.EmptyIcon, Nil, javaZoneDemoCompositionUrl.toString).map(chosenPath => startDownload(new URL(chosenPath)))
+          Dialog.showInput(menuBar, "", "Load from", Dialog.Message.Plain, Swing.EmptyIcon, Nil, javaZoneDemoCompositionUrl.toString).map(chosenPath => startDownload(new URL(chosenPath)))
         })
       }
     }
@@ -38,6 +40,17 @@ object PlayGUI extends SimpleSwingApplication {
   t.size_=(new Dimension(800, 600))
   t.visible = true
  }
+
+  def startDownload(url:URL){
+    println(url)
+    val composition = new DownloadAndParseFacade {
+      addCache(new SimpleFileCache)
+      addParser(new CompositionXMLParser(this))
+    }.parse(PartXML.create(url))
+    println(composition)
+
+
+  }
 }
 
 class PlayPanel(val composition: no.lau.vdvil.handler.Composition) {
