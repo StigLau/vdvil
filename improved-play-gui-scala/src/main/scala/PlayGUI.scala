@@ -10,6 +10,8 @@ import no.lau.vdvil.handler.Composition
 import no.lau.vdvil.playback.PreconfiguredVdvilPlayer
 import no.lau.vdvil.handler._
 import no.lau.vdvil.handler.persistence._
+import no.lau.vdvil.timing.MasterBeatPattern
+import java.lang.Float
 
 /**
  * Play GUI for playing .vdl files
@@ -43,17 +45,16 @@ object PlayGUI extends SimpleSwingApplication {
 
   def startDownload(url:URL){
     println(url)
-    val composition = new DownloadAndParseFacade {
+    val composition:Composition = new DownloadAndParseFacade {
       addCache(new SimpleFileCache)
       addParser(new CompositionXMLParser(this))
-    }.parse(PartXML.create(url))
+    }.parse(PartXML.create(url)).asInstanceOf[Composition]
     println(composition)
-
-
+    tabs.pages.append(new Page(composition.name, new PlayPanel(composition).ui))
   }
 }
 
-class PlayPanel(val composition: no.lau.vdvil.handler.Composition) {
+class PlayPanel(val composition: Composition) {
   lazy val ui = new FlowPanel {
     contents += new Label("Start from")
     contents += startField
@@ -72,11 +73,12 @@ class PlayPanel(val composition: no.lau.vdvil.handler.Composition) {
   }
   val compositionPlayer = new PreconfiguredVdvilPlayer() {
     def pauseAndplay(startFrom: Int) {
-      stop
-      //masterMix.masterBpm = bpmField.text.toFloat
-      //scalaCompositionOption = Some(masterMix.asComposition)
+      val beatPattern = new MasterBeatPattern(startField.text.toInt, stopField.text.toInt, bpmField.text.toFloat)
+      init(composition, beatPattern)
+      //stop
+      println(beatPattern)
+      println("Playing " + composition.multimediaParts.size)
       play(startFrom)
     }
   }
 }
-

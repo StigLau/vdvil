@@ -88,14 +88,23 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
     }
 
     public void play(int startAt) {
+        ifPlayerIsNullThrowException();
         player.play(startAt);
     }
 
     public void stop() {
+        ifPlayerIsNullThrowException();
         player.stop();
     }
 
     public boolean isPlaying() {
+        if(player == NULL)
+            return false;
         return player.isPlaying();
+    }
+
+    private void ifPlayerIsNullThrowException() {
+        if(player == NULL)
+            throw new RuntimeException(getClass().getSimpleName() + ".init has not been run!");
     }
 }
