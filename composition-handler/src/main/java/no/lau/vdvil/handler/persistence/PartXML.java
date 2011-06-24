@@ -2,9 +2,9 @@ package no.lau.vdvil.handler.persistence;
 
 import java.net.URL;
 
-public class PartXML implements CompositionInstruction {
+public class PartXML implements CompositionInstruction, MutableCompositionInstruction {
     final String id;
-    final int start;
+    int start;
     int end;
     final DvlXML dvl;
 
@@ -22,6 +22,10 @@ public class PartXML implements CompositionInstruction {
 
     public static CompositionInstruction create(URL url) {
         return new PartXML("Test Part", -1, -1, new DvlXML("Test DVL", url))  ;
+    }
+
+    public void setStart(int startBeat) {
+        this.start = startBeat;
     }
 
     /**

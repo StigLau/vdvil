@@ -6,10 +6,7 @@ import no.bouvet.kpro.renderer.audio.AudioRenderer;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
-import no.lau.vdvil.handler.persistence.CompositionInstruction;
-import no.lau.vdvil.handler.persistence.CompositionXMLParser;
-import no.lau.vdvil.handler.persistence.PartXML;
-import no.lau.vdvil.handler.persistence.SimpleFileCache;
+import no.lau.vdvil.handler.persistence.*;
 import no.lau.vdvil.player.InstructionPlayer;
 import no.lau.vdvil.player.VdvilPlayer;
 import no.lau.vdvil.timing.MasterBeatPattern;
@@ -27,7 +24,7 @@ import java.util.List;
 
 public class PreconfiguredVdvilPlayer implements VdvilPlayer {
 
-    Logger log = LoggerFactory.getLogger(getClass());
+    static Logger log = LoggerFactory.getLogger(PreconfiguredVdvilPlayer.class);
     DownloadAndParseFacade downloadAndParseFacade;
     List<? extends AbstractRenderer> renderers;
 
@@ -66,21 +63,32 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         }
     }
 
-    private Composition filterByTime(Composition composition, MasterBeatPattern filterBeatPattern) {
+    public static Composition filterByTime(Composition composition, MasterBeatPattern filter) {
         List<MultimediaPart> filteredPartsList = new ArrayList<MultimediaPart>();
         for (MultimediaPart multimediaPart : composition.multimediaParts) {
             CompositionInstruction instruction = multimediaPart.compositionInstruction();
-            if(instruction.start() < filterBeatPattern.toBeat) {
-                if(instruction.end() > filterBeatPattern.toBeat) {
-                    log.info("Instruction {} endBeat was set to {} because it ended to late", multimediaPart, filterBeatPattern.toBeat);
-                    ((PartXML)multimediaPart.compositionInstruction()).setEnd(filterBeatPattern.toBeat);
+            System.out.println("instruction.id() = " + instruction.id());
+
+
+            //TODO NOT GOOD ENOUGH - Need to first trim start and end, then evaluate if there is anything left to add!!!
+
+            if(instruction.end() > filter.fromBeat) {
+                if(instruction.start() < filter.fromBeat && instruction.start() < filter.toBeat) {
+                    log.info("Instruction {} fromBeat was set to {} to hit correct start time", multimediaPart, filter.fromBeat);
+                    ((MutableCompositionInstruction) multimediaPart.compositionInstruction()).setStart(filter.fromBeat);
+                    filteredPartsList.add(multimediaPart);
+                } else if (instruction.start() < filter.toBeat) {
+                    if (instruction.end() > filter.toBeat) {
+                        log.info("Instruction {} endBeat was set to {} because it ended to late", multimediaPart, filter.toBeat);
+                        ((MutableCompositionInstruction) multimediaPart.compositionInstruction()).setEnd(filter.toBeat);
+                    }
+                    filteredPartsList.add(multimediaPart);
                 }
-                filteredPartsList.add(multimediaPart);
-            }
             else
                 log.info("Instruction {} starting at {} was filtered out of the composition", multimediaPart, instruction.start());
+            }
         }
-        return new Composition(composition.name, filterBeatPattern, filteredPartsList, composition.url);
+        return new Composition(composition.name, filter, filteredPartsList, composition.url);
     }
 
     public DownloadAndParseFacade accessCache() {
