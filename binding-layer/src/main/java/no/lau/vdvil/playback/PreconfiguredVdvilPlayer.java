@@ -94,9 +94,9 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         return downloadAndParseFacade;
     }
 
-    public void play(int startAt) {
+    public void play() {
         ifPlayerIsNullThrowException();
-        player.play(startAt);
+        player.play();
     }
 
     public void stop() {

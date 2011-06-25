@@ -23,9 +23,8 @@ public class InstructionPlayer implements VdvilPlayer {
         }
     }
 
-    public void play(int startAtBeat) {
-        Float startCueInMillis = (startAtBeat * framerate * 60) / masterBpm;
-        renderer.start(startCueInMillis.intValue());
+    public void play() {
+        renderer.start(0);
     }
 
     public void stop() {
