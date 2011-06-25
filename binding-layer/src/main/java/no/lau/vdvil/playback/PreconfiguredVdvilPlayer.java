@@ -67,25 +67,24 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         List<MultimediaPart> filteredPartsList = new ArrayList<MultimediaPart>();
         for (MultimediaPart multimediaPart : composition.multimediaParts) {
             CompositionInstruction instruction = multimediaPart.compositionInstruction();
-            System.out.println("instruction.id() = " + instruction.id());
 
-
-            //TODO NOT GOOD ENOUGH - Need to first trim start and end, then evaluate if there is anything left to add!!!
-
-            if(instruction.end() > filter.fromBeat) {
-                if(instruction.start() < filter.fromBeat && instruction.start() < filter.toBeat) {
+            if(filter.fromBeat <= instruction.start() && instruction.end() <= filter.toBeat) {
+                filteredPartsList.add(multimediaPart);
+            } else if(instruction.end() <= filter.fromBeat || filter.toBeat <= instruction.start()) {
+                //Is outside
+                log.info("Instruction {} starting at {} was filtered out of the composition", multimediaPart, instruction.start());
+            }else {
+                if(instruction.start() < filter.fromBeat) {
+                    //Crop Start
                     log.info("Instruction {} fromBeat was set to {} to hit correct start time", multimediaPart, filter.fromBeat);
                     ((MutableCompositionInstruction) multimediaPart.compositionInstruction()).setStart(filter.fromBeat);
-                    filteredPartsList.add(multimediaPart);
-                } else if (instruction.start() < filter.toBeat) {
-                    if (instruction.end() > filter.toBeat) {
-                        log.info("Instruction {} endBeat was set to {} because it ended to late", multimediaPart, filter.toBeat);
-                        ((MutableCompositionInstruction) multimediaPart.compositionInstruction()).setEnd(filter.toBeat);
-                    }
-                    filteredPartsList.add(multimediaPart);
                 }
-            else
-                log.info("Instruction {} starting at {} was filtered out of the composition", multimediaPart, instruction.start());
+                if(filter.toBeat < instruction.end()) {
+                    log.info("Instruction {} endBeat was set to {} because it ended to late", multimediaPart, filter.toBeat);
+                    ((MutableCompositionInstruction) multimediaPart.compositionInstruction()).setEnd(filter.toBeat);
+                    //Crop End
+                }
+                filteredPartsList.add(multimediaPart);
             }
         }
         return new Composition(composition.name, filter, filteredPartsList, composition.url);

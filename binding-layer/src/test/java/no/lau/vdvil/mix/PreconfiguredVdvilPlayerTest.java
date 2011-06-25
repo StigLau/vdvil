@@ -9,7 +9,6 @@ import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import org.junit.Test;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,23 +37,31 @@ public class PreconfiguredVdvilPlayerTest {
     }
 
     @Test
-    public void testFiltering() {
+    public void croppingStart() {
         List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
         parts.add(instructionDummy("StartClippedByFilter", 2, 6));
+        Composition filteredComposition = PreconfiguredVdvilPlayer.filterByTime(createComposition(parts), filter);
+        CompositionInstruction cropped = filteredComposition.multimediaParts.get(0).compositionInstruction();
+        assertEquals(4, cropped.start());
+        assertEquals(6, cropped.end());
+    }
+    @Test
+    public void croppingEnd() {
+        List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
+        parts.add(instructionDummy("EndClippedByFilter", 6, 10));
+        Composition filteredComposition = PreconfiguredVdvilPlayer.filterByTime(createComposition(parts), filter);
+        CompositionInstruction cropped = filteredComposition.multimediaParts.get(0).compositionInstruction();
+        assertEquals(6, cropped.start());
+        assertEquals(8, cropped.end());
+    }
+
+    @Test
+    public void notFiltered() {
+        List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
         parts.add(instructionDummy("InsideFilter", 4, 8));
         parts.add(instructionDummy("SpaciouslyInsideFilter", 5, 7));
-        parts.add(instructionDummy("EndClippedByFilter", 6, 10));
-
-
         Composition filteredComposition = PreconfiguredVdvilPlayer.filterByTime(createComposition(parts), filter);
-        for (MultimediaPart part : filteredComposition.multimediaParts) {
-            CompositionInstruction comp = part.compositionInstruction();
-            System.out.println("part = " + comp.id() + " " + comp.start() + " " + comp.end() );
-        }
-        assertEquals(4, filteredComposition.multimediaParts.size());
-        CompositionInstruction a = filteredComposition.multimediaParts.get(0).compositionInstruction();
-        assertEquals("StartClippedByFilter", a.id());
-        assertEquals(4, a.start());
+        assertEquals(2, filteredComposition.multimediaParts.size());
     }
 
     private MultimediaPart instructionDummy(final String id, final int start, final int end) {
@@ -70,8 +77,4 @@ public class PreconfiguredVdvilPlayerTest {
     private Composition createComposition(List<MultimediaPart> parts) {
         return new Composition("", null, parts, null);
     }
-
 }
-
-
-
