@@ -3,6 +3,7 @@ package no.lau.vdvil.playback;
 import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.AudioRenderer;
+import no.lau.vdvil.cache.SimpleCacheImpl;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
@@ -14,7 +15,6 @@ import no.vdvil.renderer.audio.AudioXMLParser;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
 import no.vdvil.renderer.image.ImageRenderer;
 import no.vdvil.renderer.lyric.LyricRenderer;
-import org.codehaus.httpcache4j.cache.VdvilHttpCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
@@ -32,7 +32,8 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
 
     public PreconfiguredVdvilPlayer() {
         downloadAndParseFacade = new DownloadAndParseFacade();
-        downloadAndParseFacade.addCache(VdvilHttpCache.create());
+        downloadAndParseFacade.addCache(new SimpleCacheImpl());
+        //downloadAndParseFacade.addCache(VdvilHttpCache.create());
         downloadAndParseFacade.addCache(new SimpleFileCache()); //For local file access
         downloadAndParseFacade.addParser(new CompositionXMLParser(downloadAndParseFacade));
         downloadAndParseFacade.addParser(new AudioXMLParser(downloadAndParseFacade));

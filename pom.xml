@@ -41,14 +41,14 @@
         <!-- <module>gui</module> The QT Jambi GUI has been discontinued as a part of the standard core library -->
         <!-- Not part of the core -->
         <module>httpcache</module>
+        <module>simple-cache</module>
         <module>tagger-model</module>
         <module>tagger-gui</module>
         <module>tagger-gui-scala</module>
-        <module>play-gui-scala</module>
+        <module>improved-play-gui-scala</module>
         <module>play-gui-webstart-distribution</module>
         <module>timingframework-renderer</module>
         <module>binding-layer</module>
-        <module>improved-play-gui-scala</module>
     </modules>
 
     <!-- Common dependency management-->
@@ -87,6 +87,11 @@
             <dependency>
                 <groupId>no.lau.vdvil</groupId>
                 <artifactId>composition-handler</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>no.lau.vdvil</groupId>
+                <artifactId>binding-layer</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
