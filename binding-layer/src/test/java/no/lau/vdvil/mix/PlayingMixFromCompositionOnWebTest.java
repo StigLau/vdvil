@@ -16,7 +16,7 @@ public class PlayingMixFromCompositionOnWebTest {
         PreconfiguredVdvilPlayer vdvilPlayer = new PreconfiguredVdvilPlayer();
         Composition composition = (Composition) vdvilPlayer.accessCache().parse(PartXML.create(TestMp3s.javaZoneComposition));
         vdvilPlayer.init(composition, new MasterBeatPattern(0, 16, 150F));
-        vdvilPlayer.play(0);
+        vdvilPlayer.play();
         while(vdvilPlayer.isPlaying())
             Thread.sleep(200);
     }
