@@ -23,8 +23,8 @@ class SegmentPlayer(var song: ScalaSong, startCue: Int, endCue: Int) extends Vdv
   }
 
 
-  def play(startAt:Int) {
-    player.play(startAt)
+  def play() {
+    player.play()
   }
 
   def stop {

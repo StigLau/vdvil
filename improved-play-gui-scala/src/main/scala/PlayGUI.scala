@@ -6,12 +6,10 @@ import swing.TabbedPane.Page
 import org.slf4j.LoggerFactory
 import java.net.URL
 import no.vdvil.renderer.audio.TestMp3s
-import no.lau.vdvil.handler.Composition
 import no.lau.vdvil.playback.PreconfiguredVdvilPlayer
 import no.lau.vdvil.handler._
 import no.lau.vdvil.handler.persistence._
 import no.lau.vdvil.timing.MasterBeatPattern
-import java.lang.Float
 
 /**
  * Play GUI for playing .vdl files
@@ -78,7 +76,7 @@ class PlayPanel(val composition: Composition) {
       //stop
       println(beatPattern)
       println("Playing " + composition.multimediaParts.size)
-      play(startFrom)
+      play()
     }
   }
 }

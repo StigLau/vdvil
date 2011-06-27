@@ -72,7 +72,7 @@ public class CachingAndRenderingTest {
 
         oldAudioRenderer.start(0);
 
-        timingPlayer.play(0);
+        timingPlayer.play();
         while(timingPlayer.isPlaying()) {
             Thread.sleep(1000);
         }

@@ -43,7 +43,6 @@
         <module>httpcache</module>
         <module>simple-cache</module>
         <module>tagger-model</module>
-        <module>tagger-gui</module>
         <module>tagger-gui-scala</module>
         <module>improved-play-gui-scala</module>
         <module>play-gui-webstart-distribution</module>

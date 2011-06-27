@@ -104,7 +104,7 @@ class ScalaDynamicDvlTable(dvlUrl: URL, song: ScalaSong) {
     isPlaying = true
     song.segmentWithId(segmentId).map{segment =>
       player = new SegmentPlayer(song, segment.start, segment.end) {
-        play(0)
+        play()
       }
     }
   }

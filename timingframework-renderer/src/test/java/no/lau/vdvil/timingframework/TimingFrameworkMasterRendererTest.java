@@ -26,7 +26,7 @@ public class TimingFrameworkMasterRendererTest {
         VdvilPlayer timingPlayer = new TimingFrameworkMasterRenderer(beatPattern,
                 new VdvilRenderingTimingTarget(instructions, beatPattern), keyframeTestData());
 
-        timingPlayer.play(0);
+        timingPlayer.play();
         while(timingPlayer.isPlaying()) {
             Thread.sleep(1000);
         }

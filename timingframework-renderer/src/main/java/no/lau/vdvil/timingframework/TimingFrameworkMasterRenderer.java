@@ -18,7 +18,7 @@ public class TimingFrameworkMasterRenderer implements VdvilPlayer {
         animator = createAnimator(masterBeatPattern, timingTargets);
     }
 
-    public void play(int startAtBeat) {
+    public void play() {
         scheduler.init();
         animator.start();
     }
