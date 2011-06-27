@@ -28,12 +28,10 @@
             <artifactId>storage-file</artifactId>
             <version>3.1</version>
         </dependency>
-        <!-- Parsing xml into objects-->
         <dependency>
-            <groupId>com.thoughtworks.xstream</groupId>
-            <artifactId>xstream</artifactId>
-            <version>1.3.1</version>
-            <scope>test</scope>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>simple-cache</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <!-- Testing -->
         <dependency>

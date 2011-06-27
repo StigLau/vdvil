@@ -24,7 +24,7 @@ public interface VdvilCache {
      * @param url path to stream
      * @return inputStream
      */
-    InputStream fetchAsStream(URL url);
+    InputStream fetchAsStream(URL url) throws IOException;
 
     /**
      * Invalidates a file in the local cache

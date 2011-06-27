@@ -57,7 +57,7 @@ public class CachingTest {
     }
 
     @Test
-    public void doesFileAlreadyExistInCache() throws FileNotFoundException {
+    public void doesFileAlreadyExistInCache() throws IOException {
         log.info("first");
         cache.fetchAsStream(returningmp3);
         log.info("Downloaded 1 file");
