@@ -1,15 +1,9 @@
 package org.codehaus.httpcache4j.cache;
 
 import no.lau.vdvil.cache.CacheFacade;
-import no.lau.vdvil.cache.SimpleVdvilCache;
-import no.lau.vdvil.cache.VdvilCache;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.codehaus.httpcache4j.HTTPRequest;
 import org.codehaus.httpcache4j.HTTPResponse;
 import org.codehaus.httpcache4j.client.HTTPClientResponseResolver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.*;
 import java.net.URI;
 import java.net.URL;
@@ -52,7 +46,7 @@ public class VdvilHttpCache extends CacheFacade {
 
     @Override
     public boolean removeFromCache(URL url) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return fileLocation(url).delete();
     }
 
     /**
