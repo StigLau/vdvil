@@ -18,7 +18,7 @@
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
-            <artifactId>tagger-model</artifactId>
+            <artifactId>composition-handler</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -1,11 +1,11 @@
 package no.lau.vdvil.renderer.image;
 
+import no.lau.vdvil.cache.SimpleCacheImpl;
 import no.lau.vdvil.cache.SimpleVdvilCache;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.persistence.CompositionXMLParser;
 import no.lau.vdvil.handler.persistence.PartXML;
-import no.lau.vdvil.handler.persistence.SimpleFileCache;
 import no.vdvil.renderer.image.ImageInstruction;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 public class CompositionWithImageParserTest {
 
-    SimpleVdvilCache cache = new SimpleFileCache();
+    SimpleVdvilCache cache = new SimpleCacheImpl();
 
     @Test
     public void compositionParsing() throws Exception {
@@ -26,7 +26,6 @@ public class CompositionWithImageParserTest {
         facade.addParser(new ImageDescriptionXMLParser(cache));
         facade.addParser(new CompositionXMLParser(facade));
         facade.addCache(cache);
-        //facade.addCache(VdvilHttpCache.create());
 
         Composition composition = (Composition) facade.parse(PartXML.create(compositionXmlUrl));
         assertEquals("JavaZone Demo", composition.name);

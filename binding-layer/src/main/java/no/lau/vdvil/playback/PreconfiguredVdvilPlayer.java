@@ -34,7 +34,7 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         downloadAndParseFacade = new DownloadAndParseFacade();
         downloadAndParseFacade.addCache(new SimpleCacheImpl());
         //downloadAndParseFacade.addCache(VdvilHttpCache.create());
-        downloadAndParseFacade.addCache(new SimpleFileCache()); //For local file access
+        downloadAndParseFacade.addCache(new SimpleCacheImpl()); //For local file access
         downloadAndParseFacade.addParser(new CompositionXMLParser(downloadAndParseFacade));
         downloadAndParseFacade.addParser(new AudioXMLParser(downloadAndParseFacade));
         downloadAndParseFacade.addParser(new ImageDescriptionXMLParser(downloadAndParseFacade));
@@ -106,9 +106,7 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
     }
 
     public boolean isPlaying() {
-        if(player == NULL)
-            return false;
-        return player.isPlaying();
+        return player != NULL && player.isPlaying();
     }
 
     private void ifPlayerIsNullThrowException() {

@@ -1,11 +1,11 @@
 package no.lau.vdvil.renderer.image;
 
+import no.lau.vdvil.cache.SimpleCacheImpl;
 import no.lau.vdvil.cache.SimpleVdvilCache;
 import no.lau.vdvil.handler.persistence.PartXML;
 import no.vdvil.renderer.image.ImageInstruction;
 import no.vdvil.renderer.image.ImageRenderer;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
-import no.lau.vdvil.handler.persistence.SimpleFileCache;
 import org.junit.Test;
 import java.io.IOException;
 import java.net.URL;
@@ -16,7 +16,7 @@ public class ImageRenderingTest {
     URL imageDesc = ClassLoader.getSystemResource("ImageDescription.html");
     URL imageDesc2 = ClassLoader.getSystemResource("ImageDescription2.html");
 
-    SimpleVdvilCache cache = new SimpleFileCache();
+    SimpleVdvilCache cache = new SimpleCacheImpl();
     ImageDescriptionXMLParser parser = new ImageDescriptionXMLParser(cache);
 
     @Test
@@ -29,8 +29,6 @@ public class ImageRenderingTest {
         Thread.sleep(1000);
         renderer.stop();
     }
-
-
 
     @Test
     public void newInfrastructureTest() throws Exception{

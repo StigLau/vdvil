@@ -1,5 +1,6 @@
 package no.lau.vdvil.handler;
 
+import no.lau.vdvil.cache.SimpleCacheImpl;
 import no.lau.vdvil.handler.persistence.*;
 import org.junit.Test;
 
@@ -10,7 +11,7 @@ public class CompositionTest {
     @Test
     public void testParsingComposition() throws Exception {
         DownloadAndParseFacade downloadAndParseFacade = new DownloadAndParseFacade();
-        downloadAndParseFacade.addCache(new SimpleFileCache());
+        downloadAndParseFacade.addCache(new SimpleCacheImpl());
         downloadAndParseFacade.addParser(new CompositionXMLParser(downloadAndParseFacade));
 
         URL url = ClassLoader.getSystemResource("CompositionExample.xml");

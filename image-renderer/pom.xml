@@ -20,9 +20,5 @@
             <groupId>no.lau.vdvil</groupId>
             <artifactId>composition-handler</artifactId>
         </dependency>
-        <dependency>
-            <groupId>no.lau.vdvil</groupId>
-            <artifactId>tagger-model</artifactId>
-        </dependency>
     </dependencies>
 </project>

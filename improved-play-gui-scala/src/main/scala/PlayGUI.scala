@@ -10,6 +10,7 @@ import no.lau.vdvil.playback.PreconfiguredVdvilPlayer
 import no.lau.vdvil.handler._
 import no.lau.vdvil.handler.persistence._
 import no.lau.vdvil.timing.MasterBeatPattern
+import no.lau.vdvil.cache.SimpleCacheImpl
 
 /**
  * Play GUI for playing .vdl files
@@ -44,7 +45,7 @@ object PlayGUI extends SimpleSwingApplication {
   def startDownload(url:URL){
     println(url)
     val composition:Composition = new DownloadAndParseFacade {
-      addCache(new SimpleFileCache)
+      addCache(new SimpleCacheImpl)
       addParser(new CompositionXMLParser(this))
     }.parse(PartXML.create(url)).asInstanceOf[Composition]
     println(composition)

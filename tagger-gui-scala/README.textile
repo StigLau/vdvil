@@ -1,3 +1,0 @@
-h2. Running TaggerGUI code
-
- mvn compile exec:java -Dexec.mainClass=no.lau.vdvil.gui.TagGUI

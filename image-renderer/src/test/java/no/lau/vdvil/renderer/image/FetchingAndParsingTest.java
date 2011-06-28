@@ -1,8 +1,8 @@
 package no.lau.vdvil.renderer.image;
 
+import no.lau.vdvil.cache.SimpleCacheImpl;
 import no.lau.vdvil.cache.SimpleVdvilCache;
 import no.lau.vdvil.handler.persistence.PartXML;
-import no.lau.vdvil.handler.persistence.SimpleFileCache;
 import no.vdvil.renderer.image.ImageInstruction;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 
 public class FetchingAndParsingTest {
 
-    SimpleVdvilCache testCache = new SimpleFileCache();
+    SimpleVdvilCache testCache = new SimpleCacheImpl();
 
     @Test
     public void fetchingAndParsing() throws Exception {
@@ -34,9 +34,9 @@ public class FetchingAndParsingTest {
 
     @Test
     public void testFileCacheAccepts() throws MalformedURLException {
-        assertTrue(new SimpleFileCache().accepts(new URL("http://yes.com")));
-        assertTrue(new SimpleFileCache().accepts(new URL("file://localhost/Users")));
-        assertFalse(new SimpleFileCache().accepts(new URL("ftp://no.com")));
+        assertTrue(testCache.accepts(new URL("http://yes.com")));
+        assertTrue(testCache.accepts(new URL("file://localhost/Users")));
+        assertFalse(testCache.accepts(new URL("ftp://no.com")));
     }
 }
 

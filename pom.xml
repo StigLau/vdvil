@@ -42,8 +42,6 @@
         <!-- Not part of the core -->
         <module>httpcache</module>
         <module>simple-cache</module>
-        <module>tagger-model</module>
-        <module>tagger-gui-scala</module>
         <module>improved-play-gui-scala</module>
         <module>play-gui-webstart-distribution</module>
         <module>timingframework-renderer</module>
@@ -71,11 +69,6 @@
             <dependency>
                 <groupId>no.lau.vdvil</groupId>
                 <artifactId>lyric-renderer</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>no.lau.vdvil</groupId>
-                <artifactId>tagger-model</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

@@ -18,10 +18,6 @@
     <dependencies>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
-            <artifactId>tagger-model</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.lau.vdvil</groupId>
             <artifactId>audio-renderer</artifactId>
         </dependency>
         <dependency>
@@ -32,12 +28,6 @@
             <groupId>no.lau.vdvil</groupId>
             <artifactId>lyric-renderer</artifactId>
         </dependency>
-        <dependency>
-            <groupId>no.lau.vdvil</groupId>
-            <artifactId>tagger-gui-scala</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
