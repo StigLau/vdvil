@@ -42,7 +42,7 @@
         <!-- Not part of the core -->
         <module>httpcache</module>
         <module>simple-cache</module>
-        <module>improved-play-gui-scala</module>
+        <module>play-gui</module>
         <module>play-gui-webstart-distribution</module>
         <module>timingframework-renderer</module>
         <module>binding-layer</module>
