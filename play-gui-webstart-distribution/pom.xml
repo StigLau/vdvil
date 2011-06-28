@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
-            <artifactId>play-gui-scala</artifactId>
+            <artifactId>play-gui</artifactId>
             <version>${project.version}</version>
             <exclusions>
                 <exclusion>
