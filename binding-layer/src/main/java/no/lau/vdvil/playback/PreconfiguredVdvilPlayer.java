@@ -56,7 +56,7 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
             Composition timeFilteredComposition = filterByTime(composition, beatPatternFilter);
             composition.cache(accessCache());
             player = new InstructionPlayer(
-                    timeFilteredComposition.masterBeatPattern.masterBpm,
+                    timeFilteredComposition.masterBeatPattern,
                     timeFilteredComposition.instructions(timeFilteredComposition.masterBeatPattern.masterBpm),
                     renderers);
         } catch (IOException e) {

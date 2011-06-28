@@ -56,8 +56,8 @@ public class CachingAndRenderingTest {
     public void cacheAndRun() throws IOException, InterruptedException {
 
         MasterBeatPattern beatPattern = new MasterBeatPattern(0, 68, 150F);
-        composition.masterBeatPattern = beatPattern;
-        TimingInstruction[] timingInstructions = createInstructionsFromSomethingElse(composition, beatPattern);
+        Composition otherComposition = composition.withBeatPattern(beatPattern);
+        TimingInstruction[] timingInstructions = createInstructionsFromSomethingElse(otherComposition, beatPattern);
 
         //Hardcode a playin
         timingInstructions[0].beatPattern = beatPattern.duration(0, 16);
@@ -67,7 +67,7 @@ public class CachingAndRenderingTest {
                 new VdvilRenderingTimingTarget(timingInstructions, beatPattern), timingInstructions[0].renderingTarget);
 
         //For testing audio Rendering
-        oldAudioRenderer = new Renderer(composition.instructions(beatPattern.masterBpm));
+        oldAudioRenderer = new Renderer(otherComposition.instructions(beatPattern.masterBpm));
         oldAudioRenderer.addRenderer(audioRenderer);
 
         oldAudioRenderer.start(0);

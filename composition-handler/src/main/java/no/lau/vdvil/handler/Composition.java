@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Composition implements MultimediaPart {
     public final String name;
-    public MasterBeatPattern masterBeatPattern;
+    public final MasterBeatPattern masterBeatPattern;
     public final List<MultimediaPart> multimediaParts;
     public final URL url;
 
@@ -43,6 +43,13 @@ public class Composition implements MultimediaPart {
         for (MultimediaPart multimediaPart : multimediaParts) {
             multimediaPart.cache(downloader);
         }
+    }
+
+    /**
+     * Creates a copy of this Composition with a different beatPattern
+     */
+    public Composition withBeatPattern(MasterBeatPattern beatPattern) {
+        return new Composition(name, beatPattern, multimediaParts, url);
     }
 }
 
