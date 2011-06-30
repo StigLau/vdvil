@@ -44,11 +44,6 @@ public class VdvilHttpCache extends CacheFacade {
             throw new FileNotFoundException(url + " could not be downloaded and retrieved in repository. Checksum was:" + checksum);
     }
 
-    @Override
-    public boolean removeFromCache(URL url) {
-        return fileLocation(url).delete();
-    }
-
     /**
      * @param url location of file to download
      * @return the file or null if file not found. Not a good thing to do!

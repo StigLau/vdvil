@@ -15,12 +15,6 @@ public class SimpleCacheImpl extends CacheFacade {
         return "/tmp/vdvil";
     }
 
-
-    public boolean removeFromCache(URL url) {
-        return fileLocation(url).delete();
-
-    }
-
     enum accepts { HTTP, HTTPS, FILE }
 
     public boolean accepts(URL url) {

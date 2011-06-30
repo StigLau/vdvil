@@ -24,7 +24,7 @@ public class PlayingAMixTest extends SuperPlayingSetup{
     protected Composition compose(MasterBeatPattern masterBeatPattern) throws IOException {
         List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
         parts.add(createAudioPart(returning.segments.get(3).id, 0, 20, TestMp3s.returningDvl, downloader));
-        //parts.add(createAudioPart("", 8, 16, psylteDvl, vdvilPlayer.accessCache())); //psylteFlesk.segments.get(4)
+        //parts.add(createAudioPart("", 8, 16, psylteDvl, PreconfiguredVdvilPlayer.downloadAndParseFacade)); //psylteFlesk.segments.get(4)
         parts.add(createAudioPart(returning.segments.get(6).id, 12, 52, TestMp3s.returningDvl, downloader));
         parts.add(createAudioPart(returning.segments.get(3).id, 20, 32, TestMp3s.returningDvl, downloader));
         return new Composition(getClass().getSimpleName(), masterBeatPattern, parts, TestMp3s.NULL);

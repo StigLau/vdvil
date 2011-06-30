@@ -25,20 +25,21 @@ import java.util.List;
 public class PreconfiguredVdvilPlayer implements VdvilPlayer {
 
     static Logger log = LoggerFactory.getLogger(PreconfiguredVdvilPlayer.class);
-    DownloadAndParseFacade downloadAndParseFacade;
+    public static final DownloadAndParseFacade downloadAndParseFacade;
     List<? extends AbstractRenderer> renderers;
 
     VdvilPlayer player = VdvilPlayer.NULL;
 
-    public PreconfiguredVdvilPlayer() {
+    static {
         downloadAndParseFacade = new DownloadAndParseFacade();
-        downloadAndParseFacade.addCache(new SimpleCacheImpl());
         //downloadAndParseFacade.addCache(VdvilHttpCache.create());
         downloadAndParseFacade.addCache(new SimpleCacheImpl()); //For local file access
         downloadAndParseFacade.addParser(new CompositionXMLParser(downloadAndParseFacade));
         downloadAndParseFacade.addParser(new AudioXMLParser(downloadAndParseFacade));
         downloadAndParseFacade.addParser(new ImageDescriptionXMLParser(downloadAndParseFacade));
+    }
 
+    public PreconfiguredVdvilPlayer() {
         renderers = Arrays.asList(
                 new ImageRenderer(800, 600, downloadAndParseFacade),
                 new LyricRenderer(800, 100),
@@ -54,7 +55,7 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
             throw new IllegalAccessException("Don't change the player during playback. Please stop first");
         try {
             Composition timeFilteredComposition = filterByTime(composition, beatPatternFilter);
-            composition.cache(accessCache());
+            composition.cache(downloadAndParseFacade);
             player = new InstructionPlayer(
                     timeFilteredComposition.masterBeatPattern,
                     timeFilteredComposition.instructions(timeFilteredComposition.masterBeatPattern.masterBpm),
@@ -89,10 +90,6 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
             }
         }
         return new Composition(composition.name, filter, filteredPartsList, composition.url);
-    }
-
-    public DownloadAndParseFacade accessCache() {
-        return downloadAndParseFacade;
     }
 
     public void play() {

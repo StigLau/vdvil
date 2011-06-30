@@ -12,6 +12,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A frontend for multiple Caches and Parsers
+ */
 public class DownloadAndParseFacade implements MultimediaParser, DownloaderFacade {
     Logger log = LoggerFactory.getLogger(getClass());
     List<SimpleVdvilCache> caches;
@@ -75,5 +78,13 @@ public class DownloadAndParseFacade implements MultimediaParser, DownloaderFacad
             }
         }
         throw new IOException("No VdvilCache configured for " + getClass().getName());
+    }
+
+    public void emptyCaches() throws IOException {
+        for (SimpleVdvilCache cache : caches) {
+            if (cache instanceof VdvilCache) {
+                ((VdvilCache) cache).emptyCache();
+            }
+        }
     }
 }

@@ -18,7 +18,7 @@ import java.net.URL;
 
 public abstract class SuperPlayingSetup {
     protected PreconfiguredVdvilPlayer vdvilPlayer = new PreconfiguredVdvilPlayer();
-    protected DownloadAndParseFacade downloader = vdvilPlayer.accessCache();
+    protected DownloadAndParseFacade downloader = PreconfiguredVdvilPlayer.downloadAndParseFacade;
 
     protected abstract Composition compose(MasterBeatPattern masterBeatPattern) throws IOException;
 

@@ -10,7 +10,6 @@ import no.lau.vdvil.playback.PreconfiguredVdvilPlayer
 import no.lau.vdvil.handler._
 import no.lau.vdvil.handler.persistence._
 import no.lau.vdvil.timing.MasterBeatPattern
-import no.lau.vdvil.cache.SimpleCacheImpl
 
 /**
  * Play GUI for playing .vdl files
@@ -19,16 +18,23 @@ object PlayGUI extends SimpleSwingApplication {
   val tabs = new TabbedPane
 
   val log = LoggerFactory.getLogger(this.getClass)
-  val javaZoneDemoCompositionUrl = TestMp3s.javaZoneComposition_WithoutImages
+  //val javaZoneDemoCompositionUrl = TestMp3s.javaZoneComposition_WithoutImages
+  val javaZoneDemoCompositionUrl = new URL("http://localhost:8080/vdvil-server/composition/xml")
+  val cache = PreconfiguredVdvilPlayer.downloadAndParseFacade
 
   def top = new MainFrame {
     title = "Play GUI"
     menuBar = new MenuBar {
       contents += new Menu("Load") {
         contents += new MenuItem(Action("from web") {
-          Dialog.showInput(menuBar, "", "Load from", Dialog.Message.Plain, Swing.EmptyIcon, Nil, javaZoneDemoCompositionUrl.toString).map(chosenPath => startDownload(new URL(chosenPath)))
+          Dialog.showInput(menuBar, "", "Load from", Dialog.Message.Plain, Swing.EmptyIcon, Nil, javaZoneDemoCompositionUrl.toString)
+            .map(chosenPath => startDownload(new URL(chosenPath)))
         })
       }
+      contents += new MenuItem(Action("Empty Local Cache") {
+        cache.emptyCaches()
+      })
+
     }
 
     contents = new BorderPanel {
@@ -44,7 +50,6 @@ object PlayGUI extends SimpleSwingApplication {
 
   def startDownload(url:URL){
     println(url)
-    val cache = new PreconfiguredVdvilPlayer().accessCache()
     val composition:Composition = cache.parse(PartXML.create(url)).asInstanceOf[Composition]
     println(composition)
     tabs.pages.append(new Page(composition.name, new PlayPanel(composition).ui))
