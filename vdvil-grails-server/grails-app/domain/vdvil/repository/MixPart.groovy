@@ -8,4 +8,12 @@ class MixPart {
   Segment segment
   int startCue
   int endCue
+
+    static constraints = {
+        startCue()
+        endCue()
+        segment()
+    }
+    String toString() { "Part: $startCue-$endCue $segment" }
+
 }

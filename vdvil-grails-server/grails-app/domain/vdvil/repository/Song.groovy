@@ -6,7 +6,10 @@ class Song {
   static hasMany = [segments: Segment]
   float bpm
 
-  String toString() { "$id:$reference" }
+  String toString() { "$reference" }
   static constraints = {
+      reference()
+      bpm()
+      mediaFile()
   }
 }

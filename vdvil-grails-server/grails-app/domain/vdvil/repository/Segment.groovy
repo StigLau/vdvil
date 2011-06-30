@@ -6,11 +6,15 @@ class Segment {
   int endCue
   String text
 
-  String toString() { "$segmentId: $text" }
-  Song song
-  static belongsTo = Song
+    Song song
+    static belongsTo = Song
 
-  static constraints = {
-    song(nullable:true)
-  }
+    String toString() { "Segment: $startCue-$endCue $text" }
+    static constraints = {
+        segmentId()
+        startCue()
+        endCue()
+        text()
+        song(nullable: true)
+    }
 }
