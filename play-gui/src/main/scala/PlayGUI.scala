@@ -60,9 +60,9 @@ class PlayPanel(val url:URL) {
     contents += startField
     contents += new Label("Stop")
     contents += stopField
-    contents += playCompositionButton
     contents += new Label("BPM")
     contents += bpmField
+    contents += playCompositionButton
     contents += reloadButton
   }
   val beatPattern = composition.masterBeatPattern
@@ -77,6 +77,7 @@ class PlayPanel(val url:URL) {
       cache.setRefreshCaches(true)
       composition = fetchComposition(url)
       cache.setRefreshCaches(false)
+      stopField.text_=(composition.masterBeatPattern.toBeat.toString)
     }}
   }
   val compositionPlayer = new PreconfiguredVdvilPlayer() {
