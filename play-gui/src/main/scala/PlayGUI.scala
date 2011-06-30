@@ -44,10 +44,8 @@ object PlayGUI extends SimpleSwingApplication {
 
   def startDownload(url:URL){
     println(url)
-    val composition:Composition = new DownloadAndParseFacade {
-      addCache(new SimpleCacheImpl)
-      addParser(new CompositionXMLParser(this))
-    }.parse(PartXML.create(url)).asInstanceOf[Composition]
+    val cache = new PreconfiguredVdvilPlayer().accessCache()
+    val composition:Composition = cache.parse(PartXML.create(url)).asInstanceOf[Composition]
     println(composition)
     tabs.pages.append(new Page(composition.name, new PlayPanel(composition).ui))
   }
@@ -68,16 +66,14 @@ class PlayPanel(val composition: Composition) {
   val startField = new TextField("0", 4)
   val stopField = new TextField(beatPattern.toBeat.toString, 4)
   val playCompositionButton = new Button("Play Composition") {
-    reactions += {case ButtonClicked(_) => compositionPlayer.pauseAndplay(startField.text.toInt)}
+    reactions += {case ButtonClicked(_) => compositionPlayer.pauseAndplay(new MasterBeatPattern(startField.text.toInt, stopField.text.toInt, bpmField.text.toFloat))}
   }
   val compositionPlayer = new PreconfiguredVdvilPlayer() {
-    def pauseAndplay(startFrom: Int) {
-      val beatPattern = new MasterBeatPattern(startField.text.toInt, stopField.text.toInt, bpmField.text.toFloat)
+    def pauseAndplay(beatPattern:MasterBeatPattern) {
+      stop
       init(composition, beatPattern)
-      //stop
-      println(beatPattern)
-      println("Playing " + composition.multimediaParts.size)
-      play()
+      println("Playing " + composition.name + " " + beatPattern)
+      play
     }
   }
 }
