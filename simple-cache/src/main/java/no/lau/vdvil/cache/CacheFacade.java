@@ -3,7 +3,6 @@ package no.lau.vdvil.cache;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.*;
 import java.net.URL;
 
@@ -16,7 +15,9 @@ public abstract class CacheFacade implements VdvilCache, SimpleVdvilCache {
         return "/tmp/vdvil";
     }
 
-    public abstract boolean removeFromCache(URL url);
+    public boolean removeFromCache(URL url) {
+        return fileLocation(url).delete();
+    }
 
     public InputStream fetchAsStream(URL url) throws IOException {
         return new FileInputStream(fetchFromInternetOrRepository(url, null));
@@ -67,5 +68,13 @@ public abstract class CacheFacade implements VdvilCache, SimpleVdvilCache {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    /**
+     * Set refreshCache to true if one wishes to Refresh contents in cache
+     */
+    protected boolean refreshCache = false;
+    public void setRefreshCache(boolean value) {
+        this.refreshCache = value;
     }
 }

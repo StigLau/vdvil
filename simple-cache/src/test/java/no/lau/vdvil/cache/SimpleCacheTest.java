@@ -46,4 +46,12 @@ public class SimpleCacheTest {
     public void cacheTest() throws IOException {
         cacheImpl.fetchFromInternetOrRepository(asFile, returningChecksum);
     }
+
+    @Test
+    public void refreshingCacheWorks() throws IOException {
+        cacheImpl.setRefreshCache(true);
+        cacheImpl.fetchFromInternetOrRepository(asFile, returningChecksum);
+        cacheImpl.setRefreshCache(false);
+        cacheImpl.fetchFromInternetOrRepository(asFile, returningChecksum);
+    }
 }

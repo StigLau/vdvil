@@ -13,7 +13,7 @@ public class VdvilServerTest extends SuperPlayingSetup{
     @Test
     public void play() throws MalformedURLException {
         url = new URL("http://localhost:8080/vdvil-server/composition/xml");
-        super.play(new MasterBeatPattern(8, 16, 150F));
+        super.play(new MasterBeatPattern(0, 16, 150F));
     }
 
     @Override

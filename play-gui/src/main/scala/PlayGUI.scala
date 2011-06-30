@@ -20,7 +20,6 @@ object PlayGUI extends SimpleSwingApplication {
   val log = LoggerFactory.getLogger(this.getClass)
   //val javaZoneDemoCompositionUrl = TestMp3s.javaZoneComposition_WithoutImages
   val javaZoneDemoCompositionUrl = new URL("http://localhost:8080/vdvil-server/composition/xml")
-  val cache = PreconfiguredVdvilPlayer.downloadAndParseFacade
 
   def top = new MainFrame {
     title = "Play GUI"
@@ -31,10 +30,6 @@ object PlayGUI extends SimpleSwingApplication {
             .map(chosenPath => startDownload(new URL(chosenPath)))
         })
       }
-      contents += new MenuItem(Action("Empty Local Cache") {
-        cache.emptyCaches()
-      })
-
     }
 
     contents = new BorderPanel {
@@ -50,13 +45,16 @@ object PlayGUI extends SimpleSwingApplication {
 
   def startDownload(url:URL){
     println(url)
-    val composition:Composition = cache.parse(PartXML.create(url)).asInstanceOf[Composition]
-    println(composition)
-    tabs.pages.append(new Page(composition.name, new PlayPanel(composition).ui))
+    val playPanel = new PlayPanel(url)
+    tabs.pages.append(new Page(playPanel.name, playPanel.ui))
   }
 }
 
-class PlayPanel(val composition: Composition) {
+class PlayPanel(val url:URL) {
+  val cache = PreconfiguredVdvilPlayer.downloadAndParseFacade
+  var composition: Composition = fetchComposition(url)
+  def name = composition.name
+
   lazy val ui = new FlowPanel {
     contents += new Label("Start from")
     contents += startField
@@ -65,6 +63,7 @@ class PlayPanel(val composition: Composition) {
     contents += playCompositionButton
     contents += new Label("BPM")
     contents += bpmField
+    contents += reloadButton
   }
   val beatPattern = composition.masterBeatPattern
   val bpmField = new TextField(beatPattern.masterBpm.toString, 4)
@@ -72,6 +71,13 @@ class PlayPanel(val composition: Composition) {
   val stopField = new TextField(beatPattern.toBeat.toString, 4)
   val playCompositionButton = new Button("Play Composition") {
     reactions += {case ButtonClicked(_) => compositionPlayer.pauseAndplay(new MasterBeatPattern(startField.text.toInt, stopField.text.toInt, bpmField.text.toFloat))}
+  }
+  val reloadButton = new Button("Reload") {
+    reactions += {case ButtonClicked(_) => {
+      cache.setRefreshCaches(true)
+      composition = fetchComposition(url)
+      cache.setRefreshCaches(false)
+    }}
   }
   val compositionPlayer = new PreconfiguredVdvilPlayer() {
     def pauseAndplay(beatPattern:MasterBeatPattern) {
@@ -81,4 +87,6 @@ class PlayPanel(val composition: Composition) {
       play
     }
   }
+
+  def fetchComposition(url:URL) = cache.parse(PartXML.create(url)).asInstanceOf[Composition]
 }

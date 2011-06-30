@@ -9,4 +9,6 @@ public interface SimpleVdvilCache extends DownloaderFacade {
     boolean accepts(URL url);
 
     String mimeType(URL url);
+
+    public void setRefreshCache(boolean value);
 }

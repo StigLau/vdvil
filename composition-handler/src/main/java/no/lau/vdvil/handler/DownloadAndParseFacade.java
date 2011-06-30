@@ -80,11 +80,9 @@ public class DownloadAndParseFacade implements MultimediaParser, DownloaderFacad
         throw new IOException("No VdvilCache configured for " + getClass().getName());
     }
 
-    public void emptyCaches() throws IOException {
+    public void setRefreshCaches(boolean value) throws IOException {
         for (SimpleVdvilCache cache : caches) {
-            if (cache instanceof VdvilCache) {
-                ((VdvilCache) cache).emptyCache();
-            }
+            cache.setRefreshCache(value);
         }
     }
 }

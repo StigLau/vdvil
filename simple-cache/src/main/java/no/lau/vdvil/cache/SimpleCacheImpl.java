@@ -44,7 +44,7 @@ public class SimpleCacheImpl extends CacheFacade {
     public File fetchFromInternetOrRepository(URL url, String checksum) throws IOException {
         File fileLocation = fileLocation(url);
 
-        if (!existsInRepository(fileLocation, checksum)) {
+        if (refreshCache || !existsInRepository(fileLocation, checksum)) {
             FileOutputStream outputStream = FileUtils.openOutputStream(fileLocation);
             try {
                 IOUtils.copy(url.openStream(), outputStream);
