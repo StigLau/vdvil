@@ -1,0 +1,60 @@
+<track>
+  <reference>Way_Out_West-Surrender-Eelke_Kleijn_Remix</reference>
+  <mediaFile>
+    <!-- <fileName>http://kpro09.googlecode.com/svn/test-files/Way_Out_West-Surrender-Eelke_Kleijn_Remix.mp3</fileName> -->
+    <fileName>file://localhost/Users/stiglau/utvikling/kpro09/test-files/Way_Out_West-Surrender-Eelke_Kleijn_Remix.mp3</fileName>
+    <startingOffset>0</startingOffset>
+    <checksum>f7319ad520c9ed666129cbb2a91fe6c5</checksum>
+  </mediaFile>
+  <bpm>125.0</bpm>
+  <segments>
+    <segment>
+      <id>0-128Surrender</id>
+      <text>Intro -- Buildup</text>
+      <start>0</start>
+      <end>128</end>
+    </segment>
+    <segment>
+      <id>128-256Surrender</id>
+      <text>AAaaaaaah -- Start -- Flurry</text>
+      <start>128</start>
+      <end>256</end>
+    </segment>
+    <segment>
+      <id>256-352Surrender</id>
+      <text>El Guitar</text>
+      <start>256</start>
+      <end>352</end>
+    </segment>
+    <segment>
+      <id>352-512Surrender</id>
+      <text>Just surrender x2</text>
+      <start>352</start>
+      <end>512</end>
+    </segment>
+    <segment>
+      <id>480-544Surrender</id>
+      <text>Synth X2</text>
+      <start>480</start>
+      <end>544</end>
+    </segment>
+    <segment>
+      <id>544-656Surrender</id>
+      <text>Just surrender Duette X2</text>
+      <start>544</start>
+      <end>672</end>
+    </segment>
+    <segment>
+      <id>656-768Surrender</id>
+      <text>Flurry butterflies</text>
+      <start>656</start>
+      <end>768</end>
+    </segment>
+    <segment>
+      <id>768-896Surrender</id>
+      <text>Outro</text>
+      <start>768</start>
+      <end>912</end>
+    </segment>
+  </segments>
+</track>

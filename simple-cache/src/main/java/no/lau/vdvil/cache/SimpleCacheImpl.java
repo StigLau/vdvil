@@ -5,9 +5,6 @@ import org.apache.commons.io.IOUtils;
 import java.io.*;
 import java.net.URL;
 
-/**
- * Wrapper class around HttpCache4J to make it more usable for VDvil usage
- */
 public class SimpleCacheImpl extends CacheFacade {
 
     @Override
