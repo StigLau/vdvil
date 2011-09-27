@@ -1,6 +1,5 @@
 package no.lau.vdvil.player
 
-import java.net.URL
 import no.lau.vdvil.timing.MasterBeatPattern
 import no.lau.vdvil.handler.persistence.PartXML
 import org.junit.Test
@@ -8,7 +7,7 @@ import no.lau.vdvil.playback.PreconfiguredVdvilPlayer
 import no.lau.vdvil.handler.Composition
 
 class VdvilTest {
-  val url = new URL("http://localhost:8080/vdvil-server/composition/xml")
+  val url = getClass.getResource("/CompositionExample.xml") //TODO Have a more exiting file
   val vdvilPlayer = new PreconfiguredVdvilPlayer
 
   @Test def play {
