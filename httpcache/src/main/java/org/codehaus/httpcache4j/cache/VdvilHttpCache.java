@@ -36,7 +36,7 @@ public class VdvilHttpCache extends CacheFacade {
      * @return the file or null if empty
      */
     public File fetchFromInternetOrRepository(URL url, String checksum) throws IOException {
-        fetchAsStream(url);//Load to cache
+        download(url); //Load to cache
         File locationOnDisk = fileLocation(url);
         if(existsInRepository(locationOnDisk, checksum))
             return locationOnDisk;
