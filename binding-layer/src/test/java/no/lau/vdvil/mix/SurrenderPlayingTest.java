@@ -35,7 +35,9 @@ public class SurrenderPlayingTest extends SuperPlayingSetup {
         */
 
         parts.add(createAudioPart("0-128Surrender", 0, 32, surrenderDvl, downloader));
+        parts.add(createImagePart(4, 8, new URL("http://www.shinyshiny.tv/teddy%20bear%201.jpg")));
         parts.add(createAudioPart("256-352Surrender", 32, 96, surrenderDvl, downloader)); // Elguitar
+        parts.add(createImagePart(8, 16, new URL("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg")));
         parts.add(createAudioPart("352-512Surrender", 96, 160, surrenderDvl, downloader));
         parts.add(createAudioPart("352-512Surrender", 160, 256, surrenderDvl, downloader));
         parts.add(createAudioPart("480-544Surrender", 256, 320, surrenderDvl, downloader)); // Synth X2

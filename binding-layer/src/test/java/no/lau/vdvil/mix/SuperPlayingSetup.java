@@ -10,6 +10,7 @@ import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.AudioDescription;
 import no.vdvil.renderer.audio.Segment;
 import no.vdvil.renderer.audio.Track;
+import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
 import no.vdvil.renderer.lyric.LyricDescription;
 
 import java.io.IOException;
@@ -38,6 +39,10 @@ public abstract class SuperPlayingSetup {
     }
     protected static MultimediaPart createLyricPart(String text, int start, int end) throws MalformedURLException {
         return new LyricDescription(text, new PartXML(text, start, end, new DvlXML("name", new URL("http://url.com"))));
+    }
+
+    protected static MultimediaPart createImagePart(int start, int end, URL url) throws MalformedURLException {
+        return new ImageDescription(new PartXML("id?", start, end, new DvlXML("id?", null)), url);
     }
 
     protected static MultimediaPart createPart(int start, int end, Segment segment, Track track) {
