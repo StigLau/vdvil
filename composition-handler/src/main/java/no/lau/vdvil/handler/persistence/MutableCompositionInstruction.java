@@ -1,6 +1,6 @@
 package no.lau.vdvil.handler.persistence;
 
 public interface MutableCompositionInstruction {
-    void setStart(int startBeat);
+    void moveStart(int cueDifference);
     void setEnd(int endBeat);
 }

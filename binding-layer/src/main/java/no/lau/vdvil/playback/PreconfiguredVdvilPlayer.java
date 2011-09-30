@@ -79,7 +79,7 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
                 if(instruction.start() < filter.fromBeat) {
                     //Crop Start
                     log.info("Instruction {} fromBeat was set to {} to hit correct start time", multimediaPart, filter.fromBeat);
-                    ((MutableCompositionInstruction) multimediaPart.compositionInstruction()).setStart(filter.fromBeat);
+                    ((MutableCompositionInstruction) multimediaPart.compositionInstruction()).moveStart(filter.fromBeat - instruction.start());
                 }
                 if(filter.toBeat < instruction.end()) {
                     log.info("Instruction {} endBeat was set to {} because it ended to late", multimediaPart, filter.toBeat);

@@ -1,8 +1,8 @@
 <track>
   <reference>Way_Out_West-Surrender-Eelke_Kleijn_Remix</reference>
   <mediaFile>
-    <!-- <fileName>http://kpro09.googlecode.com/svn/test-files/Way_Out_West-Surrender-Eelke_Kleijn_Remix.mp3</fileName> -->
-    <fileName>file://localhost/Users/stiglau/utvikling/kpro09/test-files/Way_Out_West-Surrender-Eelke_Kleijn_Remix.mp3</fileName>
+    <fileName>http://kpro09.googlecode.com/svn/test-files/Way_Out_West-Surrender-Eelke_Kleijn_Remix.mp3</fileName>
+    <!-- <fileName>file://localhost/Users/stiglau/jobb/utvikling/opensource/kpro09/test-files/Way_Out_West-Surrender-Eelke_Kleijn_Remix.mp3</fileName> -->
     <startingOffset>0.05</startingOffset>
     <checksum>f7319ad520c9ed666129cbb2a91fe6c5</checksum>
   </mediaFile>

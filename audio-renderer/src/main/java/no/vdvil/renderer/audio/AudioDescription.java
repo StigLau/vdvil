@@ -32,7 +32,7 @@ public class AudioDescription implements MultimediaPart {
         int _start = new Float(compositionInstruction.start() * speedFactor * differenceBetweenMasterSongAndPart).intValue();
         int _end = new Float(compositionInstruction.end() * speedFactor * differenceBetweenMasterSongAndPart).intValue();
         //The cue is where to start inside the mp3 sample
-        Float _cue = segment.start * speedFactor + track.mediaFile.startingOffset * 44100;
+        Float _cue = (segment.start + compositionInstruction.cueDifference()) * speedFactor + track.mediaFile.startingOffset * 44100;
         int _duration = _end - _start;
 
         if(urlInLocalCache == null)

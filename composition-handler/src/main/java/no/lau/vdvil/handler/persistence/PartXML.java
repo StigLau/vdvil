@@ -5,6 +5,7 @@ import java.net.URL;
 public class PartXML implements CompositionInstruction, MutableCompositionInstruction {
     final String id;
     int start;
+    int cueDifference; //If the start has been moved, it will affect the cue starting point of multimedia which rely on timing.
     int end;
     final DvlXML dvl;
 
@@ -16,7 +17,8 @@ public class PartXML implements CompositionInstruction, MutableCompositionInstru
     }
 
     public String id() { return id; }
-    public int start() { return start; }
+    public int start() { return start + cueDifference; }
+    public int cueDifference() { return cueDifference; }
     public int end() { return end; }
     public MultimediaReference dvl() { return dvl; }
 
@@ -24,8 +26,8 @@ public class PartXML implements CompositionInstruction, MutableCompositionInstru
         return new PartXML("Test Part", -1, -1, new DvlXML("Test DVL", url))  ;
     }
 
-    public void setStart(int startBeat) {
-        this.start = startBeat;
+    public void moveStart(int cueDifference) {
+        this.cueDifference = cueDifference;
     }
 
     /**
