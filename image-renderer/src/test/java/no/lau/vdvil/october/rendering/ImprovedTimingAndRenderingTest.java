@@ -5,7 +5,6 @@ import no.bouvet.kpro.renderer.Instruction;
 import no.vdvil.renderer.image.ImageInstruction;
 import org.junit.Test;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,20 +12,19 @@ public class ImprovedTimingAndRenderingTest {
     @Test
     public void testTiming() throws MalformedURLException, InterruptedException {
         ImprovedRenderer renderer = new ImprovedRenderer();
-        renderer.handleInstruction(-1, new ImageInstruction(0, 8, 120, new URL("http://www.1.no"), null));
-        renderer.handleInstruction(-1, new ImageInstruction(1, 8, 120, new URL("http://www.1.no"), null));
+        renderer.handleInstruction(-1, new ImageInstruction(0, -1, 120, null, null));
+        renderer.handleInstruction(-1, new ImageInstruction(1, -1, 120, null, null));
         /*
-        renderer.handleInstruction(-1, new ImageInstruction(2, 8, 120, new URL("http://www.1.no"), null));
-        renderer.handleInstruction(-1, new ImageInstruction(3, 8, 120, new URL("http://www.1.no"), null));
-        renderer.handleInstruction(-1, new ImageInstruction(4, 8, 120, new URL("http://www.2.no"), null));
-        renderer.handleInstruction(-1, new ImageInstruction(5, 8, 120, new URL("http://www.2.no"), null));
-        renderer.handleInstruction(-1, new ImageInstruction(6, 8, 120, new URL("http://www.2.no"), null));
-        renderer.handleInstruction(-1, new ImageInstruction(7, 8, 120, new URL("http://www.2.no"), null));
-        renderer.handleInstruction(-1, new ImageInstruction(8, 8, 120, new URL("http://www.3.no"), null));
-        renderer.handleInstruction(-1, new ImageInstruction(12, 8, 120, new URL("http://www.3.no"), null));
-        renderer.handleInstruction(-1, new ImageInstruction(16, 8, 120, new URL("http://www.4.no"), null));
+        renderer.handleInstruction(-1, new ImageInstruction(2, -1, 120, null, null));
+        renderer.handleInstruction(-1, new ImageInstruction(3, -1, 120, null, null));
+        renderer.handleInstruction(-1, new ImageInstruction(4, -1, 120, null, null));
+        renderer.handleInstruction(-1, new ImageInstruction(5, -1, 120, null, null));
+        renderer.handleInstruction(-1, new ImageInstruction(6, -1, 120, null, null));
+        renderer.handleInstruction(-1, new ImageInstruction(7, -1, 120, null, null));
+        renderer.handleInstruction(-1, new ImageInstruction(8, -1, 120, null, null));
+        renderer.handleInstruction(-1, new ImageInstruction(12, -1, 120, null, null));
+        renderer.handleInstruction(-1, new ImageInstruction(16, -1, 120, null, null));
         */
-        System.out.println("--------------");
         Timer myTimer = new Timer();
         myTimer.addRenderer(renderer);
         new Thread(myTimer).start();
@@ -44,7 +42,6 @@ class ImprovedRenderer extends AbstractRenderer implements TimingRenderer {
 
     @Override
     public void handleInstruction(int time, Instruction instruction) {
-        System.out.println("Adding " + instruction.toString() + " at " + instruction.getStart());
         instructions.add(instruction);
     }
 
@@ -66,9 +63,7 @@ class ImprovedRenderer extends AbstractRenderer implements TimingRenderer {
     }
 
     @Override
-    public boolean isRunning() {
-        return isRunning;
-    }
+    public boolean isRunning() { return isRunning; }
 }
 
 class Timer implements Runnable {
@@ -79,28 +74,35 @@ class Timer implements Runnable {
 
     @Override
     public void run() {
-
         while(true) {
-            long elapsedTime = System.currentTimeMillis() - startTime;
-            long convertedElapsedTime =  4410 * elapsedTime/1000 * 8;
-            try {
-                for (int i = 0; i < renderers.size(); i++) {
-                    TimingRenderer renderer = renderers.get(i);
-                    if(renderer.isRunning()) {
-                        renderer.ping(convertedElapsedTime);
-                    } else {
-                        renderers.remove(renderer);
-                        if (renderers.isEmpty()) {
-                            isRunning = false;
-                            System.out.println("Isn't running any more");
-                        }
+            handleStuff();
+        }
+    }
+
+    private void handleStuff() {
+        long elapsedTime = calculateCurrentTime();
+        try {
+            for (int i = 0; i < renderers.size(); i++) {
+                TimingRenderer renderer = renderers.get(i);
+                if (renderer.isRunning()) {
+                    renderer.ping(elapsedTime);
+                } else {
+                    renderers.remove(renderer);
+                    if (renderers.isEmpty()) {
+                        isRunning = false;
+                        System.out.println(this + " halted");
                     }
                 }
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("WTF!?! " + e);
         }
+    }
+
+    private long calculateCurrentTime() {
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        return 4410 * elapsedTime / 1000 * 8;
     }
 
     public void addRenderer(TimingRenderer renderer) {
