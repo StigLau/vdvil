@@ -14,10 +14,10 @@ public class ImprovedTimingAndRenderingTest {
         ImprovedRenderer renderer = new ImprovedRenderer();
         renderer.handleInstruction(-1, new ImageInstruction(0, -1, 120, null, null));
         renderer.handleInstruction(-1, new ImageInstruction(1, -1, 120, null, null));
-        /*
         renderer.handleInstruction(-1, new ImageInstruction(2, -1, 120, null, null));
         renderer.handleInstruction(-1, new ImageInstruction(3, -1, 120, null, null));
         renderer.handleInstruction(-1, new ImageInstruction(4, -1, 120, null, null));
+        /*
         renderer.handleInstruction(-1, new ImageInstruction(5, -1, 120, null, null));
         renderer.handleInstruction(-1, new ImageInstruction(6, -1, 120, null, null));
         renderer.handleInstruction(-1, new ImageInstruction(7, -1, 120, null, null));
@@ -79,8 +79,8 @@ class Timer implements Runnable {
         }
     }
 
-    private void handleStuff() {
-        long elapsedTime = calculateCurrentTime();
+    void handleStuff() {
+        long elapsedTime = calculatePassedTime();
         try {
             for (int i = 0; i < renderers.size(); i++) {
                 TimingRenderer renderer = renderers.get(i);
@@ -100,7 +100,7 @@ class Timer implements Runnable {
         }
     }
 
-    private long calculateCurrentTime() {
+    long calculatePassedTime() {
         long elapsedTime = System.currentTimeMillis() - startTime;
         return 4410 * elapsedTime / 1000 * 8;
     }
