@@ -45,7 +45,6 @@ class ImprovedRenderer extends AbstractRenderer implements TimingRenderer {
         instructions.add(instruction);
     }
 
-    @Override
     public void ping(long elapsedTime) {
         if (!instructions.isEmpty()) {
             Instruction instruction = instructions.get(0);
@@ -62,7 +61,6 @@ class ImprovedRenderer extends AbstractRenderer implements TimingRenderer {
         }
     }
 
-    @Override
     public boolean isRunning() { return isRunning; }
 }
 
@@ -72,7 +70,6 @@ class Timer implements Runnable {
     List<TimingRenderer> renderers = new ArrayList<TimingRenderer>();
     boolean isRunning = true;
 
-    @Override
     public void run() {
         while(true) {
             handleStuff();
