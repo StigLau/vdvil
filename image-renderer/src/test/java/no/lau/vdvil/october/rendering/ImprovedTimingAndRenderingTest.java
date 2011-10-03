@@ -17,8 +17,8 @@ public class ImprovedTimingAndRenderingTest {
         renderer.handleInstruction(-1, new ImageInstruction(2, -1, 120, null, null));
         renderer.handleInstruction(-1, new ImageInstruction(3, -1, 120, null, null));
         renderer.handleInstruction(-1, new ImageInstruction(4, -1, 120, null, null));
-        /*
         renderer.handleInstruction(-1, new ImageInstruction(5, -1, 120, null, null));
+        /*
         renderer.handleInstruction(-1, new ImageInstruction(6, -1, 120, null, null));
         renderer.handleInstruction(-1, new ImageInstruction(7, -1, 120, null, null));
         renderer.handleInstruction(-1, new ImageInstruction(8, -1, 120, null, null));
