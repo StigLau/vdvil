@@ -14,8 +14,8 @@ public class ImageInstruction extends Instruction {
         this.imageUrl = imageUrl;
         this.cachedStream = cached;
         float speedFactor = Renderer.RATE * 60 / bpm;
-
-        _start = new Float(start * speedFactor).intValue() ;
-        _end = new Float(end * speedFactor).intValue();
+        //An uncertain problem that appends ~44100 millseconds to everything. Weired!
+        _start = new Float(start * speedFactor).intValue() + 44100;
+        _end = new Float(end * speedFactor).intValue() + 44100;
     }
 }

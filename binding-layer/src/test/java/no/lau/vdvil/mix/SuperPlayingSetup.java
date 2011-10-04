@@ -41,9 +41,8 @@ public abstract class SuperPlayingSetup {
         return new LyricDescription(text, new PartXML(text, start, end, new DvlXML("name", new URL("http://url.com"))));
     }
 
-    //A Problem with controlling the time sendt from the renderer makes stuff a little slow. Add ~ beats to compensate...
     protected static MultimediaPart createImagePart(int start, int end, URL url) throws MalformedURLException {
-        return new ImageDescription(new PartXML("id?", start + 3, end + 3, new DvlXML("id?", null)), url);
+        return new ImageDescription(new PartXML("id?", start, end, new DvlXML("id?", null)), url);
     }
 
     protected static MultimediaPart createPart(int start, int end, Segment segment, Track track) {
