@@ -3,7 +3,7 @@
 
     <artifactId>binding-layer</artifactId>
     <packaging>jar</packaging>
-    <name>Binding Layer</name>
+    <name>Vdvil Binding Layer</name>
 
     <parent>
         <groupId>no.lau.vdvil</groupId>

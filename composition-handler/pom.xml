@@ -3,7 +3,7 @@
 
     <artifactId>composition-handler</artifactId>
     <packaging>jar</packaging>
-    <name>kpro: Composition Handler</name>
+    <name>Vdvil Composition Handler</name>
 
     <parent>
         <groupId>no.lau.vdvil</groupId>

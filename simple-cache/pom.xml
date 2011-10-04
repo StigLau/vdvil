@@ -9,7 +9,7 @@
         <version>0.9-SNAPSHOT</version>
     </parent>
     
-    <name>Simple file cache for downloading files from teh web</name>
+    <name>Vdvil Cache: Simple file cache for downloading files from teh web</name>
 
     <dependencies>
         <dependency>

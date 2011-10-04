@@ -3,7 +3,7 @@
 
     <artifactId>image-renderer</artifactId>
     <packaging>jar</packaging>
-    <name>kpro: Image Renderer</name>
+    <name>Vdvil Image Renderer</name>
 
     <parent>
         <groupId>no.lau.vdvil</groupId>

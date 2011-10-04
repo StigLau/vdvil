@@ -3,7 +3,7 @@
 
   <artifactId>renderer</artifactId>
   <packaging>jar</packaging>
-  <name>kpro: Renderer</name>
+  <name>Vdvil Renderer</name>
 
   <parent>
     <groupId>no.lau.vdvil</groupId>

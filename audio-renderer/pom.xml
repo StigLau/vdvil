@@ -3,7 +3,7 @@
 
     <artifactId>audio-renderer</artifactId>
     <packaging>jar</packaging>
-    <name>kpro: Audio Renderer</name>
+    <name>Vdvil Audio Renderer</name>
 
     <parent>
         <groupId>no.lau.vdvil</groupId>

@@ -3,7 +3,7 @@
 
     <artifactId>lyric-renderer</artifactId>
     <packaging>jar</packaging>
-    <name>kpro: Lyric Renderer</name>
+    <name>Vdvil Lyric Renderer</name>
 
     <parent>
         <groupId>no.lau.vdvil</groupId>

@@ -4,7 +4,7 @@
     <artifactId>root</artifactId>
     <version>0.9-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Vdvil: Root</name>
+    <name>Vdvil Root</name>
     <description>Vdvil - Framework for multimedia structuring, composition and playback</description>
     <url>http://vdvil.lau.no</url>
     <licenses>
