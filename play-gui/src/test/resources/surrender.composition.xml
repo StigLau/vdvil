@@ -1,0 +1,135 @@
+<composition>
+  <name>JavaZone Demo</name>
+  <masterBpm>150.0</masterBpm>
+  <parts>
+    <part>
+    <id>4479230163500364845</id>
+    <dvl>
+      <url>http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/olive-youre_not_alone.dvl</url>
+      <name>You're not alone</name>
+    </dvl>
+    <start>0</start>
+    <end>32</end>
+  </part><part>
+    <id>4479230163500364845</id>
+    <dvl>
+      <url>https://github.com/StigLau/vdvil/raw/master/image-renderer/src/test/resources/ImageDescription.html</url>
+      <name>Pimp Teddy</name>
+    </dvl>
+    <start>4</start>
+    <end>16</end>
+  </part><part>
+    <id>5403996530329584526</id>
+    <dvl>
+      <url>http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl</url>
+      <name>It scares me</name>
+    </dvl>
+    <start>16</start>
+    <end>48</end>
+  </part><part>
+    <id>8313187524105777940</id>
+    <dvl>
+      <url>http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/olive-youre_not_alone.dvl</url>
+      <name>You're not alone</name>
+    </dvl>
+    <start>32</start>
+    <end>70</end>
+  </part><part>
+    <id>5403996530329584526</id>
+    <dvl>
+      <url>http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl</url>
+      <name>It scares me</name>
+    </dvl>
+    <start>48</start>
+    <end>64</end>
+  </part><part>
+    <id>4479230163500364123</id>
+    <dvl>
+      <url>https://github.com/StigLau/vdvil/raw/master/image-renderer/src/test/resources/ImageDescription2.html</url>
+      <name>Snoop Teddy</name>
+    </dvl>
+    <start>64</start>
+    <end>72</end>
+  </part><part>
+    <id>1826025806904317462</id>
+    <dvl>
+      <url>http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl</url>
+      <name>It scares me</name>
+    </dvl>
+    <start>64</start>
+    <end>112</end>
+  </part><part>
+    <id>6401936245564505757</id>
+    <dvl>
+      <url>http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl</url>
+      <name>returning</name>
+    </dvl>
+    <start>96</start>
+    <end>140</end>
+  </part><part>
+    <id>6401936245564505757</id>
+    <dvl>
+      <url>http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl</url>
+      <name>returning</name>
+    </dvl>
+    <start>96</start>
+    <end>140</end>
+  </part><part>
+    <id>6182122145512625145</id>
+    <dvl>
+      <url>http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl</url>
+      <name>returning</name>
+    </dvl>
+    <start>128</start>
+    <end>174</end>
+  </part><part>
+    <id>3378726703924324403</id>
+    <dvl>
+      <url>http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl</url>
+      <name>returning</name>
+    </dvl>
+    <start>144</start>
+    <end>175</end>
+  </part><part>
+    <id>4823965795648964701</id>
+    <dvl>
+      <url>http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl</url>
+      <name>returning</name>
+    </dvl>
+    <start>174</start>
+    <end>176</end>
+  </part><part>
+    <id>5560598317419002938</id>
+    <dvl>
+      <url>http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl</url>
+      <name>returning</name>
+    </dvl>
+    <start>175</start>
+    <end>177</end>
+  </part><part>
+    <id>9040781467677187716</id>
+    <dvl>
+      <url>http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl</url>
+      <name>returning</name>
+    </dvl>
+    <start>176</start>
+    <end>240</end>
+  </part><part>
+    <id>8301899110835906945</id>
+    <dvl>
+      <url>http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl</url>
+      <name>It scares me</name>
+    </dvl>
+    <start>208</start>
+    <end>224</end>
+  </part><part>
+    <id>5555459205073513470</id>
+    <dvl>
+      <url>http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl</url>
+      <name>It scares me</name>
+    </dvl>
+    <start>224</start>
+    <end>252</end>
+  </part>
+  </parts>
+</composition>
