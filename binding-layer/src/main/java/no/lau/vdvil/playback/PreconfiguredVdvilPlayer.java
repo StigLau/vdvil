@@ -14,6 +14,7 @@ import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.AudioXMLParser;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
 import no.vdvil.renderer.image.ImageRenderer;
+import no.vdvil.renderer.image.cacheinfrastructure.OnlyTheImageDescriptionParser;
 import no.vdvil.renderer.lyric.LyricRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,7 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         downloadAndParseFacade.addParser(new CompositionXMLParser(downloadAndParseFacade));
         downloadAndParseFacade.addParser(new AudioXMLParser(downloadAndParseFacade));
         downloadAndParseFacade.addParser(new ImageDescriptionXMLParser(downloadAndParseFacade));
+        downloadAndParseFacade.addParser(new OnlyTheImageDescriptionParser(downloadAndParseFacade));
     }
 
     public PreconfiguredVdvilPlayer() {
