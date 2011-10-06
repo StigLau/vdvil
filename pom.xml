@@ -38,13 +38,11 @@
         <module>audio-renderer</module>
         <module>lyric-renderer</module>
         <module>image-renderer</module>
-        <!-- <module>gui</module> The QT Jambi GUI has been discontinued as a part of the standard core library -->
         <!-- Not part of the core -->
         <module>httpcache</module>
         <module>simple-cache</module>
         <module>play-gui</module>
         <module>play-gui-webstart-distribution</module>
-        <module>timingframework-renderer</module>
         <module>binding-layer</module>
     </modules>
 
