@@ -3,10 +3,14 @@ package no.lau.vdvil.handler;
 import no.lau.vdvil.cache.SimpleCacheImpl;
 import no.lau.vdvil.handler.persistence.*;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 
 public class CompositionTest {
+
+    Logger log = LoggerFactory.getLogger(getClass());
 
     @Test
     public void testParsingComposition() throws Exception {
@@ -16,6 +20,6 @@ public class CompositionTest {
 
         URL url = ClassLoader.getSystemResource("CompositionExample.xml");
         Composition composition = (Composition) downloadAndParseFacade.parse(PartXML.create(url));
-        System.out.println("composition = " + composition);
+        log.info("composition = " + composition);
     }
 }
