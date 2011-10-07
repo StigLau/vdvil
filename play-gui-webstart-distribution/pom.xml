@@ -24,10 +24,6 @@
             <version>${project.version}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>no.lau.vdvil</groupId>
-                    <artifactId>lyric-renderer</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>org.swinglabs</groupId>
                     <artifactId>swing-worker</artifactId>
                 </exclusion>
