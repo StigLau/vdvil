@@ -15,7 +15,7 @@ public class LyricRenderer extends AbstractRenderer implements LyricListener{
         frame = new JFrame("LyricRendererGUITest");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        label = new JLabel("Hello World");
+        label = new JLabel("Lyric Renderer Panel");
         frame.getContentPane().add(label);
         //frame.pack();
         frame.setSize(width, height);
