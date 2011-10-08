@@ -29,6 +29,7 @@ public abstract class SuperPlayingSetup {
             vdvilPlayer.play();
             while (vdvilPlayer.isPlaying())
                 Thread.sleep(200);
+            vdvilPlayer.stop();
         } catch (Exception e) {
             throw new RuntimeException("This should not happen", e);
         }

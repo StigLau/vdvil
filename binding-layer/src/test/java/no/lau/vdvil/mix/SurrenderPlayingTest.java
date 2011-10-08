@@ -34,11 +34,11 @@ public class SurrenderPlayingTest extends SuperPlayingSetup {
         parts.add(createAudioPart("768-912Surrender", 768, 912, surrenderDvl, downloader));
         */
 
-        parts.add(createImagePart(0, -1, new URL("http://www.shinyshiny.tv/teddy%20bear%201.jpg")));
-        parts.add(createImagePart(16, -1, new URL("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg")));
-        parts.add(createImagePart(80, -1, new URL("http://www.shinyshiny.tv/teddy%20bear%201.jpg")));
-        parts.add(createImagePart(144, -1, new URL("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg")));
-        parts.add(createImagePart(240, -1, new URL("http://www.shinyshiny.tv/teddy%20bear%201.jpg")));
+        parts.add(createImagePart(0, 4, new URL("http://www.shinyshiny.tv/teddy%20bear%201.jpg")));
+        parts.add(createImagePart(16, 20, new URL("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg")));
+        parts.add(createImagePart(80, 84, new URL("http://www.shinyshiny.tv/teddy%20bear%201.jpg")));
+        parts.add(createImagePart(144, 148, new URL("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg")));
+        parts.add(createImagePart(240, 244, new URL("http://www.shinyshiny.tv/teddy%20bear%201.jpg")));
 
         parts.add(createAudioPart("0-128Surrender", 0, 16, surrenderDvl, downloader));
         parts.add(createAudioPart("256-352Surrender", 16, 80, surrenderDvl, downloader)); // Elguitar
