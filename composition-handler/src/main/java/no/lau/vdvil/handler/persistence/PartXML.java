@@ -40,4 +40,8 @@ public class PartXML implements CompositionInstruction, MutableCompositionInstru
     public void setEnd(int endBeat) {
         this.end = endBeat;
     }
+
+    public String toString() {
+        return start + " - " + end + " " + id;
+    }
 }

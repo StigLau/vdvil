@@ -31,14 +31,12 @@ public class ImageRenderer extends AbstractRenderer {
 
     @Override
     public boolean start(int time) {
-        frame.setVisible(true);
         return true;
     }
 
     @Override
     public void stop() {
         frame.setVisible(false);
-        //frame.dispose();
     }
 
     public void handleInstruction(int time, Instruction instruction) {
@@ -53,11 +51,13 @@ public class ImageRenderer extends AbstractRenderer {
                         imageListener.show(imageStream);
                     }
                 });
+                    if(!frame.isVisible())
+                        frame.setVisible(true);
+                    
                 } catch (IOException e) {
                     log.error("Error loading image {}", imageInstruction.imageUrl, e);
                 }
             }
         }
     }
-
 }

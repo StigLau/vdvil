@@ -37,18 +37,18 @@ public class LyricRenderer extends AbstractRenderer implements LyricListener{
 
     @Override
     public boolean start(int time) {
-        frame.setVisible(true);
         return true;
     }
 
     @Override
     public void stop() {
         frame.setVisible(false);
-        //frame.dispose();
     }
 
     public void fire(String text) {
         this.text += " " + text;
         label.setText(this.text);
+        if(!frame.isVisible())
+                frame.setVisible(true);
     }
 }

@@ -53,4 +53,15 @@ public class FilteringTest {
         Composition result = PreconfiguredVdvilPlayer.filterByTime(testComposition, new MasterBeatPattern(16, 1020, 130F));
         assertEquals(1017, result.multimediaParts.get(0).compositionInstruction().end());
     }
+
+    @Test
+    public void testSegmentStartsAndStopsOutsideOfWindow() {
+        List<MultimediaPart> partList = new ArrayList<MultimediaPart>();
+        partList.add(new ImageDescription(new PartXML("0 20", 0, 20, null), null));
+        Composition testComposition = new Composition("", new MasterBeatPattern(2, 10, 120F), partList, null);
+
+        Composition result = PreconfiguredVdvilPlayer.filterByTime(testComposition, new MasterBeatPattern(4, 8, 130F));
+        assertEquals(4, result.multimediaParts.get(0).compositionInstruction().start());
+        assertEquals(8, result.multimediaParts.get(0).compositionInstruction().end());
+    }
 }
