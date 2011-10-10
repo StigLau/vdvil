@@ -39,8 +39,8 @@ public abstract class SuperPlayingSetup {
     protected static MultimediaPart createAudioPart(String id, int start, int end, URL url, DownloadAndParseFacade cache) throws IOException {
         return cache.parse(new PartXML(id, start, end, new DvlXML("URL Name", url)));
     }
-    protected static MultimediaPart createLyricPart(String text, int start, int end) throws MalformedURLException {
-        return new LyricDescription(text, new PartXML(text, start, end, new DvlXML("name", new URL("http://url.com"))));
+    protected static MultimediaPart createLyricPart(String text, TimeInterval timeInterval) throws MalformedURLException {
+        return new LyricDescription(text, new PartXML(text, timeInterval, new DvlXML("name", new URL("http://url.com"))));
     }
 
     protected static MultimediaPart createImagePart(String id, TimeInterval timeInterval, URL url) throws MalformedURLException {
