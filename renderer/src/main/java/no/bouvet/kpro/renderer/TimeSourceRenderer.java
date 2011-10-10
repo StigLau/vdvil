@@ -105,7 +105,17 @@ public class TimeSourceRenderer extends AbstractRenderer implements Runnable {
 		}
 	}
 
-	/**
+    @Override
+    public boolean isRendering() {
+        return false;
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void stop(Instruction instruction) {
+    }
+
+    /**
 	 * This is the implementation of Runnable.run, and is the main thread
 	 * procedure.
 	 * 

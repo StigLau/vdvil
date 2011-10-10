@@ -55,6 +55,7 @@ public abstract class AbstractRenderer {
 
 	/**
 	 * Start this AbstractRenderer, at the given point in time.
+     * TODO Perhaps to be removed!!
 	 * 
 	 * @param time
 	 *            The time in samples when rendering begins
@@ -99,4 +100,8 @@ public abstract class AbstractRenderer {
 	 * @author Michael Stokes
 	 */
 	public abstract void handleInstruction(int time, Instruction instruction);
+
+    public abstract boolean isRendering();
+
+    public abstract void stop(Instruction instruction);
 }

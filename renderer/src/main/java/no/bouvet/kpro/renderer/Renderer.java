@@ -1,6 +1,7 @@
 package no.bouvet.kpro.renderer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Renderer class represents the master renderer. It is responsible for
@@ -30,6 +31,8 @@ public class Renderer {
 	protected Instructions _instructions;
 	protected ArrayList<Instruction> _instructionList;
 	protected int _instructionPtr;
+    List<Instruction> stopInstructionList = new ArrayList<Instruction>();
+    protected int stopInstructionPtr;
 	protected boolean _rendering = false;
 
 	/**
@@ -41,9 +44,18 @@ public class Renderer {
 	 */
 	public Renderer(Instructions instructions) {
 		_instructions = instructions;
+        stopInstructionList = sortedInstructionsOnEnd(instructions._list);
 	}
 
-	/**
+    /**
+     * Important that the stopList is sorted correctly by stoptime
+     * TODO Sort this list correctly!!!!!!!!!!
+     */
+    ArrayList<Instruction> sortedInstructionsOnEnd(ArrayList<Instruction> instructions) {
+        return instructions;
+    }
+
+    /**
 	 * Add an AbstractRenderer to this Renderer. Each AbstractRenderer will
 	 * receive rendering Instruction events.
 	 * 
@@ -185,15 +197,21 @@ public class Renderer {
 	 */
 	public void notifyTime(int time) {
 		if (_instructionList != null) {
-			for (; _instructionPtr < _instructionList.size(); _instructionPtr++) {
+			if(_instructionPtr < _instructionList.size()) {
 				Instruction instruction = _instructionList.get(_instructionPtr);
 
 				if (instruction.getStart() <= time) {
 					dispatchInstruction(time, instruction);
-				} else {
-					break;
+                    _instructionPtr++;
 				}
 			}
+            if(stopInstructionPtr < stopInstructionList.size()) {
+				Instruction stopInstruction = stopInstructionList.get(stopInstructionPtr);
+				if (stopInstruction.getEnd() <= time) {
+                    dispatchStopInstruction(stopInstruction);
+                    stopInstructionPtr++;
+				}
+            }
 
 			if (_instructionPtr >= _instructionList.size()) {
 				dispatchInstruction(time, null);
@@ -226,4 +244,10 @@ public class Renderer {
 			renderer.handleInstruction(time, instruction);
 		}
 	}
+
+    private void dispatchStopInstruction(Instruction stopInstruction) {
+            for (AbstractRenderer renderer : _renderers) {
+                renderer.stop(stopInstruction);
+            }
+        }
 }

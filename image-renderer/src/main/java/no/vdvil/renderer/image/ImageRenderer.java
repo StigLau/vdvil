@@ -10,9 +10,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ImageRenderer extends AbstractRenderer {
     private ImageListener[] listener;
+    List<ImageInstruction> runningImageInstructionList = new ArrayList<ImageInstruction>();
     JFrame frame;
     private DownloaderFacade cache;
     Logger log = LoggerFactory.getLogger(getClass());
@@ -32,11 +35,6 @@ public class ImageRenderer extends AbstractRenderer {
     @Override
     public boolean start(int time) {
         return true;
-    }
-
-    @Override
-    public void stop() {
-        frame.setVisible(false);
     }
 
     public void handleInstruction(int time, Instruction instruction) {
@@ -59,5 +57,17 @@ public class ImageRenderer extends AbstractRenderer {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean isRendering() {
+        return !runningImageInstructionList.isEmpty();
+    }
+
+    @Override
+    public void stop(Instruction instruction) {
+        runningImageInstructionList.remove(instruction);
+        if(runningImageInstructionList.isEmpty())
+            frame.setVisible(false);
     }
 }

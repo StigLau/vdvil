@@ -12,6 +12,7 @@ Todo's
  * Probable timing problem between different renderers. Need to implement functionality to synchronize renderers inter-vm or via HTTP.
  * Implement XML storage for image .dvl's
  * Implement new self-made multimedia/file-cache
+ * Problem of architecture when closing renderer views because of images have stopped having have to be shown
 
 h2. Undoing releases
 Deleting remote tags can be done with:  git push origin :root-0.7

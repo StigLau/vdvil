@@ -14,7 +14,17 @@ public class RendererTest {
 				_delivered = System.currentTimeMillis();
 			}
 		}
-	}
+
+        @Override
+        public boolean isRendering() {
+            return false;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        @Override
+        public void stop(Instruction instruction) {
+            //To change body of implemented methods use File | Settings | File Templates.
+        }
+    }
 
 	private class TestInstruction extends Instruction {
 		public TestInstruction() {

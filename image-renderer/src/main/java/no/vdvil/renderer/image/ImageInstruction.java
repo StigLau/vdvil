@@ -15,7 +15,9 @@ public class ImageInstruction extends Instruction {
         this.cachedStream = cached;
         float speedFactor = Renderer.RATE * 60 / bpm;
         //An uncertain problem that appends ~44100 millseconds to everything. Weired!
-        _start = new Float(start * speedFactor).intValue() + 44100;
-        _end = new Float(end * speedFactor).intValue() + 44100;
+        //TODO FIX TIMING ISSUES HERE!!!!!!!!!!!!!!!
+        _start = new Float(start * speedFactor + (bpm * 44100 / 120)).intValue();
+        System.out.println("bpm * 44100 / 120 = " + bpm * 44100 / 120);
+        _end = new Float(end * speedFactor + 55125).intValue();
     }
 }
