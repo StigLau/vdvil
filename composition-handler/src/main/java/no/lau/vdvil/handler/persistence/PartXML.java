@@ -1,5 +1,6 @@
 package no.lau.vdvil.handler.persistence;
 
+import no.lau.vdvil.timing.TimeInterval;
 import java.net.URL;
 
 public class PartXML implements CompositionInstruction, MutableCompositionInstruction {
@@ -14,6 +15,13 @@ public class PartXML implements CompositionInstruction, MutableCompositionInstru
         this.start = start;
         this.end = end;
         this.dvl = dvl;
+    }
+
+    public PartXML(String id, TimeInterval timeInterval, DvlXML dvlXML) {
+        this.id = id;
+        this.start = timeInterval.start();
+        this.end = timeInterval.start() + timeInterval.duration();
+        this.dvl = dvlXML;
     }
 
     public String id() { return id; }

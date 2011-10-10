@@ -7,6 +7,7 @@ import no.lau.vdvil.handler.persistence.DvlXML;
 import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
 import no.lau.vdvil.timing.MasterBeatPattern;
+import no.lau.vdvil.timing.TimeInterval;
 import no.vdvil.renderer.audio.AudioDescription;
 import no.vdvil.renderer.audio.Segment;
 import no.vdvil.renderer.audio.Track;
@@ -42,8 +43,8 @@ public abstract class SuperPlayingSetup {
         return new LyricDescription(text, new PartXML(text, start, end, new DvlXML("name", new URL("http://url.com"))));
     }
 
-    protected static MultimediaPart createImagePart(String id, int start, int end, URL url) throws MalformedURLException {
-        return new ImageDescription(new PartXML(id, start, end, new DvlXML(id, null)), url);
+    protected static MultimediaPart createImagePart(String id, TimeInterval timeInterval, URL url) throws MalformedURLException {
+        return new ImageDescription(new PartXML(id, timeInterval, new DvlXML(id, null)), url);
     }
 
     protected static MultimediaPart createPart(int start, int end, Segment segment, Track track) {
