@@ -3,6 +3,7 @@ package no.lau.vdvil.renderer.image;
 import no.lau.vdvil.cache.SimpleCacheImpl;
 import no.lau.vdvil.handler.persistence.DvlXML;
 import no.lau.vdvil.handler.persistence.PartXML;
+import no.lau.vdvil.timing.Interval;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
 import no.vdvil.renderer.image.cacheinfrastructure.OnlyTheImageDescriptionParser;
 import org.junit.Before;
@@ -24,12 +25,12 @@ public class OnlyTheImageDescriptionParserTest {
 
     @Test
     public void testFetchingImage() throws IOException {
-        ImageDescription imageDescription = parser.parse(new PartXML("", -1, -1, new DvlXML("hello", imageUrl)));
+        ImageDescription imageDescription = parser.parse(new PartXML("", new Interval(-1, -1), new DvlXML("hello", imageUrl)));
         assertEquals(imageUrl, imageDescription.src);
     }
 
     @Test(expected = IOException.class)
     public void throwExceptionWhenNotImage() throws IOException {
-        parser.parse(new PartXML("", -1, -1, new DvlXML("hello", compositionXmlUrl) ));
+        parser.parse(new PartXML("", new Interval(-1, -1), new DvlXML("hello", compositionXmlUrl) ));
     }
 }

@@ -3,6 +3,7 @@ package no.lau.vdvil.playback;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.PartXML;
+import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
 import org.junit.Test;
@@ -19,11 +20,11 @@ public class FilteringTest {
     @Test
     public void testSettingValueIfEndTimeAfterStart() {
         List<MultimediaPart> partList = new ArrayList<MultimediaPart>();
-        partList.add(new ImageDescription(new PartXML("0 16", 0, 14, null), null));
-        partList.add(new ImageDescription(new PartXML("0 -1", 0, -1, null), null));
-        partList.add(new ImageDescription(new PartXML("33 -1", 33, -1, null), null));
-        partList.add(new ImageDescription(new PartXML("33 34", 33, 34, null), null));
-        partList.add(new ImageDescription(new PartXML("18 17", 18, 17, null), null));
+        partList.add(new ImageDescription(new PartXML("0 16", new Interval(0, 14), null), null));
+        partList.add(new ImageDescription(new PartXML("0 -1", new Interval(0, -1), null), null));
+        partList.add(new ImageDescription(new PartXML("33 -1", new Interval(33, -1), null), null));
+        partList.add(new ImageDescription(new PartXML("33 34", new Interval(33, 34), null), null));
+        partList.add(new ImageDescription(new PartXML("18 17", new Interval(18, 17), null), null));
         Composition testComposition = new Composition("", new MasterBeatPattern(0, 120, 120F), partList, null);
 
         Composition result = PreconfiguredVdvilPlayer.filterByTime(testComposition, new MasterBeatPattern(16, 32, 130F));
@@ -37,7 +38,7 @@ public class FilteringTest {
     @Test
     public void testStartOkSmallEnd() {
         List<MultimediaPart> partList = new ArrayList<MultimediaPart>();
-        partList.add(new ImageDescription(new PartXML("17 -1", 17, -1, null), null));
+        partList.add(new ImageDescription(new PartXML("17 -1", new Interval(17, -1), null), null));
         Composition testComposition = new Composition("", new MasterBeatPattern(0, 120, 120F), partList, null);
 
         Composition result = PreconfiguredVdvilPlayer.filterByTime(testComposition, new MasterBeatPattern(16, 32, 130F));
@@ -47,7 +48,7 @@ public class FilteringTest {
     @Test
     public void testStartOkSmallEndCapped() {
         List<MultimediaPart> partList = new ArrayList<MultimediaPart>();
-        partList.add(new ImageDescription(new PartXML("17 -1", 17, -1, null), null));
+        partList.add(new ImageDescription(new PartXML("17 -1", new Interval(17, -1), null), null));
         Composition testComposition = new Composition("", new MasterBeatPattern(0, 120, 120F), partList, null);
 
         Composition result = PreconfiguredVdvilPlayer.filterByTime(testComposition, new MasterBeatPattern(16, 1020, 130F));
@@ -57,7 +58,7 @@ public class FilteringTest {
     @Test
     public void testSegmentStartsAndStopsOutsideOfWindow() {
         List<MultimediaPart> partList = new ArrayList<MultimediaPart>();
-        partList.add(new ImageDescription(new PartXML("0 20", 0, 20, null), null));
+        partList.add(new ImageDescription(new PartXML("0 20", new Interval(0, 20), null), null));
         Composition testComposition = new Composition("", new MasterBeatPattern(2, 10, 120F), partList, null);
 
         Composition result = PreconfiguredVdvilPlayer.filterByTime(testComposition, new MasterBeatPattern(4, 8, 130F));
