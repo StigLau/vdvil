@@ -31,7 +31,6 @@ public class Renderer {
 	protected Instructions _instructions;
 	protected ArrayList<Instruction> _instructionList;
 	protected int _instructionPtr;
-    List<Instruction> stopInstructionList = new ArrayList<Instruction>();
     protected int stopInstructionPtr;
 	protected boolean _rendering = false;
 
@@ -44,16 +43,7 @@ public class Renderer {
 	 */
 	public Renderer(Instructions instructions) {
 		_instructions = instructions;
-        stopInstructionList = sortedInstructionsOnEnd(instructions._list);
 	}
-
-    /**
-     * Important that the stopList is sorted correctly by stoptime
-     * TODO Sort this list correctly!!!!!!!!!!
-     */
-    ArrayList<Instruction> sortedInstructionsOnEnd(ArrayList<Instruction> instructions) {
-        return instructions;
-    }
 
     /**
 	 * Add an AbstractRenderer to this Renderer. Each AbstractRenderer will
@@ -205,8 +195,9 @@ public class Renderer {
                     _instructionPtr++;
 				}
 			}
-            if(stopInstructionPtr < stopInstructionList.size()) {
-				Instruction stopInstruction = stopInstructionList.get(stopInstructionPtr);
+            List<Instruction> stopInstructionSortedByEnd = _instructions.sortedByEnd();
+            if(stopInstructionPtr < stopInstructionSortedByEnd.size()) {
+				Instruction stopInstruction = stopInstructionSortedByEnd.get(stopInstructionPtr);
 				if (stopInstruction.getEnd() <= time) {
                     dispatchStopInstruction(stopInstruction);
                     stopInstructionPtr++;
