@@ -158,7 +158,17 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 		}
 	}
 
-	/**
+    @Override
+    public boolean isRendering() {
+        return !_finished;
+    }
+
+    @Override
+    public void stop(Instruction instruction) {
+        //Not needed for this renderer as it controls in the way it handles its own instructions
+    }
+
+    /**
 	 * This is the implementation of Runnable.run, and is the main thread
 	 * procedure.
 	 * 

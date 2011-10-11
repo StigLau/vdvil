@@ -81,15 +81,15 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
                 filteredPartsList.add(multimediaPart);
             } else if(instruction.end() <= filter.fromBeat || filter.toBeat <= instruction.start()) {
                 //Is outside
-                log.info("Instruction {} starting at {} was filtered out of the composition", multimediaPart, instruction.start());
+                log.debug("Instruction {} starting at {} was filtered out of the composition", multimediaPart, instruction.start());
             }else {
                 if(instruction.start() < filter.fromBeat) {
                     //Crop Start
-                    log.info("Instruction {} fromBeat was set to {} to hit correct start time", multimediaPart, filter.fromBeat);
+                    log.debug("Instruction {} fromBeat was set to {} to hit correct start time", multimediaPart, filter.fromBeat);
                     ((MutableCompositionInstruction) multimediaPart.compositionInstruction()).moveStart(filter.fromBeat - instruction.start());
                 }
                 if(filter.toBeat < instruction.end()) {
-                    log.info("Instruction {} endBeat was set to {} because it ended to late", multimediaPart, filter.toBeat);
+                    log.debug("Instruction {} endBeat was set to {} because it ended to late", multimediaPart, filter.toBeat);
                     ((MutableCompositionInstruction) multimediaPart.compositionInstruction()).setEnd(filter.toBeat);
                     //Crop End
                 }
