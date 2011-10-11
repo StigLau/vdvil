@@ -6,7 +6,7 @@
     <packaging>pom</packaging>
     <name>Vdvil Root</name>
     <description>Vdvil - Framework for multimedia structuring, composition and playback</description>
-    <url>http://vdvil.lau.no</url>
+    <url>http://play.kompo.st</url>
     <licenses>
         <license>
             <name>Apache 2</name>
@@ -18,7 +18,7 @@
     <developers>
         <developer>
             <name>Stig Lau</name>
-            <email>stig.lau@gmail.com</email>
+            <email>stig@lau.no</email>
             <url>http://stig.lau.no</url>
         </developer>
         <developer>
@@ -38,7 +38,6 @@
         <module>audio-renderer</module>
         <module>lyric-renderer</module>
         <module>image-renderer</module>
-        <!-- Not part of the core -->
         <module>httpcache</module>
         <module>simple-cache</module>
         <module>play-gui</module>
