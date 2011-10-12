@@ -25,12 +25,12 @@ public class OnlyTheImageDescriptionParserTest {
 
     @Test
     public void testFetchingImage() throws IOException {
-        ImageDescription imageDescription = parser.parse(new PartXML("", new Interval(-1, -1), new DvlXML("hello", imageUrl)));
+        ImageDescription imageDescription = parser.parse(new PartXML("", new Interval(-1, 0), new DvlXML("hello", imageUrl)));
         assertEquals(imageUrl, imageDescription.src);
     }
 
     @Test(expected = IOException.class)
     public void throwExceptionWhenNotImage() throws IOException {
-        parser.parse(new PartXML("", new Interval(-1, -1), new DvlXML("hello", compositionXmlUrl) ));
+        parser.parse(new PartXML("", new Interval(-1, 0), new DvlXML("hello", compositionXmlUrl) ));
     }
 }
