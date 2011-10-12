@@ -72,11 +72,6 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         for (MultimediaPart multimediaPart : composition.multimediaParts) {
             CompositionInstruction instruction = multimediaPart.compositionInstruction();
 
-            //If end < start --> end = start + 1000
-            if(instruction.end() < instruction.start()) {
-                ((MutableCompositionInstruction) multimediaPart.compositionInstruction()).setEnd(instruction.start() + 1000);
-            }
-
             if(filter.fromBeat <= instruction.start() && instruction.end() <= filter.toBeat) {
                 filteredPartsList.add(multimediaPart);
             } else if(instruction.end() <= filter.fromBeat || filter.toBeat <= instruction.start()) {

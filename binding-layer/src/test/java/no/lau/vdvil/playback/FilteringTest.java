@@ -20,39 +20,20 @@ public class FilteringTest {
     @Test
     public void testSettingValueIfEndTimeAfterStart() {
         List<MultimediaPart> partList = new ArrayList<MultimediaPart>();
-        partList.add(new ImageDescription(new PartXML("0 16", new Interval(0, 14), null), null));
-        partList.add(new ImageDescription(new PartXML("0 -1", new Interval(0, -1), null), null));
-        partList.add(new ImageDescription(new PartXML("33 -1", new Interval(33, -1), null), null));
-        partList.add(new ImageDescription(new PartXML("33 34", new Interval(33, 34), null), null));
-        partList.add(new ImageDescription(new PartXML("18 17", new Interval(18, 17), null), null));
+        partList.add(new ImageDescription(new PartXML("0 14", new Interval(0, 14), null), null));
+        partList.add(new ImageDescription(new PartXML("33 34", new Interval(33, 1), null), null));
+        partList.add(new ImageDescription(new PartXML("18 1", new Interval(18, 1), null), null));
         Composition testComposition = new Composition("", new MasterBeatPattern(0, 120, 120F), partList, null);
 
         Composition result = PreconfiguredVdvilPlayer.filterByTime(testComposition, new MasterBeatPattern(16, 32, 130F));
-        assertEquals(2, result.multimediaParts.size());
-        assertEquals("0 -1", result.multimediaParts.get(0).compositionInstruction().id());
-        assertEquals(32, result.multimediaParts.get(0).compositionInstruction().end());
-        assertEquals("18 17", result.multimediaParts.get(1).compositionInstruction().id());
-        assertEquals(32, result.multimediaParts.get(1).compositionInstruction().end());
+        assertEquals(1, result.multimediaParts.size());
+        assertEquals("18 1", result.multimediaParts.get(0).compositionInstruction().id());
+        assertEquals(19, result.multimediaParts.get(0).compositionInstruction().end());
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testStartOkSmallEnd() {
-        List<MultimediaPart> partList = new ArrayList<MultimediaPart>();
-        partList.add(new ImageDescription(new PartXML("17 -1", new Interval(17, -1), null), null));
-        Composition testComposition = new Composition("", new MasterBeatPattern(0, 120, 120F), partList, null);
-
-        Composition result = PreconfiguredVdvilPlayer.filterByTime(testComposition, new MasterBeatPattern(16, 32, 130F));
-        assertEquals(32, result.multimediaParts.get(0).compositionInstruction().end());
-    }
-
-    @Test
-    public void testStartOkSmallEndCapped() {
-        List<MultimediaPart> partList = new ArrayList<MultimediaPart>();
-        partList.add(new ImageDescription(new PartXML("17 -1", new Interval(17, -1), null), null));
-        Composition testComposition = new Composition("", new MasterBeatPattern(0, 120, 120F), partList, null);
-
-        Composition result = PreconfiguredVdvilPlayer.filterByTime(testComposition, new MasterBeatPattern(16, 1020, 130F));
-        assertEquals(1017, result.multimediaParts.get(0).compositionInstruction().end());
+        new PartXML("17 -1", new Interval(17, -1), null);
     }
 
     @Test

@@ -17,7 +17,7 @@ public class PartXML implements CompositionInstruction, MutableCompositionInstru
         this.end = timeInterval.start() + timeInterval.duration();
         this.dvl = dvlXML;
 
-        if(start < end)
+        if(start > end)
             throw new IllegalArgumentException("End has to be after start!");
     }
 
