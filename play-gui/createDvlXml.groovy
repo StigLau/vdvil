@@ -1,4 +1,5 @@
 def id = 0
+def factor = 4
 
 new File("testfile.txt").eachLine {
         println """<part>
@@ -7,8 +8,8 @@ new File("testfile.txt").eachLine {
     <url>$it</url>
     <name>Click Flash Wirr</name>
   </dvl>  
-  <start>${id*2}</start>  
-  <end>${id*2+2}</end>
+  <start>${id*factor}</start>  
+  <end>${id*factor+factor}</end>
 </part>"""
   id++
 }
