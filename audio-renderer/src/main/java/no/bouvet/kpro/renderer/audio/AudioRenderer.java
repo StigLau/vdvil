@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Renderer;
-import no.bouvet.kpro.renderer.StopInstruction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -149,9 +148,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 	@Override
 	public void handleInstruction(int time, Instruction instruction) {
         log.debug("Got instruction {} to be played at {}", instruction, time);
-        if (instruction instanceof StopInstruction) {
-			_finished = true;
-		} else if (instruction instanceof AudioInstruction) {
+        if (instruction instanceof AudioInstruction) {
 			synchronized (_active) {
 				_active.add((AudioInstruction) instruction);
 			}
@@ -165,7 +162,9 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 
     @Override
     public void stop(Instruction instruction) {
-        //Not needed for this renderer as it controls in the way it handles its own instructions
+        //AudioRenderer handles stopping playback itself
+        if(_active.size() < 1)
+            _finished = true;
     }
 
     /**

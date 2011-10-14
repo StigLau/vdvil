@@ -70,10 +70,6 @@ public class Instructions {
 		return _duration;
 	}
 
-    public void endAt(int end) {
-        append(new StopInstruction(end));
-    }
-
     public List<Instruction> sortedByEnd() {
     List<Instruction> instructionList = new ArrayList<Instruction>(_list);
         Collections.sort(instructionList, new EndSorter());
