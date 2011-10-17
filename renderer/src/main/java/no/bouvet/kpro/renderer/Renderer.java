@@ -226,8 +226,8 @@ public class Renderer {
 	}
 
     private void dispatchStopInstruction(Instruction stopInstruction) {
-            for (AbstractRenderer renderer : _renderers) {
-                renderer.stop(stopInstruction);
-            }
+        for (AbstractRenderer renderer : _renderers) {
+            renderer.stop(stopInstruction);
         }
+    }
 }
