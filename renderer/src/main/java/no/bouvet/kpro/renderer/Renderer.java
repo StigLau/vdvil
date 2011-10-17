@@ -1,5 +1,7 @@
 package no.bouvet.kpro.renderer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class Renderer {
 	protected int _instructionPtr;
     protected int stopInstructionPtr;
 	protected boolean _rendering = false;
+    Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * Construct a new Renderer, rendering the given Instructions list.
@@ -206,6 +209,7 @@ public class Renderer {
 	 * the time source.
 	 */
 	public void notifyFinished() {
+        log.debug("Closing renderer playback!");
 		_rendering = false;
 	}
 

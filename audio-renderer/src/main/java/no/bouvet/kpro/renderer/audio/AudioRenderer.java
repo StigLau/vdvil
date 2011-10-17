@@ -143,9 +143,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 	public void handleInstruction(int time, Instruction instruction) {
         log.debug("Got instruction {} to be played at {}", instruction, time);
         if (instruction instanceof AudioInstruction) {
-			synchronized (_active) {
-				_active.add((AudioInstruction) instruction);
-			}
+            _active.add((AudioInstruction) instruction);
 		}
 	}
 
@@ -177,23 +175,14 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
             for (int fill = 0; fill < _mix.length;) {
                 _mix[fill++] = 0;
             }
-            Integer available = null;
 
-            synchronized (_active) {
-                for (int active = 0; active < _active.size(); active++) {
-                    AudioInstruction instruction = _active.get(active);
-                    if (instruction.getEnd() <= _time) {
-                        _active.remove(instruction);
-                        active--;
-                    } else if (instruction.getStart() > _time) {
-                        available = instruction.getStart() - _time;
-                    } else if (instruction.getSourceDuration() <= 0) {
-                        _active.remove(instruction);
-                        active--;
-                    } else {
-                        available = singlePass(instruction, MIX_FRAME);
-                    }
-                }
+            _active = pruneByTime(_active);
+            int available = -1;
+            for (AudioInstruction instruction : _active) {
+                if (instruction.getStart() > _time)
+                    available = instruction.getStart() - _time;
+                else
+                    available = singlePass(instruction, MIX_FRAME);
             }
             if (available > 0) {
                 for (int convert = 0; convert < output.length;) {
@@ -217,7 +206,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
             _renderer.notifyFinished();
         }
 	}
-    
+
     int singlePass(final AudioInstruction instruction, int available) {
         int duration = instruction.getEnd() - _time;
 
@@ -293,4 +282,13 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 			_mix[output++] += (source.get(input + 1) * volume) >> 7;
 		}
 	}
+
+    List<AudioInstruction> pruneByTime(List<AudioInstruction> active) {
+        List<AudioInstruction> prunedList = new ArrayList<AudioInstruction>();
+        for (AudioInstruction instruction : active) {
+            if(instruction.getEnd() > _time && instruction.getSourceDuration() > 0)
+                prunedList.add(instruction);
+        }
+        return prunedList;
+    }
 }
