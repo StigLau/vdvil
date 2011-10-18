@@ -9,8 +9,8 @@ public class InstructionsTest {
     @Test
     public void testSortingByStart() {
         List<Instruction> sortedList = testInstructions()._list;
-        assertEquals("1-3", sortedList.get(0).toString());
-        assertEquals("1-6", sortedList.get(1).toString());
+        assertEquals("1-6", sortedList.get(0).toString());
+        assertEquals("1-3", sortedList.get(1).toString());
         assertEquals("2-8", sortedList.get(2).toString());
         assertEquals("3-5", sortedList.get(3).toString());
         assertEquals("4-4", sortedList.get(4).toString());
