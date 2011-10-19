@@ -1,5 +1,6 @@
 package no.lau.vdvil.mix;
 
+import no.lau.vdvil.timing.Interval;
 import no.vdvil.renderer.audio.TestMp3s;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaPart;
@@ -15,26 +16,27 @@ public class JavaZoneExample extends SuperPlayingSetup {
     URL scares_me = TestMp3s.scares_meDvl;
 
     public static void main(String[] args) throws Exception {
-        new JavaZoneExample().play(new MasterBeatPattern(0, 252, 150F));
+        //TODO Some Weired problem where Player doesn't stop. Try JavaZoneExample with 64 to 64*2
+        new JavaZoneExample().play(new MasterBeatPattern(0, 32+64*3+ 28, 150F));
     }
 
     @Override
     protected Composition compose(MasterBeatPattern masterBeatPattern) throws IOException {
         List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
-        parts.add(createAudioPart("4479230163500364845", 0, 32, not_alone, downloader));
-        parts.add(createAudioPart("5403996530329584526", 16, 48, scares_me, downloader));
-        parts.add(createAudioPart("8313187524105777940", 32, 70, not_alone, downloader));
-        parts.add(createAudioPart("5403996530329584526", 48, 64, scares_me, downloader));
-        parts.add(createAudioPart("1826025806904317462", 64, 112, scares_me, downloader));
-        parts.add(createAudioPart("6401936245564505757", 96, 140, returning, downloader));
-        parts.add(createAudioPart("6401936245564505757", 96, 140, returning, downloader));
-        parts.add(createAudioPart("6182122145512625145", 128, 174, returning, downloader));
-        parts.add(createAudioPart("3378726703924324403", 144, 174, returning, downloader));
-        parts.add(createAudioPart("4823965795648964701", 174, 175, returning, downloader));
-        parts.add(createAudioPart("5560598317419002938", 175, 176, returning, downloader));
-        parts.add(createAudioPart("9040781467677187716", 176, 240, returning, downloader));
-        parts.add(createAudioPart("8301899110835906945", 208, 224, scares_me, downloader));
-        parts.add(createAudioPart("5555459205073513470", 224, 252, scares_me, downloader));
+        parts.add(createAudioPart("4479230163500364845", new Interval(0, 32), not_alone, downloader));
+        parts.add(createAudioPart("5403996530329584526", new Interval(16, 32), scares_me, downloader));
+        parts.add(createAudioPart("8313187524105777940", new Interval(32, 38), not_alone, downloader));
+        parts.add(createAudioPart("5403996530329584526", new Interval(48, 16), scares_me, downloader));
+        parts.add(createAudioPart("1826025806904317462", new Interval(64, 48), scares_me, downloader));
+        parts.add(createAudioPart("6401936245564505757", new Interval(32+64, 44), returning, downloader));
+        parts.add(createAudioPart("6401936245564505757", new Interval(32+64, 44), returning, downloader));
+        parts.add(createAudioPart("6182122145512625145", new Interval(64*2, 46), returning, downloader));
+        parts.add(createAudioPart("3378726703924324403", new Interval(16+64*2, 30), returning, downloader));
+        parts.add(createAudioPart("4823965795648964701", new Interval(14+32+64*2, 1), returning, downloader));
+        parts.add(createAudioPart("5560598317419002938", new Interval(15+32+64*2, 1), returning, downloader));
+        parts.add(createAudioPart("9040781467677187716", new Interval(16+32+64*2, 64), returning, downloader));
+        parts.add(createAudioPart("8301899110835906945", new Interval(16+64*3, 16), scares_me, downloader));
+        parts.add(createAudioPart("5555459205073513470", new Interval(32+64*3, 28), scares_me, downloader));
         return new Composition(getClass().getSimpleName(), masterBeatPattern, parts, TestMp3s.javaZoneComposition);
     }    
 }

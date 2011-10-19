@@ -30,11 +30,12 @@ class PlayPanel(val url:URL) {
   val playCompositionButton = new Button("Play Composition") {
     reactions += {case ButtonClicked(_) => compositionPlayer.pauseAndplay(new MasterBeatPattern(startField.text.toInt, stopField.text.toInt, bpmField.text.toFloat))}
   }
-  val reloadButton = new Button("Reload") {
+  val reloadButton = new Button("Reload Composition") {
     reactions += {case ButtonClicked(_) => {
       cache.setRefreshCaches(true)
-      composition = fetchComposition(url)
+      cache.fetchAsStream(url)
       cache.setRefreshCaches(false)
+      composition = fetchComposition(url)
       stopField.text_=(composition.masterBeatPattern.toBeat.toString)
     }}
   }

@@ -1,5 +1,7 @@
 package no.lau.vdvil.handler.persistence;
 
+import no.lau.vdvil.timing.Interval;
+import no.lau.vdvil.timing.TimeInterval;
 import java.net.URL;
 
 public class PartXML implements CompositionInstruction, MutableCompositionInstruction {
@@ -9,11 +11,14 @@ public class PartXML implements CompositionInstruction, MutableCompositionInstru
     int end;
     final DvlXML dvl;
 
-    public PartXML(String id, int start, int end, DvlXML dvl) {
+    public PartXML(String id, TimeInterval timeInterval, DvlXML dvlXML) {
         this.id = id;
-        this.start = start;
-        this.end = end;
-        this.dvl = dvl;
+        this.start = timeInterval.start();
+        this.end = timeInterval.start() + timeInterval.duration();
+        this.dvl = dvlXML;
+
+        if(start > end)
+            throw new IllegalArgumentException("End has to be after start!");
     }
 
     public String id() { return id; }
@@ -23,7 +28,7 @@ public class PartXML implements CompositionInstruction, MutableCompositionInstru
     public MultimediaReference dvl() { return dvl; }
 
     public static CompositionInstruction create(URL url) {
-        return new PartXML("Test Part", -1, -1, new DvlXML("Test DVL", url))  ;
+        return new PartXML("Test Part", new Interval(0, 0), new DvlXML("Test DVL", url))  ;
     }
 
     public void moveStart(int cueDifference) {

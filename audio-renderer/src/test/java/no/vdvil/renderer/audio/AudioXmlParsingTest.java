@@ -5,6 +5,7 @@ import no.lau.vdvil.cache.SimpleCacheImpl;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.persistence.*;
+import no.lau.vdvil.timing.Interval;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class AudioXmlParsingTest {
         URL url = ClassLoader.getSystemResource("AudioExample.dvl.xml");
 
         String segmentId = "4336519975847252321";
-        CompositionInstruction ci = new PartXML(segmentId, -1, -1, new DvlXML("someDvl", url));
+        CompositionInstruction ci = new PartXML(segmentId, new Interval(-1, 0), new DvlXML("someDvl", url));
         AudioDescription audioDescription = audioXMLParser.parse(ci);
         audioDescription.cache(parseFacade);
         AudioInstruction audioInstruction = audioDescription.asInstruction(120F);
@@ -42,7 +43,7 @@ public class AudioXmlParsingTest {
     public void compositionWithAudioParsing() throws IOException {
         String segmentId = "4479230163500364845";
         URL compositionUrl = TestMp3s.javaZoneComposition;
-        CompositionInstruction ci = new PartXML(segmentId, -1, -1, new DvlXML("someDvl", compositionUrl));
+        CompositionInstruction ci = new PartXML(segmentId, new Interval(-1, 0), new DvlXML("someDvl", compositionUrl));
         Composition composition = (Composition) parseFacade.parse(ci);
         assertEquals(14, composition.multimediaParts.size());
     }

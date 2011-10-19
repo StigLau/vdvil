@@ -1,5 +1,7 @@
 package no.bouvet.kpro.renderer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import java.util.List;
  * of the AR's.
  * 
  * @author Michael Stokes
+ * @author Stig Lau
  */
 public class Renderer {
 	/**
@@ -29,39 +32,26 @@ public class Renderer {
 	protected AbstractRenderer _timeSource;
 
 	protected Instructions _instructions;
-	protected ArrayList<Instruction> _instructionList;
+	protected List<Instruction> _instructionList;
 	protected int _instructionPtr;
-    List<Instruction> stopInstructionList = new ArrayList<Instruction>();
     protected int stopInstructionPtr;
 	protected boolean _rendering = false;
+    Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * Construct a new Renderer, rendering the given Instructions list.
 	 * 
-	 * @param instructions
-	 *            the Instructions list to render
-	 * @author Michael Stokes
+	 * @param instructions the Instructions list to render
 	 */
 	public Renderer(Instructions instructions) {
 		_instructions = instructions;
-        stopInstructionList = sortedInstructionsOnEnd(instructions._list);
 	}
-
-    /**
-     * Important that the stopList is sorted correctly by stoptime
-     * TODO Sort this list correctly!!!!!!!!!!
-     */
-    ArrayList<Instruction> sortedInstructionsOnEnd(ArrayList<Instruction> instructions) {
-        return instructions;
-    }
 
     /**
 	 * Add an AbstractRenderer to this Renderer. Each AbstractRenderer will
 	 * receive rendering Instruction events.
 	 * 
-	 * @param renderer
-	 *            the AbstractRenderer to add
-	 * @author Michael Stokes
+	 * @param renderer the AbstractRenderer to add
 	 */
 	public synchronized void addRenderer(AbstractRenderer renderer) {
 		stop();
@@ -85,10 +75,8 @@ public class Renderer {
 	 * to start - The time parameter must lie within the duration of the
 	 * Instructions list
 	 * 
-	 * @param time
-	 *            the time in samples to start rendering
+	 * @param time the time in samples to start rendering
 	 * @return true if rendering started
-	 * @author Michael Stokes
 	 */
 	public synchronized boolean start(int time) {
 		stop();
@@ -158,8 +146,6 @@ public class Renderer {
 
 	/**
 	 * Stop rendering.
-	 * 
-	 * @author Michael Stokes
 	 */
 	public synchronized void stop() {
 		if (_instructionList != null) {
@@ -180,7 +166,6 @@ public class Renderer {
 	 * Check if rendering is underway, and has not yet finished.
 	 * 
 	 * @return true if rendering is underway, and has not yet finished
-	 * @author Michael Stokes
 	 */
 	public synchronized boolean isRendering() {
 		return (_instructionList != null) && _rendering;
@@ -191,9 +176,7 @@ public class Renderer {
 	 * This method is called by the AbstractRenderer that has agreed to become
 	 * the time source.
 	 * 
-	 * @param time
-	 *            the time that has been reached
-	 * @author Michael Stokes
+	 * @param time the time that has been reached
 	 */
 	public void notifyTime(int time) {
 		if (_instructionList != null) {
@@ -205,8 +188,9 @@ public class Renderer {
                     _instructionPtr++;
 				}
 			}
-            if(stopInstructionPtr < stopInstructionList.size()) {
-				Instruction stopInstruction = stopInstructionList.get(stopInstructionPtr);
+            List<Instruction> stopInstructionSortedByEnd = _instructions.sortedByEnd();
+            if(stopInstructionPtr < stopInstructionSortedByEnd.size()) {
+				Instruction stopInstruction = stopInstructionSortedByEnd.get(stopInstructionPtr);
 				if (stopInstruction.getEnd() <= time) {
                     dispatchStopInstruction(stopInstruction);
                     stopInstructionPtr++;
@@ -223,21 +207,17 @@ public class Renderer {
 	 * Notify the Renderer that the last Instruction has finished rendering.
 	 * This method is called by the AbstractRenderer that has agreed to become
 	 * the time source.
-	 * 
-	 * @author Michael Stokes
 	 */
 	public void notifyFinished() {
+        log.debug("Closing renderer playback!");
 		_rendering = false;
 	}
 
 	/**
 	 * Dispatch a given Instruction to all AbstractRenderers.
 	 * 
-	 * @param time
-	 *            the current rendering time
-	 * @param instruction
-	 *            the instruction to dispatch, or null
-	 * @author Michael Stokes
+	 * @param time the current rendering time
+	 * @param instruction the instruction to dispatch, or null
 	 */
 	protected void dispatchInstruction(int time, Instruction instruction) {
 		for (AbstractRenderer renderer : _renderers) {
@@ -246,8 +226,8 @@ public class Renderer {
 	}
 
     private void dispatchStopInstruction(Instruction stopInstruction) {
-            for (AbstractRenderer renderer : _renderers) {
-                renderer.stop(stopInstruction);
-            }
+        for (AbstractRenderer renderer : _renderers) {
+            renderer.stop(stopInstruction);
         }
+    }
 }
