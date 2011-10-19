@@ -2,6 +2,8 @@ package no.bouvet.kpro.renderer;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * The Instructions class is a collection of renderer Instructions. It supports
@@ -9,29 +11,19 @@ import java.util.Collections;
  * the instruction list, and exclusive locking for use by the renderer.
  * 
  * @author Michael Stokes
+ * @author Stig Lau
  */
 public class Instructions {
-	protected ArrayList<Instruction> _list = new ArrayList<Instruction>();
-	protected int _duration = 0;
-	protected boolean _locked = false;
+	List<Instruction> _list = new ArrayList<Instruction>();
+	int _duration = 0;
+	boolean _locked = false;
 
 	/**
-	 * Construct a new Instructions list
+	 * Lock the Instructions list, returning an List that can be accessed exclusively until unlock() is called.
 	 * 
-	 * @author Michael Stokes
+	 * @return a List<Instruction> of instructions, or null if already locked
 	 */
-	public Instructions() {
-	}
-
-	/**
-	 * Lock the Instructions list, returning an ArrayList that can be accessed
-	 * exclusively until unlock() is called.
-	 * 
-	 * @return an ArrayList<Instruction> of instructions, or null if already
-	 *         locked
-	 * @author Michael Stokes
-	 */
-	public synchronized ArrayList<Instruction> lock() {
+	public synchronized List<Instruction> lock() {
 		if (_locked) {
 			return null;
 		} else {
@@ -42,8 +34,6 @@ public class Instructions {
 
 	/**
 	 * Unlock the Instructions list, so that it can be modified again.
-	 * 
-	 * @author Michael Stokes
 	 */
 	public synchronized void unlock() {
 		_locked = false;
@@ -61,10 +51,6 @@ public class Instructions {
 
 	/**
 	 * Append a new Instruction to the Instructions list, if it is not locked.
-	 * 
-	 * @param instruction
-	 *            The instruction to append
-	 * @author Michael Stokes
 	 */
 	public synchronized void append(Instruction instruction) {
 		if (!_locked) {
@@ -79,14 +65,20 @@ public class Instructions {
 	 * Get the duration of the Instructions list.
 	 * 
 	 * @return the duration in samples
-	 * @author Michael Stokes
 	 */
 	public synchronized int getDuration() {
 		return _duration;
 	}
 
-    public void endAt(int end) {
-        append(new StopInstruction(end));
+    public List<Instruction> sortedByEnd() {
+    List<Instruction> instructionList = new ArrayList<Instruction>(_list);
+        Collections.sort(instructionList, new EndSorter());
+        return instructionList;
     }
 }
 
+class EndSorter implements Comparator {
+  public int compare(Object i1, Object i2) {
+    return ((Integer)((Instruction)i1).getEnd()).compareTo(((Instruction)i2).getEnd());
+  }
+}

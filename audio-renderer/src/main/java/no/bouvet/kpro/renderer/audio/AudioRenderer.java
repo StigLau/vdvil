@@ -2,11 +2,11 @@ package no.bouvet.kpro.renderer.audio;
 
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
+import java.util.List;
 
 import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Renderer;
-import no.bouvet.kpro.renderer.StopInstruction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,11 +15,12 @@ import org.slf4j.LoggerFactory;
  * implements an audio mixer that can handle AudioInstructions by mixing various
  * audio sources together and applying a set of effects necessary for smooth
  * audio transitions. These include volume adjustment and rate adjustment, with
- * linear interploation supported for both.
+ * linear interpolation supported for both.
  * 
  * The AudioRenderer will always agree to become the time source if asked.
  * 
  * @author Michael Stokes
+ * @author Stig Lau
  */
 public class AudioRenderer extends AbstractRenderer implements Runnable {
 	/**
@@ -36,16 +37,14 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 	protected int _time;
 	protected boolean _finished;
 
-	protected ArrayList<AudioInstruction> _active = new ArrayList<AudioInstruction>();
+	protected List<AudioInstruction> _active = new ArrayList<AudioInstruction>();
     Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * Construct a new AudioRenderer instance that will mix audio and send it to
 	 * the given AudioTarget.
 	 * 
-	 * @param target
-	 *            the AudioTarget to send audio to
-	 * @author Michael Stokes
+	 * @param target the AudioTarget to send audio to
 	 */
 	public AudioRenderer(AudioTarget target) {
 		_target = target;
@@ -56,7 +55,6 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 	 * agree.
 	 * 
 	 * @return true
-	 * @author Michael Stokes
 	 */
 	@Override
 	public boolean requestTimeSource() {
@@ -71,7 +69,6 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 	 * @param time
 	 *            The time in samples when rendering begins
 	 * @return true
-	 * @author Michael Stokes
 	 */
 	@Override
 	public boolean start(int time) {
@@ -92,8 +89,6 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 
 	/**
 	 * Stop this AudioRenderer.
-	 * 
-	 * @author Michael Stokes
 	 */
 	@Override
 	public void stop() {
@@ -143,139 +138,127 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 	 *            the current rendering time in samples
 	 * @param instruction
 	 *            the instruction that has occurred, or null
-	 * @author Michael Stokes
-     * @author Stig Lau // Todo make StopInstruction common to all renderers
 	 */
 	@Override
 	public void handleInstruction(int time, Instruction instruction) {
         log.debug("Got instruction {} to be played at {}", instruction, time);
-        if (instruction instanceof StopInstruction) {
-			_finished = true;
-		} else if (instruction instanceof AudioInstruction) {
-			synchronized (_active) {
-				_active.add((AudioInstruction) instruction);
-			}
+        if (instruction instanceof AudioInstruction) {
+            _active.add((AudioInstruction) instruction);
 		}
 	}
 
-	/**
+    @Override
+    public boolean isRendering() {
+        return !_finished;
+    }
+
+    @Override
+    public void stop(Instruction instruction) {
+        //AudioRenderer handles stopping playback itself
+        _finished = true;
+    }
+
+    /**
 	 * This is the implementation of Runnable.run, and is the main thread
 	 * procedure.
 	 * 
 	 * The AudioRenderer's thread mixes audio and sends it to the AudioTarget.
 	 * It may also provide time source information to the master Renderer.
-	 * 
-	 * @author Michael Stokes
 	 */
 	public void run() {
 		byte[] output = new byte[MIX_FRAME * 4];
+        while (!_finished || !(_active.isEmpty())) {
+            if (_timeSource) {
+                _renderer.notifyTime(_time + MIX_FRAME);
+            }
 
-		while (_thread != null) {
-			if (_timeSource) {
-				_renderer.notifyTime(_time + MIX_FRAME);
-			}
+            for (int fill = 0; fill < _mix.length;) {
+                _mix[fill++] = 0;
+            }
 
-			for (int fill = 0; fill < _mix.length;) {
-				_mix[fill++] = 0;
-			}
+            _active = pruneByTime(_active);
+            int available = -1;
+            for (AudioInstruction instruction : _active) {
+                if (instruction.getStart() > _time)
+                    available = instruction.getStart() - _time;
+                else
+                    available = singlePass(instruction, MIX_FRAME);
+            }
+            if (available > 0) {
+                for (int convert = 0; convert < output.length;) {
+                    int v = _mix[convert >>> 1];
+                    if (v > 32766)
+                        v = 32766;
+                    else if (v < -32766)
+                        v = -32766;
+                    output[convert++] = (byte) (v & 0xFF);
+                    output[convert++] = (byte) (v >>> 8);
+                }
 
-			int available = MIX_FRAME;
+                int wrote = _target.write(output, 0, available);
+                _time += wrote;
+            }
+        }
+        log.debug("End of composition, draining target..." );
+        _target.drain();
 
-			synchronized (_active) {
-				for (int active = 0; active < _active.size(); active++) {
-					AudioInstruction instruction = _active.get(active);
-
-					if (instruction.getEnd() <= _time) {
-						_active.remove(active--);
-						continue;
-					} else if (instruction.getStart() > _time) {
-						available = instruction.getStart() - _time;
-						continue;
-					} else if (instruction.getSourceDuration() <= 0) {
-						_active.remove(active--);
-						continue;
-					}
-
-					int duration = instruction.getEnd() - _time;
-
-					if (instruction.getCacheExternal() != _time) {
-						long external = instruction.getStart();
-						long internal = 0;
-						long frame = 0;
-
-						while (external < _time) {
-							long rate = instruction
-									.getInterpolatedRate((int) internal);
-							frame = MIX_FRAME * rate / Renderer.RATE;
-							internal += frame;
-							external += MIX_FRAME;
-						}
-
-						if (external > _time) {
-							internal -= frame;
-							external -= MIX_FRAME;
-
-							int error = _time - (int) external;
-							if (error < duration)
-								duration = error;
-
-							internal += error * frame / MIX_FRAME;
-						} else {
-							instruction.setCacheExternal(_time);
-						}
-
-						instruction.setCacheInternal((int) internal);
-					}
-
-					if (duration > available)
-						duration = available;
-					else
-						available = duration;
-
-					int internal = instruction.getCacheInternal();
-					int rate = instruction.getInterpolatedRate(internal);
-					int volume = instruction.getInterpolatedVolume(internal);
-					int sduration = duration * rate / Renderer.RATE;
-
-					instruction.advanceCache(duration, sduration);
-
-					ShortBuffer source = instruction.getSource().getBuffer(
-							instruction.getCue() + internal, sduration + 22050);
-
-					if (source != null) {
-						mix(source, duration, rate, volume);
-					}
-				}
-			}
-
-			if (_active.isEmpty() && _finished)
-				break;
-
-			if (available > 0) {
-				for (int convert = 0; convert < output.length;) {
-					int v = _mix[convert >>> 1];
-					if (v > 32766)
-						v = 32766;
-					else if (v < -32766)
-						v = -32766;
-					output[convert++] = (byte) (v & 0xFF);
-					output[convert++] = (byte) (v >>> 8);
-				}
-
-				int wrote = _target.write(output, 0, available);
-				_time += wrote;
-			}
-		}
-
-		if (_thread != null) {
-			log.debug("End of composition, draining target..." );
-			_target.drain();
-
-			if (_timeSource) {
-				_renderer.notifyFinished();
-			}
-		}
+        if (_timeSource) {
+            _renderer.notifyFinished();
+        }
 	}
+
+    int singlePass(final AudioInstruction instruction, int available) {
+        int duration = instruction.getEnd() - _time;
+
+        if (instruction.getCacheExternal() != _time) {
+            long external = instruction.getStart();
+            long internal = 0;
+            long frame = 0;
+
+            while (external < _time) {
+                long rate = instruction
+                        .getInterpolatedRate((int) internal);
+                frame = MIX_FRAME * rate / Renderer.RATE;
+                internal += frame;
+                external += MIX_FRAME;
+            }
+
+            if (external > _time) {
+                internal -= frame;
+                external -= MIX_FRAME;
+
+                int error = _time - (int) external;
+                if (error < duration)
+                    duration = error;
+
+                internal += error * frame / MIX_FRAME;
+            } else {
+                instruction.setCacheExternal(_time);
+            }
+
+            instruction.setCacheInternal((int) internal);
+        }
+
+        if (duration > available)
+            duration = available;
+        else
+            available = duration;
+
+        int internal = instruction.getCacheInternal();
+        int rate = instruction.getInterpolatedRate(internal);
+        int volume = instruction.getInterpolatedVolume(internal);
+        int sduration = duration * rate / Renderer.RATE;
+
+        instruction.advanceCache(duration, sduration);
+
+        ShortBuffer source = instruction.getSource().getBuffer(
+                instruction.getCue() + internal, sduration + 22050);
+
+        if (source != null) {
+            mix(source, duration, rate, volume);
+        }
+        return available;
+    }
 
 	/**
 	 * Mix a range of audio samples into the mix buffer.
@@ -288,7 +271,6 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 	 *            the rate to mix the source samples, relative to Renderer.RATE
 	 * @param volume
 	 *            the volume to mix the source samples, relative to 127
-	 * @author Michael Stokes
 	 */
 	protected void mix(ShortBuffer source, int duration, int rate, int volume) {
 		int base = source.position();
@@ -300,4 +282,13 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 			_mix[output++] += (source.get(input + 1) * volume) >> 7;
 		}
 	}
+
+    List<AudioInstruction> pruneByTime(List<AudioInstruction> active) {
+        List<AudioInstruction> prunedList = new ArrayList<AudioInstruction>();
+        for (AudioInstruction instruction : active) {
+            if(instruction.getEnd() > _time && instruction.getSourceDuration() > 0)
+                prunedList.add(instruction);
+        }
+        return prunedList;
+    }
 }

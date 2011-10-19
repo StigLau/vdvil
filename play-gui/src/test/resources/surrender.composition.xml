@@ -20,23 +20,5 @@
             <start>16</start>
             <end>80</end>
         </part>
-        <part>
-            <id>DiskTeddy1</id>
-            <dvl>
-                <url>http://www.shinyshiny.tv/teddy%20bear%201.jpg</url>
-                <name>Disk Teddy</name>
-            </dvl>
-            <start>0</start>
-            <end>-1</end>
-        </part>
-        <part>
-            <id>DeadTeddy</id>
-            <dvl>
-                <url>http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg</url>
-                <name>Dead Teddy</name>
-            </dvl>
-            <start>16</start>
-            <end>-1</end>
-        </part>
     </parts>
 </composition>

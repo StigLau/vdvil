@@ -7,6 +7,7 @@ import no.lau.vdvil.handler.persistence.DvlXML;
 import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
 import no.lau.vdvil.timing.MasterBeatPattern;
+import no.lau.vdvil.timing.TimeInterval;
 import no.vdvil.renderer.audio.AudioDescription;
 import no.vdvil.renderer.audio.Segment;
 import no.vdvil.renderer.audio.Track;
@@ -35,19 +36,18 @@ public abstract class SuperPlayingSetup {
         }
     }
 
-    protected static MultimediaPart createAudioPart(String id, int start, int end, URL url, DownloadAndParseFacade cache) throws IOException {
-        return cache.parse(new PartXML(id, start, end, new DvlXML("URL Name", url)));
+    protected static MultimediaPart createAudioPart(String id, TimeInterval timeInterval, URL url, DownloadAndParseFacade cache) throws IOException {
+        return cache.parse(new PartXML(id, timeInterval, new DvlXML("URL Name", url)));
     }
-    protected static MultimediaPart createLyricPart(String text, int start, int end) throws MalformedURLException {
-        return new LyricDescription(text, new PartXML(text, start, end, new DvlXML("name", new URL("http://url.com"))));
-    }
-
-    protected static MultimediaPart createImagePart(String id, int start, int end, URL url) throws MalformedURLException {
-        return new ImageDescription(new PartXML(id, start, end, new DvlXML(id, null)), url);
+    protected static MultimediaPart createLyricPart(String text, TimeInterval timeInterval) throws MalformedURLException {
+        return new LyricDescription(text, new PartXML(text, timeInterval, new DvlXML("name", new URL("http://url.com"))));
     }
 
-    protected static MultimediaPart createPart(int start, int end, Segment segment, Track track) {
-        DvlXML dvl = new DvlXML("", track.mediaFile.fileName);
-        return new AudioDescription(segment, new PartXML(segment.id, start, end, dvl), track);
+    protected static MultimediaPart createImagePart(String id, TimeInterval timeInterval, URL url) throws MalformedURLException {
+        return new ImageDescription(new PartXML(id, timeInterval, new DvlXML(id, null)), url);
+    }
+
+    protected static MultimediaPart createPart(TimeInterval timeInterval, Segment segment, Track track) {
+        return new AudioDescription(segment, new PartXML(segment.id, timeInterval, new DvlXML("", track.mediaFile.fileName)), track);
     }
 }
