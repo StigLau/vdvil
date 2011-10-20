@@ -55,8 +55,8 @@ public class Instructions {
 	public synchronized void append(Instruction instruction) {
 		if (!_locked) {
 			_list.add(instruction);
-			if (instruction.getEnd() > _duration)
-				_duration = instruction.getEnd();
+			if (instruction._end > _duration)
+				_duration = instruction._end;
             Collections.sort(_list);
 		}
 	}
@@ -79,6 +79,6 @@ public class Instructions {
 
 class EndSorter implements Comparator {
   public int compare(Object i1, Object i2) {
-    return ((Integer)((Instruction)i1).getEnd()).compareTo(((Instruction)i2).getEnd());
+    return ((Integer)((Instruction)i1)._end).compareTo(((Instruction)i2)._end);
   }
 }

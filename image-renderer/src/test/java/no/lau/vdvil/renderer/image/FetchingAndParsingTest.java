@@ -27,7 +27,7 @@ public class FetchingAndParsingTest {
         URL imageDescriptionURL = getClass().getResource("/ImageDescription.html");
         ImageDescription imageDescription = new ImageDescriptionXMLParser(testCache).parse(PartXML.create(imageDescriptionURL));
 
-        ImageInstruction imageInstruction = new ImageInstruction(start, end, bpm, imageDescription.src, imageDescription.src.openStream());
+        ImageInstruction imageInstruction = ImageInstruction.create(start, end, bpm, imageDescription.src, imageDescription.src.openStream());
         //Cache
         assertNotNull(testCache.fetchAsStream(imageDescription.src));
     }

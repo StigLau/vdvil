@@ -6,50 +6,31 @@ package no.bouvet.kpro.renderer;
  * particular AbstractRenderer implementation.
  * 
  * @author Michael Stokes
+ * @author Stig Lau
  */
-public abstract class Instruction implements Comparable {
-	protected int _start = 0;
-	protected int _end = 0;
+public class Instruction implements Comparable {
+	public final int _start;
+	public final int _end;
 
-	/**
-	 * Construct a new Instruction.
-	 * 
-	 * @author Michael Stokes
-	 */
-	public Instruction() {
-	}
-
-	/**
-	 * Get the start time of this Instruction.
-	 * 
-	 * @return the start time in samples
-	 * @author Michael Stokes
-	 */
-	public int getStart() {
-		return _start;
-	}
-
-	/**
-	 * Get the end time of this Instruction. The end time may be equal to the
-	 * start time if this instruction does not have a duration
-	 * 
-	 * @return the end time in samples
-	 * @author Michael Stokes
-	 */
-	public int getEnd() {
-		return _end;
+	public Instruction(int start, int end) {
+        this._start = start;
+        this._end = end;
 	}
 
     public int compareTo(Object o) {
         if (o instanceof Instruction) {
             Instruction other = (Instruction) o;
-            if (other.getStart() < this.getStart())
+            if (other._start < this._start)
                 return 1;
-            else if(other._start == this.getStart() && other.getEnd() < this.getEnd())
-                return 1;
-            else if (other.getStart() > this.getStart())
+            else if (other._start > this._start)
                 return -1;
-        }
+            else {
+                if(other._end < this._end)
+                    return 1;
+                else if(other._end > this._end)
+                    return -1;
+                }
+            }
         return 0;
     }
 }

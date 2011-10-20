@@ -179,8 +179,8 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
             _active = pruneByTime(_active);
             int available = -1;
             for (AudioInstruction instruction : _active) {
-                if (instruction.getStart() > _time)
-                    available = instruction.getStart() - _time;
+                if (instruction._start > _time)
+                    available = instruction._start - _time;
                 else
                     available = singlePass(instruction, MIX_FRAME);
             }
@@ -208,10 +208,10 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 	}
 
     int singlePass(final AudioInstruction instruction, int available) {
-        int duration = instruction.getEnd() - _time;
+        int duration = instruction._end - _time;
 
         if (instruction.getCacheExternal() != _time) {
-            long external = instruction.getStart();
+            long external = instruction._start;
             long internal = 0;
             long frame = 0;
 
@@ -286,7 +286,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
     List<AudioInstruction> pruneByTime(List<AudioInstruction> active) {
         List<AudioInstruction> prunedList = new ArrayList<AudioInstruction>();
         for (AudioInstruction instruction : active) {
-            if(instruction.getEnd() > _time && instruction.getSourceDuration() > 0)
+            if(instruction._end > _time && instruction.getSourceDuration() > 0)
                 prunedList.add(instruction);
         }
         return prunedList;

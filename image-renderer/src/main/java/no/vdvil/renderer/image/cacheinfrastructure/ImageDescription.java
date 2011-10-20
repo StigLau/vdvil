@@ -20,7 +20,7 @@ public class ImageDescription implements MultimediaPart{
     }
 
     public ImageInstruction asInstruction(Float masterBpm) {
-        return new ImageInstruction(compositionInstruction.start(), compositionInstruction.end(), masterBpm, src, cachedImage);
+        return ImageInstruction.create(compositionInstruction.start(), compositionInstruction.end(), masterBpm, src, cachedImage);
     }
 
     public CompositionInstruction compositionInstruction() {

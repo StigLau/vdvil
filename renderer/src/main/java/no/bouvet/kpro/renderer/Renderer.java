@@ -95,7 +95,7 @@ public class Renderer {
 
 		for (_instructionPtr = 0; _instructionPtr < _instructionList.size(); _instructionPtr++) {
 			Instruction instruction = _instructionList.get(_instructionPtr);
-			if (instruction.getEnd() > time)
+			if (instruction._end > time)
 				break;
 		}
 
@@ -183,7 +183,7 @@ public class Renderer {
 			if(_instructionPtr < _instructionList.size()) {
 				Instruction instruction = _instructionList.get(_instructionPtr);
 
-				if (instruction.getStart() <= time) {
+				if (instruction._start <= time) {
 					dispatchInstruction(time, instruction);
                     _instructionPtr++;
 				}
@@ -191,7 +191,7 @@ public class Renderer {
             List<Instruction> stopInstructionSortedByEnd = _instructions.sortedByEnd();
             if(stopInstructionPtr < stopInstructionSortedByEnd.size()) {
 				Instruction stopInstruction = stopInstructionSortedByEnd.get(stopInstructionPtr);
-				if (stopInstruction.getEnd() <= time) {
+				if (stopInstruction._end <= time) {
                     dispatchStopInstruction(stopInstruction);
                     stopInstructionPtr++;
 				}

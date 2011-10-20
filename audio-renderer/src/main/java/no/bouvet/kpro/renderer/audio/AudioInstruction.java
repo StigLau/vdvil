@@ -41,12 +41,9 @@ public class AudioInstruction extends Instruction {
 	 *            the cue point (start point) within source in samples
 	 * @param duration
 	 *            the duration within source in samples
-	 * @author Michael Stokes
 	 */
-	public AudioInstruction(int start, int end, AudioSource source, int cue,
-			int duration) {
-		_start = start;
-		_end = end;
+	public AudioInstruction(int start, int end, AudioSource source, int cue, int duration) {
+        super(start, end);
 
 		_source = source;
 		_cue = cue;
@@ -58,14 +55,10 @@ public class AudioInstruction extends Instruction {
 		_volumed = 0;
 	}
 
-    public AudioInstruction() {
-    }
-
     /**
 	 * Get the AudioSource.
 	 * 
 	 * @return the AudioSource
-	 * @author Michael Stokes
 	 */
 	public AudioSource getSource() {
 		return _source;
@@ -73,9 +66,8 @@ public class AudioInstruction extends Instruction {
 
 	/**
 	 * Get the cuepoint within source in samples.
-	 * 
+	 *
 	 * @return the cuepoint within source in samples
-	 * @author Michael Stokes
 	 */
 	public int getCue() {
 		return _cue;
@@ -85,7 +77,6 @@ public class AudioInstruction extends Instruction {
 	 * Get the duration within source in samples.
 	 * 
 	 * @return the duration within source in samples
-	 * @author Michael Stokes
 	 */
 	public int getSourceDuration() {
 		return _duration;
@@ -96,7 +87,6 @@ public class AudioInstruction extends Instruction {
 	 * 
 	 * @param rate
 	 *            the constant rate
-	 * @author Michael Stokes
 	 */
 	public void setConstantRate(float rate) {
 		_rate1 = (int) (rate * Renderer.RATE);
@@ -111,7 +101,6 @@ public class AudioInstruction extends Instruction {
 	 *            the rate at the start of the section
 	 * @param rate2
 	 *            the rate at the end of the section
-	 * @author Michael Stokes
 	 */
 	public void setInterpolatedRate(float rate1, float rate2) {
 		_rate1 = (int) (rate1 * Renderer.RATE);
@@ -125,7 +114,6 @@ public class AudioInstruction extends Instruction {
 	 *            the time in samples within the section, where 0 is the start
 	 *            of the section
 	 * @return the rate in integer form relative to Renderer.RATE
-	 * @author Michael Stokes
 	 */
 	public int getInterpolatedRate(int time) {
 		return _rate1 + (int) (_rated * time / _duration);
@@ -136,7 +124,6 @@ public class AudioInstruction extends Instruction {
 	 * 
 	 * @param volume
 	 *            the constant volume
-	 * @author Michael Stokes
 	 */
 	public void setConstantVolume(float volume) {
 		_volume1 = (int) (volume * 127);
@@ -151,7 +138,6 @@ public class AudioInstruction extends Instruction {
 	 *            the volume at the start of the section
 	 * @param volume2
 	 *            the volume at the end of the section
-	 * @author Michael Stokes
 	 */
 	public void setInterpolatedVolume(float volume1, float volume2) {
 		_volume1 = (int) (volume1 * 127);
@@ -165,7 +151,6 @@ public class AudioInstruction extends Instruction {
 	 *            the time in samples within the section, where 0 is the start
 	 *            of the section
 	 * @return the volume in integer form where 127 is natural volume
-	 * @author Michael Stokes
 	 */
 	public int getInterpolatedVolume(int time) {
 		return _volume1 + (int) (_volumed * time / _duration);

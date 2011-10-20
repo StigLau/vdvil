@@ -17,7 +17,7 @@ import java.util.List;
 public class AudioAndLyricsTest extends SuperPlayingSetup {
     @Test
     public void play() {
-        super.play(new MasterBeatPattern(0, 20, 135F));
+        super.play(new MasterBeatPattern(0, 20, 150F));
     }
 
     URL returningDvl = TestMp3s.returningDvl;
