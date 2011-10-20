@@ -23,9 +23,9 @@ public class ImageInstruction extends Instruction {
         float speedFactor = Renderer.RATE * 60 / bpm;
         //An uncertain problem that appends ~44100 millseconds to everything. Weired!
         //TODO FIX TIMING ISSUES HERE!!!!!!!!!!!!!!!
-        int _start = new Float(start * speedFactor + (bpm * 44100 / 120)).intValue();
-        log.info("bpm * 44100 / 120 = " + bpm * 44100 / 120);
-        int _end = new Float(end * speedFactor + 55125).intValue();
+        int _start = new Float(start * speedFactor).intValue();
+        log.info("bpm * 44100 / 120 = " + bpm);
+        int _end = new Float(end * speedFactor).intValue();
         return new ImageInstruction(_start, _end, imageUrl, cached);
     }
 }
