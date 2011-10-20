@@ -25,6 +25,12 @@ public class MasterBeatPattern {
         this.masterBpm = masterBpm;
     }
 
+    public MasterBeatPattern(TimeInterval timeInterval, Float masterBpm) {
+        this.fromBeat = timeInterval.start();
+        this.toBeat = timeInterval.start() + timeInterval.duration();
+        this.masterBpm = masterBpm;
+    }
+
     /**
      * For calulating what the BPM is at a specific
      * @param beat teh beat

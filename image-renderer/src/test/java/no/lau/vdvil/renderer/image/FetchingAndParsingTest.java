@@ -3,6 +3,8 @@ package no.lau.vdvil.renderer.image;
 import no.lau.vdvil.cache.SimpleCacheImpl;
 import no.lau.vdvil.cache.SimpleVdvilCache;
 import no.lau.vdvil.handler.persistence.PartXML;
+import no.lau.vdvil.timing.Interval;
+import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.image.ImageInstruction;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
@@ -21,13 +23,13 @@ public class FetchingAndParsingTest {
     @Test
     public void fetchingAndParsing() throws Exception {
         int start = 0;
-        int end = 16;
+        int duration = 16;
         float bpm = 130F;
 
         URL imageDescriptionURL = getClass().getResource("/ImageDescription.html");
         ImageDescription imageDescription = new ImageDescriptionXMLParser(testCache).parse(PartXML.create(imageDescriptionURL));
 
-        ImageInstruction imageInstruction = ImageInstruction.create(start, end, bpm, imageDescription.src, imageDescription.src.openStream());
+        ImageInstruction imageInstruction = ImageInstruction.create(new MasterBeatPattern(new Interval(start, duration), bpm), imageDescription.src, imageDescription.src.openStream());
         //Cache
         assertNotNull(testCache.fetchAsStream(imageDescription.src));
     }

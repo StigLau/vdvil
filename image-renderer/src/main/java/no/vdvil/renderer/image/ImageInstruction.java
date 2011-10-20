@@ -2,6 +2,7 @@ package no.vdvil.renderer.image;
 
 import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Renderer;
+import no.lau.vdvil.timing.MasterBeatPattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.InputStream;
@@ -19,13 +20,12 @@ public class ImageInstruction extends Instruction {
         this.cachedStream = cached;
     }
 
-    public static ImageInstruction create(int start, int end, float bpm, URL imageUrl, InputStream cached) {
-        float speedFactor = Renderer.RATE * 60 / bpm;
+    public static ImageInstruction create(MasterBeatPattern mbp, URL imageUrl, InputStream cached) {
+        float speedFactor = Renderer.RATE * 60 / mbp.bpmAt(mbp.fromBeat);
         //An uncertain problem that appends ~44100 millseconds to everything. Weired!
         //TODO FIX TIMING ISSUES HERE!!!!!!!!!!!!!!!
-        int _start = new Float(start * speedFactor).intValue();
-        log.info("bpm * 44100 / 120 = " + bpm);
-        int _end = new Float(end * speedFactor).intValue();
+        int _start = new Float(mbp.fromBeat * speedFactor).intValue();
+        int _end = new Float(mbp.toBeat * speedFactor).intValue();
         return new ImageInstruction(_start, _end, imageUrl, cached);
     }
 }
