@@ -15,7 +15,7 @@ public class ReturningMixTest extends SuperPlayingSetup {
     Track returning = TestMp3s.returning;
     @Test
     public void play() {
-        super.play(new MasterBeatPattern(0, 16, 130F));
+        super.play(new MasterBeatPattern(8, 20, 130F));
     }
     @Override
     protected Composition compose(MasterBeatPattern masterBeatPattern) throws IOException {

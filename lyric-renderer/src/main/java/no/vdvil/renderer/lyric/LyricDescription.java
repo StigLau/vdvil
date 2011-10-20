@@ -18,7 +18,7 @@ public class LyricDescription implements MultimediaPart {
     }
 
     public Instruction asInstruction(Float masterBpm) {
-        return new LyricInstruction(compositionInstruction.start(), compositionInstruction().end(), masterBpm, text);
+        return LyricInstruction.create(compositionInstruction.start(), compositionInstruction().end(), masterBpm, text);
     }
 
     public CompositionInstruction compositionInstruction() {

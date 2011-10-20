@@ -17,7 +17,7 @@ public class SurrenderPlayingTest extends SuperPlayingSetup {
     @Test
     public void play() throws IOException {
         surrenderDvl = ClassLoader.getSystemResource("Way_Out_West-Surrender-Eelke_Kleijn_Remix.dvl.xml");
-        super.play(new MasterBeatPattern(0, 16, 150F));
+        super.play(new MasterBeatPattern(12, 20, 150F));
     }
 
     @Override
