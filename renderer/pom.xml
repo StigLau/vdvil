@@ -7,8 +7,8 @@
 
   <parent>
     <groupId>no.lau.vdvil</groupId>
-    <artifactId>root</artifactId>
-    <version>0.10-SNAPSHOT</version>
+    <artifactId>vdvil</artifactId>
+    <version>0.11-SNAPSHOT</version>
   </parent>
 
 </project>

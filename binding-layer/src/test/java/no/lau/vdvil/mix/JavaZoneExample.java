@@ -17,7 +17,7 @@ public class JavaZoneExample extends SuperPlayingSetup {
 
     public static void main(String[] args) throws Exception {
         //TODO Some Weired problem where Player doesn't stop. Try JavaZoneExample with 64 to 64*2
-        new JavaZoneExample().play(new MasterBeatPattern(0, 32, 150F));
+        new JavaZoneExample().play(new MasterBeatPattern(0, 32+64*3+ 28, 150F));
     }
 
     @Override

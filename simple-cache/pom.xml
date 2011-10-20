@@ -5,8 +5,8 @@
 
     <parent>
         <groupId>no.lau.vdvil</groupId>
-        <artifactId>root</artifactId>
-        <version>0.10-SNAPSHOT</version>
+        <artifactId>vdvil</artifactId>
+        <version>0.11-SNAPSHOT</version>
     </parent>
     
     <name>Vdvil Cache: Simple file cache for downloading files from teh web</name>
@@ -15,7 +15,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>r05</version>
+            <version>10.0.1</version>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>

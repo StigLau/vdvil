@@ -22,10 +22,10 @@ public class ImageRenderingTest {
     @Test
     public void testRenderingImage() throws InterruptedException, IOException {
         ImageRenderer renderer = new ImageRenderer(800, 600, cache);
-        renderer.handleInstruction(0, new ImageInstruction(-0, -0, -0F, pinkTeddy, pinkTeddy.openStream()));
+        renderer.handleInstruction(0, ImageInstruction.create(-0, -0, -0F, pinkTeddy, pinkTeddy.openStream()));
         renderer.start(0);
         Thread.sleep(400);
-        renderer.handleInstruction(0, new ImageInstruction(-0, -0, -0F, dj_teddy, dj_teddy.openStream()));
+        renderer.handleInstruction(0, ImageInstruction.create(-0, -0, -0F, dj_teddy, dj_teddy.openStream()));
         Thread.sleep(1000);
         renderer.stop();
     }

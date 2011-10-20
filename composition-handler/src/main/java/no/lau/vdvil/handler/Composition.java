@@ -26,8 +26,6 @@ public class Composition implements MultimediaPart {
         for (MultimediaPart multimediaPart : multimediaParts) {
             instructions.append(multimediaPart.asInstruction(masterBpm));
         }
-        //To tell the renderer to stop after the last instruction
-        instructions.endAt(masterBeatPattern.durationCalculation().intValue());
         return instructions;
     }
 

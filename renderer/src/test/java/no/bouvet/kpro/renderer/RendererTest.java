@@ -26,13 +26,6 @@ public class RendererTest {
         }
     }
 
-	private class TestInstruction extends Instruction {
-		public TestInstruction() {
-			_start = Renderer.RATE * 2;
-			_end = Renderer.RATE * 3;
-		}
-	}
-
 	@Test
 	public void testStart() throws Exception {
 		Renderer renderer = null;
@@ -41,7 +34,7 @@ public class RendererTest {
 			// Create the renderer instruction list
 
 			Instructions instructions = new Instructions();
-			TestInstruction instruction = new TestInstruction();
+			Instruction instruction = new Instruction(Renderer.RATE *2, renderer.RATE*3);
 			instructions.append(instruction);
 
 			// Create the Renderer with a TestRenderer instance
@@ -76,7 +69,7 @@ public class RendererTest {
 
 			// Assert that the delivery occurred within 0.2 seconds of the mark
 
-			assertTrue(Math.abs(_delivered - instruction.getStart()) < Renderer.RATE / 5);
+			assertTrue(Math.abs(_delivered - instruction._start) < Renderer.RATE / 5);
 		} finally {
 			if (renderer != null)
 				renderer.stop();
