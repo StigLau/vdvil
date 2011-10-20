@@ -8,7 +8,7 @@
     <parent>
         <groupId>no.lau.vdvil</groupId>
         <artifactId>vdvil</artifactId>
-        <version>0.10.1</version>
+        <version>0.11</version>
     </parent>
 
     <dependencies>
@@ -20,12 +20,12 @@
         <dependency>
             <groupId>no.lau.vdvil</groupId>
             <artifactId>httpcache</artifactId>
-            <version>0.10.1</version>
+            <version>0.11</version>
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
             <artifactId>renderer</artifactId>
-            <version>0.10.1</version>
+            <version>0.1</version>
         </dependency>
     </dependencies>
 </project>
