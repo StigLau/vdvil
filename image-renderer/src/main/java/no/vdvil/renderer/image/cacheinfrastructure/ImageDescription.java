@@ -3,6 +3,7 @@ package no.vdvil.renderer.image.cacheinfrastructure;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
+import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.image.ImageInstruction;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +21,7 @@ public class ImageDescription implements MultimediaPart{
     }
 
     public ImageInstruction asInstruction(Float masterBpm) {
-        return ImageInstruction.create(compositionInstruction.start(), compositionInstruction.end(), masterBpm, src, cachedImage);
+        return ImageInstruction.create(new MasterBeatPattern(compositionInstruction.timeInterval(), masterBpm), src, cachedImage);
     }
 
     public CompositionInstruction compositionInstruction() {

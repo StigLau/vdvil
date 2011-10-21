@@ -3,6 +3,8 @@ package no.lau.vdvil.renderer.image;
 import no.lau.vdvil.cache.SimpleCacheImpl;
 import no.lau.vdvil.cache.SimpleVdvilCache;
 import no.lau.vdvil.handler.persistence.PartXML;
+import no.lau.vdvil.timing.Interval;
+import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.image.ImageInstruction;
 import no.vdvil.renderer.image.ImageRenderer;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
@@ -22,10 +24,10 @@ public class ImageRenderingTest {
     @Test
     public void testRenderingImage() throws InterruptedException, IOException {
         ImageRenderer renderer = new ImageRenderer(800, 600, cache);
-        renderer.handleInstruction(0, ImageInstruction.create(-0, -0, -0F, pinkTeddy, pinkTeddy.openStream()));
+        renderer.handleInstruction(0, ImageInstruction.create(new MasterBeatPattern(new Interval(-0, -0), -0F), pinkTeddy, pinkTeddy.openStream()));
         renderer.start(0);
         Thread.sleep(400);
-        renderer.handleInstruction(0, ImageInstruction.create(-0, -0, -0F, dj_teddy, dj_teddy.openStream()));
+        renderer.handleInstruction(0, ImageInstruction.create(new MasterBeatPattern(new Interval(-0, -0), -0F), dj_teddy, dj_teddy.openStream()));
         Thread.sleep(1000);
         renderer.stop();
     }
