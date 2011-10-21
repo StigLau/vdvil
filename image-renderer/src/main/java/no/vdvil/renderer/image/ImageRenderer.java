@@ -39,22 +39,28 @@ public class ImageRenderer extends AbstractRenderer {
 
     public void handleInstruction(int time, Instruction instruction) {
         log.debug("Got instruction {} to be played at {}", instruction, time);
-        if (instruction instanceof ImageInstruction) {
-            final ImageInstruction imageInstruction = (ImageInstruction) instruction;
-            for (final ImageListener imageListener : listener) {
-                try {
-                    final InputStream imageStream = cache.fetchAsStream(imageInstruction.imageUrl);
-                javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        imageListener.show(imageStream);
-                    }
-                });
-                    if(!frame.isVisible())
-                        frame.setVisible(true);
-                    
-                } catch (IOException e) {
-                    log.error("Error loading image {}", imageInstruction.imageUrl, e);
+        if (instruction != null) {
+            if (instruction instanceof ImageInstruction) {
+                ImageInstruction imageInstruction = (ImageInstruction) instruction;
+                runningImageInstructionList.add(imageInstruction);
+                render(imageInstruction);
+            }
+        }
+    }
+
+    private void render(ImageInstruction imageInstruction) {
+        for (final ImageListener imageListener : listener) {
+            try {
+                final InputStream imageStream = cache.fetchAsStream(imageInstruction.imageUrl);
+            javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    imageListener.show(imageStream);
                 }
+            });
+                if(!frame.isVisible())
+                    frame.setVisible(true);
+            } catch (IOException e) {
+                log.error("Error loading image {}", imageInstruction.imageUrl, e);
             }
         }
     }
