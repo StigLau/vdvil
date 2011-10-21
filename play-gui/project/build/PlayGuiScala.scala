@@ -10,7 +10,7 @@ class PlayGuiProject(info: ProjectInfo) extends DefaultProject(info)
 
   //val scalatest = "org.scalatest" % "scalatest" % "1.2"
   val scala_swing = "org.scala-lang" % "scala-swing" % "2.9.1"
-  val binding_layer = "no.lau.vdvil" % "binding-layer" % "0.10-SNAPSHOT"
+  val binding_layer = "no.lau.vdvil" % "binding-layer" % "0.11-SNAPSHOT"
   //For running JUnit tests
    val junitInterface = "com.novocode" % "junit-interface" % "0.7" % "test->default"
 
