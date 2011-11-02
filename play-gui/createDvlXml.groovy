@@ -1,5 +1,5 @@
 def id = 0
-def factor = 2
+def factor = 4
 def toFile = new File("output.txt")
 new File("play-gui/testfile.txt").eachLine {
         toFile << """<part>

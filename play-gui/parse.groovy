@@ -3,7 +3,7 @@ import org.cyberneko.html.parsers.SAXParser
 def base ="http://www.flickr.com"
 def photosClickflashwhirr = "/photos/clickflashwhirr"
 def setId = "72157626172514856"
-def size = "l"
+def size = "m"
 def clickFlashWhirr = "$base$photosClickflashwhirr/sets/$setId/?page=3"
 def parser = new XmlParser(new SAXParser())
 
