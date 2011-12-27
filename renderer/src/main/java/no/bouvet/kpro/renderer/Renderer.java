@@ -5,8 +5,6 @@ import no.lau.vdvil.timing.MasterBeatPattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -37,8 +35,8 @@ public class Renderer {
     protected Set<? extends AbstractRenderer> _renderers;
 	protected AbstractRenderer _timeSource;
 
-	protected Instructions _instructions;
-	protected List<Instruction> _instructionList;
+	List<Instruction> _instructionList;
+    List<Instruction> stopInstructionSortedByEnd;
 	protected int _instructionPtr;
     protected int stopInstructionPtr;
 	protected boolean _rendering = false;
@@ -51,9 +49,6 @@ public class Renderer {
 	 */
     @Deprecated
 	public Renderer(Instructions instructions, AbstractRenderer singleRenderer) {
-		_instructions = instructions;
-        _timeSource = singleRenderer;
-        this._renderers = Collections.singleton(singleRenderer);
 	}
 
     public Renderer(CompositionI composition, Set<? extends AbstractRenderer> renderers) {
@@ -86,74 +81,29 @@ public class Renderer {
      * @return true if rendering started
 	 */
 	public synchronized boolean start(MasterBeatPattern playBackPattern) {
-		stop();
+        stop();
+        // Que up all non-timesource renderers and start timesource as the last
+        //If failed starting. stop renderers, empty instructionlist and unlock instructions
 
-        //TODO Get rid of CalculateTime and the following code block
-        int time;
-        if(composition != null){
-            time = calculateTime(playBackPattern);
-            try { //This code should be moved to initializer!
-                this._instructions = composition.instructions(playBackPattern);
-            } catch (IOException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        int time = calculateTime(playBackPattern);
+
+        try {
+            Instructions instructions = composition.instructions(playBackPattern);
+            this._instructionList = instructions._list;
+            this.stopInstructionSortedByEnd = instructions.sortedByEnd();
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        //TODO Note that if this takes some time, setting up instructions should have been done PRIOR to start. Perhaps in construction!
+        for (AbstractRenderer renderer : _renderers) {
+            for (Instruction instruction : _instructionList) {
+                renderer.handleInstruction(time, instruction);
             }
-        } else {
-            time = 0;
-
+            renderer.start(time);
         }
 
-		_instructionList = _instructions.lock();
-		if (_instructionList == null)
-			return false;
-
-		for (_instructionPtr = 0; _instructionPtr < _instructionList.size(); _instructionPtr++) {
-			Instruction instruction = _instructionList.get(_instructionPtr);
-			if (instruction._end > time)
-				break;
-		}
-
-		if (_instructionPtr >= _instructionList.size()) {
-			_instructionList = null;
-			_instructions.unlock();
-
-			return false;
-		}
-
-		ArrayList<AbstractRenderer> started = new ArrayList<AbstractRenderer>();
-		boolean failure = false; //TODO Clear up this "failure" stuff"
-
-		for (AbstractRenderer renderer : _renderers) {
-			if (renderer != _timeSource) {
-				if (renderer.start(time)) {
-					started.add(renderer);
-				} else {
-					failure = true;
-					break;
-				}
-			}
-		}
-
-		if (!failure) {
-			if (_timeSource.start(time)) {
-				started.add(_timeSource);
-			} else {
-				failure = true;
-			}
-		}
-
-		if (failure) {
-			for (AbstractRenderer renderer : started) {
-				renderer.stop();
-			}
-
-			_instructionList = null;
-			_instructions.unlock();
-
-			return false;
-		}
 
 		_rendering = true;
-
 		return true;
 	}
 
@@ -173,18 +123,13 @@ public class Renderer {
 	 * Stop rendering.
 	 */
 	public synchronized void stop() {
-		if (_instructionList != null) {
 			_timeSource.stop();
 
-			for (AbstractRenderer renderer : _renderers) {
-				if (renderer != _timeSource) {
-					renderer.stop();
-				}
-			}
-
-			_instructionList = null;
-			_instructions.unlock();
-		}
+        for (AbstractRenderer renderer : _renderers) {
+            if (renderer != _timeSource) {
+                renderer.stop();
+            }
+        }
 	}
 
 	/**
@@ -204,28 +149,25 @@ public class Renderer {
 	 * @param time the time that has been reached
 	 */
 	public void notifyTime(int time) {
-		if (_instructionList != null) {
-			if(_instructionPtr < _instructionList.size()) {
-				Instruction instruction = _instructionList.get(_instructionPtr);
+        if(_instructionPtr < _instructionList.size()) {
+            Instruction instruction = _instructionList.get(_instructionPtr);
 
-				if (instruction._start <= time) {
-					dispatchInstruction(time, instruction);
-                    _instructionPtr++;
-				}
-			}
-            List<Instruction> stopInstructionSortedByEnd = _instructions.sortedByEnd();
-            if(stopInstructionPtr < stopInstructionSortedByEnd.size()) {
-				Instruction stopInstruction = stopInstructionSortedByEnd.get(stopInstructionPtr);
-				if (stopInstruction._end <= time) {
-                    dispatchStopInstruction(stopInstruction);
-                    stopInstructionPtr++;
-				}
+            if (instruction._start <= time) {
+                dispatchInstruction(time, instruction);
+                _instructionPtr++;
             }
-
-			if (_instructionPtr >= _instructionList.size()) {
-				dispatchInstruction(time, null);
-			}
-		}
+        }
+        if(stopInstructionPtr < stopInstructionSortedByEnd.size()) {
+            Instruction stopInstruction = stopInstructionSortedByEnd.get(stopInstructionPtr);
+            if (stopInstruction._end <= time) {
+                dispatchStopInstruction(stopInstruction);
+                stopInstructionPtr++;
+            }
+        }
+        //Dispatch that all instructions have been sent!
+        if (_instructionPtr >= _instructionList.size()) {
+            dispatchInstruction(time, null);
+        }
 	}
 
 	/**

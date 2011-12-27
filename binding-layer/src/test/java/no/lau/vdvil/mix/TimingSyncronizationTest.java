@@ -22,7 +22,7 @@ public class TimingSyncronizationTest extends SuperPlayingSetup {
     @Override
     protected Composition compose(MasterBeatPattern masterBeatPattern) throws IOException {
         List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
-        parts.add(createAudioPart(returning.segments.get(3).id, new Interval(0, 12), TestMp3s.returningDvl, downloader));
+        parts.add(createAudioPart(returning.segments.get(3).id, new Interval(0, 16), TestMp3s.returningDvl, downloader));
         parts.add(createAudioPart(returning.segments.get(6).id, new Interval(16, 12), TestMp3s.returningDvl, downloader));
         parts.add(createAudioPart(returning.segments.get(9).id, new Interval(32, 12), TestMp3s.returningDvl, downloader));
         parts.add(createAudioPart(returning.segments.get(10).id, new Interval(48, 12), TestMp3s.returningDvl, downloader));

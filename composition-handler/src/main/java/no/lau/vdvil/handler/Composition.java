@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
-public class Composition implements MultimediaPart {
+public class Composition implements MultimediaPart, CompositionI {
     public final String name;
     public final MasterBeatPattern masterBeatPattern;
     public final List<MultimediaPart> multimediaParts;
@@ -20,13 +20,17 @@ public class Composition implements MultimediaPart {
         this.multimediaParts = multimediaParts;
         this.url = url;
     }
-
+    @Deprecated //Move to instructions(MBP)
     public Instructions instructions(Float masterBpm) throws IOException {
         Instructions instructions = new Instructions();
         for (MultimediaPart multimediaPart : multimediaParts) {
             instructions.append(multimediaPart.asInstruction(masterBpm));
         }
         return instructions;
+    }
+
+    public Instructions instructions(MasterBeatPattern beatPattern) throws IOException {
+        return instructions(beatPattern.masterBpm);
     }
 
     public Instruction asInstruction(Float masterBpm) {
