@@ -6,12 +6,15 @@ version := "0.11-SNAPSHOT"
 
 scalaVersion := "2.9.1"
 
-libraryDependencies += "org.scala-lang" % "scala-swing" % "2.9.1"
+externalPom()
 
-libraryDependencies += "no.lau.vdvil" % "binding-layer" % "0.11-SNAPSHOT"
+//libraryDependencies += "org.scala-lang" % "scala-swing" % "2.9.1"
 
-libraryDependencies += "com.novocode" % "junit-interface" % "0.7" % "test->default"
+//libraryDependencies += "no.lau.vdvil" % "binding-layer" % "0.11-SNAPSHOT"
 
-libraryDependencies += "junit" % "junit" % "4.8.1"
+//libraryDependencies += "com.novocode" % "junit-interface" % "0.7" % "test->default"
+
+//libraryDependencies += "junit" % "junit" % "4.8.1"
+
 
 resolvers += "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository"
