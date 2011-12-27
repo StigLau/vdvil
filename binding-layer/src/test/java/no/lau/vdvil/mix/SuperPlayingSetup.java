@@ -27,7 +27,7 @@ public abstract class SuperPlayingSetup {
     protected void play(MasterBeatPattern masterBeatPattern) {
         try {
             vdvilPlayer.init(compose(masterBeatPattern));
-            vdvilPlayer.play();
+            vdvilPlayer.play(masterBeatPattern);
             while (vdvilPlayer.isPlaying())
                 Thread.sleep(200);
             vdvilPlayer.stop();

@@ -1,9 +1,14 @@
 package no.bouvet.kpro.renderer;
 
+import no.lau.vdvil.handler.CompositionI;
+import no.lau.vdvil.timing.MasterBeatPattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The Renderer class represents the master renderer. It is responsible for
@@ -28,7 +33,8 @@ public class Renderer {
 	 */
 	public final static int RATE = 44100;
 
-	protected ArrayList<AbstractRenderer> _renderers = new ArrayList<AbstractRenderer>();
+    private CompositionI composition;
+    protected Set<? extends AbstractRenderer> _renderers;
 	protected AbstractRenderer _timeSource;
 
 	protected Instructions _instructions;
@@ -43,51 +49,58 @@ public class Renderer {
 	 * 
 	 * @param instructions the Instructions list to render
 	 */
-	public Renderer(Instructions instructions) {
+    @Deprecated
+	public Renderer(Instructions instructions, AbstractRenderer singleRenderer) {
 		_instructions = instructions;
+        _timeSource = singleRenderer;
+        this._renderers = Collections.singleton(singleRenderer);
 	}
+
+    public Renderer(CompositionI composition, Set<? extends AbstractRenderer> renderers) {
+        this.composition = composition;
+        this._renderers = renderers;
+        for (AbstractRenderer renderer : renderers) {
+            setUpRenderers(renderer);
+        }
+    }
+
+    /*
+     * Set up who the RENDERER is for callbacks. Nasty stuff....
+     * If the renderer wants to be a timesource and none already wants to
+     */
+    private void setUpRenderers(AbstractRenderer renderer) {
+        renderer.setRenderer(this);
+        if (_timeSource == null && renderer.requestTimeSource())
+            _timeSource = renderer;
+    }
+
 
     /**
-	 * Add an AbstractRenderer to this Renderer. Each AbstractRenderer will
-	 * receive rendering Instruction events.
-	 * 
-	 * @param renderer the AbstractRenderer to add
-	 */
-	public synchronized void addRenderer(AbstractRenderer renderer) {
-		stop();
-
-		if (!_renderers.contains(renderer)) {
-			_renderers.add(renderer);
-			renderer.setRenderer(this);
-
-			if (_timeSource == null) {
-				if (renderer.requestTimeSource()) {
-					_timeSource = renderer;
-				}
-			}
-		}
-	}
-
-	/**
 	 * Start rendering at the given time. - The Instructions list must be
 	 * non-empty and have a non-zero duration - There must be at least one
 	 * AbstractRenderer connected - All connected AbstractRenderers must agree
 	 * to start - The time parameter must lie within the duration of the
 	 * Instructions list
-	 * 
-	 * @param time the time in samples to start rendering
-	 * @return true if rendering started
+	 *
+     * @param playBackPattern how should the composition be played back
+     * @return true if rendering started
 	 */
-	public synchronized boolean start(int time) {
+	public synchronized boolean start(MasterBeatPattern playBackPattern) {
 		stop();
 
-		if (_renderers.isEmpty()) {
-			return false;
-		} else if ((time < 0) || (time >= _instructions.getDuration())) {
-			return false;
-		} else if (_timeSource == null) {
-			addRenderer(new TimeSourceRenderer());
-		}
+        //TODO Get rid of CalculateTime and the following code block
+        int time;
+        if(composition != null){
+            time = calculateTime(playBackPattern);
+            try { //This code should be moved to initializer!
+                this._instructions = composition.instructions(playBackPattern);
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        } else {
+            time = 0;
+
+        }
 
 		_instructionList = _instructions.lock();
 		if (_instructionList == null)
@@ -107,7 +120,7 @@ public class Renderer {
 		}
 
 		ArrayList<AbstractRenderer> started = new ArrayList<AbstractRenderer>();
-		boolean failure = false;
+		boolean failure = false; //TODO Clear up this "failure" stuff"
 
 		for (AbstractRenderer renderer : _renderers) {
 			if (renderer != _timeSource) {
@@ -144,7 +157,19 @@ public class Renderer {
 		return true;
 	}
 
-	/**
+    /*
+     * Quick fix to make Renderer work the old fashioned way until it has been cleaned out
+     */
+    @Deprecated
+    private int calculateTime(MasterBeatPattern playBackPattern) {
+         MasterBeatPattern untilStart = new MasterBeatPattern(0, playBackPattern.fromBeat, playBackPattern.masterBpm);
+        //TODO Note that there are potential problems here!!!
+        final int framerate = 44100;
+        Float duration = untilStart.durationCalculation() * framerate / 1000;
+        return duration.intValue();
+    }
+
+    /**
 	 * Stop rendering.
 	 */
 	public synchronized void stop() {

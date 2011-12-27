@@ -1,6 +1,7 @@
 package no.lau.vdvil.playback;
 
 import no.bouvet.kpro.renderer.AbstractRenderer;
+import no.bouvet.kpro.renderer.Renderer;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.AudioRenderer;
 import no.lau.vdvil.cache.SimpleCacheImpl;
@@ -8,8 +9,6 @@ import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.*;
-import no.lau.vdvil.player.InstructionPlayer;
-import no.lau.vdvil.player.VdvilPlayer;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.AudioXMLParser;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
@@ -19,17 +18,15 @@ import no.vdvil.renderer.lyric.LyricRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-public class PreconfiguredVdvilPlayer implements VdvilPlayer {
+public class PreconfiguredVdvilPlayer {
 
     static Logger log = LoggerFactory.getLogger(PreconfiguredVdvilPlayer.class);
     public static final DownloadAndParseFacade downloadAndParseFacade;
-    List<? extends AbstractRenderer> renderers;
+    Set<? extends AbstractRenderer> renderers;
 
-    VdvilPlayer player = VdvilPlayer.NULL;
+    Renderer player;
 
     static {
         downloadAndParseFacade = new DownloadAndParseFacade();
@@ -42,10 +39,10 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
     }
 
     public PreconfiguredVdvilPlayer() {
-        renderers = Arrays.asList(
+        renderers = new HashSet<AbstractRenderer>(Arrays.asList(
                 new ImageRenderer(800, 600, downloadAndParseFacade),
                 new LyricRenderer(800, 100),
-                new AudioRenderer(new AudioPlaybackTarget()));
+                new AudioRenderer(new AudioPlaybackTarget())));
     }
 
     public void init(Composition composition) throws IllegalAccessException {
@@ -58,10 +55,7 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         try {
             Composition timeFilteredComposition = filterByTime(composition, beatPatternFilter);
             composition.cache(downloadAndParseFacade);
-            player = new InstructionPlayer(
-                    timeFilteredComposition.masterBeatPattern,
-                    timeFilteredComposition.instructions(timeFilteredComposition.masterBeatPattern.masterBpm),
-                    renderers);
+            player = new Renderer(timeFilteredComposition, renderers);
         } catch (IOException e) {
             log.error("These errors should not happen", e);
         }
@@ -94,10 +88,10 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         return new Composition(composition.name, filter, filteredPartsList, composition.url);
     }
 
-    public void play() {
-        if(player == NULL)
+    public void play(MasterBeatPattern playBackPattern) {
+        if(player == null)
             throw new RuntimeException(getClass().getSimpleName() + ".init has not been run!");
-        player.play();
+        player.start(playBackPattern);
     }
 
     public void stop() {
@@ -106,6 +100,6 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
     }
 
     public boolean isPlaying() {
-        return player != NULL && player.isPlaying();
+        return player != null && player.isRendering();
     }
 }
