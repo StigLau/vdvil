@@ -49,5 +49,9 @@ public class Composition implements MultimediaPart {
     public Composition withBeatPattern(MasterBeatPattern beatPattern) {
         return new Composition(name, beatPattern, multimediaParts, url);
     }
+
+    public String toString() {
+        return name + "; " + masterBeatPattern.toString() + ". " + multimediaParts.size() + " parts" ;
+    }
 }
 
