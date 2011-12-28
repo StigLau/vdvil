@@ -69,3 +69,4 @@ public class Instructions {
 	public synchronized int getDuration() {
 		return _duration;
 	}
+}
