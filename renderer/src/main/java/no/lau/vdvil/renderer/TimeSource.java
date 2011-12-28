@@ -20,8 +20,8 @@ public interface TimeSource {
      * @author Michael Stokes
      */
     boolean requestTimeSource();
+    void start();
     void stop();
-    void start(int time) ;
     /**
      * Set the master Renderer that contains this AbstractRenderer. This method
      * is called by the Renderer object itself.
