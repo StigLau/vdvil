@@ -19,20 +19,6 @@ public class InstructionsTest {
         assertEquals("6-5", sortedList.get(7).toString());
     }
 
-    @Test
-    public void testSortingByEnd() {
-        List<Instruction> sortedList = testInstructions().sortedByEnd();
-        
-        assertEquals("1-3", sortedList.get(0).toString());
-        assertEquals("4-4", sortedList.get(1).toString());
-        assertEquals("1-5", sortedList.get(2).toString());
-        assertEquals("3-5", sortedList.get(3).toString());
-        assertEquals("5-5", sortedList.get(4).toString());
-        assertEquals("6-5", sortedList.get(5).toString());
-        assertEquals("1-6", sortedList.get(6).toString());
-        assertEquals("2-8", sortedList.get(7).toString());
-    }
-
     /*
      * Trying to hit all the different problem possibilities
      */

@@ -23,6 +23,11 @@ public abstract class SuperRenderer implements InstructionInterface, RendererTok
         }
     }
 
+    @Deprecated //Please use Composition insertion of instructions!
+    public void addInstruction(Instruction instruction) {
+        instructionSet.add(instruction);
+    }
+
     /**
      * Callback to child to check if it is concerned with this object
      * @param instruction to be checked

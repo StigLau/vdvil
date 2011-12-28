@@ -1,5 +1,7 @@
 package no.bouvet.kpro.renderer;
 
+import no.lau.vdvil.renderer.SuperRenderer;
+import no.lau.vdvil.renderer.TimeSource;
 import no.lau.vdvil.timing.Time;
 
 /**
@@ -15,27 +17,19 @@ import no.lau.vdvil.timing.Time;
  * 
  * @author Michael Stokes
  */
-public class TimeSourceRenderer extends AbstractRenderer implements Runnable {
+public class TimeSourceRenderer extends SuperRenderer implements TimeSource, Runnable {
 	protected final static long SLEEP_TIME = 50;
 
 	protected boolean _timeSource = false;
 	protected Thread _thread;
 	protected int _time;
-
-	/**
-	 * Construct a new TimeSourceRenderer instance.
-	 * 
-	 * @author Michael Stokes
-	 */
-	public TimeSourceRenderer() {
-	}
+    Renderer renderer;
 
 	/**
 	 * Request that this TimeSourceRenderer become the time source. It will
 	 * always agree.
 	 * 
 	 * @return true
-	 * @author Michael Stokes
 	 */
 	@Override
 	public boolean requestTimeSource() {
@@ -43,32 +37,15 @@ public class TimeSourceRenderer extends AbstractRenderer implements Runnable {
 		return true;
 	}
 
-	/**
-	 * Start this TimeSourceRenderer, at the given point in time.
-	 * 
-	 * @param time
-	 *            The time in samples when rendering begins
-	 * @return true
-	 * @author Michael Stokes
-	 */
-	@Override
-	public boolean start(int time) {
-		stop();
-
-		if (_timeSource) {
-			_time = time;
-
-			_thread = new Thread(this);
-			_thread.start();
-		}
-
-		return true;
-	}
+    @Override
+    public void start() {
+        _time = 0;
+        _thread = new Thread(this);
+        _thread.start();
+    }
 
 	/**
 	 * Stop this TimeSourceRenderer.
-	 * 
-	 * @author Michael Stokes
 	 */
 	@Override
 	public void stop() {
@@ -85,33 +62,21 @@ public class TimeSourceRenderer extends AbstractRenderer implements Runnable {
 		}
 	}
 
-	/**
-	 * Handle a rendering Instruction.
-	 * 
-	 * The TimeSourceRenderer does not actually render anything, so it ignores
-	 * all Instructions. It does however respond to a null instruction by
-	 * notifying the master Renderer that rendering has completed.
-	 * 
-	 * @param time
-	 *            the current rendering time in samples
-	 * @param instruction
-	 *            the instruction that has occurred, or null
-	 * @author Michael Stokes
-	 */
-	@Override
-	public void handleInstruction(int time, Instruction instruction) {
-		if (instruction == null) {
-			if (_timeSource) {
-				_renderer.notifyFinished();
-			}
-		}
-	}
+    @Override
+    public void setRenderer(Renderer renderer) {
+        this.renderer = renderer;
+    }
 
     @Override
-    public boolean isRendering() {
-        return false;
-        //To change body of implemented methods use File | Settings | File Templates.
+    protected boolean passesFilter(Instruction instruction) {
+        return false;  
     }
+
+    @Override
+    public boolean isRendering() { return true; }
+
+    @Override
+    public void ping(Time time) { }
 
     @Override
     public void stop(Instruction instruction) {
@@ -123,8 +88,6 @@ public class TimeSourceRenderer extends AbstractRenderer implements Runnable {
 	 * 
 	 * The TimeSourceRenderer uses System.currentTimeMillis() to provide an
 	 * unsynchronized time source.
-	 * 
-	 * @author Michael Stokes
 	 */
 	public void run() {
 		long started = System.currentTimeMillis();
@@ -133,7 +96,7 @@ public class TimeSourceRenderer extends AbstractRenderer implements Runnable {
 			int elapsed = (int) ((System.currentTimeMillis() - started)
 					* Renderer.RATE / 1000);
 
-			_renderer.notifyTime(new Time(_time + elapsed));
+			renderer.notifyTime(new Time(_time + elapsed));
 
 			try {
 				Thread.sleep(SLEEP_TIME);

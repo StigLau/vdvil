@@ -40,15 +40,6 @@ public class Renderer {
 	protected boolean _rendering = false;
     Logger log = LoggerFactory.getLogger(getClass());
 
-	/**
-	 * Construct a new Renderer, rendering the given Instructions list.
-	 *
-	 * @param instructions the Instructions list to render
-	 */
-    @Deprecated
-	public Renderer(Instructions instructions, AbstractRenderer singleRenderer) {
-	}
-
     public Renderer(CompositionI composition, Set<RendererToken> renderers) {
         this.composition = composition;
         this._renderers = renderers;

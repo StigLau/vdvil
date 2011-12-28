@@ -5,6 +5,7 @@ import no.lau.vdvil.cache.SimpleVdvilCache;
 import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
+import no.lau.vdvil.timing.Time;
 import no.vdvil.renderer.image.ImageInstruction;
 import no.vdvil.renderer.image.ImageRenderer;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
@@ -24,10 +25,10 @@ public class ImageRenderingTest {
     @Test
     public void testRenderingImage() throws InterruptedException, IOException {
         ImageRenderer renderer = new ImageRenderer(800, 600, cache);
-        renderer.handleInstruction(0, ImageInstruction.create(new MasterBeatPattern(new Interval(-0, -0), -0F), pinkTeddy, pinkTeddy.openStream()));
-        renderer.start(0);
+        renderer.addInstruction(ImageInstruction.create(new MasterBeatPattern(new Interval(-0, -0), -0F), pinkTeddy, pinkTeddy.openStream()));
+        renderer.ping(new Time(0));
         Thread.sleep(400);
-        renderer.handleInstruction(0, ImageInstruction.create(new MasterBeatPattern(new Interval(-0, -0), -0F), dj_teddy, dj_teddy.openStream()));
+        renderer.addInstruction(ImageInstruction.create(new MasterBeatPattern(new Interval(-0, -0), -0F), dj_teddy, dj_teddy.openStream()));
         Thread.sleep(1000);
         renderer.stop();
     }
@@ -36,10 +37,10 @@ public class ImageRenderingTest {
     public void newInfrastructureTest() throws Exception{
         ImageRenderer renderer = new ImageRenderer(800, 600, cache);
 
-        renderer.handleInstruction(0, parser.parse(PartXML.create(imageDesc)).asInstruction(120F));
-        renderer.start(0);
+        renderer.addInstruction(parser.parse(PartXML.create(imageDesc)).asInstruction(120F));
+        renderer.ping(new Time(0));
         Thread.sleep(400);
-        renderer.handleInstruction(0, parser.parse(PartXML.create(imageDesc2)).asInstruction(120F));
+        renderer.addInstruction(parser.parse(PartXML.create(imageDesc2)).asInstruction(120F));
         Thread.sleep(2000);
         renderer.stop();
     }
