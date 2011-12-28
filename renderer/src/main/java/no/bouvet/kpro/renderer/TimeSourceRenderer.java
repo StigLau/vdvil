@@ -1,5 +1,7 @@
 package no.bouvet.kpro.renderer;
 
+import no.lau.vdvil.timing.Time;
+
 /**
  * The TimeSourceRenderer class is a specialization of the AbstractRenderer
  * class. It does not actually do any rendering, but it exists as a fallback
@@ -131,7 +133,7 @@ public class TimeSourceRenderer extends AbstractRenderer implements Runnable {
 			int elapsed = (int) ((System.currentTimeMillis() - started)
 					* Renderer.RATE / 1000);
 
-			_renderer.notifyTime(_time + elapsed);
+			_renderer.notifyTime(new Time(_time + elapsed));
 
 			try {
 				Thread.sleep(SLEEP_TIME);

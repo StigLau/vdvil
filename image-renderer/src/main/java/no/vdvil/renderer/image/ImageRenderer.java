@@ -13,7 +13,6 @@ import javax.swing.*;
 import java.awt.Component;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
 
 public class ImageRenderer extends SuperRenderer {
     private ImageListener[] listener;
@@ -51,22 +50,6 @@ public class ImageRenderer extends SuperRenderer {
             //Find next Image to be rendered
             nextInstruction = findNextInstruction(time.asInt(), instructionSet);
         }
-    }
-
-    /**
-     * Recursive method for finding a next Instruction which has a start which which has not passed yet
-     * @param time currentTime
-     * @param instructionList Must be sorted ascending by starttime
-     * @return the first Instruction that has a startTime not passed yet. Instruction.STOP
-     */
-    private static Instruction findNextInstruction(int time, SortedSet<Instruction> instructionList) {
-        if(instructionList.isEmpty())
-            return Instruction.STOP;
-        Instruction first = instructionList.first();
-        if(first._start >= time)
-            return first;
-        else
-            return findNextInstruction(time, instructionList.headSet(first));
     }
 
     private void render(ImageInstruction imageInstruction) {

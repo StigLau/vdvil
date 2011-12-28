@@ -1,5 +1,6 @@
 package no.lau.vdvil.handler;
 
+import no.bouvet.kpro.renderer.Instruction;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.lau.vdvil.timing.Time;
 
@@ -11,4 +12,5 @@ import java.io.IOException;
 public interface InstructionInterface {
     void ping(Time time);
     void setComposition(CompositionI composition, MasterBeatPattern beatPattern) throws IOException;
+    void stop(Instruction instruction);
 }
