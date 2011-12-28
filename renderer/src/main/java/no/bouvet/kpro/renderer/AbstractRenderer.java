@@ -18,8 +18,8 @@ package no.bouvet.kpro.renderer;
  * 
  * @author Michael Stokes
  */
-public abstract class AbstractRenderer implements RendererToken{
-	protected Renderer _renderer;
+@Deprecated //TODO Salvage javaDoc!!!
+public abstract class AbstractRenderer {
 
 	/**
 	 * Construct a new AbstractRenderer instance.
@@ -29,17 +29,6 @@ public abstract class AbstractRenderer implements RendererToken{
 	public AbstractRenderer() {
 	}
 
-	/**
-	 * Set the master Renderer that contains this AbstractRenderer. This method
-	 * is called by the Renderer object itself.
-	 * 
-	 * @param renderer
-	 *            The Renderer instance
-	 * @author Michael Stokes
-	 */
-	public void setRenderer(Renderer renderer) {
-		_renderer = renderer;
-	}
 
 	/**
 	 * Request that this AbstractRenderer become the time source. If it agrees

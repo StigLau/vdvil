@@ -17,10 +17,11 @@ public abstract class SuperRenderer implements InstructionInterface, RendererTok
     @Override
     public void setComposition(CompositionI composition, MasterBeatPattern beatPattern) throws IOException {
         for (Instruction instruction : composition.instructions(beatPattern).lock()) {
-            if(passesFilter(instruction))
+            if(passesFilter(instruction)) {
                 instructionSet.add(instruction);
             }
         }
+    }
 
     /**
      * Callback to child to check if it is concerned with this object
@@ -47,5 +48,9 @@ public abstract class SuperRenderer implements InstructionInterface, RendererTok
             return first;
         else
             return findNextInstruction(time, instructionList.headSet(first));
+    }
+
+    public void stop() {
+
     }
 }

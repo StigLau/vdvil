@@ -35,4 +35,8 @@ public class Instruction implements Comparable {
             }
         return 0;
     }
+    
+    public String toString() {
+        return getClass().getSimpleName() + " start:" + _start + " end: " + _end;
+    }
 }

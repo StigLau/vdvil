@@ -1,12 +1,12 @@
 package no.bouvet.kpro.renderer.audio;
 
 import java.nio.ShortBuffer;
-import java.util.ArrayList;
-import java.util.List;
-
-import no.bouvet.kpro.renderer.AbstractRenderer;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Renderer;
+import no.lau.vdvil.renderer.SuperRenderer;
+import no.lau.vdvil.renderer.TimeSource;
 import no.lau.vdvil.timing.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  * @author Michael Stokes
  * @author Stig Lau
  */
-public class AudioRenderer extends AbstractRenderer implements Runnable {
+public class AudioRenderer extends SuperRenderer implements TimeSource, Runnable {
 	/**
 	 * The size of a mixer frame, in samples. 1/10th of a second.
 	 */
@@ -38,7 +38,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 	protected int _time;
 	protected boolean _finished;
 
-	protected List<AudioInstruction> _active = new ArrayList<AudioInstruction>();
+    Renderer _renderer;
     Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
@@ -63,16 +63,15 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 		return true;
 	}
 
-	/**
-	 * Start this AudioRenderer, at the given point in time. The AudioRenderer
-	 * will run in another thread.
-	 * 
-	 * @param time
-	 *            The time in samples when rendering begins
-	 * @return true
-	 */
+    /**
+     * Start this TimeSource, at the given point in time. The AudioRenderer will run in another thread.
+     *
+     * @param time The time in samples when rendering begins
+     * @author Michael Stokes
+     */
+
 	@Override
-	public boolean start(int time) {
+	public void start(int time) {
 		stop();
 
 		log.debug("Starting at " + ( (float)time / Renderer.RATE ) + "s with frame size " + ( (float)MIX_FRAME / Renderer.RATE ) + "s" );
@@ -84,8 +83,6 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 
 		_thread = new Thread(this);
 		_thread.start();
-
-		return true;
 	}
 
 	/**
@@ -103,11 +100,12 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 				try {
 					thread.join();
 				} catch (Exception e) {
+                    System.out.println("Error while joining");
 				}
 			}
 
 			_target.flush();
-			_active.clear();
+            instructionSet.clear();
 
 			log.debug("Stopped" );
 		}
@@ -128,25 +126,16 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 	 * 
 	 * A given instruction will only be fired once between a call to start() and
 	 * end(), i.e. within a rendering session.
-	 * 
-	 * The instruction parameter may be null, which indicates no more
-	 * instructions.
-	 * 
+	 *
 	 * The AudioRenderer builds and maintains a list of currently active
 	 * AudioInstructions. All other Instruction types are ignored.
 	 * 
 	 * @param time
 	 *            the current rendering time in samples
-	 * @param instruction
-	 *            the instruction that has occurred, or null
 	 */
-	@Override
-	public void handleInstruction(int time, Instruction instruction) {
-        log.debug("Got instruction {} to be played at {}", instruction, time);
-        if (instruction instanceof AudioInstruction) {
-            _active.add((AudioInstruction) instruction);
-		}
-	}
+    public void ping(Time time) {
+        //Since AudioRenderer is a timesource, this is not needed
+    }
 
     @Override
     public boolean isRendering() {
@@ -168,7 +157,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 	 */
 	public void run() {
 		byte[] output = new byte[MIX_FRAME * 4];
-        while (!_finished || !(_active.isEmpty())) {
+        while (!_finished || !(instructionSet.isEmpty())) {
             if (_timeSource) {
                 _renderer.notifyTime(new Time(_time + MIX_FRAME));
             }
@@ -177,13 +166,13 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
                 _mix[fill++] = 0;
             }
 
-            _active = pruneByTime(_active);
+            instructionSet = pruneByTime(instructionSet);
             int available = -1;
-            for (AudioInstruction instruction : _active) {
+            for (Instruction instruction : instructionSet) {
                 if (instruction._start > _time)
                     available = instruction._start - _time;
                 else
-                    available = singlePass(instruction, MIX_FRAME);
+                    available = singlePass((AudioInstruction) instruction, MIX_FRAME);
             }
             if (available > 0) {
                 for (int convert = 0; convert < output.length;) {
@@ -195,7 +184,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
                     output[convert++] = (byte) (v & 0xFF);
                     output[convert++] = (byte) (v >>> 8);
                 }
-
+                //TODO An ArrayIndexOutOfBoundsException here can be....
                 int wrote = _target.write(output, 0, available);
                 _time += wrote;
             }
@@ -284,12 +273,21 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 		}
 	}
 
-    List<AudioInstruction> pruneByTime(List<AudioInstruction> active) {
-        List<AudioInstruction> prunedList = new ArrayList<AudioInstruction>();
-        for (AudioInstruction instruction : active) {
-            if(instruction._end > _time && instruction.getSourceDuration() > 0)
+    SortedSet<Instruction> pruneByTime(SortedSet<Instruction> active) {
+        SortedSet<Instruction> prunedList = new TreeSet<Instruction>();
+        for (Instruction instruction : active) {
+            if(instruction._end > _time && (instruction._end-instruction._start > 0))
                 prunedList.add(instruction);
         }
         return prunedList;
+    }
+
+    @Override
+    protected boolean passesFilter(Instruction instruction) {
+        return instruction instanceof AudioInstruction;
+    }
+
+    public void setRenderer(Renderer renderer) {
+        _renderer = renderer;
     }
 }

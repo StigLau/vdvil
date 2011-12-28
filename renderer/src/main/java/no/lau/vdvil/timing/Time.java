@@ -14,4 +14,8 @@ public class Time {
     public int asInt() {
         return timeValue;
     }
+    
+    public String toString() {
+        return Integer.toString(timeValue);
+    }
 }

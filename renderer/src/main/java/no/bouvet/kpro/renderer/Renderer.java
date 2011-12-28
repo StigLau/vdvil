@@ -1,7 +1,10 @@
 package no.bouvet.kpro.renderer;
 
+import no.lau.vdvil.handler.InstructionInterface;
 import no.lau.vdvil.handler.CompositionI;
+import no.lau.vdvil.renderer.TimeSource;
 import no.lau.vdvil.timing.MasterBeatPattern;
+import no.lau.vdvil.timing.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
@@ -32,8 +35,8 @@ public class Renderer {
 	public final static int RATE = 44100;
 
     private CompositionI composition;
-    protected Set<? extends AbstractRenderer> _renderers;
-	protected AbstractRenderer _timeSource;
+    protected Set<RendererToken> _renderers;
+	protected TimeSource _timeSource;
 
 	List<Instruction> _instructionList;
     List<Instruction> stopInstructionSortedByEnd;
@@ -44,29 +47,34 @@ public class Renderer {
 
 	/**
 	 * Construct a new Renderer, rendering the given Instructions list.
-	 * 
+	 *
 	 * @param instructions the Instructions list to render
 	 */
     @Deprecated
 	public Renderer(Instructions instructions, AbstractRenderer singleRenderer) {
 	}
 
-    public Renderer(CompositionI composition, Set<? extends AbstractRenderer> renderers) {
+    public Renderer(CompositionI composition, Set<RendererToken> renderers) {
         this.composition = composition;
         this._renderers = renderers;
-        for (AbstractRenderer renderer : renderers) {
-            setUpRenderers(renderer);
-        }
+        _timeSource = setUpTimeSource(renderers);
     }
 
     /*
      * Set up who the RENDERER is for callbacks. Nasty stuff....
      * If the renderer wants to be a timesource and none already wants to
      */
-    private void setUpRenderers(AbstractRenderer renderer) {
-        renderer.setRenderer(this);
-        if (_timeSource == null && renderer.requestTimeSource())
-            _timeSource = renderer;
+    private TimeSource setUpTimeSource(Set<RendererToken> renderers) {
+        for (RendererToken rendererToken : renderers) {
+            if (rendererToken instanceof TimeSource) {
+                TimeSource timeSource = (TimeSource) rendererToken;
+                if (timeSource.requestTimeSource()) {
+                    timeSource.setRenderer(this);
+                    return timeSource;
+                }
+            }
+        }
+        throw new RuntimeException("No timesource found among renderers!");
     }
 
 
@@ -95,15 +103,18 @@ public class Renderer {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         //TODO Note that if this takes some time, setting up instructions should have been done PRIOR to start. Perhaps in construction!
-        for (AbstractRenderer renderer : _renderers) {
-            for (Instruction instruction : _instructionList) {
-                renderer.handleInstruction(time, instruction);
+        for (RendererToken renderer : _renderers) {
+            if (renderer instanceof InstructionInterface) {
+                InstructionInterface improvedRenderer = (InstructionInterface) renderer;
+                try {
+                    improvedRenderer.setComposition(composition, playBackPattern);
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
             }
-            renderer.start(time);
         }
-
-
-		_rendering = true;
+        _timeSource.start(time);
+        _rendering = true;
 		return true;
 	}
 
@@ -123,10 +134,9 @@ public class Renderer {
 	 * Stop rendering.
 	 */
 	public synchronized void stop() {
-			_timeSource.stop();
-
-        for (AbstractRenderer renderer : _renderers) {
-            if (renderer != _timeSource) {
+        _timeSource.stop();
+        for (RendererToken renderer : _renderers) {
+            if(!(renderer instanceof TimeSource)) {
                 renderer.stop();
             }
         }
@@ -148,25 +158,25 @@ public class Renderer {
 	 * 
 	 * @param time the time that has been reached
 	 */
-	public void notifyTime(int time) {
+	public void notifyTime(Time time) {
         if(_instructionPtr < _instructionList.size()) {
             Instruction instruction = _instructionList.get(_instructionPtr);
 
-            if (instruction._start <= time) {
+            if (instruction._start <= time.asInt()) {
                 dispatchInstruction(time, instruction);
                 _instructionPtr++;
             }
         }
         if(stopInstructionPtr < stopInstructionSortedByEnd.size()) {
             Instruction stopInstruction = stopInstructionSortedByEnd.get(stopInstructionPtr);
-            if (stopInstruction._end <= time) {
+            if (stopInstruction._end <= time.asInt()) {
                 dispatchStopInstruction(stopInstruction);
                 stopInstructionPtr++;
             }
         }
         //Dispatch that all instructions have been sent!
         if (_instructionPtr >= _instructionList.size()) {
-            dispatchInstruction(time, null);
+            dispatchInstruction(time, Instruction.STOP);
         }
 	}
 
@@ -186,14 +196,18 @@ public class Renderer {
 	 * @param time the current rendering time
 	 * @param instruction the instruction to dispatch, or null
 	 */
-	protected void dispatchInstruction(int time, Instruction instruction) {
-		for (AbstractRenderer renderer : _renderers) {
-			renderer.handleInstruction(time, instruction);
+	protected void dispatchInstruction(Time time, Instruction instruction) {
+		for (RendererToken rendererToken : _renderers) {
+            if(rendererToken instanceof InstructionInterface)
+                ((InstructionInterface)rendererToken).ping(time);
+            else if (rendererToken instanceof AbstractRenderer) {
+                ((AbstractRenderer)rendererToken).handleInstruction(time.asInt(), instruction);
+            }
 		}
 	}
 
     private void dispatchStopInstruction(Instruction stopInstruction) {
-        for (AbstractRenderer renderer : _renderers) {
+        for (RendererToken renderer : _renderers) {
             renderer.stop(stopInstruction);
         }
     }

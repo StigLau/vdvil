@@ -8,4 +8,6 @@ package no.bouvet.kpro.renderer;
  * To change this template use File | Settings | File Templates.
  */
 public interface RendererToken {
+    void stop(Instruction instruction);
+    void stop();
 }
