@@ -26,7 +26,7 @@ public class LyricRenderer extends SuperRenderer implements LyricListener {
     }
 
     public void ping(Time time) {
-        if (time.asInt() >= nextInstruction._start && nextInstruction instanceof LyricInstruction) {
+        if (nextInstruction instanceof LyricInstruction && time.asInt() >= nextInstruction._start) {
             System.out.println("Showing text " + nextInstruction + " at " + time);
             shoutHello((LyricInstruction) nextInstruction);
             instructionSet.remove(nextInstruction);

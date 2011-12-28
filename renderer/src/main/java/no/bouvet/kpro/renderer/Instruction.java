@@ -12,8 +12,6 @@ public class Instruction implements Comparable {
 	public final int _start;
 	public final int _end;
 
-    public static Instruction STOP = new Instruction(Integer.MAX_VALUE, Integer.MAX_VALUE);
-
 	public Instruction(int start, int end) {
         this._start = start;
         this._end = end;

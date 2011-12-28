@@ -35,8 +35,8 @@ public class AudioRenderer extends SuperRenderer implements TimeSource, Runnable
 	protected Thread _thread;
 	protected int[] _mix = new int[MIX_FRAME * 2];
 
-	protected int _time;
-	protected boolean _finished;
+	protected int _time = 0;
+	protected boolean _finished = false;
 
     Renderer _renderer;
     Logger log = LoggerFactory.getLogger(getClass());
@@ -64,23 +64,9 @@ public class AudioRenderer extends SuperRenderer implements TimeSource, Runnable
 	}
 
     /**
-     * Start this TimeSource, at the given point in time. The AudioRenderer will run in another thread.
-     *
-     * @param time The time in samples when rendering begins
-     * @author Michael Stokes
+     * Start this TimeSource. The AudioRenderer will run in another thread.
      */
-
-	@Override
-	public void start(int time) {
-		stop();
-
-		log.debug("Starting at " + ( (float)time / Renderer.RATE ) + "s with frame size " + ( (float)MIX_FRAME / Renderer.RATE ) + "s" );
-
-		_target.flush();
-
-		_time = time;
-		_finished = false;
-
+	public void start() {
 		_thread = new Thread(this);
 		_thread.start();
 	}

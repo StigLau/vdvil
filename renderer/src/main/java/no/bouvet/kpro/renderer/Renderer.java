@@ -8,7 +8,6 @@ import no.lau.vdvil.timing.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -38,10 +37,6 @@ public class Renderer {
     protected Set<RendererToken> _renderers;
 	protected TimeSource _timeSource;
 
-	List<Instruction> _instructionList;
-    List<Instruction> stopInstructionSortedByEnd;
-	protected int _instructionPtr;
-    protected int stopInstructionPtr;
 	protected boolean _rendering = false;
     Logger log = LoggerFactory.getLogger(getClass());
 
@@ -89,19 +84,9 @@ public class Renderer {
      * @return true if rendering started
 	 */
 	public synchronized boolean start(MasterBeatPattern playBackPattern) {
-        stop();
         // Que up all non-timesource renderers and start timesource as the last
         //If failed starting. stop renderers, empty instructionlist and unlock instructions
 
-        int time = calculateTime(playBackPattern);
-
-        try {
-            Instructions instructions = composition.instructions(playBackPattern);
-            this._instructionList = instructions._list;
-            this.stopInstructionSortedByEnd = instructions.sortedByEnd();
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
         //TODO Note that if this takes some time, setting up instructions should have been done PRIOR to start. Perhaps in construction!
         for (RendererToken renderer : _renderers) {
             if (renderer instanceof InstructionInterface) {
@@ -113,22 +98,10 @@ public class Renderer {
                 }
             }
         }
-        _timeSource.start(time);
+        _timeSource.start();
         _rendering = true;
 		return true;
 	}
-
-    /*
-     * Quick fix to make Renderer work the old fashioned way until it has been cleaned out
-     */
-    @Deprecated
-    private int calculateTime(MasterBeatPattern playBackPattern) {
-         MasterBeatPattern untilStart = new MasterBeatPattern(0, playBackPattern.fromBeat, playBackPattern.masterBpm);
-        //TODO Note that there are potential problems here!!!
-        final int framerate = 44100;
-        Float duration = untilStart.durationCalculation() * framerate / 1000;
-        return duration.intValue();
-    }
 
     /**
 	 * Stop rendering.
@@ -148,7 +121,7 @@ public class Renderer {
 	 * @return true if rendering is underway, and has not yet finished
 	 */
 	public synchronized boolean isRendering() {
-		return (_instructionList != null) && _rendering;
+		return _rendering;
 	}
 
 	/**
@@ -159,25 +132,10 @@ public class Renderer {
 	 * @param time the time that has been reached
 	 */
 	public void notifyTime(Time time) {
-        if(_instructionPtr < _instructionList.size()) {
-            Instruction instruction = _instructionList.get(_instructionPtr);
-
-            if (instruction._start <= time.asInt()) {
-                dispatchInstruction(time, instruction);
-                _instructionPtr++;
-            }
+        for (RendererToken rendererToken : _renderers) {
+            ((InstructionInterface)rendererToken).ping(time);
         }
-        if(stopInstructionPtr < stopInstructionSortedByEnd.size()) {
-            Instruction stopInstruction = stopInstructionSortedByEnd.get(stopInstructionPtr);
-            if (stopInstruction._end <= time.asInt()) {
-                dispatchStopInstruction(stopInstruction);
-                stopInstructionPtr++;
-            }
-        }
-        //Dispatch that all instructions have been sent!
-        if (_instructionPtr >= _instructionList.size()) {
-            dispatchInstruction(time, Instruction.STOP);
-        }
+        //Remember stopInstruction!!!
 	}
 
 	/**
@@ -191,18 +149,13 @@ public class Renderer {
 	}
 
 	/**
-	 * Dispatch a given Instruction to all AbstractRenderers.
+	 * Keeps all renderers updated of the current time
 	 * 
 	 * @param time the current rendering time
-	 * @param instruction the instruction to dispatch, or null
 	 */
-	protected void dispatchInstruction(Time time, Instruction instruction) {
+	protected void dispatchInstruction(Time time) {
 		for (RendererToken rendererToken : _renderers) {
-            if(rendererToken instanceof InstructionInterface)
-                ((InstructionInterface)rendererToken).ping(time);
-            else if (rendererToken instanceof AbstractRenderer) {
-                ((AbstractRenderer)rendererToken).handleInstruction(time.asInt(), instruction);
-            }
+            ((InstructionInterface)rendererToken).ping(time);
 		}
 	}
 

@@ -2,7 +2,6 @@ package no.bouvet.kpro.renderer;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -70,16 +69,3 @@ public class Instructions {
 	public synchronized int getDuration() {
 		return _duration;
 	}
-
-    public List<Instruction> sortedByEnd() {
-    List<Instruction> instructionList = new ArrayList<Instruction>(_list);
-        Collections.sort(instructionList, new EndSorter());
-        return instructionList;
-    }
-}
-
-class EndSorter implements Comparator {
-  public int compare(Object i1, Object i2) {
-    return ((Integer)((Instruction)i1)._end).compareTo(((Instruction)i2)._end);
-  }
-}
