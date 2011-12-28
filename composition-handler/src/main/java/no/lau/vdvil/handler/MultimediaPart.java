@@ -5,7 +5,10 @@ import no.lau.vdvil.handler.persistence.CompositionInstruction;
 
 import java.io.IOException;
 
-public interface MultimediaPart {
+/**
+ * A representation of a multimedia part that can be downloaded, played and converted into an instruction
+ */
+public interface MultimediaPart extends OnlyTheImportantStuffFromMultimediaPart{
     MultimediaPart NULL = new MultimediaPart() {
 
         public Instruction asInstruction(Float masterBpm) {
@@ -18,8 +21,6 @@ public interface MultimediaPart {
 
         public void cache(DownloadAndParseFacade downloader) throws IOException { }
     };
-
-    Instruction asInstruction(Float masterBpm);
 
     CompositionInstruction compositionInstruction();
 

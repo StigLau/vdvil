@@ -18,7 +18,7 @@ package no.bouvet.kpro.renderer;
  * 
  * @author Michael Stokes
  */
-public abstract class AbstractRenderer {
+public abstract class AbstractRenderer implements RendererToken{
 	protected Renderer _renderer;
 
 	/**

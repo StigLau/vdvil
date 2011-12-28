@@ -1,7 +1,7 @@
 package no.lau.vdvil.playback;
 
-import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Renderer;
+import no.bouvet.kpro.renderer.RendererToken;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.AudioRenderer;
 import no.lau.vdvil.cache.SimpleCacheImpl;
@@ -24,7 +24,7 @@ public class PreconfiguredVdvilPlayer {
 
     static Logger log = LoggerFactory.getLogger(PreconfiguredVdvilPlayer.class);
     public static final DownloadAndParseFacade downloadAndParseFacade;
-    Set<? extends AbstractRenderer> renderers;
+    Set<RendererToken> renderers;
 
     Renderer player;
 
@@ -39,7 +39,7 @@ public class PreconfiguredVdvilPlayer {
     }
 
     public PreconfiguredVdvilPlayer() {
-        renderers = new HashSet<AbstractRenderer>(Arrays.asList(
+        renderers = new HashSet<RendererToken>(Arrays.asList(
                 new ImageRenderer(800, 600, downloadAndParseFacade),
                 new LyricRenderer(800, 100),
                 new AudioRenderer(new AudioPlaybackTarget())));

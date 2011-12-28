@@ -13,6 +13,7 @@ import java.util.List;
  * @author Michael Stokes
  * @author Stig Lau
  */
+@Deprecated //Use Guava MultiTreeSet instead
 public class Instructions {
 	List<Instruction> _list = new ArrayList<Instruction>();
 	int _duration = 0;

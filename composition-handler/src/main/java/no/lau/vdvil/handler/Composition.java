@@ -33,6 +33,12 @@ public class Composition implements MultimediaPart, CompositionI {
         return instructions(beatPattern.masterBpm);
     }
 
+    @Override
+    public List<? extends OnlyTheImportantStuffFromMultimediaPart> parts(MasterBeatPattern beatPattern) throws IOException {
+        return multimediaParts;
+    }
+
+
     public Instruction asInstruction(Float masterBpm) {
         throw new RuntimeException("Composition should probably not have instructions, or Instruction should be written in a different way");
     }

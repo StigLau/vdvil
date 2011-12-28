@@ -1,24 +1,28 @@
 package no.vdvil.renderer.image;
 
-import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Instruction;
 import no.lau.vdvil.cache.DownloaderFacade;
+import no.lau.vdvil.handler.CompositionI;
+import no.lau.vdvil.renderer.SuperRenderer;
+import no.lau.vdvil.timing.MasterBeatPattern;
+import no.lau.vdvil.timing.Time;
 import no.vdvil.renderer.image.swinggui.ImagePanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class ImageRenderer extends AbstractRenderer {
+public class ImageRenderer extends SuperRenderer {
     private ImageListener[] listener;
-    List<ImageInstruction> runningImageInstructionList = new ArrayList<ImageInstruction>();
     JFrame frame;
     private DownloaderFacade cache;
     Logger log = LoggerFactory.getLogger(getClass());
+    public static Instruction START = new Instruction(Integer.MIN_VALUE, Integer.MIN_VALUE);
+    private Instruction currentInstruction = null;
+    private Instruction nextInstruction = START;
 
     public ImageRenderer(int width, int height, DownloaderFacade cache) {
         this.cache = cache;
@@ -33,30 +37,47 @@ public class ImageRenderer extends AbstractRenderer {
     }
 
     @Override
-    public boolean start(int time) {
-        return true;
+    public void setComposition(CompositionI composition, MasterBeatPattern beatPattern) throws IOException {
+        super.setComposition(composition, beatPattern);
+        nextInstruction = findNextInstruction(0, instructionSet);
     }
 
-    public void handleInstruction(int time, Instruction instruction) {
-        log.debug("Got instruction {} to be played at {}", instruction, time);
-        if (instruction != null) {
-            if (instruction instanceof ImageInstruction) {
-                ImageInstruction imageInstruction = (ImageInstruction) instruction;
-                runningImageInstructionList.add(imageInstruction);
-                render(imageInstruction);
-            }
+
+    public void ping(Time time) {
+        if (nextInstruction != currentInstruction && time.asInt() >= nextInstruction._start && nextInstruction instanceof ImageInstruction) {
+            System.out.println("Showing image " + nextInstruction + " at " + time);
+            render((ImageInstruction) nextInstruction);
+            instructionSet.remove(nextInstruction);
+            //Find next Image to be rendered
+            nextInstruction = findNextInstruction(time.asInt(), instructionSet);
         }
+    }
+
+    /**
+     * Recursive method for finding a next Instruction which has a start which which has not passed yet
+     * @param time currentTime
+     * @param instructionList Must be sorted ascending by starttime
+     * @return the first Instruction that has a startTime not passed yet. Instruction.STOP
+     */
+    private static Instruction findNextInstruction(int time, SortedSet<Instruction> instructionList) {
+        if(instructionList.isEmpty())
+            return Instruction.STOP;
+        Instruction first = instructionList.first();
+        if(first._start >= time)
+            return first;
+        else
+            return findNextInstruction(time, instructionList.headSet(first));
     }
 
     private void render(ImageInstruction imageInstruction) {
         for (final ImageListener imageListener : listener) {
             try {
                 final InputStream imageStream = cache.fetchAsStream(imageInstruction.imageUrl);
-            javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    imageListener.show(imageStream);
-                }
-            });
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        imageListener.show(imageStream);
+                    }
+                });
                 if(!frame.isVisible())
                     frame.setVisible(true);
             } catch (IOException e) {
@@ -65,15 +86,14 @@ public class ImageRenderer extends AbstractRenderer {
         }
     }
 
-    @Override
-    public boolean isRendering() {
-        return !runningImageInstructionList.isEmpty();
+    public void stop(Instruction instruction) {
+        instructionSet.remove(instruction);
+        if(instructionSet.isEmpty())
+            frame.setVisible(false);
     }
 
     @Override
-    public void stop(Instruction instruction) {
-        runningImageInstructionList.remove(instruction);
-        if(runningImageInstructionList.isEmpty())
-            frame.setVisible(false);
+    protected boolean passesFilter(Instruction instruction) {
+        return instruction instanceof ImageInstruction;
     }
 }

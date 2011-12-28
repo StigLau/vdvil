@@ -7,6 +7,7 @@ import java.util.List;
 import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Renderer;
+import no.lau.vdvil.timing.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -169,7 +170,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
 		byte[] output = new byte[MIX_FRAME * 4];
         while (!_finished || !(_active.isEmpty())) {
             if (_timeSource) {
-                _renderer.notifyTime(_time + MIX_FRAME);
+                _renderer.notifyTime(new Time(_time + MIX_FRAME));
             }
 
             for (int fill = 0; fill < _mix.length;) {
