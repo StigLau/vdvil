@@ -1,11 +1,12 @@
 package no.vdvil.renderer.audio;
 
+import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Renderer;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.AudioTarget;
 
 import java.nio.ShortBuffer;
-import java.util.List;
+import java.util.SortedSet;
 
 public class AudioMixer {
     /**
@@ -23,16 +24,16 @@ public class AudioMixer {
     }
 
 
-    public static int mixItUp(List<AudioInstruction> _active, int time, AudioMixer audioMixer) {
+    public static int mixItUp(SortedSet<Instruction> _active, int time, AudioMixer audioMixer) {
         for (int fill = 0; fill < audioMixer.mix.length;) {
             audioMixer.mix[fill++] = 0;
         }
 
-        for (AudioInstruction instruction : _active) {
+        for (Instruction instruction : _active) {
             if (instruction._start > time)
                 audioMixer.available = instruction._start - time;
             else
-                audioMixer.available = singlePass(instruction, time, audioMixer);
+                audioMixer.available = singlePass((AudioInstruction) instruction, time, audioMixer);
         }
         if (audioMixer.available > 0) {
             for (int convert = 0; convert < audioMixer.output.length;) {

@@ -3,6 +3,7 @@ package no.bouvet.kpro.renderer.audio;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Sets;
 import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Renderer;
@@ -168,7 +169,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
             }
             _active = pruneByTime(_active);
 
-            _time = AudioMixer.mixItUp(_active, _time, audioMixer);
+            _time = AudioMixer.mixItUp(Sets.<Instruction>newTreeSet(_active), _time, audioMixer);
         }
         log.debug("End of composition, draining target..." );
         audioMixer.target.drain();
