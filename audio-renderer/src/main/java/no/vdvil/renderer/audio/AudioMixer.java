@@ -34,7 +34,6 @@ public class AudioMixer {
             else
                 audioMixer.available = singlePass(instruction, time, audioMixer);
         }
-        System.out.println("audioMixer.available = " + audioMixer.available);
         if (audioMixer.available > 0) {
             for (int convert = 0; convert < audioMixer.output.length;) {
                 int v = audioMixer.mix[convert >>> 1];
