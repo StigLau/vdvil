@@ -34,7 +34,7 @@ public class Composition implements MultimediaPart, CompositionI {
     }
 
     @Override
-    public List<? extends OnlyTheImportantStuffFromMultimediaPart> parts(MasterBeatPattern beatPattern) throws IOException {
+    public List<? extends OnlyTheImportantStuffFromMultimediaPart> parts(MasterBeatPattern beatPattern) {
         return multimediaParts;
     }
 

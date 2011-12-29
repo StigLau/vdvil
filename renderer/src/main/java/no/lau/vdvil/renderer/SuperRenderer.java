@@ -15,11 +15,15 @@ public abstract class SuperRenderer implements InstructionInterface, RendererTok
     protected SortedSet<Instruction> instructionSet = new TreeSet<Instruction>();
 
     @Override
-    public void setComposition(CompositionI composition, MasterBeatPattern beatPattern) throws IOException {
-        for (Instruction instruction : composition.instructions(beatPattern).lock()) {
-            if(passesFilter(instruction)) {
-                instructionSet.add(instruction);
+    public void setComposition(CompositionI composition, MasterBeatPattern beatPattern) {
+        try {
+            for (Instruction instruction : composition.instructions(beatPattern).lock()) {
+                if(passesFilter(instruction)) {
+                    instructionSet.add(instruction);
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 

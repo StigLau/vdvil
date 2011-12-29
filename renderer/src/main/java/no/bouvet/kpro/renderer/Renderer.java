@@ -79,17 +79,12 @@ public class Renderer {
         //If failed starting. stop renderers, empty instructionlist and unlock instructions
 
         //TODO Note that if this takes some time, setting up instructions should have been done PRIOR to start. Perhaps in construction!
+        _timeSource.start();
         for (RendererToken renderer : _renderers) {
             if (renderer instanceof InstructionInterface) {
-                InstructionInterface improvedRenderer = (InstructionInterface) renderer;
-                try {
-                    improvedRenderer.setComposition(composition, playBackPattern);
-                } catch (IOException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
+                ((InstructionInterface) renderer).setComposition(composition, playBackPattern);
             }
         }
-        _timeSource.start();
         _rendering = true;
 		return true;
 	}

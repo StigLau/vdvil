@@ -6,7 +6,6 @@ import no.lau.vdvil.renderer.SuperRenderer;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.lau.vdvil.timing.Time;
 import javax.swing.*;
-import java.io.IOException;
 
 public class LyricRenderer extends SuperRenderer implements LyricListener {
     JFrame frame;
@@ -46,7 +45,7 @@ public class LyricRenderer extends SuperRenderer implements LyricListener {
 
 
     @Override
-    public void setComposition(CompositionI composition, MasterBeatPattern beatPattern) throws IOException {
+    public void setComposition(CompositionI composition, MasterBeatPattern beatPattern) {
         super.setComposition(composition, beatPattern);
         nextInstruction = findNextInstruction(0, instructionSet);
     }

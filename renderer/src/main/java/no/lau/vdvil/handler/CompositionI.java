@@ -13,5 +13,5 @@ import java.util.List;
 public interface CompositionI {
 
     Instructions instructions(MasterBeatPattern beatPattern) throws IOException;
-    List<? extends OnlyTheImportantStuffFromMultimediaPart> parts(MasterBeatPattern beatPattern) throws IOException;
+    List<? extends OnlyTheImportantStuffFromMultimediaPart> parts(MasterBeatPattern beatPattern);
 }

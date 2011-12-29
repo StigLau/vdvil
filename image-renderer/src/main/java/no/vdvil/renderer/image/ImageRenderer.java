@@ -36,7 +36,7 @@ public class ImageRenderer extends SuperRenderer {
     }
 
     @Override
-    public void setComposition(CompositionI composition, MasterBeatPattern beatPattern) throws IOException {
+    public void setComposition(CompositionI composition, MasterBeatPattern beatPattern) {
         super.setComposition(composition, beatPattern);
         nextInstruction = findNextInstruction(0, instructionSet);
     }
