@@ -29,16 +29,15 @@ public class AudioRenderer extends SuperRenderer implements TimeSource, Runnable
 	 */
 	public final static int MIX_FRAME = 4410;
 
-	protected AudioTarget _target;
 	protected boolean _timeSource = false;
 
 	protected Thread _thread;
-	protected int[] _mix = new int[MIX_FRAME * 2];
 
 	protected int _time = 0;
 	protected boolean _finished = false;
 
     Renderer _renderer;
+    Mixer mixer;
     Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
@@ -48,7 +47,7 @@ public class AudioRenderer extends SuperRenderer implements TimeSource, Runnable
 	 * @param target the AudioTarget to send audio to
 	 */
 	public AudioRenderer(AudioTarget target) {
-		_target = target;
+        mixer = new Mixer(target);
 	}
 
 	/**
@@ -80,7 +79,7 @@ public class AudioRenderer extends SuperRenderer implements TimeSource, Runnable
 			Thread thread = _thread;
 			_thread = null;
 
-			_target.flush();
+			mixer.target.flush();
 
 			while (thread.isAlive()) {
 				try {
@@ -90,10 +89,10 @@ public class AudioRenderer extends SuperRenderer implements TimeSource, Runnable
 				}
 			}
 
-			_target.flush();
+			mixer.target.flush();
             instructionSet.clear();
 
-			log.debug("Stopped" );
+			log.debug("Stopped");
 		}
 	}
 
@@ -142,48 +141,52 @@ public class AudioRenderer extends SuperRenderer implements TimeSource, Runnable
 	 * It may also provide time source information to the master Renderer.
 	 */
 	public void run() {
-		byte[] output = new byte[MIX_FRAME * 4];
         while (!_finished || !(instructionSet.isEmpty())) {
             if (_timeSource) {
                 _renderer.notifyTime(new Time(_time + MIX_FRAME));
             }
-
-            for (int fill = 0; fill < _mix.length;) {
-                _mix[fill++] = 0;
-            }
-
             instructionSet = pruneByTime(instructionSet);
-            int available = -1;
-            for (Instruction instruction : instructionSet) {
-                if (instruction._start > _time)
-                    available = instruction._start - _time;
-                else
-                    available = singlePass((AudioInstruction) instruction, MIX_FRAME);
-            }
-            if (available > 0) {
-                for (int convert = 0; convert < output.length;) {
-                    int v = _mix[convert >>> 1];
-                    if (v > 32766)
-                        v = 32766;
-                    else if (v < -32766)
-                        v = -32766;
-                    output[convert++] = (byte) (v & 0xFF);
-                    output[convert++] = (byte) (v >>> 8);
-                }
-                //TODO An ArrayIndexOutOfBoundsException here can be....
-                int wrote = _target.write(output, 0, available);
-                _time += wrote;
-            }
+
+            _time = mixItUp(instructionSet, _time, mixer);
         }
-        log.debug("End of composition, draining target..." );
-        _target.drain();
+        log.debug("End of composition, draining target...");
+        mixer.target.drain();
 
         if (_timeSource) {
             _renderer.notifyFinished();
         }
 	}
 
-    int singlePass(final AudioInstruction instruction, int available) {
+    private static int mixItUp(SortedSet<Instruction> instructionSet, int time, Mixer mixer) {
+        for (int fill = 0; fill < mixer.mix.length;) {
+            mixer.mix[fill++] = 0;
+        }
+
+        for (Instruction instruction : instructionSet) {
+            if (instruction._start > time)
+                mixer.available = instruction._start - time;
+            else
+                mixer.available = singlePass((AudioInstruction)instruction, time, mixer);
+        }
+        System.out.println("mixer.available = " + mixer.available);
+        if (mixer.available > 0) {
+            for (int convert = 0; convert < mixer.output.length;) {
+                int v = mixer.mix[convert >>> 1];
+                if (v > 32766)
+                    v = 32766;
+                else if (v < -32766)
+                    v = -32766;
+                mixer.output[convert++] = (byte) (v & 0xFF);
+                mixer.output[convert++] = (byte) (v >>> 8);
+            }
+
+            int wrote = mixer.target.write(mixer.output, 0, mixer.available);
+            time += wrote;
+        }
+        return time;
+    }
+
+    static int singlePass(final AudioInstruction instruction, int _time, Mixer mixer) {
         int duration = instruction._end - _time;
 
         if (instruction.getCacheExternal() != _time) {
@@ -214,9 +217,10 @@ public class AudioRenderer extends SuperRenderer implements TimeSource, Runnable
 
             instruction.setCacheInternal((int) internal);
         }
-
-        if (duration > available)
-            duration = available;
+        int available;
+        if (duration > MIX_FRAME) {
+            duration = available = MIX_FRAME;
+        }
         else
             available = duration;
 
@@ -231,7 +235,7 @@ public class AudioRenderer extends SuperRenderer implements TimeSource, Runnable
                 instruction.getCue() + internal, sduration + 22050);
 
         if (source != null) {
-            mix(source, duration, rate, volume);
+            mix(source, duration, rate, volume, mixer.mix);
         }
         return available;
     }
@@ -248,14 +252,14 @@ public class AudioRenderer extends SuperRenderer implements TimeSource, Runnable
 	 * @param volume
 	 *            the volume to mix the source samples, relative to 127
 	 */
-	protected void mix(ShortBuffer source, int duration, int rate, int volume) {
+	static void mix(ShortBuffer source, int duration, int rate, int volume, int[] mix) {
 		int base = source.position();
 
 		for (int time = 0, output = 0; time < duration; time++) {
 			int input = base + ((time * rate / 44100) << 1);
 
-			_mix[output++] += (source.get(input) * volume) >> 7;
-			_mix[output++] += (source.get(input + 1) * volume) >> 7;
+			mix[output++] += (source.get(input) * volume) >> 7;
+            mix[output++] += (source.get(input + 1) * volume) >> 7;
 		}
 	}
 
@@ -275,5 +279,16 @@ public class AudioRenderer extends SuperRenderer implements TimeSource, Runnable
 
     public void setRenderer(Renderer renderer) {
         _renderer = renderer;
+    }
+}
+
+class Mixer {
+    byte[] output = new byte[AudioRenderer.MIX_FRAME * 4];
+    int[] mix = new int[AudioRenderer.MIX_FRAME * 2];
+    int available = -1;
+    final AudioTarget target;
+
+    Mixer(AudioTarget target) {
+        this.target = target;
     }
 }
