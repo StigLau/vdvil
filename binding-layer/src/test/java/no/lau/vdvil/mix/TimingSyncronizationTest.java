@@ -24,7 +24,7 @@ public class TimingSyncronizationTest extends SuperPlayingSetup {
         List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
         parts.add(createAudioPart(returning.segments.get(3).id, new Interval(0, 4), TestMp3s.returningDvl, downloader));
         parts.add(createAudioPart(returning.segments.get(6).id, new Interval(4, 12), TestMp3s.returningDvl, downloader));
-        parts.add(createAudioPart(returning.segments.get(9).id, new Interval(32, 12), TestMp3s.returningDvl, downloader));
+        parts.add(createAudioPart(returning.segments.get(9).id, new Interval(2, 18), TestMp3s.returningDvl, downloader));
         parts.add(createAudioPart(returning.segments.get(10).id, new Interval(48, 12), TestMp3s.returningDvl, downloader));
         
         parts.add(createImagePart("1", new Interval(0,  16), new URL("http://farm6.static.flickr.com/5101/5659214954_5c333c4cd1_d.jpg")));

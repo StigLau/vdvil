@@ -2,7 +2,6 @@ package no.vdvil.renderer.audio;
 
 import com.thoughtworks.xstream.XStream;
 import no.lau.vdvil.cache.DownloaderFacade;
-import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaParser;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import java.io.IOException;
@@ -13,9 +12,6 @@ public class AudioXMLParser implements MultimediaParser {
     DownloaderFacade downloader;
     XStream xstream;
 
-    public AudioXMLParser() {
-        this(DownloadAndParseFacade.NULL);
-    }
     public AudioXMLParser(DownloaderFacade downloader) {
         this.downloader = downloader;
         xstream = new XStream();
