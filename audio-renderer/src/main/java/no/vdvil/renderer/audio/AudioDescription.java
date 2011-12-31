@@ -26,6 +26,9 @@ public class AudioDescription implements MultimediaPart {
     }
 
     public AudioInstruction asInstruction(Float masterBpm) {
+        if(urlInLocalCache == null)
+            throw new RuntimeException(track.mediaFile.fileName + " had not been cached before creating instruction! - Downloader not set");
+
         Float speedFactor = 44100 * 60 / track.bpm;
         Float differenceBetweenMasterSongAndPart = track.bpm / masterBpm;
         //Start and end come from the composition instructions
@@ -34,9 +37,6 @@ public class AudioDescription implements MultimediaPart {
         //The cue is where to start inside the mp3 sample
         Float _cue = (segment.start + compositionInstruction.cueDifference()) * speedFactor + track.mediaFile.startingOffset * 44100;
         int _duration = _end - _start;
-
-        if(urlInLocalCache == null)
-            throw new RuntimeException(track.mediaFile.fileName + " had not been cached before creating instruction!");
 
         MP3Source mp3Source = null;
         try {
