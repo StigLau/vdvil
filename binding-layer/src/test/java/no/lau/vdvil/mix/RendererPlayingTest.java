@@ -1,5 +1,6 @@
 package no.lau.vdvil.mix;
 
+import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.Renderer;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
@@ -13,6 +14,7 @@ import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.TestMp3s;
 import no.vdvil.renderer.audio.Track;
 import no.vdvil.renderer.image.ImageRenderer;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -23,6 +25,14 @@ import static no.lau.vdvil.mix.SuperPlayingSetup.*;
 
 public class RendererPlayingTest {
     DownloadAndParseFacade downloadAndParseFacade = PreconfiguredVdvilPlayer.downloadAndParseFacade;
+    Composition composition;
+    MasterBeatPattern beatPattern = new MasterBeatPattern(0, 18, 120F);
+
+    @Before
+    public void before() throws IOException {
+        composition = compose(beatPattern);
+        composition.cache(downloadAndParseFacade);
+    }
 
     @Test
     public void withRenderer() throws IOException, InterruptedException {
@@ -36,6 +46,18 @@ public class RendererPlayingTest {
         while(renderer.isRendering())
             Thread.sleep(1000);
     }
+    @Test
+    public void smokingGunwithAudioRenderer() throws IOException {
+        AudioRenderer audioRenderer = new AudioRenderer(new AudioPlaybackTarget());
+        List<Instruction> instructions = composition.instructions(beatPattern.masterBpm).lock();
+        audioRenderer.handleInstruction(0, instructions.get(0));
+        audioRenderer.handleInstruction(0, instructions.get(1));
+        audioRenderer.handleInstruction(0, instructions.get(2));
+        audioRenderer.handleInstruction(0, instructions.get(3));
+        audioRenderer.run();
+    }
+
+
 
 
     protected Composition compose(MasterBeatPattern masterBeatPattern) throws IOException {
