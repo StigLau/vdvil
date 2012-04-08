@@ -12,12 +12,10 @@ public class Interval implements TimeInterval{
         this.duration = duration;
     }
 
-    @Override
     public Integer start() {
         return start;
     }
 
-    @Override
     public Integer duration() {
         return duration;
     }
