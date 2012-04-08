@@ -56,9 +56,9 @@ public abstract class CompositionDemo {
 
     private static void assertAudioSourcesCorrect(AudioSource sourceA, AudioSource sourceB) throws Exception {
         // Check the durations to make sure the correct songs are used
-        if (Math.abs(sourceA.getDuration() - 10037376) > 44100) {
+        if (Math.abs(sourceA.getDuration() - 10037376) > Renderer.RATE) {
             throw new Exception("Source A has the wrong duration, perhaps it is the wrong version of the song");
-        } else if (Math.abs(sourceB.getDuration() - 9895680) > 44100) {
+        } else if (Math.abs(sourceB.getDuration() - 9895680) > Renderer.RATE) {
             throw new Exception("Source B has the wrong duration, perhaps it is the wrong version of the song");
         }
     }

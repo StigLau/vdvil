@@ -2,6 +2,7 @@ package no.vdvil.renderer.audio;
 
 import com.google.common.collect.Sets;
 import no.bouvet.kpro.renderer.Instruction;
+import no.bouvet.kpro.renderer.Renderer;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.MP3Source;
@@ -20,7 +21,6 @@ public class AudioMixerTest {
     AudioInstruction instruction;
     ShortBuffer source;
     int duration = 4410;
-    int rate = 44100;
     int volume = 127;
     AudioMixer mixer = new AudioMixer(new AudioPlaybackTarget());
     int maxSamplesForTest = 814150;
@@ -40,7 +40,7 @@ public class AudioMixerTest {
     @Test
     public void testMixSampleOutput() {
         int[] mix = mixer.mix;
-        AudioMixer.mix(source, duration, rate, volume, mix);
+        AudioMixer.mix(source, duration, Renderer.RATE, volume, mix);
         assertEquals(8820, mix.length);
         assertEquals(0, mix[0]);
         assertEquals(129, mix[4535]);
@@ -59,7 +59,7 @@ public class AudioMixerTest {
     public void testMixItUp() {
         int time = AudioMixer.mixItUp(instructions, 0, mixer);
         assertEquals(4410, time);
-        int time2 = AudioMixer.mixItUp(instructions, 44100, mixer);
+        int time2 = AudioMixer.mixItUp(instructions, Renderer.RATE, mixer);
         assertEquals(48510, time2);
     }
 

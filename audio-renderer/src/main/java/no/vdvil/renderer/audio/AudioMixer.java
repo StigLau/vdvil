@@ -123,7 +123,7 @@ public class AudioMixer {
         int base = source.position();
 
         for (int time = 0, output = 0; time < duration; time++) {
-            int input = base + ((time * rate / 44100) << 1);
+            int input = base + ((time * rate / Renderer.RATE) << 1);
 
             mix[output++] += (source.get(input) * volume) >> 7;
             mix[output++] += (source.get(input + 1) * volume) >> 7;

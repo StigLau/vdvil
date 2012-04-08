@@ -15,6 +15,7 @@ import no.vdvil.renderer.audio.TestMp3s;
 import no.vdvil.renderer.audio.Track;
 import no.vdvil.renderer.image.ImageRenderer;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -46,7 +47,9 @@ public class RendererPlayingTest {
         while(renderer.isRendering())
             Thread.sleep(1000);
     }
+
     @Test
+    @Ignore
     public void smokingGunwithAudioRenderer() throws IOException {
         AudioRenderer audioRenderer = new AudioRenderer(new AudioPlaybackTarget());
         List<Instruction> instructions = composition.instructions(beatPattern.masterBpm).lock();

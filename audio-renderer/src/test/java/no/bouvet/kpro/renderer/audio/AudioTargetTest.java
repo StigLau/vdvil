@@ -2,9 +2,9 @@ package no.bouvet.kpro.renderer.audio;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
 import org.junit.After;
 import org.junit.Test;
+import no.bouvet.kpro.renderer.Renderer;
 
 public abstract class AudioTargetTest {
 	protected AudioTarget target;
@@ -38,14 +38,14 @@ public abstract class AudioTargetTest {
 		writeSamples();
 		target.drain();
 
-		assertEquals(44100, target.getOutputPosition());
+		assertEquals(Renderer.RATE, target.getOutputPosition());
 	}
 
 	protected void writeSamples() {
-		byte[] samples = new byte[44100 * 4];
+		byte[] samples = new byte[Renderer.RATE * 4];
 		float factor = (float) Math.PI * 2.0f / 44.1f;
 
-		for (int sample = 0, offset = 0; sample < 44100; sample++) {
+		for (int sample = 0, offset = 0; sample < Renderer.RATE; sample++) {
 			float time = sample * factor;
 			short value = (short) (Math.sin(time) * 32000);
 
@@ -55,6 +55,6 @@ public abstract class AudioTargetTest {
 			samples[offset++] = (byte) (value >>> 8);
 		}
 
-		target.write(samples, 0, 44100);
+		target.write(samples, 0, Renderer.RATE);
 	}
 }

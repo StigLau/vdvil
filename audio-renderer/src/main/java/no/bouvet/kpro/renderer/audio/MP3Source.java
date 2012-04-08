@@ -7,6 +7,7 @@ import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.Decoder;
 import javazoom.jl.decoder.Header;
 import javazoom.jl.decoder.Obuffer;
+import no.bouvet.kpro.renderer.Renderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -336,8 +337,8 @@ public class MP3Source implements AudioSource {
 
 				// Make sure the frequency is what we want
 
-				if (frequency != 44100) {
-					log.debug( "File is " + frequency + " Hz, this source is 44100 Hz only, falling back to default" );
+				if (frequency != Renderer.RATE) {
+					log.debug( "File is " + frequency + " Hz, this source is " + Renderer.RATE + " Hz only, falling back to default" );
 					return false;
 				}
 
@@ -382,7 +383,7 @@ public class MP3Source implements AudioSource {
 
 		if (_frameCount > 10) {
 			// Notify the user
-			float seconds = (float)( _frameCount * _frameSize ) / 44100;
+			float seconds = (float)( _frameCount * _frameSize ) / Renderer.RATE;
 			log.debug( "Indexed " + _frameCount + " frames, duration is " + seconds + "s" );
 			return true;
 		} else {

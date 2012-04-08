@@ -13,7 +13,6 @@ import java.util.List;
 public class InstructionPlayer implements VdvilPlayer {
 
     final Renderer renderer;
-    final int framerate = 44100;
     final MasterBeatPattern masterBeatPattern;
 
     public InstructionPlayer(MasterBeatPattern masterBeatPattern, Instructions instructions, List<? extends AbstractRenderer> renderers) {
@@ -27,7 +26,7 @@ public class InstructionPlayer implements VdvilPlayer {
     public void play() {
         MasterBeatPattern untilStart = new MasterBeatPattern(0, masterBeatPattern.fromBeat, masterBeatPattern.masterBpm);
         //TODO Note that there are potential problems here!!!
-        Float duration = untilStart.durationCalculation() * framerate / 1000;
+        Float duration = untilStart.durationCalculation() * Renderer.RATE / 1000;
         renderer.start(duration.intValue());
     }
 
