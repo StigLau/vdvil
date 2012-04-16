@@ -40,6 +40,7 @@
         <module>image-renderer</module>
         <module>httpcache</module>
         <module>simple-cache</module>
+        <module>json-parser</module>
         <module>play-gui</module>
         <module>play-gui-webstart-distribution</module>
         <module>binding-layer</module>
