@@ -44,6 +44,7 @@
         <module>play-gui</module>
         <module>play-gui-webstart-distribution</module>
         <module>binding-layer</module>
+        <module>editingclient</module>
     </modules>
 
     <!-- Common dependency management-->
