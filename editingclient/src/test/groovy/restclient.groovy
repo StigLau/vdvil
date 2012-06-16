@@ -11,6 +11,7 @@ import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.ContentType
 import com.sun.org.apache.bcel.internal.generic.PUTFIELD
 import groovyx.net.http.Method
+import groovyx.net.http.HttpResponseDecorator
 
 //http://groovy.codehaus.org/modules/http-builder/doc/auth.html
 //https://www.dropbox.com/developers/reference/api
@@ -35,10 +36,10 @@ accessToken = 'bo9xh3fuui1lzes'
 secretToken = 'k61m613yy7d3scz'
 
 
-def restClient = new RESTClient( 'https://api.dropbox.com/1/' )
-restClient.auth.oauth consumerKey, consumerSecret, accessToken, secretToken
+def api = new RESTClient( 'https://api.dropbox.com/1/' )
+api.auth.oauth consumerKey, consumerSecret, accessToken, secretToken
 
-assert restClient.get( path : 'account/info' ).status == 200
+assert api.get( path : 'account/info' ).status == 200
 /*
 restClient.get( path : 'account/info') { resp, reader ->
     println "response status: ${resp.statusLine}"
@@ -64,9 +65,31 @@ println file.absolutePath
 println restClient.put(path: 'files_put/dropbox/hei.txt?param=val', body:file, requestContentType: ContentType.TEXT)
         //[name:'bob', title:'construction worker'],  requestContentType : ContentType.JSON)
 */
-restClient.get( path : 'metadata/sandbox') { resp, reader ->
+
+api.get( path : 'metadata/sandbox') { resp, reader ->
     reader.each {
         println it
     }
 }
-restClient.post(path: 'fileops/create_folder?root=dropbox&path=%2Ftest')
+
+def content = new RESTClient( 'https://api-content.dropbox.com/1/' )
+content.auth.oauth consumerKey, consumerSecret, accessToken, secretToken
+
+/*
+content.get(path: 'files/sandbox/test.txt') {
+    resp ->
+    println resp
+    HttpResponseDecorator decorator = resp
+    println decorator.getData()
+} */
+api.get(path: 'media/sandbox/test.txt') {
+    resp ->
+    println resp
+    HttpResponseDecorator decorator = resp
+    println decorator.getData()
+}
+
+
+println 'woot'
+
+//api.post(path: 'fileops/create_folder?root=sandbox&path=tester')

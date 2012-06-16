@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import no.lau.vdvil.cache.DownloaderFacade;
 import no.vdvil.renderer.audio.MediaFile;
 import no.vdvil.renderer.audio.Segment;
+import no.vdvil.renderer.audio.TestMp3s;
 import no.vdvil.renderer.audio.Track;
 import org.junit.Test;
 import java.io.StringReader;
@@ -39,5 +40,9 @@ public class JsonParserTest {
         Track track = audioJsonParser.parseJsonStringToTrack(new StringReader(testJson));
         assertEquals("trackReference", track.reference);
         assertEquals(new URL("http://url.com"), track.mediaFile.fileName);
+    }
+    @Test
+    public void jsonReturning() throws MalformedURLException {
+        System.out.println(new Gson().toJson(TestMp3s.returning));
     }
 }
