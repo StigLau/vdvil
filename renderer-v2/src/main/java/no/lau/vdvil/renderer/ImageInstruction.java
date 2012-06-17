@@ -1,10 +1,10 @@
 package no.lau.vdvil.renderer;
 
 public class ImageInstruction implements Instruction{
-    private final String imageUrl;
+    final String imageUrl;
     private final String meta;
-    private final int start;
-    private final int length;
+    private final long start;
+    private final long length;
 
     public ImageInstruction(String imageUrl, String meta, int start, int length) {
         this.imageUrl = imageUrl;
@@ -13,9 +13,12 @@ public class ImageInstruction implements Instruction{
         this.length = length;
     }
 
-    @Override
-    public int getStartBeat() {
+    public long start() {
         return start;
+    }
+
+    public long length() {
+        return length;
     }
 }
 
