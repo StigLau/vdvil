@@ -1,7 +1,6 @@
 package no.lau.vdvil.renderer;
 
 import no.lau.vdvil.timing.SimpleThreadSleepTimer;
-import no.lau.vdvil.timing.Timer;
 import org.junit.Test;
 
 public class MasterRendererTest {
@@ -17,7 +16,7 @@ public class MasterRendererTest {
         ImageRenderer imageRenderer = new ImageRenderer(masterRenderer);
         masterRenderer.addRenderer(imageRenderer);
 
-        MetronomeRenderer metronomeRenderer = new MetronomeRenderer(masterRenderer);
+        MetronomeRenderer metronomeRenderer = new MetronomeRenderer();
         metronomeRenderer.addInstruction(new MetronomeInstruction(0, 32));
         masterRenderer.addRenderer(metronomeRenderer);
 
@@ -39,7 +38,7 @@ public class MasterRendererTest {
             {
                 MasterRenderer masterRenderer = new MasterRenderer();
                 setMasterRenderer(masterRenderer);
-                MetronomeRenderer metronomeRenderer = new MetronomeRenderer(masterRenderer);
+                MetronomeRenderer metronomeRenderer = new MetronomeRenderer();
                 metronomeRenderer.addInstruction(new MetronomeInstruction(0, 64));
                 masterRenderer.addRenderer(metronomeRenderer);
             }

@@ -14,16 +14,10 @@ public class MetronomeRenderer implements Renderer {
     private long start;
     private long end;
     static final Logger log = LoggerFactory.getLogger(MetronomeRenderer.class);
-    private Renderer masterRenderer;
-
-    public MetronomeRenderer(Renderer masterRenderer) {
-        this.masterRenderer = masterRenderer;
-    }
 
     public void addInstruction(Instruction instruction) {
         start = instruction.start();
         end = start + instruction.length();
-        masterRenderer.addInstruction(instruction);
     }
 
     @Override
