@@ -4,15 +4,17 @@ import no.lau.vdvil.renderer.MetronomeInstruction;
 import no.lau.vdvil.renderer.MetronomeRenderer;
 import no.lau.vdvil.renderer.Renderer;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.junit.Assert.assertEquals;
 
 public class TimingTest {
+    static final Logger log = LoggerFactory.getLogger(TimingTest.class);
 
     @Test
     public void buildCase() {
-        PushByHandClock clock = new PushByHandClock();
-        ResolutionTimer parentTimer = new ResolutionTimer(clock);
+        ResolutionTimer parentTimer = new ResolutionTimer(null);
         Renderer metronome = new MetronomeRenderer();
         BeatRenderer beatRenderer = new BeatRenderer();
         beatRenderer.addInstruction(new ResolutionInstruction(0, 64, 120, 60));
@@ -20,27 +22,25 @@ public class TimingTest {
         beatRenderer.addRenderer(metronome);
 
         //The clock has been started
-        assertEquals(0, parentTimer.checkBeat());
+        parentTimer.updateSlider(0);
+        assertEquals(0, parentTimer.timeSlider);
 
-        clock.currentTimeMillis = 1;
-        assertEquals(0, parentTimer.checkBeat());
+        parentTimer.updateSlider(1);
+        assertEquals(0, parentTimer.timeSlider);
 
-        clock.currentTimeMillis = 499;
-        assertEquals(0, parentTimer.checkBeat());
+        parentTimer.updateSlider(499);
+        assertEquals(0, parentTimer.timeSlider);
 
-        clock.currentTimeMillis = 501;
-        assertEquals(500, parentTimer.checkBeat());
-        assertEquals(500, parentTimer.lastBeat);
-        clock.currentTimeMillis = 1; //skipping back in time requires rewinding the lastBeat!
-        assertEquals(500, parentTimer.lastBeat);
+        parentTimer.updateSlider(501);
+        assertEquals(500, parentTimer.timeSlider);
 
-        //TODO Make so that milliseconds are translated into beats by an intermidi timer!
+        parentTimer.updateSlider(1);//skipping back in time requires rewinding the lastBeat!
+        assertEquals(500, parentTimer.timeSlider);
     }
 
-    static int calculateResolution(int speed, int perMinute) {
-        return ResolutionTimer.resolution * perMinute / speed;
-    }
-
+    /**
+     * Should print out Beat 0 - Beat 4
+     */
     @Test
     public void testBeatCalculation() {
         PushByHandClock clock = new PushByHandClock();
@@ -54,40 +54,37 @@ public class TimingTest {
 
         beatRenderer.addRenderer(metronome);
 
-
-        parentTimer.checkBeat();
+        parentTimer.checkTimeAndNotify();
         clock.currentTimeMillis = 500;
-        parentTimer.checkBeat();
+        parentTimer.checkTimeAndNotify();
         clock.currentTimeMillis = 1000;
-        parentTimer.checkBeat();
+        parentTimer.checkTimeAndNotify();
         clock.currentTimeMillis = 1500;
-        parentTimer.checkBeat();
+        parentTimer.checkTimeAndNotify();
         clock.currentTimeMillis = 2000;
-        parentTimer.checkBeat();
+        parentTimer.checkTimeAndNotify();
     }
 
-
     @Test
-    public void testWithRunningClock() throws InterruptedException {
+    public void printFourBeatsWithSimpleSystemClock() throws InterruptedException {
+        log.info("Printing out four beats on time:");
         Clock clock = new SystemClock();
         //Set playback to start in 2 seconds
         long origo = clock.getCurrentTimeMillis();
         final RunnableResolutionTimer timer = new RunnableResolutionTimer(clock, origo);
-        BeatRenderer beatRenderer = new BeatRenderer() {
+        new BeatRenderer() {
             {
                 addInstruction(new ResolutionInstruction(0, 64, 120, 60));
                 //Set beatrenderer to clock + 5 sec
                 setParent(timer);
                 MetronomeRenderer metronome = new MetronomeRenderer();
-                metronome.addInstruction(new MetronomeInstruction(0, 128));
+                metronome.addInstruction(new MetronomeInstruction(0, 4));
                 addRenderer(metronome);
             }
         };
 
-        //new Thread(timer).start();
-        timer.run();
-        Thread.sleep(20000);
-
+        new Thread(timer).start();
+        Thread.sleep(2200);
     }
 }
 

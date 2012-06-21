@@ -27,9 +27,13 @@ public class BeatRenderer implements Renderer {
         return (int) (time  * instruction.speed / (instruction.perMinute * parent.resolution()));
     }
 
+    int calculateResolution(int speed, int perMinute) {
+        return ResolutionTimer.resolution * perMinute / speed;
+    }
+
     public void setParent(ResolutionTimer parentTimer) {
         this.parent = parentTimer;
-        parentTimer.notifyEvery(this, TimingTest.calculateResolution(instructions.get(0).speed, instructions.get(0).perMinute));
+        parentTimer.notifyEvery(this, calculateResolution(instructions.get(0).speed, instructions.get(0).perMinute));
     }
 
     public void addRenderer(Renderer renderer) {
