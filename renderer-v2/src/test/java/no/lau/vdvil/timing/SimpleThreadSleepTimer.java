@@ -1,18 +1,18 @@
 package no.lau.vdvil.timing;
 
-import no.lau.vdvil.renderer.Renderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SimpleThreadSleepTimer implements no.lau.vdvil.timing.Timer {
+public class SimpleThreadSleepTimer implements Timer {
 
     private final long waitFor;
-    static final Logger log = LoggerFactory.getLogger(SimpleThreadSleepTimer.class);
-    private Renderer renderer;
+    private final Conductor conductor;
     private final int start;
     private final int length;
+    static final Logger log = LoggerFactory.getLogger(SimpleThreadSleepTimer.class);
 
-    public SimpleThreadSleepTimer(int speed, int divider, int start, int length) {
+    public SimpleThreadSleepTimer(int speed, int divider, Conductor conductor, int start, int length) {
+        this.conductor = conductor;
         this.start = start;
         this.length = length;
         waitFor = 1000 * divider / speed;
@@ -20,7 +20,7 @@ public class SimpleThreadSleepTimer implements no.lau.vdvil.timing.Timer {
 
     public void play() {
         for (int beat = start; beat < start+length; beat++) {
-            renderer.notify(beat);
+            conductor.notify(beat);
             try {
                 Thread.sleep(waitFor);
             } catch (InterruptedException ie) {
@@ -28,9 +28,5 @@ public class SimpleThreadSleepTimer implements no.lau.vdvil.timing.Timer {
             }
         }
         log.info("Timer finished");
-    }
-
-    public void setMasterRenderer(Renderer renderer) {
-        this.renderer = renderer;
     }
 }

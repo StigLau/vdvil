@@ -2,41 +2,26 @@ package no.lau.vdvil.timing;
 
 import no.lau.vdvil.renderer.Instruction;
 import no.lau.vdvil.renderer.Renderer;
+import no.lau.vdvil.renderer.TimedInstructionStore;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Knower of all instructions and renderers
+ * @author Stig Lau
+ * @since June 2012
+ */
 public class Conductor {
+    TimedInstructionStore timedInstructionStore = new TimedInstructionStore();
 
-    private List<ResolutionInstruction> instructions = new ArrayList<ResolutionInstruction>();
-    private List<Renderer> renderers = new ArrayList<Renderer>();
-    private ResolutionTimer parent;
-
-    public void addInstruction(Instruction instruction) {
-        this.instructions.add((ResolutionInstruction) instruction);
-    }
-
-    public void notify(long time) {
-        for (Renderer renderer : renderers) {
-            renderer.notify(convertToBeat(time));
+    public void addInstruction(Renderer renderer, Instruction... instructions) {
+        for (Instruction instruction : instructions) {
+            timedInstructionStore.put(renderer, instruction);
         }
     }
 
-    private int convertToBeat(long time) {
-        ResolutionInstruction instruction = instructions.get(0);
-        return (int) (time  * instruction.speed / (instruction.perMinute * parent.resolution()));
-    }
-
-    int calculateResolution(int speed, int perMinute) {
-        return ResolutionTimer.resolution * perMinute / speed;
-    }
-
-    public void setParent(ResolutionTimer parentTimer) {
-        this.parent = parentTimer;
-        parentTimer.notifyEvery(this, calculateResolution(instructions.get(0).speed, instructions.get(0).perMinute));
-    }
-
-    public void addRenderer(Renderer renderer) {
-        this.renderers.add(renderer);
+    public void notify(long beat) {
+        for (Instruction instruction : timedInstructionStore.get(beat)) {
+            Renderer renderer = timedInstructionStore.owningRenderer(instruction);
+            renderer.notify(instruction, beat);
+        }
     }
 }

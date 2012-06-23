@@ -1,8 +1,6 @@
 package no.lau.vdvil.timing;
 
-import no.lau.vdvil.renderer.MetronomeInstruction;
 import no.lau.vdvil.renderer.MetronomeRenderer;
-import no.lau.vdvil.renderer.Renderer;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,28 +12,27 @@ public class TimingTest {
 
     @Test
     public void buildCase() {
-        ResolutionTimer parentTimer = new ResolutionTimer(null);
-        Renderer metronome = new MetronomeRenderer();
         Conductor conductor = new Conductor();
-        conductor.addInstruction(new ResolutionInstruction(0, 64, 120, 60));
-        conductor.setParent(parentTimer);
-        conductor.addRenderer(metronome);
+        ResolutionTimer timer = new ResolutionTimer(null);
+        new BeatTimeConverter(conductor, timer, 120, 60);
+        MetronomeRenderer metronome = new MetronomeRenderer(0, 64);
+        conductor.addInstruction(metronome, metronome.instructions());
 
         //The clock has been started
-        parentTimer.updateSlider(0);
-        assertEquals(0, parentTimer.timeSlider);
+        assertEquals(0, (long) timer.updateSlider(0));
+        assertEquals(500, timer.timeSlider);
 
-        parentTimer.updateSlider(1);
-        assertEquals(0, parentTimer.timeSlider);
+        assertEquals(null, timer.updateSlider(1));
+        assertEquals(500, timer.timeSlider);
 
-        parentTimer.updateSlider(499);
-        assertEquals(0, parentTimer.timeSlider);
+        assertEquals(null, timer.updateSlider(499));
+        assertEquals(500, timer.timeSlider);
 
-        parentTimer.updateSlider(501);
-        assertEquals(500, parentTimer.timeSlider);
+        assertEquals(500, (long) timer.updateSlider(501));
+        assertEquals(1000, timer.timeSlider);
 
-        parentTimer.updateSlider(1);//skipping back in time requires rewinding the lastBeat!
-        assertEquals(500, parentTimer.timeSlider);
+        assertEquals(null, timer.updateSlider(1));//skipping back in time requires rewinding the lastBeat!
+        assertEquals(1000, timer.timeSlider);
     }
 
     /**
@@ -44,16 +41,14 @@ public class TimingTest {
     @Test
     public void testBeatCalculation() {
         log.info("Programatically pushing time and Metronome to print Beat 0 - Beat 4");
+        Conductor conductor = new Conductor();
         PushByHandClock clock = new PushByHandClock();
         ResolutionTimer parentTimer = new ResolutionTimer(clock);
-        Conductor conductor = new Conductor();
-        conductor.addInstruction(new ResolutionInstruction(0, 64, 120, 60));
-        conductor.setParent(parentTimer);
+        new BeatTimeConverter(conductor, parentTimer, 120, 60);
 
-        MetronomeRenderer metronome = new MetronomeRenderer();
-        metronome.addInstruction(new MetronomeInstruction(0, 128));
 
-        conductor.addRenderer(metronome);
+        MetronomeRenderer metronome = new MetronomeRenderer(0, 128);
+        conductor.addInstruction(metronome, metronome.instructions());
 
         parentTimer.checkTimeAndNotify();
         clock.currentTimeMillis = 500;
@@ -69,21 +64,14 @@ public class TimingTest {
     @Test
     public void printFourBeatsWithSimpleSystemClock() throws InterruptedException {
         log.info("Printing out four beats on time:");
+        final Conductor conductor = new Conductor();
         Clock clock = new SystemClock();
         //Set playback to start in 2 seconds
         long origo = clock.getCurrentTimeMillis();
         final RunnableResolutionTimer timer = new RunnableResolutionTimer(clock, origo);
-        new Conductor() {
-            {
-                addInstruction(new ResolutionInstruction(0, 64, 120, 60));
-                //Set beatrenderer to clock + 5 sec
-                setParent(timer);
-                MetronomeRenderer metronome = new MetronomeRenderer();
-                metronome.addInstruction(new MetronomeInstruction(0, 4));
-                addRenderer(metronome);
-            }
-        };
-
+        new BeatTimeConverter(conductor, timer, 120, 60);
+        MetronomeRenderer metronome = new MetronomeRenderer(0, 64);
+        conductor.addInstruction(metronome, metronome.instructions());
         new Thread(timer).start();
         Thread.sleep(2200);
     }

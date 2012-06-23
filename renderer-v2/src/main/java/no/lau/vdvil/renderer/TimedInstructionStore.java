@@ -1,14 +1,17 @@
 package no.lau.vdvil.renderer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TimedInstructionStore {
     Map<Long, List<Instruction>> timedInstructions = new HashMap<Long, List<Instruction>>();
+    Map<Instruction, Renderer> instructionRendererMap = new HashMap<Instruction, Renderer>();
 
-    public void put(Instruction instruction) {
+    /**
+     * Stores both Renderer and Instruction so they are convenient to retrieve
+     */
+    public void put(Renderer renderer, Instruction instruction) {
+        instructionRendererMap.put(instruction, renderer);
+
         Long storeKey = instruction.start();
         if (timedInstructions.get(storeKey) != null) {
             timedInstructions.get(storeKey).add(instruction);
@@ -19,11 +22,18 @@ public class TimedInstructionStore {
         }
     }
 
-    public boolean contains(long beat) {
-        return timedInstructions.containsKey(beat);
+    /**
+     * @param beat the starting time where there might be stored instructions with the time as key.
+     * @return the collection of instructions at a given beat. An empty list if it was not found
+     */
+    public List<Instruction> get(long beat) {
+        if(timedInstructions.containsKey(beat))
+            return timedInstructions.get(beat);
+        else
+            return Collections.EMPTY_LIST;
     }
 
-    public List<Instruction> get(long beat) {
-        return timedInstructions.get(beat);
+    public Renderer owningRenderer(Instruction instruction) {
+        return instructionRendererMap.get(instruction);
     }
 }

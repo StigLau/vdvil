@@ -2,11 +2,11 @@ package no.lau.vdvil.timing;
 
 public class ResolutionTimer {
 
-    private Conductor childTimer;
+    private BeatTimeConverter childTimer;
     int notifyEvery;
     final static int resolution = 1000; // In microseconds
     final Clock clock;
-    long timeSlider = 0; //The last found beat, slides along
+    long timeSlider; //Next beat to find, slides along
     final long origo;
 
     public ResolutionTimer(Clock clock) {
@@ -23,27 +23,34 @@ public class ResolutionTimer {
         this.origo = origo;
     }
 
-    public void notifyEvery(Conductor childTimer, int notifyEvery) {
+    public void notifyEvery(BeatTimeConverter childTimer, int notifyEvery) {
         this.childTimer = childTimer;
         this.notifyEvery = notifyEvery;
     }
 
-    boolean updateSlider(long currentTimeMillis) {
-        long foundTime = calculateJump(notifyEvery, currentTimeMillis, timeSlider);
+    /**
+     * Returns the found time. Null if the slider wasn't moved.
+     */
+    Long updateSlider(long currentTimeMillis) {
+        long nextSlide = calculateJump(notifyEvery, currentTimeMillis, timeSlider);
 
-        if(foundTime > timeSlider) {
-            timeSlider = foundTime;
-            return true;
+        if(currentTimeMillis >= timeSlider && nextSlide >= timeSlider) {
+            Long previousTime = timeSlider;
+            timeSlider = timeSlider + notifyEvery;
+            return previousTime;
         } else {
-            return false;
+            return null;
         }
     }
 
     long checkTimeAndNotify() {
         long currentTimeMillis = clock.getCurrentTimeMillis();
-        if(updateSlider(currentTimeMillis))
-            childTimer.notify(timeSlider - origo);
-        return timeSlider;
+        Long foundTime = updateSlider(currentTimeMillis);
+        if (foundTime != null) {
+            childTimer.notify(foundTime - origo);
+            return foundTime;
+        } else
+            return timeSlider;
     }
 
     /**
