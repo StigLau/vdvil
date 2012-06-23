@@ -1,17 +1,16 @@
 package no.lau.vdvil.renderer;
 
-import no.lau.vdvil.timing.Conductor;
-import no.lau.vdvil.timing.SimpleThreadSleepTimer;
+import no.lau.vdvil.timing.*;
 import org.junit.Test;
 
 public class SimpleRenderingTest {
 
     @Test
     public void imageAndMetronomeTest() throws InterruptedException {
-        Conductor conductor = new Conductor();
-        int beatsPerSecond = 120;
-        int divider = 60;
-        SimpleThreadSleepTimer timer = new SimpleThreadSleepTimer(beatsPerSecond, divider, conductor, 0, 36);
+        Clock clock = new SystemClock();
+        long origo = clock.getCurrentTimeMillis();
+        final RunnableResolutionTimer timer = new RunnableResolutionTimer(clock, origo);
+        Conductor conductor = new Conductor(timer, 120, 60);
 
         MetronomeRenderer metronome = new MetronomeRenderer(0, 32);
         conductor.addInstruction(metronome, metronome.instructions());
@@ -25,14 +24,6 @@ public class SimpleRenderingTest {
                         new ImageInstruction("http://vg.no/sad2.png", "Image/png", 24, 8)
                 });
         timer.play();
-    }
-
-    @Test
-    public void metronomeTest() {
-        Conductor conductor = new Conductor();
-        MetronomeRenderer metronome = new MetronomeRenderer(0, 8);
-        conductor.addInstruction(metronome, metronome.instructions());
-
-        new SimpleThreadSleepTimer(120, 60, conductor, 0, 8).play();
+        Thread.sleep(10000);
     }
 }

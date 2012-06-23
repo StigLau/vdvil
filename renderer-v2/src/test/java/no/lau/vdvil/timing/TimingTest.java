@@ -12,10 +12,9 @@ public class TimingTest {
 
     @Test
     public void buildCase() {
-        Conductor conductor = new Conductor();
-        ResolutionTimer timer = new ResolutionTimer(null);
-        new BeatTimeConverter(conductor, timer, 120, 60);
         MetronomeRenderer metronome = new MetronomeRenderer(0, 64);
+        ResolutionTimer timer = new ResolutionTimer(null, 0);
+        Conductor conductor = new Conductor(timer, 120, 60);
         conductor.addInstruction(metronome, metronome.instructions());
 
         //The clock has been started
@@ -41,11 +40,9 @@ public class TimingTest {
     @Test
     public void testBeatCalculation() {
         log.info("Programatically pushing time and Metronome to print Beat 0 - Beat 4");
-        Conductor conductor = new Conductor();
         PushByHandClock clock = new PushByHandClock();
-        ResolutionTimer parentTimer = new ResolutionTimer(clock);
-        new BeatTimeConverter(conductor, parentTimer, 120, 60);
-
+        ResolutionTimer parentTimer = new ResolutionTimer(clock, 0);
+        Conductor conductor = new Conductor(parentTimer,  120, 60);
 
         MetronomeRenderer metronome = new MetronomeRenderer(0, 128);
         conductor.addInstruction(metronome, metronome.instructions());
@@ -64,12 +61,11 @@ public class TimingTest {
     @Test
     public void printFourBeatsWithSimpleSystemClock() throws InterruptedException {
         log.info("Printing out four beats on time:");
-        final Conductor conductor = new Conductor();
         Clock clock = new SystemClock();
         //Set playback to start in 2 seconds
         long origo = clock.getCurrentTimeMillis();
         final RunnableResolutionTimer timer = new RunnableResolutionTimer(clock, origo);
-        new BeatTimeConverter(conductor, timer, 120, 60);
+        final Conductor conductor = new Conductor(timer, 120, 60);
         MetronomeRenderer metronome = new MetronomeRenderer(0, 64);
         conductor.addInstruction(metronome, metronome.instructions());
         new Thread(timer).start();
@@ -84,15 +80,5 @@ class PushByHandClock implements Clock {
     public long getCurrentTimeMillis() {
         return currentTimeMillis;
     }
-}
-
-class SystemClock implements Clock {
-    public long getCurrentTimeMillis() {
-        return System.currentTimeMillis();
-    }
-}
-
-interface Clock {
-    long getCurrentTimeMillis();
 }
 

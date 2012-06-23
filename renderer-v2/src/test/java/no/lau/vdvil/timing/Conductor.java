@@ -11,6 +11,12 @@ import no.lau.vdvil.renderer.TimedInstructionStore;
  */
 public class Conductor {
     TimedInstructionStore timedInstructionStore = new TimedInstructionStore();
+    BeatTimeConverter converter;
+
+    public Conductor(ResolutionTimer timer, int speed, int beatsInAMinute) {
+        converter = new BeatTimeConverter(this, timer, speed, beatsInAMinute);
+
+    }
 
     public void addInstruction(Renderer renderer, Instruction... instructions) {
         for (Instruction instruction : instructions) {
