@@ -1,10 +1,8 @@
 package no.lau.vdvil.timing;
 
-import no.lau.vdvil.renderer.Renderer;
-
 public class ResolutionTimer {
 
-    private Renderer childTimer;
+    private Conductor childTimer;
     int notifyEvery;
     final static int resolution = 1000; // In microseconds
     final Clock clock;
@@ -25,7 +23,7 @@ public class ResolutionTimer {
         this.origo = origo;
     }
 
-    public void notifyEvery(Renderer childTimer, int notifyEvery) {
+    public void notifyEvery(Conductor childTimer, int notifyEvery) {
         this.childTimer = childTimer;
         this.notifyEvery = notifyEvery;
     }

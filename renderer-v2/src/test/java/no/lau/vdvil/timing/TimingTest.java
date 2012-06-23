@@ -16,10 +16,10 @@ public class TimingTest {
     public void buildCase() {
         ResolutionTimer parentTimer = new ResolutionTimer(null);
         Renderer metronome = new MetronomeRenderer();
-        BeatRenderer beatRenderer = new BeatRenderer();
-        beatRenderer.addInstruction(new ResolutionInstruction(0, 64, 120, 60));
-        beatRenderer.setParent(parentTimer);
-        beatRenderer.addRenderer(metronome);
+        Conductor conductor = new Conductor();
+        conductor.addInstruction(new ResolutionInstruction(0, 64, 120, 60));
+        conductor.setParent(parentTimer);
+        conductor.addRenderer(metronome);
 
         //The clock has been started
         parentTimer.updateSlider(0);
@@ -43,16 +43,17 @@ public class TimingTest {
      */
     @Test
     public void testBeatCalculation() {
+        log.info("Programatically pushing time and Metronome to print Beat 0 - Beat 4");
         PushByHandClock clock = new PushByHandClock();
         ResolutionTimer parentTimer = new ResolutionTimer(clock);
-        BeatRenderer beatRenderer = new BeatRenderer();
-        beatRenderer.addInstruction(new ResolutionInstruction(0, 64, 120, 60));
-        beatRenderer.setParent(parentTimer);
+        Conductor conductor = new Conductor();
+        conductor.addInstruction(new ResolutionInstruction(0, 64, 120, 60));
+        conductor.setParent(parentTimer);
 
         MetronomeRenderer metronome = new MetronomeRenderer();
         metronome.addInstruction(new MetronomeInstruction(0, 128));
 
-        beatRenderer.addRenderer(metronome);
+        conductor.addRenderer(metronome);
 
         parentTimer.checkTimeAndNotify();
         clock.currentTimeMillis = 500;
@@ -72,7 +73,7 @@ public class TimingTest {
         //Set playback to start in 2 seconds
         long origo = clock.getCurrentTimeMillis();
         final RunnableResolutionTimer timer = new RunnableResolutionTimer(clock, origo);
-        new BeatRenderer() {
+        new Conductor() {
             {
                 addInstruction(new ResolutionInstruction(0, 64, 120, 60));
                 //Set beatrenderer to clock + 5 sec

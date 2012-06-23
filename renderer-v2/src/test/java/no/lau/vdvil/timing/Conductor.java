@@ -6,7 +6,7 @@ import no.lau.vdvil.renderer.Renderer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BeatRenderer implements Renderer {
+public class Conductor {
 
     private List<ResolutionInstruction> instructions = new ArrayList<ResolutionInstruction>();
     private List<Renderer> renderers = new ArrayList<Renderer>();
