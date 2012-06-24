@@ -1,5 +1,7 @@
 package no.lau.vdvil.timing;
 
+import no.lau.vdvil.control.Conductor;
+
 /**
  * Special Renderer for handling timing interpretations
  */

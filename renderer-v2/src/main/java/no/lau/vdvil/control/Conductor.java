@@ -1,8 +1,10 @@
-package no.lau.vdvil.timing;
+package no.lau.vdvil.control;
 
 import no.lau.vdvil.renderer.Instruction;
 import no.lau.vdvil.renderer.Renderer;
 import no.lau.vdvil.renderer.TimedInstructionStore;
+import no.lau.vdvil.timing.BeatTimeConverter;
+import no.lau.vdvil.timing.ResolutionTimer;
 
 /**
  * Knower of all instructions and renderers

@@ -1,5 +1,6 @@
 package no.lau.vdvil.timing;
 
+import no.lau.vdvil.control.Conductor;
 import no.lau.vdvil.renderer.MetronomeRenderer;
 import org.junit.Test;
 import org.slf4j.Logger;

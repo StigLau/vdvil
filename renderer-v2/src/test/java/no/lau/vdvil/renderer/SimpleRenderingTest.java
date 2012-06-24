@@ -1,5 +1,6 @@
 package no.lau.vdvil.renderer;
 
+import no.lau.vdvil.control.Conductor;
 import no.lau.vdvil.timing.*;
 import org.junit.Test;
 
