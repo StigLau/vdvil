@@ -10,14 +10,13 @@ public class BeatTimeConverter {
     private final Conductor renderer;
     private final ResolutionTimer timer;
     private final int speed;
-    private final int perMinute;
+    private final int beatsInAMinute = 60;
 
-    public BeatTimeConverter(Conductor renderer, ResolutionTimer timer, int speed, int perMinute) {
+    public BeatTimeConverter(Conductor renderer, ResolutionTimer timer, int speed) {
         this.renderer = renderer;
         this.speed = speed;
-        this.perMinute = perMinute;
         this.timer = timer;
-        timer.notifyEvery(this, calculateResolution(speed, perMinute));
+        timer.notifyEvery(this, calculateResolution(speed));
     }
 
     public void notify(long time) {
@@ -25,11 +24,11 @@ public class BeatTimeConverter {
     }
 
     private int convertToBeat(long time) {
-        return (int) (time  * speed / (perMinute * timer.resolution()));
+        return (int) (time  * speed / (beatsInAMinute * timer.resolution()));
     }
 
-    int calculateResolution(int speed, int perMinute) {
-        return ResolutionTimer.resolution * perMinute / speed;
+    int calculateResolution(int speed) {
+        return ResolutionTimer.resolution * beatsInAMinute / speed;
     }
 
     /**

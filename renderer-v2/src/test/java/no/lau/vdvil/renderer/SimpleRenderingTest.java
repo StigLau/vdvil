@@ -11,7 +11,7 @@ public class SimpleRenderingTest {
         Clock clock = new SystemClock();
         long origo = clock.getCurrentTimeMillis();
         final RunnableResolutionTimer timer = new RunnableResolutionTimer(clock, origo);
-        Conductor conductor = new Conductor(timer, 120, 60);
+        Conductor conductor = new Conductor(timer, 120);
 
         MetronomeRenderer metronome = new MetronomeRenderer(0, 32);
         conductor.addInstruction(metronome, metronome.instructions());

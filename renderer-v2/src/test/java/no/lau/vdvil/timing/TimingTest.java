@@ -15,7 +15,7 @@ public class TimingTest {
     public void buildCase() {
         MetronomeRenderer metronome = new MetronomeRenderer(0, 64);
         ResolutionTimer timer = new ResolutionTimer(null, 0);
-        Conductor conductor = new Conductor(timer, 120, 60);
+        Conductor conductor = new Conductor(timer, 120);
         conductor.addInstruction(metronome, metronome.instructions());
 
         //The clock has been started
@@ -43,7 +43,7 @@ public class TimingTest {
         log.info("Programatically pushing time and Metronome to print Beat 0 - Beat 4");
         PushByHandClock clock = new PushByHandClock();
         ResolutionTimer parentTimer = new ResolutionTimer(clock, 0);
-        Conductor conductor = new Conductor(parentTimer,  120, 60);
+        Conductor conductor = new Conductor(parentTimer,  120);
 
         MetronomeRenderer metronome = new MetronomeRenderer(0, 128);
         conductor.addInstruction(metronome, metronome.instructions());
@@ -65,7 +65,7 @@ public class TimingTest {
         Clock clock = new SystemClock();
         long origo = clock.getCurrentTimeMillis();
         final RunnableResolutionTimer timer = new RunnableResolutionTimer(clock, origo);
-        final Conductor conductor = new Conductor(timer, 120, 60);
+        final Conductor conductor = new Conductor(timer, 120);
         MetronomeRenderer metronome = new MetronomeRenderer(0, 4);
         conductor.addInstruction(metronome, metronome.instructions());
         timer.play();
