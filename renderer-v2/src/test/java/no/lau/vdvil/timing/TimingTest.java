@@ -62,14 +62,15 @@ public class TimingTest {
     public void printFourBeatsWithSimpleSystemClock() throws InterruptedException {
         log.info("Printing out four beats on time:");
         Clock clock = new SystemClock();
-        //Set playback to start in 2 seconds
         long origo = clock.getCurrentTimeMillis();
         final RunnableResolutionTimer timer = new RunnableResolutionTimer(clock, origo);
         final Conductor conductor = new Conductor(timer, 120, 60);
-        MetronomeRenderer metronome = new MetronomeRenderer(0, 64);
+        MetronomeRenderer metronome = new MetronomeRenderer(0, 4);
         conductor.addInstruction(metronome, metronome.instructions());
-        new Thread(timer).start();
-        Thread.sleep(2200);
+        timer.play();
+        while(conductor.isPlaying()) {
+            Thread.sleep(500);
+        }
     }
 }
 

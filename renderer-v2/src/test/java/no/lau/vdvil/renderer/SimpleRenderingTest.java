@@ -24,6 +24,8 @@ public class SimpleRenderingTest {
                         new ImageInstruction("http://vg.no/sad2.png", "Image/png", 24, 8)
                 });
         timer.play();
-        Thread.sleep(10000);
+        while(conductor.isPlaying()) {
+            Thread.sleep(500);
+        }
     }
 }

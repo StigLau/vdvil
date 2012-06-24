@@ -29,4 +29,11 @@ public class BeatTimeConverter {
     int calculateResolution(int speed, int perMinute) {
         return ResolutionTimer.resolution * perMinute / speed;
     }
+
+    /**
+     * @return the current time position as beat
+     */
+    public long getCurrentBeat() {
+        return convertToBeat(timer.timeSlider - timer.origo);
+    }
 }

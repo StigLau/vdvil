@@ -30,4 +30,8 @@ public class Conductor {
             renderer.notify(instruction, beat);
         }
     }
+
+    public boolean isPlaying() {
+        return timedInstructionStore.passedInstructions(converter.getCurrentBeat());
+    }
 }
