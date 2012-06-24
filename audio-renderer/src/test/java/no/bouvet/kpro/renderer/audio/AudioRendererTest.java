@@ -4,7 +4,7 @@ import java.io.File;
 import java.net.URL;
 
 import no.bouvet.kpro.renderer.Instructions;
-import no.bouvet.kpro.renderer.Renderer;
+import no.bouvet.kpro.renderer.OldRenderer;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ public class AudioRendererTest {
 	public void playingOWherePitchIncreases() {
 		AudioSource source = null;
 		AudioTarget target = null;
-		Renderer renderer = null;
+		OldRenderer renderer = null;
 
 		try {
 			// Create the AudioSource
@@ -32,14 +32,14 @@ public class AudioRendererTest {
 
 			Instructions instructions = new Instructions();
 			AudioInstruction instruction = new AudioInstruction(0, 206959,
-					source, 0, Renderer.RATE);
+					source, 0, OldRenderer.RATE);
 			instruction.setInterpolatedRate(0.1f, 0.4f);
 			instruction.setInterpolatedVolume(1.5f, 0.1f);
 			instructions.append(instruction);
 
-			// Create the Renderer with an AudioRenderer instance
+			// Create the OldRenderer with an AudioRenderer instance
 
-			renderer = new Renderer(instructions);
+			renderer = new OldRenderer(instructions);
 			renderer.addRenderer(new AudioRenderer(target));
 
 			// Start the renderer at the beginning

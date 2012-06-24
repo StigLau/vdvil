@@ -1,7 +1,8 @@
 package no.lau.vdvil.timing;
 
 import no.lau.vdvil.instruction.Instruction;
-
+import no.lau.vdvil.instruction.SortInstructionHelper;
+@Deprecated // I think
 public class ResolutionInstruction implements Instruction {
 
     private final long start;
@@ -22,5 +23,13 @@ public class ResolutionInstruction implements Instruction {
 
     public long length() {
         return length;
+    }
+
+    public long end() {
+        return start + length;
+    }
+
+    public int compareTo(Object other) {
+        return SortInstructionHelper.compareTo(this, other);
     }
 }

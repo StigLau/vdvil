@@ -1,9 +1,9 @@
 package no.lau.vdvil.player;
 
-import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.Instructions;
-import no.bouvet.kpro.renderer.Renderer;
+import no.bouvet.kpro.renderer.OldRenderer;
 import no.lau.vdvil.timing.MasterBeatPattern;
+import no.lau.vdvil.renderer.Renderer;
 import java.util.List;
 
 /**
@@ -12,13 +12,13 @@ import java.util.List;
  */
 public class InstructionPlayer implements VdvilPlayer {
 
-    final Renderer renderer;
+    final OldRenderer renderer;
     final MasterBeatPattern masterBeatPattern;
 
-    public InstructionPlayer(MasterBeatPattern masterBeatPattern, Instructions instructions, List<? extends AbstractRenderer> renderers) {
+    public InstructionPlayer(MasterBeatPattern masterBeatPattern, Instructions instructions, List<Renderer> renderers) {
         this.masterBeatPattern = masterBeatPattern;
-        renderer = new Renderer(instructions);
-        for (AbstractRenderer abstractRenderer : renderers) {
+        renderer = new OldRenderer(instructions);
+        for (Renderer abstractRenderer : renderers) {
             renderer.addRenderer(abstractRenderer);
         }
     }
@@ -26,7 +26,7 @@ public class InstructionPlayer implements VdvilPlayer {
     public void play() {
         MasterBeatPattern untilStart = new MasterBeatPattern(0, masterBeatPattern.fromBeat, masterBeatPattern.masterBpm);
         //TODO Note that there are potential problems here!!!
-        Float duration = untilStart.durationCalculation() * Renderer.RATE / 1000;
+        Float duration = untilStart.durationCalculation() * OldRenderer.RATE / 1000;
         renderer.start(duration.intValue());
     }
 

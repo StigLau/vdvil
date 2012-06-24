@@ -1,7 +1,7 @@
 package no.lau.vdvil.player
 
 import no.bouvet.kpro.renderer.audio.{AudioPlaybackTarget, AudioRenderer}
-import no.bouvet.kpro.renderer.Renderer
+import no.bouvet.kpro.renderer.OldRenderer
 import no.lau.vdvil.domain.player.ScalaComposition
 import no.vdvil.renderer.lyric.LyricRenderer
 import no.vdvil.renderer.image.ImageRenderer

@@ -1,14 +1,14 @@
 package no.lau.vdvil.mix;
 
-import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaPart;
+import no.lau.vdvil.instruction.ImageInstruction;
+import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.TestMp3s;
-import no.vdvil.renderer.image.ImageInstruction;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.IOException;
@@ -58,35 +58,35 @@ public class SurrenderPlayingTest extends SuperPlayingSetup {
 
         //ImageInstruction 0-16
         assertEquals(ImageInstruction.class, instructionList.get(0).getClass());
-        assertEquals(0, instructionList.get(0)._start);
-        assertEquals(352800, instructionList.get(0)._end); //16 * 1/2 * 44100
+        assertEquals(0, instructionList.get(0).start());
+        assertEquals(352800, instructionList.get(0).end()); //16 * 1/2 * 44100
         //AudioInstruction 0-16
         assertEquals(AudioInstruction.class, instructionList.get(1).getClass());
-        assertEquals(0, instructionList.get(1)._start);
-        assertEquals(352800, instructionList.get(1)._end);
+        assertEquals(0, instructionList.get(1).start());
+        assertEquals(352800, instructionList.get(1).end());
         //ImageInstruction 16-32
         assertEquals(ImageInstruction.class, instructionList.get(2).getClass());
-        assertEquals(352800, instructionList.get(2)._start);
-        assertEquals(705600, instructionList.get(2)._end);
+        assertEquals(352800, instructionList.get(2).start());
+        assertEquals(705600, instructionList.get(2).end());
         //AudioInstruction 16-80
         assertEquals(AudioInstruction.class, instructionList.get(3).getClass());
-        assertEquals(352800, instructionList.get(3)._start);
-        assertEquals(1763999, instructionList.get(3)._end);
+        assertEquals(352800, instructionList.get(3).start());
+        assertEquals(1763999, instructionList.get(3).end());
         //ImageInstruction
         assertEquals(ImageInstruction.class, instructionList.get(4).getClass());
-        assertEquals(705600, instructionList.get(4)._start);
-        assertEquals(1058400, instructionList.get(4)._end);
+        assertEquals(705600, instructionList.get(4).start());
+        assertEquals(1058400, instructionList.get(4).end());
         //ImageInstruction
         assertEquals(ImageInstruction.class, instructionList.get(5).getClass());
-        assertEquals(1411200, instructionList.get(5)._start);
-        assertEquals(2116800, instructionList.get(5)._end);
+        assertEquals(1411200, instructionList.get(5).start());
+        assertEquals(2116800, instructionList.get(5).end());
         //AudioInstruction 144 - 240
         assertEquals(AudioInstruction.class, instructionList.get(6).getClass());
-        assertEquals(1763999, instructionList.get(6)._start);
-        assertEquals(3175200, instructionList.get(6)._end);
+        assertEquals(1763999, instructionList.get(6).start());
+        assertEquals(3175200, instructionList.get(6).end());
 
         assertEquals(AudioInstruction.class, instructionList.get(7).getClass());
-        assertEquals(3175200, instructionList.get(7)._start);
-        assertEquals(5292000, instructionList.get(7)._end);
+        assertEquals(3175200, instructionList.get(7).start());
+        assertEquals(5292000, instructionList.get(7).end());
     }
 }

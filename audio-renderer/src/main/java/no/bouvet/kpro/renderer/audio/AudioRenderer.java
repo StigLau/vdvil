@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Sets;
+import no.bouvet.kpro.renderer.AbstractInstruction;
 import no.bouvet.kpro.renderer.AbstractRenderer;
-import no.bouvet.kpro.renderer.Instruction;
-import no.bouvet.kpro.renderer.Renderer;
+import no.bouvet.kpro.renderer.OldRenderer;
+import no.lau.vdvil.instruction.Instruction;
+import no.lau.vdvil.renderer.Renderer;
 import no.vdvil.renderer.audio.AudioMixer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +25,7 @@ import org.slf4j.LoggerFactory;
  * @author Michael Stokes
  * @author Stig Lau
  */
-public class AudioRenderer extends AbstractRenderer implements Runnable {
-    
+public class AudioRenderer extends AbstractRenderer implements Runnable, Renderer {
 
     AudioMixer audioMixer;
     protected boolean _timeSource = false;
@@ -71,7 +72,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
     public boolean start(int time) {
         stop();
 
-        log.debug("Starting at " + ( (float)time / Renderer.RATE ) + "s with frame size " + ( (float) AudioMixer.MIX_FRAME / Renderer.RATE ) + "s" );
+        log.debug("Starting at " + ( (float)time / OldRenderer.RATE ) + "s with frame size " + ( (float) AudioMixer.MIX_FRAME / OldRenderer.RATE ) + "s" );
 
         audioMixer.target.flush();
 
@@ -110,15 +111,15 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
     }
 
     /**
-     * Handle a rendering Instruction. This method is called by the master
+     * Handle a rendering AbstractInstruction. This method is called by the master
      * Renderer as time passes within the instruction list. The time parameter
      * specifies the current rendering time. The instruction parameter specifies
      * a rendering instruction event that has occurred.
      *
-     * The start time of the Instruction will always be less than or equal to
+     * The start time of the AbstractInstruction will always be less than or equal to
      * the time parameter. If it were greater, it would not have occurred yet.
      *
-     * The start time of the Instruction may be significantly less than the time
+     * The start time of the AbstractInstruction may be significantly less than the time
      * parameter when rendering begins, as instructions that have already
      * started may need to be handled to bring the state up to date.
      *
@@ -129,27 +130,24 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
      * instructions.
      *
      * The AudioRenderer builds and maintains a list of currently active
-     * AudioInstructions. All other Instruction types are ignored.
+     * AudioInstructions. All other AbstractInstruction types are ignored.
      *
-     * @param time
+     * @param beat
      *            the current rendering time in samples
      * @param instruction
      *            the instruction that has occurred, or null
      */
-    @Override
-    public void handleInstruction(int time, Instruction instruction) {
-        System.out.println("Got instruction {} to be played at {}" + time);
+    public void notify(Instruction instruction, long beat) {
+        System.out.println("Got instruction {} to be played at {}" + beat);
         if (instruction instanceof AudioInstruction) {
             _active.add((AudioInstruction) instruction);
         }
     }
 
-    @Override
     public boolean isRendering() {
         return !_finished;
     }
 
-    @Override
     public void stop(Instruction instruction) {
         //AudioRenderer handles stopping playback itself
         _finished = true;
@@ -160,7 +158,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
      * procedure.
      *
      * The AudioRenderer's thread mixes audio and sends it to the AudioTarget.
-     * It may also provide time source information to the master Renderer.
+     * It may also provide time source information to the master OldRenderer.
      */
     public void run() {
         while (!_finished || !(_active.isEmpty())) {
@@ -169,7 +167,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable {
             }
             _active = pruneByTime(_active);
 
-            _time = AudioMixer.mixItUp(Sets.<Instruction>newTreeSet(_active), _time, audioMixer);
+            _time = AudioMixer.mixItUp(Sets.<AbstractInstruction>newTreeSet(_active), _time, audioMixer);
         }
         log.debug("End of composition, draining target..." );
         audioMixer.target.drain();

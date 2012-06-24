@@ -1,8 +1,8 @@
 package no.vdvil.renderer.audio;
 
 import com.google.common.collect.Sets;
-import no.bouvet.kpro.renderer.Instruction;
-import no.bouvet.kpro.renderer.Renderer;
+import no.bouvet.kpro.renderer.AbstractInstruction;
+import no.bouvet.kpro.renderer.OldRenderer;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.MP3Source;
@@ -24,7 +24,7 @@ public class AudioMixerTest {
     int volume = 127;
     AudioMixer mixer = new AudioMixer(new AudioPlaybackTarget());
     int maxSamplesForTest = 814150;
-    TreeSet<Instruction> instructions = Sets.newTreeSet();
+    TreeSet<AbstractInstruction> instructions = Sets.newTreeSet();
 
 
     @Before
@@ -40,7 +40,7 @@ public class AudioMixerTest {
     @Test
     public void testMixSampleOutput() {
         int[] mix = mixer.mix;
-        AudioMixer.mix(source, duration, Renderer.RATE, volume, mix);
+        AudioMixer.mix(source, duration, OldRenderer.RATE, volume, mix);
         assertEquals(8820, mix.length);
         assertEquals(0, mix[0]);
         assertEquals(129, mix[4535]);
@@ -59,7 +59,7 @@ public class AudioMixerTest {
     public void testMixItUp() {
         int time = AudioMixer.mixItUp(instructions, 0, mixer);
         assertEquals(4410, time);
-        int time2 = AudioMixer.mixItUp(instructions, Renderer.RATE, mixer);
+        int time2 = AudioMixer.mixItUp(instructions, OldRenderer.RATE, mixer);
         assertEquals(48510, time2);
     }
 

@@ -1,38 +1,38 @@
 package no.lau.vdvil.handler;
 
+import no.bouvet.kpro.renderer.AbstractInstruction;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
+import no.lau.vdvil.instruction.Instruction;
 
 import java.io.IOException;
 
 public interface MultimediaPart {
     MultimediaPart NULL = new MultimediaPart() {
 
-        public no.bouvet.kpro.renderer.Instruction asInstruction(Float masterBpm) {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        public AbstractInstruction asInstruction(Float masterBpm) {
+            return null;
         }
 
         @Override
         public no.lau.vdvil.instruction.Instruction asV2Instruction() {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            return null;
         }
 
         public CompositionInstruction compositionInstruction() {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            return null;
         }
 
         public void cache(DownloadAndParseFacade downloader) throws IOException { }
     };
 
-    no.bouvet.kpro.renderer.Instruction asInstruction(Float masterBpm);
+    Instruction asInstruction(Float masterBpm);
 
-    no.lau.vdvil.instruction.Instruction asV2Instruction();
+    Instruction asV2Instruction();
 
     CompositionInstruction compositionInstruction();
 
     /**
      * Try to download multimedia payload to cache
-     * @param downloader
-     * @throws IOException
      */
     void cache(DownloadAndParseFacade downloader) throws IOException;
 }

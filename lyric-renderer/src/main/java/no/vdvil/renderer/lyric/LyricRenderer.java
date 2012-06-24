@@ -1,13 +1,15 @@
 package no.vdvil.renderer.lyric;
 
-import no.bouvet.kpro.renderer.AbstractRenderer;
-import no.bouvet.kpro.renderer.Instruction;
+import no.lau.vdvil.instruction.Instruction;
+import no.lau.vdvil.instruction.LyricInstruction;
+import no.lau.vdvil.renderer.Renderer;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LyricRenderer extends AbstractRenderer implements LyricListener{
+public class LyricRenderer implements LyricListener, Renderer {
     JFrame frame;
     JLabel label;
     String text = "";
@@ -18,16 +20,10 @@ public class LyricRenderer extends AbstractRenderer implements LyricListener{
         frame = new JFrame("LyricRendererGUITest");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        label = new JLabel("Lyric Renderer Panel");
+        label = new JLabel("Lyric OldRenderer Panel");
         frame.getContentPane().add(label);
         //frame.pack();
         frame.setSize(width, height);
-    }
-
-    public void handleInstruction(int time, Instruction instruction) {
-        if (instruction instanceof LyricInstruction) {
-            shoutHello((LyricInstruction) instruction);
-        }
     }
 
     private void shoutHello(final LyricInstruction lyricInstruction) {
@@ -38,16 +34,10 @@ public class LyricRenderer extends AbstractRenderer implements LyricListener{
         });
     }
 
-    @Override
-    public boolean start(int time) {
-        return true;
-    }
-
     public boolean isRendering() {
         return !runningLyricInstructions.isEmpty();
     }
 
-    @Override
     public void stop(Instruction instruction) {
         runningLyricInstructions.remove(instruction);
                 if(runningLyricInstructions.isEmpty())
@@ -59,5 +49,9 @@ public class LyricRenderer extends AbstractRenderer implements LyricListener{
         label.setText(this.text);
         if(!frame.isVisible())
                 frame.setVisible(true);
+    }
+
+    public void notify(Instruction instruction, long beat) {
+        shoutHello((LyricInstruction) instruction);
     }
 }

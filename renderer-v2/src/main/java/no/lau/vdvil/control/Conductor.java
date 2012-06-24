@@ -6,7 +6,7 @@ import no.lau.vdvil.timing.BeatTimeConverter;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.lau.vdvil.timing.ResolutionTimer;
 import no.lau.vdvil.timing.RunnableResolutionTimer;
-import no.no.lau.vdvil.renderer.Renderer;
+import no.lau.vdvil.renderer.Renderer;
 
 /**
  * Knower of all instructions and renderers

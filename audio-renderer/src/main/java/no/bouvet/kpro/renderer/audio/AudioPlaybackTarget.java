@@ -1,6 +1,6 @@
 package no.bouvet.kpro.renderer.audio;
 
-import no.bouvet.kpro.renderer.Renderer;
+import no.bouvet.kpro.renderer.OldRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.sound.sampled.AudioFormat;
@@ -14,6 +14,7 @@ import javax.sound.sampled.SourceDataLine;
  * javax.sound.sampled API for audio output.
  * 
  * @author Michael Stokes
+ * @author Stig Lau
  */
 public class AudioPlaybackTarget implements AudioTarget {
 	protected SourceDataLine _line;
@@ -27,12 +28,10 @@ public class AudioPlaybackTarget implements AudioTarget {
 	 * hardware.
 	 * 
 	 * @throws LineUnavailableException wrapped in RuntimeException if the audio device could not be opened
-	 * @author Michael Stokes
-     * @author Stig Lau
 	 */
 	public AudioPlaybackTarget() {
-		log.debug("Opening audio device for " + Renderer.RATE + " Hz stereo 16-bit real-time output" );
-		AudioFormat format = new AudioFormat(Renderer.RATE, 16, 2, true, false);
+		log.debug("Opening audio device for " + OldRenderer.RATE + " Hz stereo 16-bit real-time output" );
+		AudioFormat format = new AudioFormat(OldRenderer.RATE, 16, 2, true, false);
 
         try {
             _line = AudioSystem.getSourceDataLine(format);
@@ -53,8 +52,6 @@ public class AudioPlaybackTarget implements AudioTarget {
 	/**
 	 * Close the audio target by stopping and releasing the audio output
 	 * hardware.
-	 * 
-	 * @author Michael Stokes
 	 */
 	public void close() {
 		if (_line != null) {
@@ -70,8 +67,6 @@ public class AudioPlaybackTarget implements AudioTarget {
 	 * Flush the audio target. Any samples that have been queued for output
 	 * shall be discarded, and output shall stop. This method shall complete
 	 * immediately, and shall reset the output position to 0.
-	 * 
-	 * @author Michael Stokes
 	 */
 	public void flush() {
 		_line.flush();
@@ -82,8 +77,6 @@ public class AudioPlaybackTarget implements AudioTarget {
 	 * Drain the audio target. This method shall not return until all queued
 	 * samples have been output, or the close() method is called from another
 	 * thread.
-	 * 
-	 * @author Michael Stokes
 	 */
 	public void drain() {
 		_line.drain();
@@ -95,7 +88,6 @@ public class AudioPlaybackTarget implements AudioTarget {
 	 * without blocking. A sample is a pair of 16-bit values (left and right).
 	 * 
 	 * @return The number of samples that fit in the target's queue
-	 * @author Michael Stokes
 	 */
 	public int getBufferDuration() {
 		return _line.getBufferSize() >>> 2;
@@ -108,7 +100,6 @@ public class AudioPlaybackTarget implements AudioTarget {
 	 * sample is a pair of 16-bit values (left and right).
 	 * 
 	 * @return The number of samples that can be written without blocking
-	 * @author Michael Stokes
 	 */
 	public int getWritableDuration() {
 		return _line.available() >>> 2;
@@ -121,7 +112,6 @@ public class AudioPlaybackTarget implements AudioTarget {
 	 * the output position is reset to 0 whenever flush() is called.
 	 * 
 	 * @return The sample currently being output
-	 * @author Michael Stokes
 	 */
 	public int getOutputPosition() {
 		synchronized (_line) {
@@ -148,7 +138,6 @@ public class AudioPlaybackTarget implements AudioTarget {
 	 * @param duration
 	 *            The number of samples to write, measured in samples
 	 * @return The number of samples written, which may be less than requested
-	 * @author Michael Stokes
 	 */
 	public int write(byte[] buffer, int offset, int duration) {
 		return _line.write(buffer, offset << 2, duration << 2) >>> 2;

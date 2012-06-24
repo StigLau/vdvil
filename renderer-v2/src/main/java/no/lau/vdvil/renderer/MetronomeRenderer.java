@@ -1,7 +1,7 @@
 package no.lau.vdvil.renderer;
 
 import no.lau.vdvil.instruction.Instruction;
-import no.no.lau.vdvil.renderer.Renderer;
+import no.lau.vdvil.instruction.SortInstructionHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,14 +49,21 @@ class MetInstruction implements Instruction{
         this.start = start;
     }
 
-    @Override
     public long start() {
         return start;
     }
 
-    @Override
     public long length() {
         return 0;
     }
+
+    public long end() {
+        return start + length();
+    }
+
+    public int compareTo(Object other) {
+        return SortInstructionHelper.compareTo(this, other);
+    }
+
 }
 

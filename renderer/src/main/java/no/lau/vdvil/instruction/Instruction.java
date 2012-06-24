@@ -5,8 +5,14 @@ package no.lau.vdvil.instruction;
  * @author Stig Lau
  * @since June 2012
  */
-public interface Instruction {
+public interface Instruction extends Comparable{
     long start();
 
     long length();
+
+    /**
+     * Convenience method for calculating end
+     * @return start + length
+     */
+    long end();
 }

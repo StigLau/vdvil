@@ -6,7 +6,7 @@ import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.persistence.CompositionXMLParser;
 import no.lau.vdvil.handler.persistence.PartXML;
-import no.vdvil.renderer.image.ImageInstruction;
+import no.lau.vdvil.instruction.ImageInstruction;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
 import org.junit.Test;

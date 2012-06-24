@@ -3,7 +3,7 @@ package no.bouvet.kpro.renderer.audio;
 import java.io.File;
 
 import no.bouvet.kpro.renderer.Instructions;
-import no.bouvet.kpro.renderer.Renderer;
+import no.bouvet.kpro.renderer.OldRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +15,7 @@ public abstract class CompositionDemo {
 		AudioSource sourceB = null; // Second source
 
 		AudioTarget target = null; // Audio output target
-		Renderer renderer = null; // Renderer
+		OldRenderer renderer = null; // OldRenderer
 
         String snapMp3 = CompositionDemo.class.getResource("/Snap_-_Rhythm_is_a_Dancer.mp3").getFile();
         String coronaMp3 = CompositionDemo.class.getResource("/Corona_-_Baby_Baby.mp3").getFile();
@@ -35,8 +35,8 @@ public abstract class CompositionDemo {
 			log.debug("Creating AudioPlaybackTarget...");
 			target = new AudioPlaybackTarget();
 
-			// Create the Renderer with an AudioRenderer instance
-			renderer = new Renderer(instructions);
+			// Create the OldRenderer with an AudioRenderer instance
+			renderer = new OldRenderer(instructions);
 			renderer.addRenderer(new AudioRenderer(target));
             log.debug("Starting renderer...");
             renderer.start(0); // Start the renderer at the beginning
@@ -56,20 +56,20 @@ public abstract class CompositionDemo {
 
     private static void assertAudioSourcesCorrect(AudioSource sourceA, AudioSource sourceB) throws Exception {
         // Check the durations to make sure the correct songs are used
-        if (Math.abs(sourceA.getDuration() - 10037376) > Renderer.RATE) {
+        if (Math.abs(sourceA.getDuration() - 10037376) > OldRenderer.RATE) {
             throw new Exception("Source A has the wrong duration, perhaps it is the wrong version of the song");
-        } else if (Math.abs(sourceB.getDuration() - 9895680) > Renderer.RATE) {
+        } else if (Math.abs(sourceB.getDuration() - 9895680) > OldRenderer.RATE) {
             throw new Exception("Source B has the wrong duration, perhaps it is the wrong version of the song");
         }
     }
 
-    private static void printStatus(AudioTarget target, Renderer renderer, Instructions instructions) throws Exception {
+    private static void printStatus(AudioTarget target, OldRenderer renderer, Instructions instructions) throws Exception {
         // Wait for the renderer to finish
         long now = System.currentTimeMillis();
         while (renderer.isRendering()) {
             Thread.sleep(500);
             if ((System.currentTimeMillis() - now) > 170000) {
-                throw new Exception("Timed out waiting for Renderer to finish");
+                throw new Exception("Timed out waiting for OldRenderer to finish");
             }
             int samples = target.getOutputPosition();
             double percent = Math.floor((double) samples / (double) instructions.getDuration() * 1000) / 10;
@@ -81,9 +81,6 @@ public abstract class CompositionDemo {
      * Create the renderer instruction list using source A and source B
      * This instruction list was created by Mike's DJ Composer, exported
      * and converted into Java setup code.
-     * @param sourceA
-     * @param sourceB
-     * @return
      */
     private static Instructions createTestSetInstructions(AudioSource sourceA, AudioSource sourceB) {
         Instructions instructions = new Instructions();
@@ -121,7 +118,7 @@ public abstract class CompositionDemo {
         instruction.setConstantRate(0.98154193f);
         instructions.append(instruction);
 
-        log.debug("Instruction queue has expected duration " + instructions.getDuration());
+        log.debug("AbstractInstruction queue has expected duration " + instructions.getDuration());
         return instructions;
     }
 }

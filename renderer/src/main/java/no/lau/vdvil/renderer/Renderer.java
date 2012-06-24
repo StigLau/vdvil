@@ -1,4 +1,4 @@
-package no.no.lau.vdvil.renderer;
+package no.lau.vdvil.renderer;
 
 import no.lau.vdvil.instruction.Instruction;
 

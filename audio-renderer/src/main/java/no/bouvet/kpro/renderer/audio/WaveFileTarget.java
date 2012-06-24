@@ -1,5 +1,6 @@
 package no.bouvet.kpro.renderer.audio;
 
+import no.bouvet.kpro.renderer.OldRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
@@ -10,6 +11,7 @@ import java.io.RandomAccessFile;
  * audio to a Microsoft WAVE file in PCM format.
  * 
  * @author Michael Stokes
+ * @author Stig Lau
  */
 public class WaveFileTarget implements AudioTarget {
 	protected File _file;
@@ -22,10 +24,8 @@ public class WaveFileTarget implements AudioTarget {
 	 * specified by the file parameter. If the file could not be written to, an
 	 * exception is thrown.
 	 * 
-	 * @param file
-	 * @throws Exception
-	 *             if the file cannot be written to
-	 * @author Michael Stokes
+	 * @param file to load
+	 * @throws Exception if the file cannot be written to
 	 */
 	public WaveFileTarget(File file) throws Exception {
 		log.debug("Writing to file " + file.toString() );
@@ -52,8 +52,8 @@ public class WaveFileTarget implements AudioTarget {
 		_raf.writeInt(swap32(16));
 		_raf.writeShort(swap16(1));
 		_raf.writeShort(swap16(2));
-		_raf.writeInt(swap32(no.bouvet.kpro.renderer.Renderer.RATE));
-		_raf.writeInt(swap32(no.bouvet.kpro.renderer.Renderer.RATE * 4));
+		_raf.writeInt(swap32(OldRenderer.RATE));
+		_raf.writeInt(swap32(OldRenderer.RATE * 4));
 		_raf.writeShort(swap16(4));
 		_raf.writeShort(swap16(16));
 
@@ -66,8 +66,6 @@ public class WaveFileTarget implements AudioTarget {
 	/**
 	 * Close the audio target by filling in the missing parts of the WAVE header
 	 * and closing the file.
-	 * 
-	 * @author Michael Stokes
 	 */
 	public void close() {
 		try {
@@ -93,16 +91,12 @@ public class WaveFileTarget implements AudioTarget {
 
 	/**
 	 * Flush the audio target. This method does nothing for a file target.
-	 * 
-	 * @author Michael Stokes
 	 */
 	public void flush() {
 	}
 
 	/**
 	 * Drain the audio target. This method does nothing for a file target.
-	 * 
-	 * @author Michael Stokes
 	 */
 	public void drain() {
 	}
@@ -113,7 +107,6 @@ public class WaveFileTarget implements AudioTarget {
 	 * good working size.
 	 * 
 	 * @return The number of samples that fit in the target's queue
-	 * @author Michael Stokes
 	 */
 	public int getBufferDuration() {
 		return 8192;
@@ -125,7 +118,6 @@ public class WaveFileTarget implements AudioTarget {
 	 * we'll return getWritableDuration.
 	 * 
 	 * @return The number of samples that can be written without blocking
-	 * @author Michael Stokes
 	 */
 	public int getWritableDuration() {
 		return getBufferDuration();
@@ -137,7 +129,6 @@ public class WaveFileTarget implements AudioTarget {
 	 * equal to the number of samples written.
 	 * 
 	 * @return The sample currently being output
-	 * @author Michael Stokes
 	 */
 	public int getOutputPosition() {
 		return _duration;
@@ -160,7 +151,6 @@ public class WaveFileTarget implements AudioTarget {
 	 * @param duration
 	 *            The number of samples to write, measured in samples
 	 * @return The number of samples written, which may be less than requested
-	 * @author Michael Stokes
 	 */
 	public int write(byte[] buffer, int offset, int duration) {
 		// Write the samples

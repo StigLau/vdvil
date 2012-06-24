@@ -7,7 +7,7 @@ import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.Decoder;
 import javazoom.jl.decoder.Header;
 import javazoom.jl.decoder.Obuffer;
-import no.bouvet.kpro.renderer.Renderer;
+import no.bouvet.kpro.renderer.OldRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,7 +61,7 @@ public class MP3Source implements AudioSource {
 	protected int _frameCount;
 	protected boolean _stereo = false;
 
-	protected final static int BUFFER_DURATION = 5 * no.bouvet.kpro.renderer.Renderer.RATE;
+	protected final static int BUFFER_DURATION = 5 * OldRenderer.RATE;
 	protected ShortBuffer _buffer = ShortBuffer.allocate(BUFFER_DURATION * 2);
 	protected MP3Output _output = new MP3Output(_buffer);
 	protected int _bufferFrame = 0;
@@ -337,8 +337,8 @@ public class MP3Source implements AudioSource {
 
 				// Make sure the frequency is what we want
 
-				if (frequency != Renderer.RATE) {
-					log.debug( "File is " + frequency + " Hz, this source is " + Renderer.RATE + " Hz only, falling back to default" );
+				if (frequency != OldRenderer.RATE) {
+					log.debug( "File is " + frequency + " Hz, this source is " + OldRenderer.RATE + " Hz only, falling back to default" );
 					return false;
 				}
 
@@ -383,7 +383,7 @@ public class MP3Source implements AudioSource {
 
 		if (_frameCount > 10) {
 			// Notify the user
-			float seconds = (float)( _frameCount * _frameSize ) / Renderer.RATE;
+			float seconds = (float)( _frameCount * _frameSize ) / OldRenderer.RATE;
 			log.debug( "Indexed " + _frameCount + " frames, duration is " + seconds + "s" );
 			return true;
 		} else {

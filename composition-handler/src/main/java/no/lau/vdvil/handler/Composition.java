@@ -1,6 +1,6 @@
 package no.lau.vdvil.handler;
 
-import no.bouvet.kpro.renderer.Instruction;
+import no.bouvet.kpro.renderer.AbstractInstruction;
 import no.bouvet.kpro.renderer.Instructions;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.timing.MasterBeatPattern;
@@ -29,8 +29,8 @@ public class Composition implements MultimediaPart {
         return instructions;
     }
 
-    public Instruction asInstruction(Float masterBpm) {
-        throw new RuntimeException("Composition should probably not have instructions, or Instruction should be written in a different way");
+    public AbstractInstruction asInstruction(Float masterBpm) {
+        throw new RuntimeException("Composition should probably not have instructions, or AbstractInstruction should be written in a different way");
     }
 
     public no.lau.vdvil.instruction.Instruction asV2Instruction() {

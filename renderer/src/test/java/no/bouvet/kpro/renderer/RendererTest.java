@@ -2,14 +2,14 @@ package no.bouvet.kpro.renderer;
 
 import static org.junit.Assert.assertTrue;
 
+import no.lau.vdvil.instruction.Instruction;
 import org.junit.Test;
 
 public class RendererTest {
 	private long _delivered = 0;
 
 	private class TestRenderer extends AbstractRenderer {
-		@Override
-		public void handleInstruction(int time, Instruction instruction) {
+        public void notify(Instruction instruction, long time) {
 			if (instruction != null) {
 				_delivered = System.currentTimeMillis();
 			}
@@ -17,29 +17,27 @@ public class RendererTest {
 
         @Override
         public boolean isRendering() {
-            return false;  //To change body of implemented methods use File | Settings | File Templates.
+            return false;
         }
 
         @Override
-        public void stop(Instruction instruction) {
-            //To change body of implemented methods use File | Settings | File Templates.
-        }
+        public void stop(Instruction instruction) { }
     }
 
 	@Test
 	public void testStart() throws Exception {
-		Renderer renderer = null;
+		OldRenderer renderer = null;
 
 		try {
 			// Create the renderer instruction list
 
 			Instructions instructions = new Instructions();
-			Instruction instruction = new Instruction(Renderer.RATE *2, renderer.RATE*3);
+			AbstractInstruction instruction = new AbstractInstruction(OldRenderer.RATE *2, renderer.RATE*3);
 			instructions.append(instruction);
 
-			// Create the Renderer with a TestRenderer instance
+			// Create the OldRenderer with a TestRenderer instance
 
-			renderer = new Renderer(instructions);
+			renderer = new OldRenderer(instructions);
 			renderer.addRenderer(new TestRenderer());
 
 			// Start the renderer at the beginning
@@ -58,18 +56,18 @@ public class RendererTest {
 
 				if ((System.currentTimeMillis() - start) > 5000) {
 					throw new Exception(
-							"Timed out waiting for Renderer to finish");
+							"Timed out waiting for OldRenderer to finish");
 				}
 			}
 
 			// Convert the observed instruction delivery time into a renderer
 			// time
 
-			_delivered = (_delivered - start) * Renderer.RATE / 1000;
+			_delivered = (_delivered - start) * OldRenderer.RATE / 1000;
 
 			// Assert that the delivery occurred within 0.2 seconds of the mark
 
-			assertTrue(Math.abs(_delivered - instruction._start) < Renderer.RATE / 5);
+			assertTrue(Math.abs(_delivered - instruction._start) < OldRenderer.RATE / 5);
 		} finally {
 			if (renderer != null)
 				renderer.stop();

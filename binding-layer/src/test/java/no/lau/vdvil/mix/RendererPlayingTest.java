@@ -1,13 +1,13 @@
 package no.lau.vdvil.mix;
 
-import no.bouvet.kpro.renderer.Instruction;
 import no.bouvet.kpro.renderer.Instructions;
-import no.bouvet.kpro.renderer.Renderer;
+import no.bouvet.kpro.renderer.OldRenderer;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.AudioRenderer;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
+import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
@@ -17,7 +17,6 @@ import no.vdvil.renderer.image.ImageRenderer;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class RendererPlayingTest {
         Composition composition = compose(new MasterBeatPattern(0, 18, 120F));
         composition.cache(downloadAndParseFacade);
         Instructions instructions1 = composition.instructions(120F);
-        Renderer renderer = new Renderer(instructions1);
+        OldRenderer renderer = new OldRenderer(instructions1);
         renderer.addRenderer(new AudioRenderer(new AudioPlaybackTarget()));
         renderer.addRenderer(new ImageRenderer(200, 600, downloadAndParseFacade));
         renderer.start(0);
@@ -53,10 +52,10 @@ public class RendererPlayingTest {
     public void smokingGunwithAudioRenderer() throws IOException {
         AudioRenderer audioRenderer = new AudioRenderer(new AudioPlaybackTarget());
         List<Instruction> instructions = composition.instructions(beatPattern.masterBpm).lock();
-        audioRenderer.handleInstruction(0, instructions.get(0));
-        audioRenderer.handleInstruction(0, instructions.get(1));
-        audioRenderer.handleInstruction(0, instructions.get(2));
-        audioRenderer.handleInstruction(0, instructions.get(3));
+        audioRenderer.notify(instructions.get(0), 0);
+        audioRenderer.notify(instructions.get(1), 0);
+        audioRenderer.notify(instructions.get(2), 0);
+        audioRenderer.notify(instructions.get(3), 0);
         audioRenderer.run();
     }
 

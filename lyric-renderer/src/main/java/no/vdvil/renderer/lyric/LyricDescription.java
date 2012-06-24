@@ -1,9 +1,10 @@
 package no.vdvil.renderer.lyric;
 
-import no.bouvet.kpro.renderer.Instruction;
+import no.bouvet.kpro.renderer.AbstractInstruction;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
+import no.lau.vdvil.instruction.LyricInstruction;
 import java.io.IOException;
 
 public class LyricDescription implements MultimediaPart {
@@ -17,12 +18,12 @@ public class LyricDescription implements MultimediaPart {
         this.compositionInstruction = compositionInstruction;
     }
 
-    public Instruction asInstruction(Float masterBpm) {
+    public AbstractInstruction asInstruction(Float masterBpm) {
         return LyricInstruction.create(compositionInstruction.start(), compositionInstruction().end(), masterBpm, text);
     }
 
     public no.lau.vdvil.instruction.Instruction asV2Instruction() {
-        throw new RuntimeException("Not implemented yet");
+        return new LyricInstruction(compositionInstruction.start(),  compositionInstruction.end() - compositionInstruction.start(), text);
     }
 
     public CompositionInstruction compositionInstruction() {

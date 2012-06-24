@@ -3,7 +3,7 @@ package no.lau.vdvil.timing;
 import no.lau.vdvil.control.Conductor;
 
 /**
- * Special Renderer for handling timing interpretations
+ * Special OldRenderer for handling timing interpretations
  */
 public class BeatTimeConverter {
 

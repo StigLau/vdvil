@@ -1,10 +1,10 @@
 package no.bouvet.kpro.renderer.audio;
 
-import no.bouvet.kpro.renderer.Instruction;
-import no.bouvet.kpro.renderer.Renderer;
+import no.bouvet.kpro.renderer.AbstractInstruction;
+import no.bouvet.kpro.renderer.OldRenderer;
 
 /**
- * The AudioInstruction class is a specialization of the Instruction class. It
+ * The AudioInstruction class is a specialization of the AbstractInstruction class. It
  * represents an instruction to the AudioRenderer.
  * 
  * An AudioInstruction instructs the AudioRenderer to mix a section of audio
@@ -15,7 +15,7 @@ import no.bouvet.kpro.renderer.Renderer;
  * @author Michael Stokes
  * @author Stig Lau
  */
-public class AudioInstruction extends Instruction {
+public class AudioInstruction extends AbstractInstruction {
 	protected AudioSource _source;
 	protected int _cue;
 	protected int _duration;
@@ -49,7 +49,7 @@ public class AudioInstruction extends Instruction {
 		_cue = cue;
 		_duration = duration;
 
-		_rate1 = Renderer.RATE;
+		_rate1 = OldRenderer.RATE;
 		_rated = 0;
 		_volume1 = 127;
 		_volumed = 0;
@@ -89,7 +89,7 @@ public class AudioInstruction extends Instruction {
 	 *            the constant rate
 	 */
 	public void setConstantRate(float rate) {
-		_rate1 = (int) (rate * Renderer.RATE);
+		_rate1 = (int) (rate * OldRenderer.RATE);
 		_rated = 0;
 	}
 
@@ -103,8 +103,8 @@ public class AudioInstruction extends Instruction {
 	 *            the rate at the end of the section
 	 */
 	public void setInterpolatedRate(float rate1, float rate2) {
-		_rate1 = (int) (rate1 * Renderer.RATE);
-		_rated = (long) (rate2 * Renderer.RATE) - _rate1;
+		_rate1 = (int) (rate1 * OldRenderer.RATE);
+		_rated = (long) (rate2 * OldRenderer.RATE) - _rate1;
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class AudioInstruction extends Instruction {
 	 * @param time
 	 *            the time in samples within the section, where 0 is the start
 	 *            of the section
-	 * @return the rate in integer form relative to Renderer.RATE
+	 * @return the rate in integer form relative to OldRenderer.RATE
 	 */
 	public int getInterpolatedRate(int time) {
 		return _rate1 + (int) (_rated * time / _duration);

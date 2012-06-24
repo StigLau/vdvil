@@ -1,9 +1,10 @@
 package no.vdvil.renderer.image;
 
 import no.bouvet.kpro.renderer.AbstractRenderer;
-import no.bouvet.kpro.renderer.Instruction;
 import no.lau.vdvil.cache.DownloaderFacade;
-import no.no.lau.vdvil.renderer.Renderer;
+import no.lau.vdvil.instruction.ImageInstruction;
+import no.lau.vdvil.instruction.Instruction;
+import no.lau.vdvil.renderer.Renderer;
 import no.vdvil.renderer.image.swinggui.ImagePanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,13 +40,10 @@ public class ImageRenderer extends AbstractRenderer implements Renderer {
         return true;
     }
 
-    public void handleInstruction(int time, Instruction instruction) {
-        log.debug("Got instruction {} to be played at {}", instruction, time);
-        if (instruction != null) {
-            if (instruction instanceof ImageInstruction) {
-                runningImageInstructionList.add(instruction);
-                renderStuff(((ImageInstruction)instruction).imageUrl);
-            }
+    public void notify(Instruction instruction, long beat) {
+        if (instruction instanceof ImageInstruction) {
+            runningImageInstructionList.add(instruction);
+            renderStuff(((ImageInstruction) instruction).imageUrl);
         }
     }
 
@@ -66,20 +64,13 @@ public class ImageRenderer extends AbstractRenderer implements Renderer {
         }
     }
 
-    @Override
     public boolean isRendering() {
         return !runningImageInstructionList.isEmpty();
     }
 
-    @Override
     public void stop(Instruction instruction) {
         runningImageInstructionList.remove(instruction);
         if(runningImageInstructionList.isEmpty())
             frame.setVisible(false);
-    }
-
-    @Override
-    public void notify(no.lau.vdvil.instruction.Instruction instruction, long beat) {
-        renderStuff(((no.lau.vdvil.instruction.ImageInstruction) instruction).imageUrl);
     }
 }

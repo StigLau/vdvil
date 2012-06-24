@@ -1,5 +1,6 @@
 package no.bouvet.kpro.renderer;
 
+import no.lau.vdvil.instruction.Instruction;
 import org.junit.Test;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
@@ -50,7 +51,7 @@ public class InstructionsTest {
     }
 }
 
-class TestInstruction extends Instruction {
+class TestInstruction extends AbstractInstruction {
     public TestInstruction(int start, int end) {
         super(start, end);
     }

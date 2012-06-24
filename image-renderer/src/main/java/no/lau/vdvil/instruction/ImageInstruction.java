@@ -1,5 +1,7 @@
 package no.lau.vdvil.instruction;
 
+import no.bouvet.kpro.renderer.OldRenderer;
+import no.lau.vdvil.timing.MasterBeatPattern;
 import java.io.InputStream;
 import java.net.URL;
 
@@ -21,14 +23,29 @@ public class ImageInstruction implements Instruction {
         this.cachedStream = cachedStream;
     }
 
-    @Override
     public long start() {
         return start;
     }
 
-    @Override
     public long length() {
         return length;
+    }
+
+    public long end() {
+        return start + length;
+    }
+
+    @Deprecated
+    public static ImageInstruction create(MasterBeatPattern mbp, URL imageUrl, InputStream cached) {
+        float speedFactor = OldRenderer.RATE * 60 / mbp.bpmAt(mbp.fromBeat);
+        int _start = new Float(mbp.fromBeat * speedFactor).intValue();
+        int _end = new Float(mbp.toBeat * speedFactor).intValue();
+        int lenght = _end - _start;
+        return new ImageInstruction(_start, lenght, imageUrl, cached);
+    }
+
+    public int compareTo(Object other) {
+        return SortInstructionHelper.compareTo(this, other);
     }
 }
 

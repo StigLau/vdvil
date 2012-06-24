@@ -3,8 +3,8 @@ package no.vdvil.renderer.image.cacheinfrastructure;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
+import no.lau.vdvil.instruction.ImageInstruction;
 import no.lau.vdvil.timing.MasterBeatPattern;
-import no.vdvil.renderer.image.ImageInstruction;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -25,7 +25,7 @@ public class ImageDescription implements MultimediaPart{
     }
 
     public no.lau.vdvil.instruction.ImageInstruction asV2Instruction() {
-        return new no.lau.vdvil.instruction.ImageInstruction(compositionInstruction.start(),  compositionInstruction.end() - compositionInstruction.start(), src, cachedImage);
+        return new ImageInstruction(compositionInstruction.start(),  compositionInstruction.end() - compositionInstruction.start(), src, cachedImage);
     }
 
     public CompositionInstruction compositionInstruction() {

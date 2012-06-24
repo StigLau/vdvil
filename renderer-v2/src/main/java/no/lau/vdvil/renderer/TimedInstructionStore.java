@@ -1,7 +1,6 @@
 package no.lau.vdvil.renderer;
 
 import no.lau.vdvil.instruction.Instruction;
-import no.no.lau.vdvil.renderer.Renderer;
 import java.util.*;
 
 public class TimedInstructionStore {
@@ -10,7 +9,7 @@ public class TimedInstructionStore {
     long lastBeat = 0;
 
     /**
-     * Stores both Renderer and Instruction so they are convenient to retrieve
+     * Stores both OldRenderer and AbstractInstruction so they are convenient to retrieve
      */
     public void put(Renderer renderer, Instruction instruction) {
         instructionRendererMap.put(instruction, renderer);

@@ -1,7 +1,7 @@
 package no.vdvil.renderer.audio;
 
-import no.bouvet.kpro.renderer.Instruction;
-import no.bouvet.kpro.renderer.Renderer;
+import no.bouvet.kpro.renderer.AbstractInstruction;
+import no.bouvet.kpro.renderer.OldRenderer;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.AudioTarget;
 
@@ -24,12 +24,12 @@ public class AudioMixer {
     }
 
 
-    public static int mixItUp(SortedSet<Instruction> _active, int time, AudioMixer audioMixer) {
+    public static int mixItUp(SortedSet<AbstractInstruction> _active, int time, AudioMixer audioMixer) {
         for (int fill = 0; fill < audioMixer.mix.length;) {
             audioMixer.mix[fill++] = 0;
         }
 
-        for (Instruction instruction : _active) {
+        for (AbstractInstruction instruction : _active) {
             if (instruction._start > time)
                 audioMixer.available = instruction._start - time;
             else
@@ -63,7 +63,7 @@ public class AudioMixer {
             while (external < _time) {
                 long rate = instruction
                         .getInterpolatedRate((int) internal);
-                frame = MIX_FRAME * rate / Renderer.RATE;
+                frame = MIX_FRAME * rate / OldRenderer.RATE;
                 internal += frame;
                 external += MIX_FRAME;
             }
@@ -94,7 +94,7 @@ public class AudioMixer {
         int internal = instruction.getCacheInternal();
         int rate = instruction.getInterpolatedRate(internal);
         int volume = instruction.getInterpolatedVolume(internal);
-        int sduration = duration * rate / Renderer.RATE;
+        int sduration = duration * rate / OldRenderer.RATE;
 
         instruction.advanceCache(duration, sduration);
 
@@ -115,7 +115,7 @@ public class AudioMixer {
      * @param duration
      *            the number of samples to mix, in output time
      * @param rate
-     *            the rate to mix the source samples, relative to Renderer.RATE
+     *            the rate to mix the source samples, relative to OldRenderer.RATE
      * @param volume
      *            the volume to mix the source samples, relative to 127
      */
@@ -123,7 +123,7 @@ public class AudioMixer {
         int base = source.position();
 
         for (int time = 0, output = 0; time < duration; time++) {
-            int input = base + ((time * rate / Renderer.RATE) << 1);
+            int input = base + ((time * rate / OldRenderer.RATE) << 1);
 
             mix[output++] += (source.get(input) * volume) >> 7;
             mix[output++] += (source.get(input + 1) * volume) >> 7;

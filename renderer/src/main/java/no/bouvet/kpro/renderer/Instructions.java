@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import no.lau.vdvil.instruction.Instruction;
 
 /**
  * The Instructions class is a collection of renderer Instructions. It supports
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public class Instructions {
 	List<Instruction> _list = new ArrayList<Instruction>();
-	int _duration = 0;
+	long _duration = 0;
 	boolean _locked = false;
 
 	/**
@@ -50,23 +51,23 @@ public class Instructions {
 	}
 
 	/**
-	 * Append a new Instruction to the Instructions list, if it is not locked.
+	 * Append a new AbstractInstruction to the Instructions list, if it is not locked.
 	 */
 	public synchronized void append(Instruction instruction) {
 		if (!_locked) {
 			_list.add(instruction);
-			if (instruction._end > _duration)
-				_duration = instruction._end;
+			if (instruction.end() > _duration)
+				_duration = instruction.end();
             Collections.sort(_list);
 		}
 	}
 
-	/**
+    /**
 	 * Get the duration of the Instructions list.
 	 * 
 	 * @return the duration in samples
 	 */
-	public synchronized int getDuration() {
+	public synchronized long getDuration() {
 		return _duration;
 	}
 
@@ -79,6 +80,6 @@ public class Instructions {
 
 class EndSorter implements Comparator {
   public int compare(Object i1, Object i2) {
-    return ((Integer)((Instruction)i1)._end).compareTo(((Instruction)i2)._end);
+    return ((Long)((Instruction)i1).end()).compareTo(((Instruction)i2).end());
   }
 }
