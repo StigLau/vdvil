@@ -24,6 +24,10 @@ public class ImageDescription implements MultimediaPart{
         return ImageInstruction.create(new MasterBeatPattern(compositionInstruction.timeInterval(), masterBpm), src, cachedImage);
     }
 
+    public no.lau.vdvil.instruction.ImageInstruction asV2Instruction() {
+        return new no.lau.vdvil.instruction.ImageInstruction(compositionInstruction.start(),  compositionInstruction.end() - compositionInstruction.start(), src, cachedImage);
+    }
+
     public CompositionInstruction compositionInstruction() {
         return compositionInstruction;
     }

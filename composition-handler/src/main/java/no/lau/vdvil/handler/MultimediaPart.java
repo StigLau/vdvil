@@ -1,6 +1,5 @@
 package no.lau.vdvil.handler;
 
-import no.bouvet.kpro.renderer.Instruction;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 
 import java.io.IOException;
@@ -8,7 +7,12 @@ import java.io.IOException;
 public interface MultimediaPart {
     MultimediaPart NULL = new MultimediaPart() {
 
-        public Instruction asInstruction(Float masterBpm) {
+        public no.bouvet.kpro.renderer.Instruction asInstruction(Float masterBpm) {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        @Override
+        public no.lau.vdvil.instruction.Instruction asV2Instruction() {
             return null;  //To change body of implemented methods use File | Settings | File Templates.
         }
 
@@ -19,7 +23,9 @@ public interface MultimediaPart {
         public void cache(DownloadAndParseFacade downloader) throws IOException { }
     };
 
-    Instruction asInstruction(Float masterBpm);
+    no.bouvet.kpro.renderer.Instruction asInstruction(Float masterBpm);
+
+    no.lau.vdvil.instruction.Instruction asV2Instruction();
 
     CompositionInstruction compositionInstruction();
 

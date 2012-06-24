@@ -33,6 +33,10 @@ public class Composition implements MultimediaPart {
         throw new RuntimeException("Composition should probably not have instructions, or Instruction should be written in a different way");
     }
 
+    public no.lau.vdvil.instruction.Instruction asV2Instruction() {
+        throw new RuntimeException("No CompositionInstruction set up for a Composition");
+    }
+
     public CompositionInstruction compositionInstruction() {
         throw new RuntimeException("No CompositionInstruction set up for a Composition");
     }

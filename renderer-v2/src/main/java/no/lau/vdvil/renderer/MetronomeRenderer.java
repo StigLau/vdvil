@@ -1,5 +1,7 @@
 package no.lau.vdvil.renderer;
 
+import no.lau.vdvil.instruction.Instruction;
+import no.no.lau.vdvil.renderer.Renderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

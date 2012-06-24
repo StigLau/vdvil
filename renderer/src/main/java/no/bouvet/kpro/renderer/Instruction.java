@@ -8,7 +8,7 @@ package no.bouvet.kpro.renderer;
  * @author Michael Stokes
  * @author Stig Lau
  */
-public class Instruction implements Comparable {
+public class Instruction implements Comparable, no.lau.vdvil.instruction.Instruction {
 	public final int _start;
 	public final int _end;
 
@@ -32,5 +32,15 @@ public class Instruction implements Comparable {
                 }
             }
         return 0;
+    }
+
+    @Override
+    public long start() {
+        return _start;
+    }
+
+    @Override
+    public long length() {
+        return _end-_start;
     }
 }

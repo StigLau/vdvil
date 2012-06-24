@@ -1,6 +1,6 @@
 package no.lau.vdvil.timing;
 
-import no.lau.vdvil.renderer.Instruction;
+import no.lau.vdvil.instruction.Instruction;
 
 public class ResolutionInstruction implements Instruction {
 

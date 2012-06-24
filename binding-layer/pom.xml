@@ -32,5 +32,9 @@
             <groupId>no.lau.vdvil</groupId>
             <artifactId>image-renderer</artifactId>
         </dependency>
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>renderer-v2</artifactId>
+        </dependency>
     </dependencies>
 </project>

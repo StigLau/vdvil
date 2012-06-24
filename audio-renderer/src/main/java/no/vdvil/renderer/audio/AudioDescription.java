@@ -6,6 +6,7 @@ import no.bouvet.kpro.renderer.audio.MP3Source;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
+import no.lau.vdvil.instruction.Instruction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
@@ -50,6 +51,10 @@ public class AudioDescription implements MultimediaPart {
         //Note that Playback speed is a different equation!!
         audioInstruction.setConstantRate(masterBpm / track.bpm);
         return audioInstruction;
+    }
+
+    public Instruction asV2Instruction() {
+        throw new RuntimeException("Not implemented yet");
     }
 
     public CompositionInstruction compositionInstruction() {

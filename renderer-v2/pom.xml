@@ -11,4 +11,11 @@
     <version>0.11-SNAPSHOT</version>
   </parent>
 
+    <dependencies>
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>composition-handler</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

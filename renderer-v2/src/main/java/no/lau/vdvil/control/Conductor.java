@@ -1,10 +1,12 @@
 package no.lau.vdvil.control;
 
-import no.lau.vdvil.renderer.Instruction;
-import no.lau.vdvil.renderer.Renderer;
+import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.renderer.TimedInstructionStore;
 import no.lau.vdvil.timing.BeatTimeConverter;
+import no.lau.vdvil.timing.MasterBeatPattern;
 import no.lau.vdvil.timing.ResolutionTimer;
+import no.lau.vdvil.timing.RunnableResolutionTimer;
+import no.no.lau.vdvil.renderer.Renderer;
 
 /**
  * Knower of all instructions and renderers
@@ -15,9 +17,13 @@ public class Conductor {
     TimedInstructionStore timedInstructionStore = new TimedInstructionStore();
     BeatTimeConverter converter;
 
-    public Conductor(ResolutionTimer timer, int speed, int beatsInAMinute) {
-        converter = new BeatTimeConverter(this, timer, speed, beatsInAMinute);
+    public Conductor(ResolutionTimer timer, int speed) {
+        converter = new BeatTimeConverter(this, timer, speed);
 
+    }
+
+    public Conductor(RunnableResolutionTimer timer, MasterBeatPattern masterBeatPattern) {
+        this(timer, masterBeatPattern.masterBpm.intValue());
     }
 
     public void addInstruction(Renderer renderer, Instruction... instructions) {

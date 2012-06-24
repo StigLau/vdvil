@@ -21,6 +21,10 @@ public class LyricDescription implements MultimediaPart {
         return LyricInstruction.create(compositionInstruction.start(), compositionInstruction().end(), masterBpm, text);
     }
 
+    public no.lau.vdvil.instruction.Instruction asV2Instruction() {
+        throw new RuntimeException("Not implemented yet");
+    }
+
     public CompositionInstruction compositionInstruction() {
         return compositionInstruction;
     }

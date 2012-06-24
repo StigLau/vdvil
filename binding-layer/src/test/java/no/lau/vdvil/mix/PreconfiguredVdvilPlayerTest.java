@@ -70,6 +70,11 @@ public class PreconfiguredVdvilPlayerTest {
         return new MultimediaPart() {
             CompositionInstruction compositionInstruction = new PartXML(id, timeInterval, null);
             public Instruction asInstruction(Float masterBpm) { return null; }
+
+            public no.lau.vdvil.instruction.Instruction asV2Instruction() {
+                throw new RuntimeException("Does not need this");
+            }
+
             public CompositionInstruction compositionInstruction() {
                 return compositionInstruction;
             }

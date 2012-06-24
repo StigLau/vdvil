@@ -86,6 +86,11 @@
                 <artifactId>binding-layer</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>no.lau.vdvil</groupId>
+                <artifactId>renderer-v2</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>

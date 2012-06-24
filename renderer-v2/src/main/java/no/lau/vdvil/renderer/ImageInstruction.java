@@ -1,6 +1,8 @@
 package no.lau.vdvil.renderer;
 
-public class ImageInstruction implements Instruction{
+import no.lau.vdvil.instruction.Instruction;
+
+public class ImageInstruction implements Instruction {
     final String imageUrl;
     private final String meta;
     private final long start;
