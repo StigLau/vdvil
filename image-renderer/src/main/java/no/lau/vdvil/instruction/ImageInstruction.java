@@ -10,29 +10,14 @@ import java.net.URL;
  * @author Stig Lau
  * @since June 2012
  */
-public class ImageInstruction implements Instruction {
-    final long start;
-    final long length;
+public class ImageInstruction extends SuperInstruction {
     public final URL imageUrl;
     public final InputStream cachedStream;
 
     public ImageInstruction(long start, long length, URL imageUrl, InputStream cachedStream) {
-        this.start = start;
-        this.length = length;
+        super(start, length);
         this.imageUrl = imageUrl;
         this.cachedStream = cachedStream;
-    }
-
-    public long start() {
-        return start;
-    }
-
-    public long length() {
-        return length;
-    }
-
-    public long end() {
-        return start + length;
     }
 
     @Deprecated
@@ -43,10 +28,4 @@ public class ImageInstruction implements Instruction {
         int lenght = _end - _start;
         return new ImageInstruction(_start, lenght, imageUrl, cached);
     }
-
-    public int compareTo(Object other) {
-        return SortInstructionHelper.compareTo(this, other);
-    }
 }
-
-

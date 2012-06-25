@@ -1,7 +1,6 @@
 package no.lau.vdvil.renderer;
 
 import no.lau.vdvil.instruction.Instruction;
-import no.lau.vdvil.instruction.SortInstructionHelper;
 
 public class ImageInstruction implements Instruction {
     final String imageUrl;

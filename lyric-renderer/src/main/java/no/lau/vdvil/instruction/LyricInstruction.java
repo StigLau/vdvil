@@ -1,7 +1,5 @@
 package no.lau.vdvil.instruction;
 
-
-import no.bouvet.kpro.renderer.AbstractInstruction;
 import no.bouvet.kpro.renderer.OldRenderer;
 
 /**
@@ -9,14 +7,11 @@ import no.bouvet.kpro.renderer.OldRenderer;
  * @author Stig Lau
  * @since June 2012
  */
-public class LyricInstruction extends AbstractInstruction implements Instruction{
-    final long start;
-    final long lenght;
+public class LyricInstruction extends SuperInstruction {
     public final String text;
 
-    public LyricInstruction(long start, long lenght, String text) {
-        this.start = start;
-        this.lenght = lenght;
+    public LyricInstruction(long start, long length, String text) {
+        super(start, length);
         this.text = text;
     }
 

@@ -1,7 +1,7 @@
 package no.lau.vdvil.renderer;
 
 import no.lau.vdvil.instruction.Instruction;
-import no.lau.vdvil.instruction.SortInstructionHelper;
+import no.lau.vdvil.instruction.SuperInstruction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,29 +41,9 @@ public class MetronomeRenderer implements Renderer {
     }
 }
 
-class MetInstruction implements Instruction{
-
-    final long start;
-
+class MetInstruction extends SuperInstruction{
     public MetInstruction(long start) {
-        this.start = start;
+        super(start, 0);
     }
-
-    public long start() {
-        return start;
-    }
-
-    public long length() {
-        return 0;
-    }
-
-    public long end() {
-        return start + length();
-    }
-
-    public int compareTo(Object other) {
-        return SortInstructionHelper.compareTo(this, other);
-    }
-
 }
 
