@@ -1,9 +1,9 @@
 package no.vdvil.renderer.audio;
 
-import no.bouvet.kpro.renderer.AbstractInstruction;
 import no.bouvet.kpro.renderer.OldRenderer;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.AudioTarget;
+import no.lau.vdvil.instruction.Instruction;
 
 import java.nio.ShortBuffer;
 import java.util.SortedSet;
@@ -24,14 +24,14 @@ public class AudioMixer {
     }
 
 
-    public static int mixItUp(SortedSet<AbstractInstruction> _active, int time, AudioMixer audioMixer) {
+    public static int mixItUp(SortedSet<Instruction> _active, int time, AudioMixer audioMixer) {
         for (int fill = 0; fill < audioMixer.mix.length;) {
             audioMixer.mix[fill++] = 0;
         }
 
-        for (AbstractInstruction instruction : _active) {
-            if (instruction._start > time)
-                audioMixer.available = instruction._start - time;
+        for (Instruction instruction : _active) {
+            if (instruction.start() > time)
+                audioMixer.available = ((Long)instruction.start()).intValue() - time;
             else
                 audioMixer.available = singlePass((AudioInstruction) instruction, time, audioMixer);
         }
@@ -53,10 +53,11 @@ public class AudioMixer {
     }
 
     static int singlePass(final AudioInstruction instruction, int _time, AudioMixer audioMixer) {
-        int duration = instruction._end - _time;
+        Long dur = instruction.end() - _time;
+        int duration = dur.intValue();
 
         if (instruction.getCacheExternal() != _time) {
-            long external = instruction._start;
+            long external = instruction.start();
             long internal = 0;
             long frame = 0;
 

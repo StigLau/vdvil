@@ -27,6 +27,7 @@ public class AudioDescription implements MultimediaPart {
         this.track = track;
     }
 
+    @Deprecated
     public AudioInstruction asInstruction(Float masterBpm) {
         if(urlInLocalCache == null)
             throw new RuntimeException(track.mediaFile.fileName + " had not been cached before creating instruction! - Downloader not set");
@@ -54,7 +55,11 @@ public class AudioDescription implements MultimediaPart {
     }
 
     public Instruction asV2Instruction() {
-        throw new RuntimeException("Not implemented yet");
+        long start = compositionInstruction.start();
+        long end = compositionInstruction.end();
+        long cueDifference = compositionInstruction.cueDifference();
+        long segmentStart = segment.start;
+        return new AudioInstructionV2(start, end-start, urlInLocalCache, track, cueDifference, segmentStart);
     }
 
     public CompositionInstruction compositionInstruction() {

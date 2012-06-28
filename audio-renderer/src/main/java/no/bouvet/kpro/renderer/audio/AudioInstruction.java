@@ -1,7 +1,7 @@
 package no.bouvet.kpro.renderer.audio;
 
-import no.bouvet.kpro.renderer.AbstractInstruction;
 import no.bouvet.kpro.renderer.OldRenderer;
+import no.lau.vdvil.instruction.SuperInstruction;
 
 /**
  * The AudioInstruction class is a specialization of the AbstractInstruction class. It
@@ -15,7 +15,7 @@ import no.bouvet.kpro.renderer.OldRenderer;
  * @author Michael Stokes
  * @author Stig Lau
  */
-public class AudioInstruction extends AbstractInstruction {
+public class AudioInstruction extends SuperInstruction {
 	protected AudioSource _source;
 	protected int _cue;
 	protected int _duration;

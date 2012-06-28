@@ -1,6 +1,5 @@
 package no.lau.vdvil.handler;
 
-import no.bouvet.kpro.renderer.AbstractInstruction;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.instruction.Instruction;
 
@@ -9,7 +8,7 @@ import java.io.IOException;
 public interface MultimediaPart {
     MultimediaPart NULL = new MultimediaPart() {
 
-        public AbstractInstruction asInstruction(Float masterBpm) {
+        public Instruction asInstruction(Float masterBpm) {
             return null;
         }
 

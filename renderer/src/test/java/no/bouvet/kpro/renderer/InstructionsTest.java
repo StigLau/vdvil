@@ -1,6 +1,7 @@
 package no.bouvet.kpro.renderer;
 
 import no.lau.vdvil.instruction.Instruction;
+import no.lau.vdvil.instruction.SuperInstruction;
 import org.junit.Test;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
@@ -39,24 +40,24 @@ public class InstructionsTest {
      */
     Instructions testInstructions() {
         Instructions instructions = new Instructions();
-        instructions.append(new TestInstruction(6, 5));
-        instructions.append(new TestInstruction(3, 5));
+        instructions.append(new TestInstruction(6, -1));
+        instructions.append(new TestInstruction(3, 2));
+        instructions.append(new TestInstruction(1, 4));
+        instructions.append(new TestInstruction(4, 0));
         instructions.append(new TestInstruction(1, 5));
-        instructions.append(new TestInstruction(4, 4));
-        instructions.append(new TestInstruction(1, 6));
-        instructions.append(new TestInstruction(1, 3));
-        instructions.append(new TestInstruction(2, 8));
-        instructions.append(new TestInstruction(5, 5));
+        instructions.append(new TestInstruction(1, 2));
+        instructions.append(new TestInstruction(2, 6));
+        instructions.append(new TestInstruction(5, 0));
         return instructions;
     }
 }
 
-class TestInstruction extends AbstractInstruction {
-    public TestInstruction(int start, int end) {
-        super(start, end);
+class TestInstruction extends SuperInstruction {
+    public TestInstruction(int start, int length) {
+        super(start, length);
     }
 
     public String toString() {
-        return _start + "-" + _end;
+        return start() + "-" + end();
     }
 }

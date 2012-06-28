@@ -1,12 +1,12 @@
 package no.vdvil.renderer.audio;
 
 import com.google.common.collect.Sets;
-import no.bouvet.kpro.renderer.AbstractInstruction;
 import no.bouvet.kpro.renderer.OldRenderer;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.MP3Source;
 import no.lau.vdvil.cache.SimpleCacheImpl;
+import no.lau.vdvil.instruction.Instruction;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class AudioMixerTest {
     int volume = 127;
     AudioMixer mixer = new AudioMixer(new AudioPlaybackTarget());
     int maxSamplesForTest = 814150;
-    TreeSet<AbstractInstruction> instructions = Sets.newTreeSet();
+    TreeSet<Instruction> instructions = Sets.newTreeSet();
 
 
     @Before

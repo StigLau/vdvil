@@ -1,11 +1,11 @@
 package no.lau.vdvil.mix;
 
-import no.bouvet.kpro.renderer.AbstractInstruction;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.handler.persistence.PartXML;
+import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
@@ -69,7 +69,7 @@ public class PreconfiguredVdvilPlayerTest {
     private MultimediaPart instructionDummy(final String id, final TimeInterval timeInterval) {
         return new MultimediaPart() {
             CompositionInstruction compositionInstruction = new PartXML(id, timeInterval, null);
-            public AbstractInstruction asInstruction(Float masterBpm) { return null; }
+            public Instruction asInstruction(Float masterBpm) { return null; }
 
             public no.lau.vdvil.instruction.Instruction asV2Instruction() {
                 throw new RuntimeException("Does not need this");

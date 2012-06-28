@@ -36,14 +36,16 @@ public abstract class SuperPlayingSetup {
         }
     }
 
-    public static MultimediaPart createAudioPart(String id, TimeInterval timeInterval, URL url, DownloadAndParseFacade cache) throws IOException {
-        return cache.parse(new PartXML(id, timeInterval, new DvlXML("URL Name", url)));
+    public static MultimediaPart createAudioPart(String id, TimeInterval timeInterval, URL url, DownloadAndParseFacade cache) {
+        try { return cache.parse(new PartXML(id, timeInterval, new DvlXML("URL Name", url)));
+        } catch (IOException e) { throw new RuntimeException(e); }
     }
-    public static MultimediaPart createLyricPart(String text, TimeInterval timeInterval) throws MalformedURLException {
-        return new LyricDescription(text, new PartXML(text, timeInterval, new DvlXML("name", new URL("http://url.com"))));
+    public static MultimediaPart createLyricPart(String text, TimeInterval timeInterval) {
+        try { return new LyricDescription(text, new PartXML(text, timeInterval, new DvlXML("name", new URL("http://url.com"))));
+        } catch (MalformedURLException e) { throw new RuntimeException(e); }
     }
 
-    public static MultimediaPart createImagePart(String id, TimeInterval timeInterval, URL url) throws MalformedURLException {
+    public static MultimediaPart createImagePart(String id, TimeInterval timeInterval, URL url) {
         return new ImageDescription(new PartXML(id, timeInterval, new DvlXML(id, null)), url);
     }
 

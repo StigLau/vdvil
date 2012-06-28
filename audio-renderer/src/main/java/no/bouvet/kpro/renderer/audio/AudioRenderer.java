@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Sets;
-import no.bouvet.kpro.renderer.AbstractInstruction;
 import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.OldRenderer;
 import no.lau.vdvil.instruction.Instruction;
@@ -167,7 +166,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
             }
             _active = pruneByTime(_active);
 
-            _time = AudioMixer.mixItUp(Sets.<AbstractInstruction>newTreeSet(_active), _time, audioMixer);
+            _time = AudioMixer.mixItUp(Sets.<Instruction>newTreeSet(_active), _time, audioMixer);
         }
         log.debug("End of composition, draining target..." );
         audioMixer.target.drain();
@@ -184,7 +183,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
     List<AudioInstruction> pruneByTime(List<AudioInstruction> active) {
         List<AudioInstruction> prunedList = new ArrayList<AudioInstruction>();
         for (AudioInstruction instruction : active) {
-            if(instruction._end > _time && instruction.getSourceDuration() > 0)
+            if(instruction.end() > _time && instruction.getSourceDuration() > 0)
                 prunedList.add(instruction);
         }
         return prunedList;

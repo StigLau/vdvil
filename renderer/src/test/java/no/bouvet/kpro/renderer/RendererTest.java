@@ -3,6 +3,7 @@ package no.bouvet.kpro.renderer;
 import static org.junit.Assert.assertTrue;
 
 import no.lau.vdvil.instruction.Instruction;
+import no.lau.vdvil.instruction.SuperInstruction;
 import org.junit.Test;
 
 public class RendererTest {
@@ -32,7 +33,7 @@ public class RendererTest {
 			// Create the renderer instruction list
 
 			Instructions instructions = new Instructions();
-			AbstractInstruction instruction = new AbstractInstruction(OldRenderer.RATE *2, renderer.RATE*3);
+			Instruction instruction = new SuperInstruction(OldRenderer.RATE * 2, renderer.RATE * 3) { };
 			instructions.append(instruction);
 
 			// Create the OldRenderer with a TestRenderer instance
@@ -67,7 +68,7 @@ public class RendererTest {
 
 			// Assert that the delivery occurred within 0.2 seconds of the mark
 
-			assertTrue(Math.abs(_delivered - instruction._start) < OldRenderer.RATE / 5);
+			assertTrue(Math.abs(_delivered - instruction.start()) < OldRenderer.RATE / 5);
 		} finally {
 			if (renderer != null)
 				renderer.stop();

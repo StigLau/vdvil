@@ -1,9 +1,9 @@
 package no.vdvil.renderer.lyric;
 
-import no.bouvet.kpro.renderer.AbstractInstruction;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
+import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.instruction.LyricInstruction;
 import java.io.IOException;
 
@@ -18,11 +18,11 @@ public class LyricDescription implements MultimediaPart {
         this.compositionInstruction = compositionInstruction;
     }
 
-    public AbstractInstruction asInstruction(Float masterBpm) {
+    public Instruction asInstruction(Float masterBpm) {
         return LyricInstruction.create(compositionInstruction.start(), compositionInstruction().end(), masterBpm, text);
     }
 
-    public no.lau.vdvil.instruction.Instruction asV2Instruction() {
+    public Instruction asV2Instruction() {
         return new LyricInstruction(compositionInstruction.start(),  compositionInstruction.end() - compositionInstruction.start(), text);
     }
 

@@ -66,7 +66,6 @@ public class JavaZoneExample extends SuperPlayingSetup {
         assertEquals(end, instruction.end());
         assertEquals(cue, instruction.getCue());
         assertEquals(sourceDuration, instruction.getSourceDuration());
-
     }
 
     @Override
