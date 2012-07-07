@@ -1,6 +1,5 @@
 package no.lau.vdvil.mix;
 
-import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.timing.Interval;
@@ -9,7 +8,6 @@ import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import org.junit.Test;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -24,7 +22,6 @@ public class JavaZoneExample extends SuperPlayingSetup {
     static final MasterBeatPattern mbp = new MasterBeatPattern(0, 32+64*3+ 28, 150F);
 
     public static void main(String[] args) throws Exception {
-        //TODO Some Weired problem where Player doesn't stop. Try JavaZoneExample with 64 to 64*2
         new JavaZoneExample().play(mbp);
     }
     @Test
