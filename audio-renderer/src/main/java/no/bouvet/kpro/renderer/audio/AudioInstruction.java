@@ -42,8 +42,9 @@ public class AudioInstruction extends SuperInstruction {
 	 * @param duration
 	 *            the duration within source in samples
 	 */
+    @Deprecated //Should send in at worst a file reference, not an mp3Source!
 	public AudioInstruction(int start, int end, AudioSource source, int cue, int duration) {
-        super(start, end);
+        super(start, end - start);
 
 		_source = source;
 		_cue = cue;
