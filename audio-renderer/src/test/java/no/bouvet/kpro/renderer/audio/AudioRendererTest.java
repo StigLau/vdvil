@@ -1,8 +1,6 @@
 package no.bouvet.kpro.renderer.audio;
 
-import java.io.File;
 import java.net.URL;
-
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.OldRenderer;
 import org.junit.Test;
@@ -14,7 +12,6 @@ public class AudioRendererTest {
 
 	@Test
 	public void playingOWherePitchIncreases() {
-		AudioSource source = null;
 		AudioTarget target = null;
 		OldRenderer renderer = null;
 
@@ -22,7 +19,6 @@ public class AudioRendererTest {
 			// Create the AudioSource
 
 			URL url = getClass().getResource("/test.mp3");
-			source = AudioSourceFactory.load(new File(url.getFile()));
 
 			// Create the AudioTarget
 
@@ -31,8 +27,7 @@ public class AudioRendererTest {
 			// Create the renderer instruction list
 
 			Instructions instructions = new Instructions();
-			AudioInstruction instruction = new AudioInstruction(0, 206959,
-					source, 0, OldRenderer.RATE);
+			AudioInstruction instruction = new AudioInstruction(0, 206959, url, 0, OldRenderer.RATE);
 			instruction.setInterpolatedRate(0.1f, 0.4f);
 			instruction.setInterpolatedVolume(1.5f, 0.1f);
 			instructions.append(instruction);
@@ -63,8 +58,6 @@ public class AudioRendererTest {
 				renderer.stop();
 			if (target != null)
 				target.close();
-			if (source != null)
-				source.close();
 		}
 	}
 }

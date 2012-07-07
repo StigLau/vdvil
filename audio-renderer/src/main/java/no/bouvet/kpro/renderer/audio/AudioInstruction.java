@@ -2,6 +2,9 @@ package no.bouvet.kpro.renderer.audio;
 
 import no.bouvet.kpro.renderer.OldRenderer;
 import no.lau.vdvil.instruction.SuperInstruction;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * The AudioInstruction class is a specialization of the AbstractInstruction class. It
@@ -16,7 +19,7 @@ import no.lau.vdvil.instruction.SuperInstruction;
  * @author Stig Lau
  */
 public class AudioInstruction extends SuperInstruction {
-	protected AudioSource _source;
+	protected MP3Source source;
 	protected int _cue;
 	protected int _duration;
 
@@ -30,23 +33,27 @@ public class AudioInstruction extends SuperInstruction {
 
 	/**
 	 * Construct a new AudioInstruction.
-	 * 
-	 * @param start
-	 *            the start time of the instruction in samples (super)
-	 * @param end
-	 *            the end time of the instruction in samples (super)
-	 * @param source
-	 *            the AudioSource to use
-	 * @param cue
-	 *            the cue point (start point) within source in samples
-	 * @param duration
-	 *            the duration within source in samples
-	 */
-    @Deprecated //Should send in at worst a file reference, not an mp3Source!
-	public AudioInstruction(int start, int end, AudioSource source, int cue, int duration) {
+	 *
+     * @param start
+     *            the start time of the instruction in samples (super)
+     * @param end
+     *            the end time of the instruction in samples (super)
+     * @param source
+*            the AudioSource to use
+     * @param cue
+*            the cue point (start point) within source in samples
+     * @param duration
+     *      * @throws RuntimeException if unable to access mp3 file
+     */
+	public AudioInstruction(int start, int end, URL source, int cue, int duration) {
         super(start, end - start);
 
-		_source = source;
+        try {
+            this.source = new MP3Source(new File(source.getFile()));
+        } catch (IOException e) {
+            throw new RuntimeException("Problem accessing MP3 file " + source, e);
+        }
+
 		_cue = cue;
 		_duration = duration;
 
@@ -58,11 +65,11 @@ public class AudioInstruction extends SuperInstruction {
 
     /**
 	 * Get the AudioSource.
-	 * 
+	 *
 	 * @return the AudioSource
 	 */
 	public AudioSource getSource() {
-		return _source;
+        return source;
 	}
 
 	/**

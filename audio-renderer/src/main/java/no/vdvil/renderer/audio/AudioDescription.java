@@ -2,14 +2,12 @@ package no.vdvil.renderer.audio;
 
 import no.bouvet.kpro.renderer.OldRenderer;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
-import no.bouvet.kpro.renderer.audio.MP3Source;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.instruction.Instruction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -41,13 +39,7 @@ public class AudioDescription implements MultimediaPart {
         Float _cue = (segment.start + compositionInstruction.cueDifference()) * speedFactor + track.mediaFile.startingOffset * OldRenderer.RATE;
         int _duration = _end - _start;
 
-        MP3Source mp3Source = null;
-        try {
-            mp3Source = new MP3Source(new File(urlInLocalCache.getFile()));
-        } catch (IOException e) {
-            log.error("Problem accessing MP3 file {}", urlInLocalCache, e);
-        }
-        AudioInstruction audioInstruction = new AudioInstruction(_start, _end, mp3Source, _cue.intValue(), _duration);
+        AudioInstruction audioInstruction = new AudioInstruction(_start, _end, urlInLocalCache, _cue.intValue(), _duration);
 
         //Note that Playback speed is a different equation!!
         audioInstruction.setConstantRate(masterBpm / track.bpm);

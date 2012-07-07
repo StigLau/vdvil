@@ -30,10 +30,10 @@ public class AudioMixerTest {
     @Before
     public void setUp() throws IOException {
         File file = new SimpleCacheImpl().fileLocation(TestMp3s.returningMp3);
-        instruction = new AudioInstruction(0, maxSamplesForTest, new MP3Source(file), 0, 81415 );
+        instruction = new AudioInstruction(0, maxSamplesForTest, file.toURL(), 0, 81415 );
         int internal = 0;
         int sduration = 4410;
-        source = instruction.getSource().getBuffer(instruction.getCue() + internal, sduration + 22050);
+        source = new MP3Source(file).getBuffer(instruction.getCue() + internal, sduration + 22050);
         instructions.add(instruction);
     }
 

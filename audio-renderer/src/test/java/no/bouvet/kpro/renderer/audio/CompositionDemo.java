@@ -1,7 +1,7 @@
 package no.bouvet.kpro.renderer.audio;
 
 import java.io.File;
-
+import java.net.URL;
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.OldRenderer;
 import org.slf4j.Logger;
@@ -11,25 +11,21 @@ public abstract class CompositionDemo {
     static Logger log = LoggerFactory.getLogger(CompositionDemo.class);
 
     public static void main(String[] args) throws Exception {
-		AudioSource sourceA = null; // First source
-		AudioSource sourceB = null; // Second source
+        URL snap = CompositionDemo.class.getResource("/Snap_-_Rhythm_is_a_Dancer.mp3");
+        URL corona = CompositionDemo.class.getResource("/Corona_-_Baby_Baby.mp3");
+		AudioSource sourceA = new MP3Source(new File(snap.getFile()));
+		AudioSource sourceB = new MP3Source(new File(corona.getFile()));
 
 		AudioTarget target = null; // Audio output target
 		OldRenderer renderer = null; // OldRenderer
 
-        String snapMp3 = CompositionDemo.class.getResource("/Snap_-_Rhythm_is_a_Dancer.mp3").getFile();
-        String coronaMp3 = CompositionDemo.class.getResource("/Corona_-_Baby_Baby.mp3").getFile();
-
         try {
-            sourceA = AudioSourceFactory.load(new File(snapMp3));
-			log.debug("Loaded " + snapMp3 + "Source is " + sourceA.getDuration() + " samples");
-
-			sourceB = AudioSourceFactory.load(new File(coronaMp3));
-			log.debug("Loaded " + coronaMp3 + ". Source is " + sourceB.getDuration() + " samples");
+			log.debug("Loaded " + sourceA + "Source is " + sourceA.getDuration() + " samples");
+			log.debug("Loaded " + sourceB + "Source is " + sourceB.getDuration() + " samples");
 
             assertAudioSourcesCorrect(sourceA, sourceB);
 
-            Instructions instructions = createTestSetInstructions(sourceA, sourceB);
+            Instructions instructions = createTestSetInstructions(snap, corona);
 
             // Create the AudioTarget
 			log.debug("Creating AudioPlaybackTarget...");
@@ -46,10 +42,8 @@ public abstract class CompositionDemo {
 				renderer.stop();
 			if (target != null)
 				target.close();
-			if (sourceB != null)
-				sourceB.close();
-			if (sourceA != null)
-				sourceA.close();
+            sourceB.close();
+            sourceA.close();
             log.debug("Rendering finished");
         }
 	}
@@ -82,7 +76,7 @@ public abstract class CompositionDemo {
      * This instruction list was created by Mike's DJ Composer, exported
      * and converted into Java setup code.
      */
-    private static Instructions createTestSetInstructions(AudioSource sourceA, AudioSource sourceB) {
+    private static Instructions createTestSetInstructions(URL sourceA, URL sourceB) {
         Instructions instructions = new Instructions();
         AudioInstruction instruction;
 
