@@ -5,13 +5,15 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
+import java.net.URL;
 
 public class AudioInstructionTest {
 	private AudioInstruction inst;
+    URL url = getClass().getResource("/test.mp3");
 
 	@Before
 	public void setUp() throws Exception {
-		inst = new AudioInstruction(0, 5, null, 20, 10);
+		inst = new AudioInstruction(0, 5, url, 20, 10);
 	}
 
 	@Test
