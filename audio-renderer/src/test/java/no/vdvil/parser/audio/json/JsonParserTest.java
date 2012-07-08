@@ -1,4 +1,4 @@
-package no.lau.vdvil.parser.json;
+package no.vdvil.parser.audio.json;
 
 import com.google.gson.Gson;
 import no.lau.vdvil.cache.DownloaderFacade;
@@ -36,7 +36,7 @@ public class JsonParserTest {
     @Test
     public void testParsingJson() throws MalformedURLException {
         DownloaderFacade downloader = null;
-        AudioJsonParser audioJsonParser = new AudioJsonParser(downloader);
+        JsonAudioParser audioJsonParser = new JsonAudioParser(downloader);
         Track track = audioJsonParser.parseJsonStringToTrack(new StringReader(testJson));
         assertEquals("trackReference", track.reference);
         assertEquals(new URL("http://url.com"), track.mediaFile.fileName);

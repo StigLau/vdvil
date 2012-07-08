@@ -12,6 +12,7 @@ import no.lau.vdvil.player.InstructionPlayer;
 import no.lau.vdvil.player.VdvilPlayer;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.lau.vdvil.renderer.Renderer;
+import no.vdvil.parser.audio.json.JsonAudioParser;
 import no.vdvil.renderer.audio.AudioXMLParser;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
 import no.vdvil.renderer.image.ImageRenderer;
@@ -38,6 +39,7 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         downloadAndParseFacade.addCache(new SimpleCacheImpl()); //For local file access
         downloadAndParseFacade.addParser(new CompositionXMLParser(downloadAndParseFacade));
         downloadAndParseFacade.addParser(new AudioXMLParser(downloadAndParseFacade));
+        downloadAndParseFacade.addParser(new JsonAudioParser(downloadAndParseFacade));
         downloadAndParseFacade.addParser(new ImageDescriptionXMLParser(downloadAndParseFacade));
         downloadAndParseFacade.addParser(new OnlyTheImageDescriptionParser(downloadAndParseFacade));
     }

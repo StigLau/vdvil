@@ -12,6 +12,7 @@ public class TestMp3s {
 
     public static final URL psylteDvl =             createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/loaderror-psylteflesk.dvl");
     public static final URL returningDvl =          createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl");
+    public static final URL returningJson =          createURL("");
     public static final URL unfinishedSympathyDvl = createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/unfinished_sympathy.dvl");
     public static final URL not_aloneDvl =          createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/olive-youre_not_alone.dvl");
     public static final URL scares_meDvl =          createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl");

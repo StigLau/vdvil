@@ -1,4 +1,4 @@
-package no.lau.vdvil.parser.json;
+package no.vdvil.parser.audio.json;
 
 import com.google.gson.Gson;
 import no.lau.vdvil.cache.DownloaderFacade;
@@ -12,12 +12,12 @@ import no.vdvil.renderer.audio.Track;
 import java.io.*;
 import java.net.URL;
 
-public class AudioJsonParser implements MultimediaParser {
+public class JsonAudioParser implements MultimediaParser {
 
     DownloaderFacade downloader;
     Gson jsonParser;
 
-    public AudioJsonParser(DownloaderFacade downloader) {
+    public JsonAudioParser(DownloaderFacade downloader) {
         this.downloader = downloader;
         this.jsonParser = new Gson();
     }
@@ -35,6 +35,4 @@ public class AudioJsonParser implements MultimediaParser {
     Track parseJsonStringToTrack(Reader reader) {
         return jsonParser.fromJson(reader, Track.class);
     }
-
-
 }

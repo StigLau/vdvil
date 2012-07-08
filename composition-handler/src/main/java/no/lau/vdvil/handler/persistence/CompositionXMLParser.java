@@ -5,6 +5,7 @@ import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaParser;
 import no.lau.vdvil.handler.MultimediaPart;
+import no.lau.vdvil.handler.persistence.domain.CompositionXml;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,17 +24,17 @@ public class CompositionXMLParser implements MultimediaParser{
     public CompositionXMLParser(DownloadAndParseFacade facade) {
         downloadAndParseFacade = facade;
         xstream = new XStream();
-        xstream.alias("composition", CompositionXML.class);
+        xstream.alias("composition", CompositionXml.class);
         xstream.alias("part", PartXML.class);
         xstream.alias("dvl", DvlXML.class);
     }
 
     public Composition parse(CompositionInstruction compositionInstruction) throws IOException {
         URL url = compositionInstruction.dvl().url();
-        return convert((CompositionXML) xstream.fromXML(downloadAndParseFacade.fetchAsStream(url)), url);
+        return convert((CompositionXml) xstream.fromXML(downloadAndParseFacade.fetchAsStream(url)), url);
     }
 
-    public Composition convert(CompositionXML cXML, URL url) {
+    public Composition convert(CompositionXml cXML, URL url) {
         List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
         int beatLength = 0;
         for (final PartXML partXML : cXML.parts) {
@@ -48,13 +49,3 @@ public class CompositionXMLParser implements MultimediaParser{
         return new Composition(cXML.name, new MasterBeatPattern(0, beatLength, cXML.masterBpm), parts, url);
     }
 }
-
-/**
- * Internal classes only used for parsing XML!
- */
-class CompositionXML {
-    String name;
-    Float masterBpm;
-    List<PartXML> parts;
-}
-
