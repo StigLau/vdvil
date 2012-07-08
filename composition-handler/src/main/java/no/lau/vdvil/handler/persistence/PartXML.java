@@ -8,12 +8,14 @@ public class PartXML implements CompositionInstruction, MutableCompositionInstru
     final String id;
     int start;
     int end;
+    int duration;
     int cueDifference; //If the start has been moved, it will affect the cue starting point of multimedia which rely on timing.
     final DvlXML dvl;
 
     public PartXML(String id, TimeInterval timeInterval, DvlXML dvlXML) {
         this.id = id;
         this.start = timeInterval.start();
+        this.duration = timeInterval.duration();
         this.end = timeInterval.start() + timeInterval.duration();
         this.dvl = dvlXML;
 
@@ -29,6 +31,7 @@ public class PartXML implements CompositionInstruction, MutableCompositionInstru
 
     public int start() { return start + cueDifference; }
     public int cueDifference() { return cueDifference; }
+    public int duration() {return duration;}
     public int end() { return end; }
     public MultimediaReference dvl() { return dvl; }
 

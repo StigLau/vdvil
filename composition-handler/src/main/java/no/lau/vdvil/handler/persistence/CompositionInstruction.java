@@ -7,6 +7,8 @@ public interface CompositionInstruction {
     TimeInterval timeInterval();
     int start();
     int cueDifference(); //An indicator that the start has been moved and the cue has to be recalculated
+    int duration();
+    @Deprecated // Please use Duration
     int end();
     MultimediaReference dvl();
 }

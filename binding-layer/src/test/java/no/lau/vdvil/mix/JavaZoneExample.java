@@ -16,7 +16,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class JavaZoneExample extends SuperPlayingSetup {
-    URL returning = TestMp3s.returningDvl;
+    URL returning = TestMp3s.returningJsonDvl;
     URL not_alone = TestMp3s.not_aloneDvl;
     URL scares_me = TestMp3s.scares_meDvl;
     static final MasterBeatPattern mbp = new MasterBeatPattern(0, 32+64*3+ 28, 150F);

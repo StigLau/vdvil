@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 
 public class JsonParserTest {
 
-    String testJson = "{\"reference\":\"trackReference\",\"bpm\":123.0,\"mediaFile\":{\"fileName\":\"http://url.com\",\"startingOffset\":1000.0,\"checksum\":\"a checksum\"},\"segments\":[{\"id\":\"id1\",\"text\":\"hello\",\"start\":0,\"length\":16,\"end\":16},{\"id\":\"id2\",\"text\":\"goodbye\",\"start\":16,\"length\":16,\"end\":32}]}";
+    String testJson = "{\"reference\":\"trackReference\",\"bpm\":123.0,\"mediaFile\":{\"fileName\":\"http://url.com\",\"startingOffset\":1000.0,\"checksum\":\"a checksum\"},\"segments\":[{\"id\":\"id1\",\"text\":\"hello\",\"start\":0,\"duration\":16,\"end\":16},{\"id\":\"id2\",\"text\":\"goodbye\",\"start\":16,\"duration\":16,\"end\":32}]}";
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Test
@@ -79,18 +79,18 @@ public class JsonParserTest {
         checkSegment(track.segments.get(14), "651352148519104110", "Want nothing - 3. time", 768, 256);
     }
 
-    void checkSegment(Segment segment, String id, String text, int start, int length) {
+    void checkSegment(Segment segment, String id, String text, int start, int duration) {
         assertEquals(id, segment.id);
         assertEquals(text, segment.text);
         assertEquals(start, segment.start);
-        assertEquals(length, segment.length);
+        assertEquals(duration, segment.duration);
     }
 
     void printTrackProperties(Track track) {
         System.out.println();
         for (int i = 0; i < track.segments.size(); i++) {
             Segment seg = track.segments.get(i);
-            System.out.println("checkSegment(track.segments.get(" + i + "), \"" + seg.id + "\", \"" + seg.text + "\", " + seg.start + ", " + seg.length + ");");
+            System.out.println("checkSegment(track.segments.get(" + i + "), \"" + seg.id + "\", \"" + seg.text + "\", " + seg.start + ", " + seg.duration + ");");
         }
     }
 }
