@@ -36,37 +36,37 @@ public class TestMp3s {
     static Track returning() {
         MediaFile mediaFile = new MediaFile(returningMp3, 5.945F, "3e3477a6ccba67aa9f3196390f48b67d");
         List<Segment> segments = new ArrayList<Segment>();
-        segments.add(new Segment("4336519975847252321",  0, 64, "low"));
-        segments.add(new Segment("4638184666682848978", 64, 128, ""));
-        segments.add(new Segment("2754708889643705332", 128, 256, "Up"));
-        segments.add(new Segment("4533227407229953527", 256, 320, "Down"));
-        segments.add(new Segment("6401936245564505757", 320, 416, "Setting up"));
-        segments.add(new Segment("30189981949854134", 416, 448, "Want nothing 1. time"));
-        segments.add(new Segment("6182122145512625145", 448, 480, ""));
-        segments.add(new Segment("6978423701190173373", 480, 512, "Action satisfaction"));
-        segments.add(new Segment("3657904262668647219", 512, 544, "Calming synth"));
-        segments.add(new Segment("3378726703924324403", 544, 576, "Lyrics - 1. part"));
-        segments.add(new Segment("4823965795648964701", 576, 608, "want nothing - 2. part"));
-        segments.add(new Segment("5560598317419002938", 608, 640, "want nothing - 2. time"));
-        segments.add(new Segment("9040781467677187716", 640, 704, "want nothing - 3. time"));
-        segments.add(new Segment("5762690949488488062", 704, 768, "synth"));
-        segments.add(new Segment("651352148519104110", 768, 1024, "Want nothing - 3. time"));
+        segments.add(new Segment("4336519975847252321",  0, "low", 64));
+        segments.add(new Segment("4638184666682848978", 64, "", 64));
+        segments.add(new Segment("2754708889643705332", 128, "Up", 128));
+        segments.add(new Segment("4533227407229953527", 256, "Down", 64));
+        segments.add(new Segment("6401936245564505757", 320, "Setting up", 96));
+        segments.add(new Segment("30189981949854134", 416, "Want nothing 1. time", 32));
+        segments.add(new Segment("6182122145512625145", 448, "", 32));
+        segments.add(new Segment("6978423701190173373", 480, "Action satisfaction", 32));
+        segments.add(new Segment("3657904262668647219", 512, "Calming synth", 32));
+        segments.add(new Segment("3378726703924324403", 544, "Lyrics - 1. part", 32));
+        segments.add(new Segment("4823965795648964701", 576, "want nothing - 2. part", 32));
+        segments.add(new Segment("5560598317419002938", 608, "want nothing - 2. time", 32));
+        segments.add(new Segment("9040781467677187716", 640, "want nothing - 3. time", 64));
+        segments.add(new Segment("5762690949488488062", 704, "synth", 64));
+        segments.add(new Segment("651352148519104110", 768, "Want nothing - 3. time", 256));
         return new Track("Holden an Thompsen - Nothing", 130.0F, mediaFile, segments);
     }
 
     static Track corona() {
         MediaFile mediaFile = new MediaFile(coronamp3, OldRenderer.RATE * 0.445f, "e0e5beecd6a34f6a8ebae2c8840769af");
         List<Segment> segments = new ArrayList<Segment>();
-        segments.add(new Segment("a", 0, 16,  "Baby, why can't we just stay together"));
-        segments.add(new Segment("b", 16, 32,  "Baby, why can't we just stay together"));
-        segments.add(new Segment("c", 32, 64,  "Intro"));
-        segments.add(new Segment("d", 64, 96,  "Riff 1. time"));
-        segments.add(new Segment("e", 96, 128,  "1. Refrain  I want to roll inside your soul,"));
-        segments.add(new Segment("f", 128, 128 + 32,  "2. Verse - Caught you down by suprise"));
-        segments.add(new Segment("g", 128 + 32, 128 + 64,  "Baby baby, why can't we just stay together"));
-        segments.add(new Segment("h", 128 + 64, 128 + 96, "riff 2. time"));
-        segments.add(new Segment("i", 128 + 96, 256,  "Deep inside I know you need it"));
-        segments.add(new Segment("j", 256, 256 + 32, "Caught you down by suprise"));
+        segments.add(new Segment("a", 0, "Baby, why can't we just stay together", 16));
+        segments.add(new Segment("b", 16, "Baby, why can't we just stay together", 16));
+        segments.add(new Segment("c", 32, "Intro", 32));
+        segments.add(new Segment("d", 64, "Riff 1. time", 32));
+        segments.add(new Segment("e", 96, "1. Refrain  I want to roll inside your soul,", 32));
+        segments.add(new Segment("f", 128, "2. Verse - Caught you down by suprise", 32));
+        segments.add(new Segment("g", 128 + 32, "Baby baby, why can't we just stay together", 32));
+        segments.add(new Segment("h", 128 + 64, "riff 2. time", 32));
+        segments.add(new Segment("i", 128 + 96, "Deep inside I know you need it", 32));
+        segments.add(new Segment("j", 256, "Caught you down by suprise", 32));
         return new Track("Corona - Baby baby", 132.98f, mediaFile, segments);
     }
 }
