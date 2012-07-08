@@ -9,90 +9,90 @@
         "id":"4336519975847252321",
         "text":"low",
         "start":0,
-        "end":64
+        "length":64
     },
     {
         "id":"4638184666682848978",
         "text":"",
         "start":64,
-        "end":128
+        "length":64
     },
     {
         "id":"2754708889643705332",
         "text":"Up",
         "start":128,
-        "end":256
+        "length":128
     },
     {
         "id":"4533227407229953527",
         "text":"Down",
         "start":256,
-        "end":320
+        "length":64
     },
     {
         "id":"6401936245564505757",
         "text":"Setting up",
         "start":320,
-        "end":416
+        "length":96
     },
     {
         "id":"30189981949854134",
         "text":"Want nothing 1. time",
         "start":416,
-        "end":448
+        "length":32
     },
     {
         "id":"6182122145512625145",
         "text":"",
         "start":448,
-        "end":480
+        "length":32
     },
     {
         "id":"6978423701190173373",
         "text":"Action satisfaction",
         "start":480,
-        "end":512
+        "length":32
     },
     {
         "id":"3657904262668647219",
         "text":"Calming synth",
         "start":512,
-        "end":544
+        "length":32
     },
     {
         "id":"3378726703924324403",
         "text":"Lyrics - 1. part",
         "start":544,
-        "end":576
+        "length":32
     },
     {
         "id":"4823965795648964701",
         "text":"want nothing - 2. part",
         "start":576,
-        "end":608
+        "length":32
     },
     {
         "id":"5560598317419002938",
         "text":"want nothing - 2. time",
         "start":608,
-        "end":640
+        "length":32
     },
     {
         "id":"9040781467677187716",
         "text":"want nothing - 3. time",
         "start":640,
-        "end":704
+        "length":64
     },
     {
         "id":"5762690949488488062",
         "text":"synth",
         "start":704,
-        "end":768
+        "length":64
     },
     {
         "id":"651352148519104110",
         "text":"Want nothing - 3. time",
         "start":768,
-        "end":1024
+        "length":256
     }
 ]}

@@ -15,11 +15,10 @@ import java.net.URL;
 public class JsonAudioParser implements MultimediaParser {
 
     DownloaderFacade downloader;
-    Gson jsonParser;
+    Gson jsonParser = new Gson();
 
     public JsonAudioParser(DownloaderFacade downloader) {
         this.downloader = downloader;
-        this.jsonParser = new Gson();
     }
 
     @Override
