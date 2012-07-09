@@ -12,12 +12,12 @@ import no.vdvil.renderer.audio.Track;
 import java.io.*;
 import java.net.URL;
 
-public class JsonAudioParser implements MultimediaParser {
+public class AudioJsonParser implements MultimediaParser {
 
     DownloaderFacade downloader;
     Gson jsonParser = new Gson();
 
-    public JsonAudioParser(DownloaderFacade downloader) {
+    public AudioJsonParser(DownloaderFacade downloader) {
         this.downloader = downloader;
     }
 

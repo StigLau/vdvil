@@ -43,7 +43,7 @@ public class JsonParserTest {
     @Test
     public void testParsingJson() throws MalformedURLException {
         DownloaderFacade downloader = null;
-        JsonAudioParser audioJsonParser = new JsonAudioParser(downloader);
+        AudioJsonParser audioJsonParser = new AudioJsonParser(downloader);
         Track track = audioJsonParser.parseJsonStringToTrack(new StringReader(testJson));
         assertEquals("trackReference", track.reference);
         assertEquals(new URL("http://url.com"), track.mediaFile.fileName);
@@ -57,7 +57,7 @@ public class JsonParserTest {
     public void testParsingReturning() throws IOException {
         InputStream stream = this.getClass().getResourceAsStream("/Returning.dvl.json");
         InputStreamReader reader = new InputStreamReader(stream);
-        Track track = new JsonAudioParser(null).parseJsonStringToTrack(reader);
+        Track track = new AudioJsonParser(null).parseJsonStringToTrack(reader);
         printTrackProperties(track);
         assertEquals(new Float(130.0F), track.bpm);
         assertEquals(15, track.segments.size());

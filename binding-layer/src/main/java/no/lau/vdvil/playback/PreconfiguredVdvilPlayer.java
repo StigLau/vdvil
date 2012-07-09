@@ -1,6 +1,5 @@
 package no.lau.vdvil.playback;
 
-import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.AudioRenderer;
 import no.lau.vdvil.cache.SimpleCacheImpl;
@@ -8,11 +7,12 @@ import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.*;
+import no.lau.vdvil.parser.json.CompositionJsonParser;
 import no.lau.vdvil.player.InstructionPlayer;
 import no.lau.vdvil.player.VdvilPlayer;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.lau.vdvil.renderer.Renderer;
-import no.vdvil.parser.audio.json.JsonAudioParser;
+import no.vdvil.parser.audio.json.AudioJsonParser;
 import no.vdvil.renderer.audio.AudioXMLParser;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
 import no.vdvil.renderer.image.ImageRenderer;
@@ -38,8 +38,9 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         //downloadAndParseFacade.addCache(VdvilHttpCache.create());
         downloadAndParseFacade.addCache(new SimpleCacheImpl()); //For local file access
         downloadAndParseFacade.addParser(new CompositionXMLParser(downloadAndParseFacade));
+        downloadAndParseFacade.addParser(new CompositionJsonParser(downloadAndParseFacade));
         downloadAndParseFacade.addParser(new AudioXMLParser(downloadAndParseFacade));
-        downloadAndParseFacade.addParser(new JsonAudioParser(downloadAndParseFacade));
+        downloadAndParseFacade.addParser(new AudioJsonParser(downloadAndParseFacade));
         downloadAndParseFacade.addParser(new ImageDescriptionXMLParser(downloadAndParseFacade));
         downloadAndParseFacade.addParser(new OnlyTheImageDescriptionParser(downloadAndParseFacade));
     }
