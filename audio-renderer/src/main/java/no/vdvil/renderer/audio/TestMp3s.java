@@ -1,6 +1,10 @@
 package no.vdvil.renderer.audio;
 
 import no.bouvet.kpro.renderer.OldRenderer;
+import no.lau.vdvil.handler.persistence.CompositionInstruction;
+import no.lau.vdvil.handler.persistence.DvlXML;
+import no.lau.vdvil.handler.persistence.PartXML;
+import no.lau.vdvil.timing.Interval;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -19,6 +23,7 @@ public class TestMp3s {
     public static final URL spaceDvl =              createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/space_manoeuvres-stage_one_original.dvl");
 
     public static final URL javaZoneComposition = createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml");
+    public static final URL javaZoneCompositionJson = createURL("https://raw.github.com/StigLau/vdvil/utvikling/binding-layer/src/test/resources/JavazoneExample.composition.dvl.json");
     public static final URL javaZoneComposition_WithoutImages = createURL("http://kpro09.googlecode.com/svn-history/r530/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml");
     public static final URL NULL = createURL("http://null.com");
 
@@ -68,6 +73,11 @@ public class TestMp3s {
         segments.add(new Segment("i", 128 + 96, "Deep inside I know you need it", 32));
         segments.add(new Segment("j", 256, "Caught you down by suprise", 32));
         return new Track("Corona - Baby baby", 132.98f, mediaFile, segments);
+    }
+
+    public static CompositionInstruction compInstructionFactory(URL url, int start, int duration) {
+        return new PartXML("Stub ID", new Interval(start, duration), new DvlXML("Stub Dvl name", url));
+
     }
 }
 

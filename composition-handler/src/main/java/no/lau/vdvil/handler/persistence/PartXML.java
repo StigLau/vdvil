@@ -7,8 +7,10 @@ import java.net.URL;
 public class PartXML implements CompositionInstruction, MutableCompositionInstruction {
     final String id;
     int start;
-    int end;
-    Integer duration;
+
+    //Note: End and Duration are two sides of the same coin, but from different API versions. Please use duration!
+    private Integer end;
+    private Integer duration;
     int cueDifference; //If the start has been moved, it will affect the cue starting point of multimedia which rely on timing.
     public final DvlXML dvl;
 
@@ -26,13 +28,18 @@ public class PartXML implements CompositionInstruction, MutableCompositionInstru
     public String id() { return id; }
 
     public TimeInterval timeInterval() {
-        return new Interval(start, end-start);
+        return new Interval(start, duration());
     }
 
     public int start() { return start + cueDifference; }
     public int cueDifference() { return cueDifference; }
-    public int duration() {return duration;}
-    public int end() { return end; }
+    public int duration() {
+        return (duration != null) ? duration: end - start;
+    }
+    @Deprecated // Please use duration
+    public int end() {
+        return (end != null) ? end : start + duration;
+    }
     public MultimediaReference dvl() { return dvl; }
 
     public static CompositionInstruction create(URL url) {
@@ -56,10 +63,6 @@ public class PartXML implements CompositionInstruction, MutableCompositionInstru
 
     public String toString() {
         return start + " - " + end + " " + id;
-    }
-
-    public Integer getDuration() {
-        return duration;
     }
 
     public void setDuration(Integer duration) {

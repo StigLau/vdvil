@@ -15,7 +15,7 @@ public class PlayingMixFromCompositionOnWebTest {
     DownloadAndParseFacade cacheAndParser = PreconfiguredVdvilPlayer.downloadAndParseFacade;
     @Test
     public void play() throws IOException, IllegalAccessException, InterruptedException {
-        URL url = TestMp3s.javaZoneComposition;
+        URL url = TestMp3s.javaZoneCompositionJson;
         //URL url = new URL("file://localhost/Users/stiglau/utvikling/kpro09/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml");
         PreconfiguredVdvilPlayer vdvilPlayer = new PreconfiguredVdvilPlayer();
         Composition composition = (Composition) cacheAndParser.parse(PartXML.create(url));
