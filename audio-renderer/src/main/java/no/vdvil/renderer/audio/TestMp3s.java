@@ -23,7 +23,7 @@ public class TestMp3s {
     public static final URL spaceDvl =              createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/space_manoeuvres-stage_one_original.dvl");
 
     public static final URL javaZoneComposition = createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml");
-    public static final URL javaZoneCompositionJson = createURL("https://raw.github.com/StigLau/vdvil/utvikling/binding-layer/src/test/resources/JavazoneExample.composition.dvl.json");
+    public static final URL javaZoneCompositionJson = createURL("http://heap.kompo.st/JavaZone_Demo");
     public static final URL javaZoneComposition_WithoutImages = createURL("http://kpro09.googlecode.com/svn-history/r530/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml");
     public static final URL NULL = createURL("http://null.com");
 
