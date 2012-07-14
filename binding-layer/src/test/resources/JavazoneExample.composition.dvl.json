@@ -3,160 +3,110 @@
         "id":"4479230163500364845",
         "start":0,
         "duration":32,
-        "cueDifference":0,
-        "dvl":{
-            "name":"You\u0027re not alone",
-            "url":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/olive-youre_not_alone.dvl"
-        }
+        "dvlref":"Youre not alone"
     },
     {
         "id":"4123230163500364845",
         "start":4,
         "duration":12,
-        "cueDifference":0,
-        "dvl":{
-            "name":"Pimp Teddy",
-            "url":"https://github.com/StigLau/vdvil/raw/master/image-renderer/src/test/resources/ImageDescription.html"
-        }
+        "dvlref":"Pimp Teddy"
     },
     {
         "id":"5403996530329584526",
         "start":16,
         "duration":32,
-        "cueDifference":0,
-        "dvl":{
-            "name":"It scares me",
-            "url":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl"
-        }
+        "dvlref":"It scares me"
+    },
+    {
+        "id":"4123230163500364841",
+        "start":20,
+        "duration":4,
+        "dvlref":"Pimp Teddy"
     },
     {
         "id":"8313187524105777940",
         "start":32,
         "duration":38,
-        "cueDifference":0,
-        "dvl":{
-            "name":"You\u0027re not alone",
-            "url":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/olive-youre_not_alone.dvl"
-        }
+        "dvlref":"Youre not alone"
     },
     {
         "id":"5403996530329511526",
         "start":48,
         "duration":16,
-        "cueDifference":0,
-        "dvl":{
-            "name":"It scares me",
-            "url":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl"
-        }
+        "dvlref":"It scares me"
     },
     {
         "id":"4479230163500364123",
         "start":64,
         "duration":8,
-        "cueDifference":0,
-        "dvl":{
-            "name":"Snoop Teddy",
-            "url":"https://github.com/StigLau/vdvil/raw/master/image-renderer/src/test/resources/ImageDescription2.html"
-        }
+        "dvlref":"Snoop Teddy"
     },
     {
         "id":"1826025806904317462",
         "start":64,
         "duration":48,
-        "cueDifference":0,
-        "dvl":{
-            "name":"It scares me",
-            "url":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl"
-        }
+        "dvlref":"It scares me"
     },
     {
         "id":"6401936245564505757",
         "start":96,
         "duration":44,
-        "cueDifference":0,
-        "dvl":{
-            "name":"returning",
-            "url":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"
-        }
+        "dvlref":"returning"
     },
     {
         "id":"6411936245564505757",
         "start":96,
         "duration":44,
-        "cueDifference":0,
-        "dvl":{
-            "name":"returning",
-            "url":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"
-        }
+        "dvlref":"returning"
     },
     {
         "id":"6182122145512625145",
         "start":128,
         "duration":46,
-        "cueDifference":0,
-        "dvl":{
-            "name":"returning",
-            "url":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"
-        }
+        "dvlref":"returning"
     },
     {
         "id":"3378726703924324403",
         "start":144,
         "duration":31,
-        "cueDifference":0,
-        "dvl":{
-            "name":"returning",
-            "url":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"
-        }
+        "dvlref":"returning"
     },
     {
         "id":"4823965795648964701",
         "start":174,
         "duration":2,
-        "cueDifference":0,
-        "dvl":{
-            "name":"returning",
-            "url":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"
-        }
+        "dvlref":"returning"
     },
     {
         "id":"5560598317419002938",
         "start":175,
         "duration":2,
-        "cueDifference":0,
-        "dvl":{
-            "name":"returning",
-            "url":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"
-        }
+        "dvlref":"returning"
     },
     {
         "id":"9040781467677187716",
         "start":176,
         "duration":64,
-        "cueDifference":0,
-        "dvl":{
-            "name":"returning",
-            "url":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl"
-        }
+        "dvlref":"returning"
     },
     {
         "id":"8301899110835906945",
         "start":208,
         "duration":16,
-        "cueDifference":0,
-        "dvl":{
-            "name":"It scares me",
-            "url":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl"
-        }
+        "dvlref":"It scares me"
     },
     {
         "id":"5555459205073513470",
         "start":224,
         "duration":28,
-        "cueDifference":0,
-        "dvl":{
-            "name":"It scares me",
-            "url":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl"
-        }
+        "dvlref":"It scares me"
     }
-]}
+],
+    "dvls":{
+        "returning":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl",
+        "Youre not alone":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/olive-youre_not_alone.dvl",
+        "It scares me":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl",
+        "Snoop Teddy":"https://github.com/StigLau/vdvil/raw/master/image-renderer/src/test/resources/ImageDescription2.html",
+        "Pimp Teddy":"https://github.com/StigLau/vdvil/raw/master/image-renderer/src/test/resources/ImageDescription.html"
+    }
+}

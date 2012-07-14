@@ -41,7 +41,11 @@ public class DownloadAndParseFacade implements MultimediaParser, DownloaderFacad
                 log.debug("Parsing error: ", e);
             }
         }
-        throw new IOException("No parsers able to parse " + instruction.dvl().url() + ", check debug log!");
+        String parserList = "";
+        for (MultimediaParser parser : parsers) {
+            parserList += parser.getClass().getSimpleName() + " ";
+        }
+        throw new IOException("No parsers able to parse " + instruction.dvl().url() + ", check debug log! Tried parsers: " + parserList);
     }
 
 
