@@ -5,6 +5,7 @@ import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.handler.persistence.MultimediaReference;
+import no.lau.vdvil.handler.persistence.MutableCompositionInstruction;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.lau.vdvil.timing.TimeInterval;
@@ -39,19 +40,28 @@ class CompositionSerializedJson {
     }
 }
 
-class PartJson implements CompositionInstruction {
+class PartJson implements CompositionInstruction, MutableCompositionInstruction {
     String id;
     int start;
     int duration;
     String dvlref;
     MultimediaReference dvl;
+    int cueDifference = 0; //If the start has been moved, it will affect the cue starting point of multimedia which rely on timing.
 
     public String id() { return id; }
     public TimeInterval timeInterval() { return new Interval(start, duration); }
-    public int start() { return start; }
+    public int start() { return start + cueDifference; }
     public int duration() {return duration;}
-    public int end() {return start + duration;}
-    public int cueDifference() { return 0;  //CueDifference cannot be set in this naive implementation 
+    public int end() {
+        return start + duration;
+    }
+    public int cueDifference() { return cueDifference;
     }
     public MultimediaReference dvl() {return dvl;}
+
+    public void moveStart(int cueDifference) { this.cueDifference = cueDifference; }
+
+    public void setEnd(int endBeat) {
+        duration = endBeat - start;
+    }
 }

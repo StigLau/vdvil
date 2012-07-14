@@ -4,21 +4,19 @@
     "parts":[
         {
             "id":"id1",
-            "dvl":{
-                "url":"http://dvl.lau.no/dvls/yey.dvl",
-                "name":"yey"
-            },
             "start":0,
-            "duration":32
+            "duration":32,
+            "dvlref":"yey"
         },
         {
             "id":"id2",
-            "dvl":{
-                "url":"http://dvl.lau.no/dvls/yey2.dvl",
-                "name":"yey2"
-            },
+            "dvlref":"yey2",
             "start":32,
             "duration":32
         }
-    ]
+    ],
+    "dvls":{
+        "yey":"http://dvl.lau.no/dvls/yey.dvl",
+        "yey2":"http://dvl.lau.no/dvls/yey2.dvl"
+    }
 }
