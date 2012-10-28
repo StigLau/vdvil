@@ -15,7 +15,7 @@
         <name>no.lau</name>
         <url>http://stig.lau.no</url>
     </organization>
-    <url>http://idi.ntnu.no/~hella/vdvil</url>
+    <url>https://idi.ntnu.no/~hella/vdvil</url>
 
     <dependencies>
         <dependency>
