@@ -6,7 +6,7 @@
     <parent>
         <groupId>no.lau.vdvil</groupId>
         <artifactId>vdvil</artifactId>
-        <version>0.14-SNAPSHOT</version>
+        <version>y</version>
     </parent>
     
     <name>Vdvil HttpCache: Handling file download and stuff for VDvil files</name>
