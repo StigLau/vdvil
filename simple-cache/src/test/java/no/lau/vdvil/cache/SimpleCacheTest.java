@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 public class SimpleCacheTest {
 
     URL localTestFile;
-    String returningChecksum = "e6746326540c2f847b054bb329a5d54a";
+    String returningChecksum = "44edc5da79b289f81094d8d5952efde7";
     URL testFile;
     URL ftpFile;
 
