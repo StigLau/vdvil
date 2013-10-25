@@ -26,9 +26,7 @@ public class ImageRenderer extends AbstractRenderer implements Renderer {
     public ImageRenderer(int width, int height, DownloaderFacade cache) {
         this.cache = cache;
         listener = new ImageListener[] {new ImagePanel()};
-
         frame = new JFrame("ImageRendererGUITest");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(width, height);
         for (ImageListener imageListener : listener) {
             frame.getContentPane().add((JComponent) imageListener);

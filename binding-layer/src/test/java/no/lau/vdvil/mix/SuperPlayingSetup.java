@@ -19,10 +19,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public abstract class SuperPlayingSetup {
-    protected PreconfiguredVdvilPlayer vdvilPlayer = new PreconfiguredVdvilPlayer();
-    protected DownloadAndParseFacade downloader = PreconfiguredVdvilPlayer.downloadAndParseFacade;
+    protected PreconfiguredVdvilPlayer vdvilPlayer;
+    protected DownloadAndParseFacade downloader;
 
     protected abstract Composition compose(MasterBeatPattern masterBeatPattern) throws IOException;
+
+    public SuperPlayingSetup() {
+        vdvilPlayer = new PreconfiguredVdvilPlayer();
+        downloader = PreconfiguredVdvilPlayer.downloadAndParseFacade;
+    }
 
     protected void play(MasterBeatPattern masterBeatPattern) {
         try {
