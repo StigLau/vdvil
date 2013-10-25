@@ -17,42 +17,46 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 
-public class SurrenderPlayingTest extends SuperPlayingSetup {
+public class SurrenderPlayingTest {
     URL surrenderDvl;
+    SuperPlayingSetup player;
 
     @Before
     public void before() {
+        System.out.println("before");
+
         surrenderDvl = ClassLoader.getSystemResource("Way_Out_West-Surrender-Eelke_Kleijn_Remix.dvl.xml");
+        player = new SuperPlayingSetup() {
+            @Override
+            protected Composition compose(MasterBeatPattern masterBeatPattern) throws IOException {
+                List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
+                parts.add(createImagePart("Diving Teddy", new Interval(0, 16), new URL("http://www.shinyshiny.tv/teddy%20bear%201.jpg")));
+                parts.add(createImagePart("Dead Teddy", new Interval(16, 16), new URL("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg")));
+                parts.add(createImagePart("Diving Teddy", new Interval(32, 16), new URL("http://farm3.static.flickr.com/2095/2282261838_276a37d325_o_d.jpg")));
+                parts.add(createImagePart("Dead Teddy", new Interval(64, 32), new URL("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg")));
+                parts.add(createImagePart("Diving Teddy", new Interval(240, 4), new URL("http://www.shinyshiny.tv/teddy%20bear%201.jpg")));
+
+                parts.add(createAudioPart("0-128Surrender",   new Interval(0, 16), surrenderDvl, downloader));
+                parts.add(createAudioPart("256-352Surrender", new Interval(16, 64), surrenderDvl, downloader)); // Elguitar
+                parts.add(createAudioPart("352-512Surrender", new Interval(16+64, 64), surrenderDvl, downloader));
+                parts.add(createAudioPart("352-512Surrender", new Interval(16+64*2, 64+32), surrenderDvl, downloader));
+                parts.add(createAudioPart("480-544Surrender", new Interval(16+32+64*3, 64), surrenderDvl, downloader)); // Synth X2
+                parts.add(createAudioPart("768-896Surrender", new Interval(16+32+64*4, 128), surrenderDvl, downloader));
+
+                return new Composition("SurrenderTest", masterBeatPattern, parts, TestMp3s.NULL);
+            }
+        };
     }
 
     @Test
     public void play() throws IOException {
-        super.play(new MasterBeatPattern(12, 20, 150F));
-    }
-
-    @Override
-    protected Composition compose(MasterBeatPattern masterBeatPattern) throws IOException {
-        List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
-        parts.add(createImagePart("Diving Teddy", new Interval(0, 16), new URL("http://www.shinyshiny.tv/teddy%20bear%201.jpg")));
-        parts.add(createImagePart("Dead Teddy", new Interval(16, 16), new URL("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg")));
-        parts.add(createImagePart("Diving Teddy", new Interval(32, 16), new URL("http://farm3.static.flickr.com/2095/2282261838_276a37d325_o_d.jpg")));
-        parts.add(createImagePart("Dead Teddy", new Interval(64, 32), new URL("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg")));
-        parts.add(createImagePart("Diving Teddy", new Interval(240, 4), new URL("http://www.shinyshiny.tv/teddy%20bear%201.jpg")));
-
-        parts.add(createAudioPart("0-128Surrender",   new Interval(0, 16), surrenderDvl, downloader));
-        parts.add(createAudioPart("256-352Surrender", new Interval(16, 64), surrenderDvl, downloader)); // Elguitar
-        parts.add(createAudioPart("352-512Surrender", new Interval(16+64, 64), surrenderDvl, downloader));
-        parts.add(createAudioPart("352-512Surrender", new Interval(16+64*2, 64+32), surrenderDvl, downloader));
-        parts.add(createAudioPart("480-544Surrender", new Interval(16+32+64*3, 64), surrenderDvl, downloader)); // Synth X2
-        parts.add(createAudioPart("768-896Surrender", new Interval(16+32+64*4, 128), surrenderDvl, downloader));
-
-        return new Composition("SurrenderTest", masterBeatPattern, parts, TestMp3s.NULL);
+        player.play(new MasterBeatPattern(12, 20, 150F));
     }
 
     @Test
     public void testTimeIntervalsProducedForInstructions() throws IOException {
-        Composition composition = compose(new MasterBeatPattern(0, 64, 120F));
-        composition.cache(downloader);
+        Composition composition = player.compose(new MasterBeatPattern(0, 64, 120F));
+        composition.cache(player.downloader);
         Instructions instructions = composition.instructions(120F);
         List<Instruction> instructionList = instructions.lock();
 
