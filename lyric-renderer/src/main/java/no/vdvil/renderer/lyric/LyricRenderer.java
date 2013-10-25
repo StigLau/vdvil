@@ -18,8 +18,6 @@ public class LyricRenderer implements LyricListener, Renderer {
 
     public LyricRenderer(int width, int height) {
         frame = new JFrame("LyricRendererGUITest");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         label = new JLabel("Lyric OldRenderer Panel");
         frame.getContentPane().add(label);
         //frame.pack();

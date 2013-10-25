@@ -23,8 +23,6 @@ public class SurrenderPlayingTest {
 
     @Before
     public void before() {
-        System.out.println("before");
-
         surrenderDvl = ClassLoader.getSystemResource("Way_Out_West-Surrender-Eelke_Kleijn_Remix.dvl.xml");
         player = new SuperPlayingSetup() {
             @Override
