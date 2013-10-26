@@ -6,7 +6,7 @@ import no.lau.vdvil.composition.CompositionAdapter;
 import no.lau.vdvil.control.Conductor;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
-import static no.lau.vdvil.mix.SuperPlayingSetup.*;
+import static no.lau.vdvil.mix.util.SuperPlayingSetup.*;
 import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
 import no.lau.vdvil.renderer.MetronomeRenderer;
 import no.lau.vdvil.timing.*;

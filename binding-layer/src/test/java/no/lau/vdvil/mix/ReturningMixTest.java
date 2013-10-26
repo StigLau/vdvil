@@ -2,6 +2,7 @@ package no.lau.vdvil.mix;
 
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaPart;
+import no.lau.vdvil.mix.util.SuperPlayingSetup;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.TestMp3s;
@@ -18,7 +19,7 @@ public class ReturningMixTest extends SuperPlayingSetup {
         super.play(new MasterBeatPattern(8, 20, 130F));
     }
     @Override
-    protected Composition compose(MasterBeatPattern masterBeatPattern) throws IOException {
+    public Composition compose(MasterBeatPattern masterBeatPattern) throws IOException {
         List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
         parts.add(createAudioPart(returning.segments.get(3).id, new Interval(0, 16), TestMp3s.returningDvl, downloader));
         parts.add(createAudioPart(returning.segments.get(6).id, new Interval(12, 20), TestMp3s.returningDvl, downloader));
