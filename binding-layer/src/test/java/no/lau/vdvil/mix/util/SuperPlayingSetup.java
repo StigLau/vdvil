@@ -1,4 +1,4 @@
-package no.lau.vdvil.mix;
+package no.lau.vdvil.mix.util;
 
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.DownloadAndParseFacade;
@@ -20,16 +20,16 @@ import java.net.URL;
 
 public abstract class SuperPlayingSetup {
     protected PreconfiguredVdvilPlayer vdvilPlayer;
-    protected DownloadAndParseFacade downloader;
+    public DownloadAndParseFacade downloader;
 
-    protected abstract Composition compose(MasterBeatPattern masterBeatPattern) throws IOException;
+    public abstract Composition compose(MasterBeatPattern masterBeatPattern) throws IOException;
 
     public SuperPlayingSetup() {
         vdvilPlayer = new PreconfiguredVdvilPlayer();
         downloader = PreconfiguredVdvilPlayer.downloadAndParseFacade;
     }
 
-    protected void play(MasterBeatPattern masterBeatPattern) {
+    public void play(MasterBeatPattern masterBeatPattern) {
         try {
             vdvilPlayer.init(compose(masterBeatPattern));
             vdvilPlayer.play();
