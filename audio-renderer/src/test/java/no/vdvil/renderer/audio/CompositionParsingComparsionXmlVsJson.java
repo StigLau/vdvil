@@ -1,8 +1,7 @@
 package no.vdvil.renderer.audio;
 
-import no.lau.vdvil.cache.SimpleCacheImpl;
 import no.lau.vdvil.handler.Composition;
-import no.lau.vdvil.handler.DownloadAndParseFacade;
+import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.handler.persistence.CompositionXMLParser;
@@ -15,15 +14,14 @@ import static org.junit.Assert.assertEquals;
 
 public class CompositionParsingComparsionXmlVsJson {
 
-    DownloadAndParseFacade parseFacade = new DownloadAndParseFacade();
+    ParseFacade parseFacade = new ParseFacade();
     AudioXMLParser audioXMLParser;
 
     @Before
     public void setup() {
-        parseFacade.addCache(new SimpleCacheImpl());
         parseFacade.addParser(new CompositionXMLParser(parseFacade));
         parseFacade.addParser(new CompositionJsonParser(parseFacade));
-        audioXMLParser = new AudioXMLParser(parseFacade);
+        audioXMLParser = new AudioXMLParser();
         parseFacade.addParser(audioXMLParser);
     }
 

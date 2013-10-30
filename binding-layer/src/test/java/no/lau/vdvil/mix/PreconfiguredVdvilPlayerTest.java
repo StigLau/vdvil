@@ -1,7 +1,7 @@
 package no.lau.vdvil.mix;
 
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.Composition;
-import no.lau.vdvil.handler.DownloadAndParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.handler.persistence.PartXML;
@@ -11,7 +11,6 @@ import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.lau.vdvil.timing.TimeInterval;
 import org.junit.Test;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +77,10 @@ public class PreconfiguredVdvilPlayerTest {
             public CompositionInstruction compositionInstruction() {
                 return compositionInstruction;
             }
-            public void cache(DownloadAndParseFacade downloader) throws IOException {}
+
+            public FileRepresentation fileRepresentation() {
+                return FileRepresentation.NULL;
+            }
         };
     }
     private Composition createComposition(List<MultimediaPart> parts) {

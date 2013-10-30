@@ -1,10 +1,10 @@
 package no.bouvet.kpro.renderer.audio;
 
 import no.bouvet.kpro.renderer.OldRenderer;
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.instruction.SuperInstruction;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 /**
  * The AudioInstruction class is a specialization of the AbstractInstruction class. It
@@ -19,7 +19,7 @@ import java.net.URL;
  * @author Stig Lau
  */
 public class AudioInstruction extends SuperInstruction {
-	protected MP3Source source;
+	protected final MP3Source source;
 	protected int _cue;
 	protected int _duration;
 
@@ -38,22 +38,18 @@ public class AudioInstruction extends SuperInstruction {
      *            the start time of the instruction in samples (super)
      * @param end
      *            the end time of the instruction in samples (super)
-     * @param source
-*            the AudioSource to use
      * @param cue
 *            the cue point (start point) within source in samples
      * @param duration
      *      * @throws RuntimeException if unable to access mp3 file
      */
-	public AudioInstruction(int start, int end, URL source, int cue, int duration) {
-        super(start, end - start);
-
+	public AudioInstruction(int start, int end, int cue, int duration, FileRepresentation fileRepresentation) {
+        super(start, end - start, fileRepresentation);
         try {
-            this.source = new MP3Source(new File(source.getFile()));
+            source = new MP3Source(new File(fileRepresentation.localStorage().getFile()));
         } catch (IOException e) {
-            throw new RuntimeException("Problem accessing MP3 file " + source, e);
+            throw new RuntimeException("Problem accessing MP3 file " + fileRepresentation, e);
         }
-
 		_cue = cue;
 		_duration = duration;
 
@@ -67,6 +63,7 @@ public class AudioInstruction extends SuperInstruction {
 	 * Get the AudioSource.
 	 *
 	 * @return the AudioSource
+     * TODO Possibly called WAY too many times!!
 	 */
 	public AudioSource getSource() {
         return source;

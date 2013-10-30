@@ -1,19 +1,18 @@
 package no.vdvil.renderer.audio;
 
 import com.thoughtworks.xstream.XStream;
-import no.lau.vdvil.cache.DownloaderFacade;
+import no.lau.vdvil.cache.FileRepresentation;
+import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.MultimediaParser;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import java.io.IOException;
-import java.net.URL;
 
 public class AudioXMLParser implements MultimediaParser {
 
-    DownloaderFacade downloader;
+    Store store = Store.get();
     XStream xstream;
 
-    public AudioXMLParser(DownloaderFacade downloader) {
-        this.downloader = downloader;
+    public AudioXMLParser() {
         xstream = new XStream();
         xstream.alias("track", Track.class);
         xstream.alias("mediaFile", MediaFile.class);
@@ -21,14 +20,11 @@ public class AudioXMLParser implements MultimediaParser {
     }
 
     public AudioDescription parse(CompositionInstruction compositionInstruction) throws IOException {
-        URL dvlUrl = compositionInstruction.dvl().url();
-        Track track = (Track) xstream.fromXML(downloader.fetchAsStream(dvlUrl));
+        FileRepresentation fileRepresentation = store.cache(compositionInstruction.dvl().url());
+        Track track = (Track) xstream.fromXML(fileRepresentation.localStorage());
+        track.fileRepresentation = store.createKey(track.mediaFile.fileName);
         Segment segment = track.findSegment(compositionInstruction.id());
         return new AudioDescription(segment, compositionInstruction, track);
-    }
-
-    public void setDownloaderAndParseFacade(DownloaderFacade downloader) {
-        this.downloader = downloader;
     }
 }
 

@@ -1,15 +1,19 @@
 package no.lau.vdvil.instruction;
 
+import no.lau.vdvil.cache.FileRepresentation;
+
 /**
  * Superclass for containing all the dull stuff of a Instruction
  */
 public abstract class SuperInstruction implements Instruction {
     final long start;
     final long length;
+    protected final FileRepresentation fileRepresentation;
 
-    public SuperInstruction(long start, long length) {
+    public SuperInstruction(long start, long length, FileRepresentation fileRepresentation) {
         this.start = start;
         this.length = length;
+        this.fileRepresentation = fileRepresentation;
     }
 
     public long start() {
@@ -22,6 +26,10 @@ public abstract class SuperInstruction implements Instruction {
 
     public long end() {
         return start + length;
+    }
+
+    public FileRepresentation fileRepresentation(){
+        return fileRepresentation;
     }
 
     public int compareTo(Object otherO) {

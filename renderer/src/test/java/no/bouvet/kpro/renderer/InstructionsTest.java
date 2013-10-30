@@ -1,5 +1,6 @@
 package no.bouvet.kpro.renderer;
 
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.instruction.SuperInstruction;
 import org.junit.Test;
@@ -54,7 +55,7 @@ public class InstructionsTest {
 
 class TestInstruction extends SuperInstruction {
     public TestInstruction(int start, int length) {
-        super(start, length);
+        super(start, length, FileRepresentation.NULL);
     }
 
     public String toString() {

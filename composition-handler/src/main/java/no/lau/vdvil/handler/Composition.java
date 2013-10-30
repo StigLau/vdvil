@@ -1,24 +1,24 @@
 package no.lau.vdvil.handler;
 
 import no.bouvet.kpro.renderer.Instructions;
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
 public class Composition implements MultimediaPart {
     public final String name;
     public final MasterBeatPattern masterBeatPattern;
     public final List<MultimediaPart> multimediaParts;
-    public final URL url;
+    public FileRepresentation fileRepresentation;
 
-    public Composition(String name, MasterBeatPattern masterBeatPattern, List<MultimediaPart> multimediaParts, URL url) {
+    public Composition(String name, MasterBeatPattern masterBeatPattern, List<MultimediaPart> multimediaParts, FileRepresentation fileRepresentation) {
         this.name = name;
         this.masterBeatPattern = masterBeatPattern;
         this.multimediaParts = multimediaParts;
-        this.url = url;
+        this.fileRepresentation = fileRepresentation;
     }
 
     public Instructions instructions(Float masterBpm) throws IOException {
@@ -41,21 +41,23 @@ public class Composition implements MultimediaPart {
         throw new RuntimeException("No CompositionInstruction set up for a Composition");
     }
 
-    public void cache(DownloadAndParseFacade downloader) throws IOException {
-        for (MultimediaPart multimediaPart : multimediaParts) {
-            multimediaPart.cache(downloader);
-        }
+    public FileRepresentation fileRepresentation() {
+        return this.fileRepresentation;
     }
 
     /**
      * Creates a copy of this Composition with a different beatPattern
      */
     public Composition withBeatPattern(MasterBeatPattern beatPattern) {
-        return new Composition(name, beatPattern, multimediaParts, url);
+        return new Composition(name, beatPattern, multimediaParts, fileRepresentation);
     }
 
     public String toString() {
         return name + "; " + masterBeatPattern.toString() + ". " + multimediaParts.size() + " parts" ;
+    }
+
+    public void updateFileRepresentation(FileRepresentation fileRepresentation) {
+        this.fileRepresentation = fileRepresentation;
     }
 }
 

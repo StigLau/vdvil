@@ -5,7 +5,8 @@ import no.bouvet.kpro.renderer.OldRenderer;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.MP3Source;
-import no.lau.vdvil.cache.SimpleCacheImpl;
+import no.lau.vdvil.cache.FileRepresentation;
+import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.instruction.Instruction;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,11 +30,12 @@ public class AudioMixerTest {
 
     @Before
     public void setUp() throws IOException {
-        File file = new SimpleCacheImpl().fileLocation(TestMp3s.returningMp3);
-        instruction = new AudioInstruction(0, maxSamplesForTest, file.toURL(), 0, 81415 );
+        FileRepresentation fileRepresentation = Store.get().cache(TestMp3s.returningMp3);
+        File cachedFile = new File(fileRepresentation.localStorage().getFile());
+        instruction = new AudioInstruction(0, maxSamplesForTest, 0, 81415, fileRepresentation);
         int internal = 0;
         int sduration = 4410;
-        source = new MP3Source(file).getBuffer(instruction.getCue() + internal, sduration + 22050);
+        source = new MP3Source(cachedFile).getBuffer(instruction.getCue() + internal, sduration + 22050);
         instructions.add(instruction);
     }
 

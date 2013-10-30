@@ -1,14 +1,13 @@
 package no.lau.vdvil.renderer;
 
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.instruction.SuperInstruction;
 
 public class ImageInstruction extends SuperInstruction{
-    final String imageUrl;
     private final String meta;
 
-    public ImageInstruction(String imageUrl, String meta, int start, int length) {
-        super(start, length);
-        this.imageUrl = imageUrl;
+    public ImageInstruction(String meta, int start, int length, FileRepresentation fileRepresentation) {
+        super(start, length, fileRepresentation);
         this.meta = meta;
     }
 }

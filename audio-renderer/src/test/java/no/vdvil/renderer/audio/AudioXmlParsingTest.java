@@ -1,9 +1,8 @@
 package no.vdvil.renderer.audio;
 
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
-import no.lau.vdvil.cache.SimpleCacheImpl;
 import no.lau.vdvil.handler.Composition;
-import no.lau.vdvil.handler.DownloadAndParseFacade;
+import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.persistence.*;
 import no.lau.vdvil.timing.Interval;
 import org.junit.Before;
@@ -16,14 +15,14 @@ import static org.junit.Assert.assertNotNull;
 
 public class AudioXmlParsingTest {
 
-    DownloadAndParseFacade parseFacade = new DownloadAndParseFacade();
+    ParseFacade parseFacade;
     AudioXMLParser audioXMLParser;
 
     @Before
     public void setup() {
-        parseFacade.addCache(new SimpleCacheImpl());
+        parseFacade = new ParseFacade();
         parseFacade.addParser(new CompositionXMLParser(parseFacade));
-        audioXMLParser = new AudioXMLParser(parseFacade);
+        audioXMLParser = new AudioXMLParser();
         parseFacade.addParser(audioXMLParser);
     }
 
@@ -34,7 +33,6 @@ public class AudioXmlParsingTest {
         String segmentId = "4336519975847252321";
         CompositionInstruction ci = new PartXML(segmentId, new Interval(-1, 0), new DvlXML("someDvl", url));
         AudioDescription audioDescription = audioXMLParser.parse(ci);
-        audioDescription.cache(parseFacade);
         AudioInstruction audioInstruction = audioDescription.asInstruction(120F);
         assertNotNull(audioInstruction);
     }

@@ -2,6 +2,7 @@ package no.vdvil.renderer.audio;
 
 import no.bouvet.kpro.renderer.OldRenderer;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
+import no.bouvet.kpro.renderer.audio.AudioSource;
 import no.bouvet.kpro.renderer.audio.AudioTarget;
 import no.lau.vdvil.instruction.Instruction;
 
@@ -52,7 +53,8 @@ public class AudioMixer {
         return time;
     }
 
-    static int singlePass(final AudioInstruction instruction, int _time, AudioMixer audioMixer) {
+    static int singlePass(final AudioInstruction instruction, int _time, final AudioMixer audioMixer) {
+        final AudioSource audioSource = instruction.getSource();
         Long dur = instruction.end() - _time;
         int duration = dur.intValue();
 
@@ -99,8 +101,7 @@ public class AudioMixer {
 
         instruction.advanceCache(duration, sduration);
 
-        ShortBuffer source = instruction.getSource().getBuffer(
-                instruction.getCue() + internal, sduration + 22050);
+        ShortBuffer source = audioSource.getBuffer(instruction.getCue() + internal, sduration + 22050);
 
         if (source != null) {
             mix(source, duration, rate, volume, audioMixer.mix);

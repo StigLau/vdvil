@@ -1,11 +1,10 @@
 package no.vdvil.renderer.lyric;
 
-import no.lau.vdvil.handler.DownloadAndParseFacade;
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.instruction.LyricInstruction;
-import java.io.IOException;
 
 public class LyricDescription implements MultimediaPart {
 
@@ -13,7 +12,6 @@ public class LyricDescription implements MultimediaPart {
     private CompositionInstruction compositionInstruction;
 
     public LyricDescription(String text, CompositionInstruction compositionInstruction) {
-
         this.text = text;
         this.compositionInstruction = compositionInstruction;
     }
@@ -30,7 +28,7 @@ public class LyricDescription implements MultimediaPart {
         return compositionInstruction;
     }
 
-    public void cache(DownloadAndParseFacade downloader) throws IOException {
-        //No need for caching text
+    public FileRepresentation fileRepresentation() {
+        return FileRepresentation.NULL;
     }
 }

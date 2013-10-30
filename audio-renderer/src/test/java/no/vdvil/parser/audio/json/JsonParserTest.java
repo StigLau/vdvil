@@ -1,7 +1,6 @@
 package no.vdvil.parser.audio.json;
 
 import com.google.gson.Gson;
-import no.lau.vdvil.cache.DownloaderFacade;
 import no.vdvil.renderer.audio.MediaFile;
 import no.vdvil.renderer.audio.Segment;
 import no.vdvil.renderer.audio.TestMp3s;
@@ -42,8 +41,7 @@ public class JsonParserTest {
 
     @Test
     public void testParsingJson() throws MalformedURLException {
-        DownloaderFacade downloader = null;
-        AudioJsonParser audioJsonParser = new AudioJsonParser(downloader);
+        AudioJsonParser audioJsonParser = new AudioJsonParser();
         Track track = audioJsonParser.parseJsonStringToTrack(new StringReader(testJson));
         assertEquals("trackReference", track.reference);
         assertEquals(new URL("http://url.com"), track.mediaFile.fileName);
@@ -57,7 +55,7 @@ public class JsonParserTest {
     public void testParsingReturning() throws IOException {
         InputStream stream = this.getClass().getResourceAsStream("/Returning.dvl.json");
         InputStreamReader reader = new InputStreamReader(stream);
-        Track track = new AudioJsonParser(null).parseJsonStringToTrack(reader);
+        Track track = new AudioJsonParser().parseJsonStringToTrack(reader);
         printTrackProperties(track);
         assertEquals(new Float(130.0F), track.bpm);
         assertEquals(15, track.segments.size());

@@ -1,8 +1,9 @@
 package no.bouvet.kpro.renderer.audio;
 
-import java.net.URL;
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.OldRenderer;
+import no.lau.vdvil.cache.FileRepresentation;
+import no.lau.vdvil.cache.Store;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,7 @@ public class AudioRendererTest {
 		try {
 			// Create the AudioSource
 
-			URL url = getClass().getResource("/test.mp3");
+			FileRepresentation fileRepresentation = Store.get().cache(ClassLoader.getSystemResource("test.mp3"));
 
 			// Create the AudioTarget
 
@@ -27,7 +28,7 @@ public class AudioRendererTest {
 			// Create the renderer instruction list
 
 			Instructions instructions = new Instructions();
-			AudioInstruction instruction = new AudioInstruction(0, 206959, url, 0, OldRenderer.RATE);
+			AudioInstruction instruction = new AudioInstruction(0, 206959, 0, OldRenderer.RATE, fileRepresentation);
 			instruction.setInterpolatedRate(0.1f, 0.4f);
 			instruction.setInterpolatedVolume(1.5f, 0.1f);
 			instructions.append(instruction);

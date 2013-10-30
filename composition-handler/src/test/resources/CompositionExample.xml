@@ -5,7 +5,7 @@
     <part>
     <id>1</id>
     <dvl>
-      <url>http://dvl.lau.no/dvls/yey.dvl</url>
+      <url>http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/loaderror-psylteflesk.dvl</url>
       <name>yey</name>
     </dvl>
     <start>0</start>
@@ -13,8 +13,8 @@
   </part><part>
     <id>2</id>
     <dvl>
-      <url>http://dvl.lau.no/dvls/yey.dvl</url>
-      <name>yey</name>
+      <url>http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl</url>
+      <name>yey2</name>
     </dvl>
     <start>32</start>
     <end>64</end>

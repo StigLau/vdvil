@@ -9,7 +9,7 @@ import swing._
 import event.ButtonClicked
 
 class PlayPanel(val url:URL) {
-  val cache = PreconfiguredVdvilPlayer.downloadAndParseFacade
+  val cache = PreconfiguredVdvilPlayer.parseFacade
   var composition: Composition = fetchComposition(url)
   def name = composition.name
 

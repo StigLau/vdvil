@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 /**
- * A generic interface for all caches
+ * A generic interface for all transports
  */
 public interface VdvilCache {
     /**

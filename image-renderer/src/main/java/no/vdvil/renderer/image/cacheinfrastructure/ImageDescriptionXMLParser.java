@@ -1,6 +1,7 @@
 package no.vdvil.renderer.image.cacheinfrastructure;
 
-import no.lau.vdvil.cache.DownloaderFacade;
+import no.lau.vdvil.cache.FileRepresentation;
+import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.MultimediaParser;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import org.w3c.dom.Document;
@@ -8,16 +9,12 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.*;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 public class ImageDescriptionXMLParser implements MultimediaParser{
-    private DownloaderFacade downloaderFacade;
+    private Store store;
 
-    public ImageDescriptionXMLParser(){}
-
-    public ImageDescriptionXMLParser(DownloaderFacade downloaderFacade){
-        this.downloaderFacade = downloaderFacade;
+    public ImageDescriptionXMLParser(Store store){
+        this.store = store;
     }
 
     /**
@@ -31,8 +28,8 @@ public class ImageDescriptionXMLParser implements MultimediaParser{
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         documentBuilderFactory.setNamespaceAware(true); // never forget this!
         try {
-            InputStream inputStream = downloaderFacade.fetchAsStream(compositionInstruction.dvl().url());
-            Document doc = documentBuilderFactory.newDocumentBuilder().parse(inputStream);
+            FileRepresentation dvl = store.cache(compositionInstruction.dvl().url());
+            Document doc = documentBuilderFactory.newDocumentBuilder().parse(dvl.localStorage().openStream());
 
             //String xpathExpression = "//book[author='Neal Stephenson']/title/text()";
             XPath xpath = XPathFactory.newInstance().newXPath();
@@ -40,15 +37,11 @@ public class ImageDescriptionXMLParser implements MultimediaParser{
 
             NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 
-            URL imageSource = new URL(nodes.item(0).getNodeValue());
-            return new ImageDescription(compositionInstruction, imageSource);
+            FileRepresentation imageFileRepresentation = store.createKey(nodes.item(0).getNodeValue());
+            return new ImageDescription(compositionInstruction, imageFileRepresentation);
         } catch (Exception e) {
             throw new IOException("Unable to parse", e);
         }
-    }
-
-    public void setDownloaderFacade(DownloaderFacade downloaderFacade) {
-        this.downloaderFacade = downloaderFacade;
     }
 
     public String toString() {

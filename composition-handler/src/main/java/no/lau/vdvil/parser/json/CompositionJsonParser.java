@@ -1,7 +1,9 @@
 package no.lau.vdvil.parser.json;
 
 import com.google.gson.Gson;
-import no.lau.vdvil.handler.DownloadAndParseFacade;
+import no.lau.vdvil.cache.FileRepresentation;
+import no.lau.vdvil.cache.Store;
+import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.MultimediaParser;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
@@ -14,18 +16,19 @@ import java.net.URL;
 
 public class CompositionJsonParser implements MultimediaParser {
 
-    DownloadAndParseFacade downloader;
-    Gson jsonParser;
+    final ParseFacade parser;
+    Store store;
+    static Gson jsonParser = new Gson();
     Logger log = LoggerFactory.getLogger(getClass());
 
-    public CompositionJsonParser(DownloadAndParseFacade downloader) {
-        this.downloader = downloader;
-        this.jsonParser = new Gson();
+    public CompositionJsonParser(ParseFacade parser) {
+        this.parser = parser;
+        this.store = Store.get();
     }
 
     public MultimediaPart parse(CompositionInstruction compositionInstruction) throws IOException {
-        URL dvlUrl = compositionInstruction.dvl().url();
-        InputStreamReader reader = new InputStreamReader(downloader.fetchAsStream(dvlUrl));
+        FileRepresentation fileRepresentation = store.cache(compositionInstruction.dvl().url());
+        InputStreamReader reader = new InputStreamReader(fileRepresentation.localStorage().openStream());
         CompositionSerializedJson comp = parseJsonStringToTrack(reader);
         for (PartJson part : comp.parts) {
             String name = part.dvlref;
@@ -36,14 +39,14 @@ public class CompositionJsonParser implements MultimediaParser {
             else
                 log.error("No DVL with name {} was found when parsing composition {}", part.dvlref, compositionInstruction.id());
         }
-        return comp.asComposition(dvlUrl, downloader);
+        return comp.asComposition(fileRepresentation, parser);
     }
 
-    CompositionSerializedJson parseJsonStringToTrack(Reader reader) {
+    static CompositionSerializedJson parseJsonStringToTrack(Reader reader) {
         return jsonParser.fromJson(reader, CompositionSerializedJson.class);
     }
 
-    String convertCompositionToJson(CompositionXml composition) {
+    static String convertCompositionToJson(CompositionXml composition) {
         return jsonParser.toJson(composition);
     }
 }
