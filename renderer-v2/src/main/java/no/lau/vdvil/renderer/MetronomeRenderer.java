@@ -1,5 +1,6 @@
 package no.lau.vdvil.renderer;
 
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.instruction.SuperInstruction;
 import org.slf4j.Logger;
@@ -43,7 +44,7 @@ public class MetronomeRenderer implements Renderer {
 
 class MetInstruction extends SuperInstruction{
     public MetInstruction(long start) {
-        super(start, 0);
+        super(start, 0, FileRepresentation.NULL);
     }
 }
 

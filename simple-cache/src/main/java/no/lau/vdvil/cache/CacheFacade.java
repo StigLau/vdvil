@@ -11,7 +11,7 @@ public abstract class CacheFacade implements VdvilCache, SimpleVdvilCache {
 
     public abstract File fetchFromInternetOrRepository(URL url, String checksum) throws IOException ;
 
-    String storeLocation() {
+    static String storeLocation() {
         return "/tmp/vdvil";
     }
 
@@ -29,7 +29,7 @@ public abstract class CacheFacade implements VdvilCache, SimpleVdvilCache {
      * @param url where the file is originally located on the web
      * @return the file itself
      */
-    public File fileLocation(URL url) {
+    public static File fileLocation(URL url) {
         String urlChecksum = DigestUtils.md5Hex(url.toString());
         return new File(storeLocation() + "/files/" + urlChecksum + "/default");
     }
@@ -53,6 +53,7 @@ public abstract class CacheFacade implements VdvilCache, SimpleVdvilCache {
      * @param file     location of the file to verify
      * @param checksum to check the file with
      * @return whether the file validates with the checksum
+     * @deprecated Please use the one in @no.lau.vdvil.cache.Store
      */
     public boolean validateChecksum(File file, String checksum) {
         try {

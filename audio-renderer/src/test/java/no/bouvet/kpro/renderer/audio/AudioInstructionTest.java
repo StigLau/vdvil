@@ -3,17 +3,18 @@ package no.bouvet.kpro.renderer.audio;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import no.lau.vdvil.cache.FileRepresentation;
+import no.lau.vdvil.cache.Store;
 import org.junit.Before;
 import org.junit.Test;
-import java.net.URL;
 
 public class AudioInstructionTest {
 	private AudioInstruction inst;
-    URL url = getClass().getResource("/test.mp3");
 
 	@Before
 	public void setUp() throws Exception {
-		inst = new AudioInstruction(0, 5, url, 20, 10);
+        FileRepresentation testMp3 = Store.get().cache(ClassLoader.getSystemResource("test.mp3"));
+		inst = new AudioInstruction(0, 5, 20, 10, testMp3);
 	}
 
 	@Test

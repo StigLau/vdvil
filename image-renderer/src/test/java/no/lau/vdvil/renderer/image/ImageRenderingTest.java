@@ -1,7 +1,6 @@
 package no.lau.vdvil.renderer.image;
 
-import no.lau.vdvil.cache.SimpleCacheImpl;
-import no.lau.vdvil.cache.SimpleVdvilCache;
+import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.instruction.ImageInstruction;
 import no.lau.vdvil.timing.Interval;
@@ -17,24 +16,24 @@ public class ImageRenderingTest {
     URL dj_teddy = ClassLoader.getSystemResource("dj-teddy.jpg");
     URL imageDesc = ClassLoader.getSystemResource("ImageDescription.html");
     URL imageDesc2 = ClassLoader.getSystemResource("ImageDescription2.html");
+    Store store = Store.get();
 
-    SimpleVdvilCache cache = new SimpleCacheImpl();
-    ImageDescriptionXMLParser parser = new ImageDescriptionXMLParser(cache);
+    ImageDescriptionXMLParser parser = new ImageDescriptionXMLParser(store);
 
     @Test
     public void testRenderingImage() throws InterruptedException, IOException {
-        ImageRenderer renderer = new ImageRenderer(800, 600, cache);
-        renderer.notify(ImageInstruction.create(new MasterBeatPattern(new Interval(-0, -0), -0F), pinkTeddy, pinkTeddy.openStream()), 0);
+        ImageRenderer renderer = new ImageRenderer(800, 600);
+        renderer.notify(ImageInstruction.create(new MasterBeatPattern(new Interval(-0, -0), -0F), store.cache(pinkTeddy)), 0);
         renderer.start(0);
         Thread.sleep(400);
-        renderer.notify(ImageInstruction.create(new MasterBeatPattern(new Interval(-0, -0), -0F), dj_teddy, dj_teddy.openStream()), 0);
+        renderer.notify(ImageInstruction.create(new MasterBeatPattern(new Interval(-0, -0), -0F), store.cache(dj_teddy)), 0);
         Thread.sleep(1000);
         renderer.stop();
     }
 
     @Test
     public void newInfrastructureTest() throws Exception{
-        ImageRenderer renderer = new ImageRenderer(800, 600, cache);
+        ImageRenderer renderer = new ImageRenderer(800, 600);
 
         renderer.notify(parser.parse(PartXML.create(imageDesc)).asInstruction(120F), 0);
         renderer.start(0);

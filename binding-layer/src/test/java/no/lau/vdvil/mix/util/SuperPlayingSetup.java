@@ -1,7 +1,8 @@
 package no.lau.vdvil.mix.util;
 
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.Composition;
-import no.lau.vdvil.handler.DownloadAndParseFacade;
+import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.DvlXML;
 import no.lau.vdvil.handler.persistence.PartXML;
@@ -13,22 +14,21 @@ import no.vdvil.renderer.audio.Segment;
 import no.vdvil.renderer.audio.Track;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
 import no.vdvil.renderer.lyric.LyricDescription;
-
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public abstract class SuperPlayingSetup {
     protected PreconfiguredVdvilPlayer vdvilPlayer;
-    public DownloadAndParseFacade downloader;
+    public static ParseFacade parser = PreconfiguredVdvilPlayer.PARSE_FACADE;
 
     public abstract Composition compose(MasterBeatPattern masterBeatPattern) throws IOException;
 
     public SuperPlayingSetup() {
         vdvilPlayer = new PreconfiguredVdvilPlayer();
-        downloader = PreconfiguredVdvilPlayer.downloadAndParseFacade;
     }
 
+    @Deprecated
+    //TODO Refactor this into PreCondiguredVdvilPlayer
     public void play(MasterBeatPattern masterBeatPattern) {
         try {
             vdvilPlayer.init(compose(masterBeatPattern));
@@ -41,20 +41,19 @@ public abstract class SuperPlayingSetup {
         }
     }
 
-    public static MultimediaPart createAudioPart(String id, TimeInterval timeInterval, URL url, DownloadAndParseFacade cache) {
-        try { return cache.parse(new PartXML(id, timeInterval, new DvlXML("URL Name", url)));
+    public static MultimediaPart createAudioPart(String id, TimeInterval timeInterval, URL url) {
+        try { return parser.parse(new PartXML(id, timeInterval, new DvlXML("URL Name", url)));
         } catch (IOException e) { throw new RuntimeException(e); }
     }
     public static MultimediaPart createLyricPart(String text, TimeInterval timeInterval) {
-        try { return new LyricDescription(text, new PartXML(text, timeInterval, new DvlXML("name", new URL("http://url.com"))));
-        } catch (MalformedURLException e) { throw new RuntimeException(e); }
+        return new LyricDescription(text, new PartXML(text, timeInterval, new DvlXML("name", null)));
     }
 
-    public static MultimediaPart createImagePart(String id, TimeInterval timeInterval, URL url) {
-        return new ImageDescription(new PartXML(id, timeInterval, new DvlXML(id, null)), url);
+    public static MultimediaPart createImagePart(String id, TimeInterval timeInterval, FileRepresentation fileRepresentation) {
+        return new ImageDescription(new PartXML(id, timeInterval, new DvlXML(id, null)), fileRepresentation);
     }
 
-    protected static MultimediaPart createPart(TimeInterval timeInterval, Segment segment, Track track) {
-        return new AudioDescription(segment, new PartXML(segment.id, timeInterval, new DvlXML("", track.mediaFile.fileName)), track);
+    protected static MultimediaPart createPart(TimeInterval timeInterval, Segment segment, Track track, URL url) {
+        return new AudioDescription(segment, new PartXML(segment.id, timeInterval, new DvlXML("", url)), track);
     }
 }

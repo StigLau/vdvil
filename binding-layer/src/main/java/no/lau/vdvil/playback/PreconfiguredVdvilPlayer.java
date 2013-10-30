@@ -2,9 +2,9 @@ package no.lau.vdvil.playback;
 
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.AudioRenderer;
-import no.lau.vdvil.cache.SimpleCacheImpl;
+import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.Composition;
-import no.lau.vdvil.handler.DownloadAndParseFacade;
+import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.*;
 import no.lau.vdvil.parser.json.CompositionJsonParser;
@@ -13,7 +13,9 @@ import no.lau.vdvil.player.VdvilPlayer;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.lau.vdvil.renderer.Renderer;
 import no.vdvil.parser.audio.json.AudioJsonParser;
+import no.vdvil.renderer.audio.AudioDescription;
 import no.vdvil.renderer.audio.AudioXMLParser;
+import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
 import no.vdvil.renderer.image.ImageRenderer;
 import no.vdvil.renderer.image.cacheinfrastructure.OnlyTheImageDescriptionParser;
@@ -28,26 +30,27 @@ import java.util.List;
 public class PreconfiguredVdvilPlayer implements VdvilPlayer {
 
     static Logger log = LoggerFactory.getLogger(PreconfiguredVdvilPlayer.class);
-    public static final DownloadAndParseFacade downloadAndParseFacade;
+    public static final ParseFacade PARSE_FACADE;
+    static Store store = Store.get();
+
     List<Renderer> renderers;
 
     VdvilPlayer player = VdvilPlayer.NULL;
 
     static {
-        downloadAndParseFacade = new DownloadAndParseFacade();
-        //downloadAndParseFacade.addCache(VdvilHttpCache.create());
-        downloadAndParseFacade.addCache(new SimpleCacheImpl()); //For local file access
-        downloadAndParseFacade.addParser(new CompositionXMLParser(downloadAndParseFacade));
-        downloadAndParseFacade.addParser(new CompositionJsonParser(downloadAndParseFacade));
-        downloadAndParseFacade.addParser(new AudioXMLParser(downloadAndParseFacade));
-        downloadAndParseFacade.addParser(new AudioJsonParser(downloadAndParseFacade));
-        downloadAndParseFacade.addParser(new ImageDescriptionXMLParser(downloadAndParseFacade));
-        downloadAndParseFacade.addParser(new OnlyTheImageDescriptionParser(downloadAndParseFacade));
+        PARSE_FACADE = new ParseFacade();
+        //PARSE_FACADE.addTransport(VdvilHttpCache.create());
+        PARSE_FACADE.addParser(new CompositionXMLParser(PARSE_FACADE));
+        PARSE_FACADE.addParser(new CompositionJsonParser(PARSE_FACADE));
+        PARSE_FACADE.addParser(new AudioXMLParser());
+        PARSE_FACADE.addParser(new AudioJsonParser());
+        PARSE_FACADE.addParser(new ImageDescriptionXMLParser(store));
+        PARSE_FACADE.addParser(new OnlyTheImageDescriptionParser(store));
     }
 
     public PreconfiguredVdvilPlayer() {
         renderers = Arrays.asList(
-                new ImageRenderer(800, 600, downloadAndParseFacade),
+                new ImageRenderer(800, 600),
                 new LyricRenderer(800, 100),
                 new AudioRenderer(new AudioPlaybackTarget()));
     }
@@ -61,7 +64,7 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
             throw new IllegalAccessException("Don't change the player during playback. Please stop first");
         try {
             Composition timeFilteredComposition = filterByTime(composition, beatPatternFilter);
-            composition.cache(downloadAndParseFacade);
+            cache(composition);
             player = new InstructionPlayer(
                     timeFilteredComposition.masterBeatPattern,
                     timeFilteredComposition.instructions(timeFilteredComposition.masterBeatPattern.masterBpm),
@@ -95,7 +98,21 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
                 filteredPartsList.add(multimediaPart);
             }
         }
-        return new Composition(composition.name, filter, filteredPartsList, composition.url);
+        return new Composition(composition.name, filter, filteredPartsList, composition.fileRepresentation());
+    }
+
+    /**
+     * Cache the different parts of a Composition
+     */
+    public static void cache(Composition composition) {
+        composition.updateFileRepresentation(store.cache(composition.fileRepresentation));
+        for (MultimediaPart part : composition.multimediaParts) {
+            if (part instanceof AudioDescription) {
+                ((AudioDescription)part).updateFileRepresentation(store.cache(part.fileRepresentation()));
+            }if (part instanceof ImageDescription) {
+                ((ImageDescription)part).updateFileRepresentation(store.cache(part.fileRepresentation()));
+            }
+        }
     }
 
     public void play() {

@@ -12,11 +12,6 @@ import java.util.Map;
 public class SimpleCacheImpl extends CacheFacade {
     private Map<String, UsernameAndPassword> hostAccessList = new HashMap<String, UsernameAndPassword>();
 
-    @Override
-    protected String storeLocation() {
-        return "/tmp/vdvil";
-    }
-
     enum accepts { HTTP, HTTPS, FILE }
 
     public boolean accepts(URL url) {

@@ -1,38 +1,38 @@
 package no.vdvil.renderer.image.cacheinfrastructure;
 
-import no.lau.vdvil.handler.DownloadAndParseFacade;
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.instruction.ImageInstruction;
 import no.lau.vdvil.timing.MasterBeatPattern;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 public class ImageDescription implements MultimediaPart{
 
     public final CompositionInstruction compositionInstruction;
-    final public URL src;
-    private InputStream cachedImage;
+    private FileRepresentation fileRepresentation;
 
-    public ImageDescription(CompositionInstruction compositionInstruction, URL src) {
+    public ImageDescription(CompositionInstruction compositionInstruction, FileRepresentation fileRepresentation) {
         this.compositionInstruction = compositionInstruction;
-        this.src = src;
+        this.fileRepresentation = fileRepresentation;
     }
 
     public ImageInstruction asInstruction(Float masterBpm) {
-        return ImageInstruction.create(new MasterBeatPattern(compositionInstruction.timeInterval(), masterBpm), src, cachedImage);
+        return ImageInstruction.create(new MasterBeatPattern(compositionInstruction.timeInterval(), masterBpm), fileRepresentation);
     }
 
     public no.lau.vdvil.instruction.ImageInstruction asV2Instruction() {
-        return new ImageInstruction(compositionInstruction.start(),  compositionInstruction.end() - compositionInstruction.start(), src, cachedImage);
+        return new ImageInstruction(compositionInstruction.start(),  compositionInstruction.end() - compositionInstruction.start(), fileRepresentation);
     }
 
     public CompositionInstruction compositionInstruction() {
         return compositionInstruction;
     }
 
-    public void cache(DownloadAndParseFacade downloader) throws IOException {
-        cachedImage = downloader.fetchAsStream(src);
+    public FileRepresentation fileRepresentation() {
+        return fileRepresentation;
+    }
+
+    public void updateFileRepresentation(FileRepresentation fileRepresentation) {
+        this.fileRepresentation = fileRepresentation;
     }
 }

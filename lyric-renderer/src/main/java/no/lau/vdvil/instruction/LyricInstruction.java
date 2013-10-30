@@ -1,6 +1,7 @@
 package no.lau.vdvil.instruction;
 
 import no.bouvet.kpro.renderer.OldRenderer;
+import no.lau.vdvil.cache.FileRepresentation;
 
 /**
  * LyricInstruction V2
@@ -11,7 +12,7 @@ public class LyricInstruction extends SuperInstruction {
     public final String text;
 
     public LyricInstruction(long start, long length, String text) {
-        super(start, length);
+        super(start, length, FileRepresentation.NULL);
         this.text = text;
     }
 

@@ -5,7 +5,7 @@ import java.net.URL;
 /**
  * Interface for a cache
  */
-public interface SimpleVdvilCache extends DownloaderFacade {
+public interface SimpleVdvilCache{
     boolean accepts(URL url);
 
     String mimeType(URL url);

@@ -2,6 +2,7 @@ package no.bouvet.kpro.renderer;
 
 import static org.junit.Assert.assertTrue;
 
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.instruction.SuperInstruction;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class RendererTest {
 			// Create the renderer instruction list
 
 			Instructions instructions = new Instructions();
-			Instruction instruction = new SuperInstruction(OldRenderer.RATE * 2, renderer.RATE * 3) { };
+            Instruction instruction = new SuperInstruction(OldRenderer.RATE * 2, renderer.RATE * 3, FileRepresentation.NULL) { };
 			instructions.append(instruction);
 
 			// Create the OldRenderer with a TestRenderer instance

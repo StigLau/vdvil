@@ -11,4 +11,12 @@
     <version>y</version>
   </parent>
 
+    <dependencies>
+        <!-- This dependency is here to give the common dependency FileRepresentation -->
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>simple-cache</artifactId>
+            <version>0.14-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
