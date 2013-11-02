@@ -7,9 +7,11 @@ import no.lau.vdvil.playback.PreconfiguredVdvilPlayer
 import no.lau.vdvil.timing.MasterBeatPattern
 import swing._
 import event.ButtonClicked
+import no.lau.vdvil.cache.Store
 
 class PlayPanel(val url:URL) {
-  val cache = PreconfiguredVdvilPlayer.parseFacade
+  val parser = PreconfiguredVdvilPlayer.PARSE_FACADE
+  val store = Store.get()
   var composition: Composition = fetchComposition(url)
   def name = composition.name
 
@@ -32,9 +34,10 @@ class PlayPanel(val url:URL) {
   }
   val reloadButton = new Button("Reload Composition") {
     reactions += {case ButtonClicked(_) => {
-      cache.setRefreshCaches(true)
-      cache.fetchAsStream(url)
-      cache.setRefreshCaches(false)
+
+      //parser.setRefreshCache(true)
+      //store.cache(url)
+      //parser.setRefreshCache(false)
       composition = fetchComposition(url)
       stopField.text_=(composition.masterBeatPattern.toBeat.toString)
     }}
@@ -42,11 +45,12 @@ class PlayPanel(val url:URL) {
   val compositionPlayer = new PreconfiguredVdvilPlayer() {
     def pauseAndplay(beatPattern:MasterBeatPattern) {
       stop
+      PreconfiguredVdvilPlayer.cache(composition)
       init(composition, beatPattern)
       println("Playing " + composition.name + " " + beatPattern)
       play
     }
   }
 
-  def fetchComposition(url:URL) = cache.parse(PartXML.create(url)).asInstanceOf[Composition]
+  def fetchComposition(url:URL) = parser.parse(PartXML.create(url)).asInstanceOf[Composition]
 }

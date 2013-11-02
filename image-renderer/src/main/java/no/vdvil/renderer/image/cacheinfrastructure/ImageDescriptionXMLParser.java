@@ -11,11 +11,7 @@ import javax.xml.xpath.*;
 import java.io.IOException;
 
 public class ImageDescriptionXMLParser implements MultimediaParser{
-    private Store store;
-
-    public ImageDescriptionXMLParser(Store store){
-        this.store = store;
-    }
+    private Store store = Store.get();
 
     /**
      * Ugly implemented Parser of "xml" documents to fetch out values which result in an ImageDescription
