@@ -44,8 +44,8 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         PARSE_FACADE.addParser(new CompositionJsonParser(PARSE_FACADE));
         PARSE_FACADE.addParser(new AudioXMLParser());
         PARSE_FACADE.addParser(new AudioJsonParser());
-        PARSE_FACADE.addParser(new ImageDescriptionXMLParser(store));
-        PARSE_FACADE.addParser(new OnlyTheImageDescriptionParser(store));
+        PARSE_FACADE.addParser(new ImageDescriptionXMLParser());
+        PARSE_FACADE.addParser(new OnlyTheImageDescriptionParser());
     }
 
     public PreconfiguredVdvilPlayer() {

@@ -18,7 +18,7 @@ public class ImageRenderingTest {
     URL imageDesc2 = ClassLoader.getSystemResource("ImageDescription2.html");
     Store store = Store.get();
 
-    ImageDescriptionXMLParser parser = new ImageDescriptionXMLParser(store);
+    ImageDescriptionXMLParser parser = new ImageDescriptionXMLParser();
 
     @Test
     public void testRenderingImage() throws InterruptedException, IOException {
