@@ -23,15 +23,17 @@ public class InstructionPlayer implements VdvilPlayer {
         }
     }
 
-    public void play() {
+    public VdvilPlayer play() {
         MasterBeatPattern untilStart = new MasterBeatPattern(0, masterBeatPattern.fromBeat, masterBeatPattern.masterBpm);
         //TODO Note that there are potential problems here!!!
         Float duration = untilStart.durationCalculation() * OldRenderer.RATE / 1000;
         renderer.start(duration.intValue());
+        return this;
     }
 
-    public void stop() {
+    public VdvilPlayer stop() {
         renderer.stop();
+        return this;
     }
 
     public boolean isPlaying() {
