@@ -39,13 +39,13 @@ class PlayPanel(val url:URL) {
       //store.cache(url)
       //parser.setRefreshCache(false)
       composition = fetchComposition(url)
+      PreconfiguredVdvilPlayer.cache(composition)
       stopField.text_=(composition.masterBeatPattern.toBeat.toString)
     }}
   }
   val compositionPlayer = new PreconfiguredVdvilPlayer() {
     def pauseAndplay(beatPattern:MasterBeatPattern) {
       stop
-      PreconfiguredVdvilPlayer.cache(composition)
       init(composition, beatPattern)
       println("Playing " + composition.name + " " + beatPattern)
       play

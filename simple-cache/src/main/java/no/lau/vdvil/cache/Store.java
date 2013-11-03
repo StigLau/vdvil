@@ -98,7 +98,10 @@ public class Store {
     }
 
     public FileRepresentation cache(URL remoteURL) {
-        return cache(cacheMetadataStorageAndLookup.findByRemoteURL(remoteURL));
+        if(remoteURL == null)
+            throw new RuntimeException("Cannot cache NULL URL");
+        else
+            return cache(cacheMetadataStorageAndLookup.findByRemoteURL(remoteURL));
     }
     /**
      * Assures that a remote file is cached good enough in the local cache.

@@ -55,11 +55,11 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
                 new AudioRenderer(new AudioPlaybackTarget()));
     }
 
-    public void init(Composition composition) throws IllegalAccessException {
-        init(composition, composition.masterBeatPattern);
+    public VdvilPlayer init(Composition composition) throws IllegalAccessException {
+        return init(composition, composition.masterBeatPattern);
     }
 
-    public void init(Composition composition, MasterBeatPattern beatPatternFilter) throws IllegalAccessException {
+    public VdvilPlayer init(Composition composition, MasterBeatPattern beatPatternFilter) throws IllegalAccessException {
         if(isPlaying())
             throw new IllegalAccessException("Don't change the player during playback. Please stop first");
         try {
@@ -72,6 +72,7 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         } catch (IOException e) {
             log.error("These errors should not happen", e);
         }
+        return this;
     }
 
     public static Composition filterByTime(Composition composition, MasterBeatPattern filter) {
@@ -115,15 +116,17 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
         }
     }
 
-    public void play() {
+    public VdvilPlayer play() {
         if(player == NULL)
             throw new RuntimeException(getClass().getSimpleName() + ".init has not been run!");
         player.play();
+        return this;
     }
 
-    public void stop() {
+    public VdvilPlayer stop() {
         if(isPlaying())
             player.stop();
+        return this;
     }
 
     public boolean isPlaying() {

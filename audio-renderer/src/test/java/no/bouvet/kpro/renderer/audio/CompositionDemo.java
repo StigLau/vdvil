@@ -5,17 +5,19 @@ import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.OldRenderer;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
+import no.vdvil.renderer.audio.TestMp3s;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class CompositionDemo {
     static Logger log = LoggerFactory.getLogger(CompositionDemo.class);
-
+    //TODO Wrong address to mp3's. Does this test have any value?
     public static void main(String[] args) throws Exception {
         Store store = Store.get();
-        FileRepresentation snap = store.cache(CompositionDemo.class.getResource("/Snap_-_Rhythm_is_a_Dancer.mp3"));
-        FileRepresentation corona = store.cache(CompositionDemo.class.getResource("/Corona_-_Baby_Baby.mp3"));
-		AudioSource sourceA = new MP3Source(new File(snap.localStorage().getFile()));
+        //FileRepresentation snap = store.cache(ClassLoader.getSystemResource("Snap_-_Rhythm_is_a_Dancer.mp3"));
+        //FileRepresentation corona = store.cache(ClassLoader.getSystemResource("Corona_-_Baby_Baby.mp3"));
+        FileRepresentation corona = Store.get().cache(TestMp3s.coronamp3);
+		AudioSource sourceA = new MP3Source(new File(corona.localStorage().getFile()));
 		AudioSource sourceB = new MP3Source(new File(corona.localStorage().getFile()));
 
 		AudioTarget target = null; // Audio output target
@@ -27,7 +29,7 @@ public abstract class CompositionDemo {
 
             assertAudioSourcesCorrect(sourceA, sourceB);
 
-            Instructions instructions = createTestSetInstructions(snap, corona);
+            Instructions instructions = createTestSetInstructions(corona, corona);
 
             // Create the AudioTarget
 			log.debug("Creating AudioPlaybackTarget...");
