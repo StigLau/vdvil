@@ -22,10 +22,6 @@
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
-            <artifactId>httpcache</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.lau.vdvil</groupId>
             <artifactId>renderer</artifactId>
         </dependency>
     </dependencies>

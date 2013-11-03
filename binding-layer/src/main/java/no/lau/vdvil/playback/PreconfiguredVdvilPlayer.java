@@ -39,7 +39,6 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
 
     static {
         PARSE_FACADE = new ParseFacade();
-        //PARSE_FACADE.addTransport(VdvilHttpCache.create());
         PARSE_FACADE.addParser(new CompositionXMLParser(PARSE_FACADE));
         PARSE_FACADE.addParser(new CompositionJsonParser(PARSE_FACADE));
         PARSE_FACADE.addParser(new AudioXMLParser());
