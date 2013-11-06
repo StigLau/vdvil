@@ -6,9 +6,7 @@ import org.junit.Test;
 
 import java.net.URL;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * @author Stig@Lau.no
@@ -43,9 +41,14 @@ public class StoreTest {
     }
 
     @Test
-    @Ignore
     public void doesMd5SumsWork() {
-        fail();
+        //Optional verify checksum
+        String returningMp3 = "http://kpro09.googlecode.com/svn/test-files/holden-nothing-93_returning_mix.mp3";
+        String md5Sum = "3e3477a6ccba67aa9f3196390f48b67d";
+        FileRepresentation fr = store.createKey(returningMp3, md5Sum);
+        //Legge til md5 sum
+        FileRepresentation cachedFileRepresentation = store.cache(fr);
+        assertEquals("file:/tmp/vdvil/files/cab1562d1198804b5fb6d62a69004488/default", cachedFileRepresentation.localStorage().toString());
     }
 
     @Test

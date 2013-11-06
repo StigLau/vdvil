@@ -51,6 +51,12 @@ public class Store {
         }
     }
 
+    public FileRepresentation createKey(String remoteURL, String checksum) {
+        CacheMetaData fileRepresentation = cacheMetadataStorageAndLookup.mutableFileRepresentation(createKey(remoteURL));
+        fileRepresentation.md5CheckSum = checksum;
+        return fileRepresentation;
+    }
+
     public CacheMetaData createKey(URL remoteURL) {
         return cacheMetadataStorageAndLookup.putRemoteURL(remoteURL);
     }
@@ -126,8 +132,8 @@ public class Store {
                     if (cacheLocation.exists()) {
                         log.debug("Found a cached copy of {} at {}", fileRepresentation.remoteAddress(), fileRepresentation.localStorage());
                         mutable.localStorage = cacheLocation.toURL();
-                        return mutable;
                     }
+                    //Else cache
                 }
 
                 //Check if file has been cached
@@ -140,8 +146,9 @@ public class Store {
                             //Test if md5 sum is reliable
                             for (SimpleVdvilCache transport : transports) {
                                 if (transport instanceof CacheFacade) {
-                                    if(((CacheFacade) transport).validateChecksum(file, fileRepresentation.md5CheckSum()))
+                                    if(((CacheFacade) transport).validateChecksum(file, fileRepresentation.md5CheckSum())) {
                                         return fileRepresentation; //Verified that sane file exists in cache. Hooray!
+                                    }
                                 }
                             }
                             //Retrying download of file because of erronous checksum
