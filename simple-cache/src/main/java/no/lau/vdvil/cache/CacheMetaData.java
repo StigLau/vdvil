@@ -8,6 +8,7 @@ public class CacheMetaData implements FileRepresentation, Serializable {
     URL remoteAddress;
     URL localStorage;
     String md5CheckSum;
+    int downloadAttempts = 1; //Increase to allow retries of downloading during the current session
 
     /**
      * Only allows editing inside package
@@ -27,6 +28,10 @@ public class CacheMetaData implements FileRepresentation, Serializable {
 
     public String md5CheckSum() {
         return md5CheckSum;
+    }
+
+    public int downloadAttemptsLeft() {
+        return downloadAttempts;
     }
 
     public static FileRepresentation byURL(final URL raddress) {

@@ -45,6 +45,7 @@ public class SimpleCacheImpl extends CacheFacade {
      * @param url      to the file
      * @param checksum may be null if no checksum
      * @return the file or null if empty
+     * @Deprecated //TODO Refactor and discontinue use. Should have only one responsibility - downloading!
      */
     @Override
     public File fetchFromInternetOrRepository(URL url, String checksum) throws IOException {
