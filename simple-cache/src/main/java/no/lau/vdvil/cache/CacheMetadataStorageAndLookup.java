@@ -15,34 +15,8 @@ import java.util.*;
 public class CacheMetadataStorageAndLookup implements Serializable{
     final Map<String, CacheMetaData> idCacheMetaDataLookup = new HashMap<String, CacheMetaData>();
     final Map<URL, CacheMetaData> urlCacheMetaDataLookup = new HashMap<URL, CacheMetaData>();
-    File serializedFile;
+    final static String storeLocation = "/tmp/vdvil";
     Logger log = LoggerFactory.getLogger(getClass());
-
-    public CacheMetadataStorageAndLookup(String filePath) {
-        createFile(filePath);
-    }
-
-    private void createFile(String filePath) {
-        this.serializedFile = new File(filePath);
-        if(!serializedFile.exists())
-            if(!serializedFile.mkdirs()) //Create file + path
-                throw new RuntimeException("Unable to create Storage Cache Metadatafile at " + filePath);
-
-    }
-
-    /**
-     * Just makes sure that there is no file on disk.
-     * @return false if something bad happened
-     */
-    boolean purgeSerializedFileOnDisk() {
-        if(serializedFile.exists()) { //Make sure that we don't try to delete an non-existing file
-            if(!serializedFile.delete()){
-                log.error("Purging Cache metadata file {} on disk failed.", serializedFile.getName());
-                return false;
-            }
-        }
-        return true;
-    }
 
     CacheMetaData putRemoteURL(final URL url) {
         //If the remote URL already exists in the cache, reuse that rather than creating a new
@@ -64,45 +38,6 @@ public class CacheMetadataStorageAndLookup implements Serializable{
         return idCacheMetaDataLookup.get(id);
     }
 
-    void save() {
-        ObjectOutputStream out;
-        try {
-            out = new ObjectOutputStream(new FileOutputStream(serializedFile));
-            out.writeObject(asCacheMetadataList());
-            out.close();
-        } catch(Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private CacheMetaData[] asCacheMetadataList() {
-        List<CacheMetaData> cacheMetaDataList = new ArrayList<CacheMetaData>();
-        for (CacheMetaData metaData : idCacheMetaDataLookup.values()) {
-            cacheMetaDataList.add(metaData);
-        }
-        return cacheMetaDataList.toArray(new CacheMetaData[cacheMetaDataList.size()]);
-    }
-
-    void load() {
-        ObjectInputStream in;
-        CacheMetaData[] cacheMetaDatas = null;
-        try {
-            in = new ObjectInputStream(new FileInputStream(serializedFile));
-            cacheMetaDatas = (CacheMetaData[]) in.readObject();
-        } catch (Exception e) {
-            throw new RuntimeException("Problem loading Caching Metadata file " + serializedFile.getName());
-        }
-        for (CacheMetaData cacheMetaData : cacheMetaDatas) {
-            idCacheMetaDataLookup.put(cacheMetaData.id, cacheMetaData);
-            urlCacheMetaDataLookup.put(cacheMetaData.remoteAddress, cacheMetaData);
-        }
-    }
-
-    public void purgeInMemoryStorage() {
-        idCacheMetaDataLookup.clear();
-        urlCacheMetaDataLookup.clear();
-    }
-
     public CacheMetaData findByRemoteURL(URL url) {
         if(urlCacheMetaDataLookup.containsKey(url))
             return urlCacheMetaDataLookup.get(url);
@@ -115,6 +50,21 @@ public class CacheMetadataStorageAndLookup implements Serializable{
      */
     public CacheMetaData mutableFileRepresentation(final FileRepresentation fileRepresentation) {
         return (CacheMetaData) fileRepresentation;
+    }
+
+    /**
+     * Return path to file on disk
+     *
+     * @param url where the file is originally located on the web
+     * @return the file itself
+     */
+    public File fileLocation(URL url) {
+        String urlChecksum = DigestUtils.md5Hex(url.toString());
+        return new File(storeLocation + "/files/" + urlChecksum + "/default");
+    }
+
+    public boolean removeFromCache(URL url) {
+        return fileLocation(url).delete();
     }
 }
 

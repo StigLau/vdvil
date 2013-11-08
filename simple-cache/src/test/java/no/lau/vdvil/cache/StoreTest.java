@@ -24,9 +24,8 @@ public class StoreTest {
     Store store;
     @Before
     public void setUp() {
-        store = new Store("/tmp/vdvil/test/cacheMetaDataStorage.ser");
+        store = new Store();
         store.addTransport(new SimpleCacheImpl());
-        store.purgeMetadataCache();
     }
 
     @Test
@@ -43,17 +42,15 @@ public class StoreTest {
 
     @Test
     public void findAlreadyStoredCachedFiles() throws IOException {
-        store.purgeMetadataCache();
         store.cache(ClassLoader.getSystemResource("empty_testfile.txt"));
+        //TODO Check that the local adress in cache is added
     }
 
     @Test
     public void doesMd5SumsWork() throws IOException {
-        //Optional verify checksum
         FileRepresentation fr = store.createKey(returningMp3, returningMp3Checksum);
-        //Legge til md5 sum
         FileRepresentation cachedFileRepresentation = store.cache(fr);
-        assertEquals("file:/tmp/vdvil/files/cab1562d1198804b5fb6d62a69004488/default", cachedFileRepresentation.localStorage().toString());
+        assertEquals("/tmp/vdvil/files/cab1562d1198804b5fb6d62a69004488/default", cachedFileRepresentation.localStorage().toString());
     }
 
     @Test(expected = UnknownHostException.class)
