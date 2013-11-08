@@ -9,7 +9,7 @@ import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SimpleCacheImpl extends CacheFacade {
+public class SimpleCacheImpl implements VdvilCache, SimpleVdvilCache {
     private Map<String, UsernameAndPassword> hostAccessList = new HashMap<String, UsernameAndPassword>();
 
     enum accepts { HTTP, HTTPS, FILE }
@@ -41,31 +41,20 @@ public class SimpleCacheImpl extends CacheFacade {
     /**
      * A shorthand for fetching files if they have been downloaded to disk
      * Used by testing purposes
-     *
-     * @param url      to the file
-     * @param checksum may be null if no checksum
-     * @return the file or null if empty
-     * @Deprecated //TODO Refactor and discontinue use. Should have only one responsibility - downloading!
      */
-    @Override
-    public File fetchFromInternetOrRepository(URL url, String checksum) throws IOException {
-        File fileLocation = fileLocation(url);
-
-        if (refreshCache || !existsInRepository(fileLocation, checksum)) {
+    public void fetchFromInternet(URL url, File localStorage) throws IOException {
             InputStream inputStream = addHostAuthentication(url).getInputStream();
-            FileOutputStream outputStream = FileUtils.openOutputStream(fileLocation);
-            try {
-                IOUtils.copy(inputStream, outputStream);
-            } finally {
-                IOUtils.closeQuietly(outputStream);
-                inputStream.close();
-            }
-            if (fileLocation.length() == 0) {
-                fileLocation.delete();
-                fileLocation = null;
-            }
+        FileOutputStream outputStream = FileUtils.openOutputStream(localStorage);
+        try {
+            IOUtils.copy(inputStream, outputStream);
+        } finally {
+            IOUtils.closeQuietly(outputStream);
+            inputStream.close();
         }
-        return fileLocation;
+    }
+
+    public InputStream fetchAsStream(URL url) throws IOException {
+        return url.openStream();
     }
 
     private URLConnection addHostAuthentication(URL url) throws IOException {
@@ -75,6 +64,15 @@ public class SimpleCacheImpl extends CacheFacade {
             uc.setRequestProperty("Authorization", "Basic " + usernameAndPassword.b64Encoded());
         }
         return uc;
+    }
+
+    /**
+     * Set refreshCache to true if one wishes to Refresh contents in cache
+     */
+    protected boolean refreshCache = false;
+
+    public void setRefreshCache(boolean value) {
+        this.refreshCache = value;
     }
 }
 
@@ -94,6 +92,4 @@ class UsernameAndPassword {
         String userAndPassword = username + ":" + password;
         return new BASE64Encoder().encode (userAndPassword.getBytes());
     }
-
-
 }

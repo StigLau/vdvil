@@ -1,12 +1,13 @@
 package no.lau.vdvil.cache;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public interface FileRepresentation {
     String cacheId();
     URL remoteAddress();
-    URL localStorage(); //Confirmed stored locally
+    File localStorage(); //Confirmed stored locally
     String md5CheckSum();
     int downloadAttemptsLeft();
 
@@ -14,7 +15,7 @@ public interface FileRepresentation {
     static FileRepresentation NULL = new FileRepresentation() {
         public String cacheId() {return "NULL";}
         public URL remoteAddress() {return nullURL();}
-        public URL localStorage() {return nullURL();}
+        public File localStorage() {return new File("NULL");}
         public String md5CheckSum() {return "NULL";}
         public int downloadAttemptsLeft() { return 0; }
         public String toString() { return "NULL FileRepresentation";}

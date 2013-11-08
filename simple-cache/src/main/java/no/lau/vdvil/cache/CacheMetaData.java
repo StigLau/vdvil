@@ -1,12 +1,13 @@
 package no.lau.vdvil.cache;
 
+import java.io.File;
 import java.io.Serializable;
 import java.net.URL;
 
 public class CacheMetaData implements FileRepresentation, Serializable {
     String id;
     URL remoteAddress;
-    URL localStorage;
+    File localStorage;
     String md5CheckSum;
     int downloadAttempts = 1; //Increase to allow retries of downloading during the current session
 
@@ -18,7 +19,7 @@ public class CacheMetaData implements FileRepresentation, Serializable {
         return id;
     }
 
-    public URL localStorage() {
+    public File localStorage() {
         return localStorage;
     }
 

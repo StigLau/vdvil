@@ -3,9 +3,7 @@ package no.lau.vdvil.cache;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,8 +24,8 @@ public class Store {
     //There is only one store
     private static Store store;
 
-    Store(String cacheMetadataStorageLocation) {
-        cacheMetadataStorageAndLookup = new CacheMetadataStorageAndLookup(cacheMetadataStorageLocation);
+    Store() {
+        cacheMetadataStorageAndLookup = new CacheMetadataStorageAndLookup();
     }
 
     /**
@@ -36,7 +34,7 @@ public class Store {
      */
     public static Store get() {
         if (store == null) {
-            store = new Store("/tmp/vdvil/cacheMetaDataStorage.ser");
+            store = new Store();
             store.addTransport(new SimpleCacheImpl());
         }
         return store;
@@ -68,9 +66,9 @@ public class Store {
 
     public InputStream fetchAsStream(FileRepresentation fileRepresentation) throws IOException {
         for (SimpleVdvilCache transport : transports) {
-            if (transport.accepts(fileRepresentation.localStorage())) {
+            if (transport.accepts(fileRepresentation.localStorage().toURL())) {
                 try {
-                    return ((VdvilCache)transport).fetchAsStream(fileRepresentation.localStorage());
+                    return ((VdvilCache)transport).fetchAsStream(fileRepresentation.localStorage().toURL());
                 } catch (IOException ioE) {
                     log.warn("DownloaderFacade {} could not fetch {}", new Object[]{transport, fileRepresentation.localStorage()}, ioE);
                 }
@@ -84,11 +82,11 @@ public class Store {
         this.transports.add(cache);
     }
 
-    public URL fetchFromCache(URL url, String checksum) throws IOException {
+    public void download(URL url, File localStorage) throws IOException {
         for (SimpleVdvilCache cache : transports) {
             if (cache instanceof VdvilCache) {
-                VdvilCache vdvilCache = (VdvilCache) cache;
-                return vdvilCache.fetchFromInternetOrRepository(url, checksum).toURI().toURL();
+                ((VdvilCache) cache).fetchFromInternet(url, localStorage);
+                return;
             }
         }
         throw new IOException("No VdvilCache configured for " + getClass().getName());
@@ -127,7 +125,7 @@ public class Store {
                     log.info("The file {} is confirmed in cache but has no MD5 checksum", fileRepresentation);
                     return fileRepresentation;
                 } else {
-                    String fileChecksum = DigestUtils.md5Hex(fileRepresentation.localStorage().openStream());
+                    String fileChecksum = DigestUtils.md5Hex(new FileInputStream(fileRepresentation.localStorage()));
                     if (fileChecksum.equals(fileRepresentation.md5CheckSum())) {
                         log.debug("Checksum of {} confirmed", fileRepresentation);
                         return fileRepresentation;
@@ -140,12 +138,12 @@ public class Store {
                 }
             } else {
                 //Find local cache location
-                File cacheLocation = CacheFacade.fileLocation(fileRepresentation.remoteAddress());
-                if (cacheLocation.exists()) {
+                File cacheLocation = cacheMetadataStorageAndLookup.fileLocation(fileRepresentation.remoteAddress());
+                if (cacheLocation.exists() && cacheLocation.canRead()) {
                     CacheMetaData mutable = cacheMetadataStorageAndLookup.mutableFileRepresentation(fileRepresentation);
 
                     log.debug("Found a cached copy of {} at {}", fileRepresentation.remoteAddress(), fileRepresentation.localStorage());
-                    mutable.localStorage = cacheLocation.toURL();
+                    mutable.localStorage = cacheLocation;
                     return cache(mutable);
                 } else {
                     //Download the file and try again
@@ -160,7 +158,8 @@ public class Store {
 
         if (fileRepresentation.downloadAttemptsLeft() > 0) {
             mutable.downloadAttempts--;
-            mutable.localStorage = fetchFromCache(fileRepresentation.remoteAddress(), fileRepresentation.md5CheckSum());
+            mutable.localStorage = cacheMetadataStorageAndLookup.fileLocation(fileRepresentation.remoteAddress());
+            download(fileRepresentation.remoteAddress(), mutable.localStorage);
             //Retry the cache again to check that everything is ok!
             return cache(mutable);
         } else {
@@ -179,17 +178,9 @@ public class Store {
         return false;
     }
 
-    /**
-     * For purging the cache Metadata. Both In Memory and File on disk
-     */
-    void purgeMetadataCache() {
-        cacheMetadataStorageAndLookup.purgeInMemoryStorage();
-        cacheMetadataStorageAndLookup.purgeSerializedFileOnDisk();
-    }
-
     boolean fileExistsInLocalCache(FileRepresentation fileRepresentation) {
         //Where should the file be placed
-        File fileLocation = CacheFacade.fileLocation(fileRepresentation.remoteAddress());
+        File fileLocation = cacheMetadataStorageAndLookup.fileLocation(fileRepresentation.remoteAddress());
         return fileLocation.exists();
     }
 }
