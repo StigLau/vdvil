@@ -5,7 +5,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public interface FileRepresentation {
-    String cacheId();
     URL remoteAddress();
     File localStorage(); //Confirmed stored locally
     String md5CheckSum();
@@ -13,7 +12,6 @@ public interface FileRepresentation {
 
     //Used in tests and when there are no uses for a FileRepresentation (Metronome Renderer)
     static FileRepresentation NULL = new FileRepresentation() {
-        public String cacheId() {return "NULL";}
         public URL remoteAddress() {return nullURL();}
         public File localStorage() {return new File("NULL");}
         public String md5CheckSum() {return "NULL";}

@@ -65,15 +65,6 @@ public class SimpleCacheImpl implements VdvilCache, SimpleVdvilCache {
         }
         return uc;
     }
-
-    /**
-     * Set refreshCache to true if one wishes to Refresh contents in cache
-     */
-    protected boolean refreshCache = false;
-
-    public void setRefreshCache(boolean value) {
-        this.refreshCache = value;
-    }
 }
 
 /**

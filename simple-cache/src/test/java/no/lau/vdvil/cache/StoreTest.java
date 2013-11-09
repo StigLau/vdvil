@@ -42,8 +42,8 @@ public class StoreTest {
 
     @Test
     public void findAlreadyStoredCachedFiles() throws IOException {
-        store.cache(ClassLoader.getSystemResource("empty_testfile.txt"));
-        //TODO Check that the local adress in cache is added
+        FileRepresentation fileRepresentation = store.cache(ClassLoader.getSystemResource("empty_testfile.txt"));
+        assertEquals("/tmp/vdvil/files/92179b233a8e682cd472b878c7da3511/default", fileRepresentation.localStorage().getAbsolutePath());
     }
 
     @Test
@@ -55,20 +55,13 @@ public class StoreTest {
 
     @Test(expected = UnknownHostException.class)
     public void theDifferentPathsOfStoreCache() throws IOException {
-        store.cache(new CacheMetaData(){{
-            remoteAddress = new URL("http://123ringadingadingading.com");
-            downloadAttempts = 1;
-        }});
+        store.cache(new CacheMetaData(new URL("http://123ringadingadingading.com")));
     }
 
     @Test
     public void downloadSomethingWithWrongChecksum() throws IOException {
         try {
-            store.cache(new CacheMetaData(){{
-                remoteAddress = new URL(psylteDVL);
-                downloadAttempts = 1;
-                md5CheckSum = "jalla balla";
-            }});
+            store.cache(new CacheMetaData(new URL(psylteDVL), "jalla balla"));
         } catch (IOException e) {
             assertEquals("No more download retries left for http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/loaderror-psylteflesk.dvl", e.getMessage());
             return;
@@ -79,10 +72,8 @@ public class StoreTest {
 
     @Test
     public void downloadSomethingWithCorrectChecksum() throws IOException {
-        store.cache(new CacheMetaData(){{
-            remoteAddress = new URL(psylteDVL);
-            downloadAttempts = 1;
-            md5CheckSum = psylteDVLChecksum;
-        }});
+        FileRepresentation fileRepresentation = store.cache(new CacheMetaData(new URL(psylteDVL), psylteDVLChecksum));
+        assertEquals("/tmp/vdvil/files/d7aff61536968c477d1842d052afe15d/default", fileRepresentation.localStorage().getAbsolutePath());
+        assertEquals("88a5ea828b7029b3887a9ccbdf810408", fileRepresentation.md5CheckSum());
     }
 }
