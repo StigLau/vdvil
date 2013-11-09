@@ -35,9 +35,6 @@ class PlayPanel(val url:URL) {
   val reloadButton = new Button("Reload Composition") {
     reactions += {case ButtonClicked(_) => {
 
-      //parser.setRefreshCache(true)
-      //store.cache(url)
-      //parser.setRefreshCache(false)
       composition = fetchComposition(url)
       PreconfiguredVdvilPlayer.cache(composition)
       stopField.text_=(composition.masterBeatPattern.toBeat.toString)

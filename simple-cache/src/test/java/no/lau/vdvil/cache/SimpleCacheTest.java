@@ -2,8 +2,6 @@ package no.lau.vdvil.cache;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import static org.junit.Assert.assertFalse;
@@ -12,7 +10,6 @@ import static org.junit.Assert.assertTrue;
 public class SimpleCacheTest {
 
     URL localTestFile;
-    String returningChecksum = "44edc5da79b289f81094d8d5952efde7";
     URL testFile;
     URL ftpFile;
 
@@ -30,24 +27,5 @@ public class SimpleCacheTest {
         assertTrue(cacheImpl.accepts(localTestFile));
         assertTrue(cacheImpl.accepts(testFile));
         assertFalse(cacheImpl.accepts(ftpFile));
-    }
-
-    @Test
-    public void cleanCacheTest() throws IOException {
-        assertTrue(cacheImpl.removeFromCache(localTestFile));
-        cacheImpl.fetchFromInternetOrRepository(localTestFile, returningChecksum);
-    }
-
-    @Test
-    public void cacheTest() throws IOException {
-        cacheImpl.fetchFromInternetOrRepository(localTestFile, returningChecksum);
-    }
-
-    @Test
-    public void refreshingCacheWorks() throws IOException {
-        cacheImpl.setRefreshCache(true);
-        cacheImpl.fetchFromInternetOrRepository(localTestFile, returningChecksum);
-        cacheImpl.setRefreshCache(false);
-        cacheImpl.fetchFromInternetOrRepository(localTestFile, returningChecksum);
     }
 }

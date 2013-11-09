@@ -13,7 +13,6 @@ import java.util.*;
  * @since  10/27/13
  */
 public class CacheMetadataStorageAndLookup implements Serializable{
-    final Map<String, CacheMetaData> idCacheMetaDataLookup = new HashMap<String, CacheMetaData>();
     final Map<URL, CacheMetaData> urlCacheMetaDataLookup = new HashMap<URL, CacheMetaData>();
     final static String storeLocation = "/tmp/vdvil";
     Logger log = LoggerFactory.getLogger(getClass());
@@ -24,18 +23,10 @@ public class CacheMetadataStorageAndLookup implements Serializable{
             return urlCacheMetaDataLookup.get(url);
         } else {
             final String key = DigestUtils.md5Hex(url.toString());
-            CacheMetaData cacheMetaData = new CacheMetaData() {{
-                id = key;
-                remoteAddress = url;
-            }};
-            idCacheMetaDataLookup.put(key, cacheMetaData);
+            CacheMetaData cacheMetaData = new CacheMetaData(url);
             urlCacheMetaDataLookup.put(url, cacheMetaData);
             return cacheMetaData;
         }
-    }
-
-    CacheMetaData findById(String id) {
-        return idCacheMetaDataLookup.get(id);
     }
 
     public CacheMetaData findByRemoteURL(URL url) {

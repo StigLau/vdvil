@@ -59,25 +59,6 @@ public class Store {
         return cacheMetadataStorageAndLookup.putRemoteURL(remoteURL);
     }
 
-    @Deprecated //Please use the one with fileRepresentation!
-    public InputStream fetchAsStream(String cacheId) throws IOException {
-        return fetchAsStream(cacheMetadataStorageAndLookup.findById(cacheId));
-    }
-
-    public InputStream fetchAsStream(FileRepresentation fileRepresentation) throws IOException {
-        for (SimpleVdvilCache transport : transports) {
-            if (transport.accepts(fileRepresentation.localStorage().toURL())) {
-                try {
-                    return ((VdvilCache)transport).fetchAsStream(fileRepresentation.localStorage().toURL());
-                } catch (IOException ioE) {
-                    log.warn("DownloaderFacade {} could not fetch {}", new Object[]{transport, fileRepresentation.localStorage()}, ioE);
-                }
-            }
-        }
-        log.error("Not able to dowload or fetch {}, check debug log!", fileRepresentation.remoteAddress());
-        throw new IOException("Unable to fetch " + fileRepresentation.remoteAddress() + " with any of the transports");
-    }
-
     public void addTransport(SimpleVdvilCache cache) {
         this.transports.add(cache);
     }
@@ -90,15 +71,6 @@ public class Store {
             }
         }
         throw new IOException("No VdvilCache configured for " + getClass().getName());
-    }
-
-    /**
-     * @deprecated Please use CacheMetadata functionality!
-     */
-    public void setRefreshCaches(boolean value) throws IOException {
-        for (SimpleVdvilCache cache : transports) {
-            cache.setRefreshCache(value);
-        }
     }
 
     public FileRepresentation cache(URL remoteURL) throws IOException {
