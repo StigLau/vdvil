@@ -14,8 +14,8 @@
     <dependencies>
         <dependency>
             <groupId>javazoom</groupId>
-            <artifactId>jl</artifactId>
-            <version>1.0</version>
+            <artifactId>jlayer</artifactId>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
