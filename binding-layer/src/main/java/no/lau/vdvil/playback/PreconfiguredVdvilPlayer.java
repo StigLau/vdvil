@@ -104,7 +104,7 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
     /**
      * Cache the different parts of a Composition
      */
-    public static void cache(Composition composition) {
+    public static void cache(Composition composition) throws IOException {
         composition.updateFileRepresentation(store.cache(composition.fileRepresentation));
         for (MultimediaPart part : composition.multimediaParts) {
             if (part instanceof AudioDescription) {

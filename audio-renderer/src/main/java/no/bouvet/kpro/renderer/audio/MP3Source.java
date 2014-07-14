@@ -8,6 +8,7 @@ import javazoom.jl.decoder.Decoder;
 import javazoom.jl.decoder.Header;
 import javazoom.jl.decoder.Obuffer;
 import no.bouvet.kpro.renderer.OldRenderer;
+import no.lau.vdvil.cache.FileRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -109,7 +110,11 @@ public class MP3Source implements AudioSource {
 		}
 	}
 
-	/**
+    public MP3Source(FileRepresentation fileRepresentation) throws IOException {
+        this(fileRepresentation.localStorage());
+    }
+
+    /**
 	 * Close the source and the underlying file.
 	 * 
 	 * @author Michael Stokes

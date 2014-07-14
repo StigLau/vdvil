@@ -28,7 +28,7 @@ public class CompositionJsonParser implements MultimediaParser {
 
     public MultimediaPart parse(CompositionInstruction compositionInstruction) throws IOException {
         FileRepresentation fileRepresentation = store.cache(compositionInstruction.dvl().url());
-        InputStreamReader reader = new InputStreamReader(fileRepresentation.localStorage().openStream());
+        InputStreamReader reader = new InputStreamReader(new FileInputStream(fileRepresentation.localStorage()));
         CompositionSerializedJson comp = parseJsonStringToTrack(reader);
         for (PartJson part : comp.parts) {
             String name = part.dvlref;

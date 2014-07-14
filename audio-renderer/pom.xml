@@ -14,8 +14,8 @@
     <dependencies>
         <dependency>
             <groupId>javazoom</groupId>
-            <artifactId>jl</artifactId>
-            <version>1.0</version>
+            <artifactId>jlayer</artifactId>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -28,6 +28,10 @@
         <dependency>
             <groupId>no.lau.vdvil</groupId>
             <artifactId>composition-handler</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>simple-cache</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>

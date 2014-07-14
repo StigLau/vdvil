@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.swing.JFrame;
 import javax.swing.JComponent;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class ImageRenderer extends AbstractRenderer implements Renderer {
             javax.swing.SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     try {
-                        imageListener.show(fileRepresentation.localStorage().openStream());
+                        imageListener.show(new FileInputStream(fileRepresentation.localStorage()));
                     } catch (IOException e) {
                         log.error("Error loading image {}", fileRepresentation, e);
                     }

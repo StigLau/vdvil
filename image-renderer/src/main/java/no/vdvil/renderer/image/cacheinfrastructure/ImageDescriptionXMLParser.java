@@ -25,7 +25,7 @@ public class ImageDescriptionXMLParser implements MultimediaParser{
         documentBuilderFactory.setNamespaceAware(true); // never forget this!
         try {
             FileRepresentation dvl = store.cache(compositionInstruction.dvl().url());
-            Document doc = documentBuilderFactory.newDocumentBuilder().parse(dvl.localStorage().openStream());
+            Document doc = documentBuilderFactory.newDocumentBuilder().parse(dvl.localStorage());
 
             //String xpathExpression = "//book[author='Neal Stephenson']/title/text()";
             XPath xpath = XPathFactory.newInstance().newXPath();

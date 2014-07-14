@@ -9,14 +9,14 @@ public class Track {
     public final Float bpm;
     public final MediaFile mediaFile;
     public final List<Segment> segments;
-    public FileRepresentation fileRepresentation;
+    public transient FileRepresentation fileRepresentation;
 
     public Track(String reference, Float bpm, MediaFile mediaFile, List<Segment> segments) {
         this.reference = reference;
         this.bpm = bpm;
         this.mediaFile = mediaFile;
         this.segments = segments;
-        this.fileRepresentation = CacheMetaData.byURL(mediaFile.fileName);
+        this.fileRepresentation = new CacheMetaData(mediaFile.fileName);
     }
 
     /**
