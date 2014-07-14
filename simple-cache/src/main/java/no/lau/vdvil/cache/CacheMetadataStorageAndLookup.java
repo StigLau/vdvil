@@ -15,14 +15,12 @@ import java.util.*;
 public class CacheMetadataStorageAndLookup implements Serializable{
     final Map<URL, CacheMetaData> urlCacheMetaDataLookup = new HashMap<URL, CacheMetaData>();
     final static String storeLocation = "/tmp/vdvil";
-    Logger log = LoggerFactory.getLogger(getClass());
 
     CacheMetaData putRemoteURL(final URL url) {
         //If the remote URL already exists in the cache, reuse that rather than creating a new
         if(urlCacheMetaDataLookup.containsKey(url)) {
             return urlCacheMetaDataLookup.get(url);
         } else {
-            final String key = DigestUtils.md5Hex(url.toString());
             CacheMetaData cacheMetaData = new CacheMetaData(url);
             urlCacheMetaDataLookup.put(url, cacheMetaData);
             return cacheMetaData;
