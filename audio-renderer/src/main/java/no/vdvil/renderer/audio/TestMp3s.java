@@ -1,6 +1,8 @@
 package no.vdvil.renderer.audio;
 
 import no.bouvet.kpro.renderer.OldRenderer;
+import no.lau.vdvil.cache.CacheMetaData;
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.handler.persistence.DvlXML;
 import no.lau.vdvil.handler.persistence.PartXML;
@@ -14,14 +16,23 @@ public class TestMp3s {
     public static final URL coronamp3 =             createURL("http://kpro09.googlecode.com/svn/test-files/Corona_-_Baby_Baby.mp3");
     public static final URL returningMp3 =          createURL("http://kpro09.googlecode.com/svn/test-files/holden-nothing-93_returning_mix.mp3");
 
-    public static final URL psylteDvl =             createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/loaderror-psylteflesk.dvl");
-    public static final URL returningDvl =          createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl");
-    public static final URL returningJsonDvl =      createURL("https://raw.github.com/StigLau/vdvil/utvikling/audio-renderer/src/test/resources/Returning.dvl.json");
-    public static final URL unfinishedSympathyDvl = createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/unfinished_sympathy.dvl");
-    public static final URL not_aloneDvl =          createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/olive-youre_not_alone.dvl");
-    public static final URL scares_meDvl =          createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl");
-    public static final URL spaceDvl =              createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/space_manoeuvres-stage_one_original.dvl");
-    public static final URL surrenderDvl =          createURL("https://raw.github.com/StigLau/vdvil/master/binding-layer/src/test/resources/Way_Out_West-Surrender-Eelke_Kleijn_Remix.dvl.xml");
+    public static final FileRepresentation psylteDvl =              createFileRepresentation("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/loaderror-psylteflesk.dvl", "88a5ea828b7029b3887a9ccbdf810408");
+    public static final FileRepresentation returningDvl =           createFileRepresentation("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl", "2e24054eb28edd38c9a846022587955b");
+    public static final FileRepresentation returningJsonDvl =       createFileRepresentation("https://raw.github.com/StigLau/vdvil/utvikling/audio-renderer/src/test/resources/Returning.dvl.json", "d88a97facf376df4f2e824b25c59c38e");
+    public static final FileRepresentation unfinishedSympathyDvl =  createFileRepresentation("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/unfinished_sympathy.dvl", "ff9bf2f7fba0dc15e324e4d1421fafb1");
+    public static final FileRepresentation not_aloneDvl =           createFileRepresentation("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/olive-youre_not_alone.dvl", "79bae66941cada17a0b58cac07acf618");
+    public static final FileRepresentation scares_meDvl =           createFileRepresentation("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl", "72bf8720bbc8c630914c91279d5aaf46");
+    public static final FileRepresentation spaceDvl =               createFileRepresentation("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/space_manoeuvres-stage_one_original.dvl", "5f32bbebc99e181399658ab790ee33d1");
+    public static final FileRepresentation surrenderDvl =           createFileRepresentation("https://raw.github.com/StigLau/vdvil/master/binding-layer/src/test/resources/Way_Out_West-Surrender-Eelke_Kleijn_Remix.dvl.xml", "e4d263440e684878cf3b7d3ec1c44b46");
+
+    private static FileRepresentation createFileRepresentation(String remoteLocation, String md5Checksum) {
+        try {
+            URL url = new URL(remoteLocation);
+            return new CacheMetaData(url, md5Checksum);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("This should never happen!", e);
+        }
+    }
 
     public static final URL javaZoneComposition = createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml");
     public static final URL javaZoneCompositionJson = createURL("http://heap.kompo.st/JavaZone_Demo");

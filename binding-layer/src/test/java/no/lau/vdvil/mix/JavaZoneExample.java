@@ -1,6 +1,7 @@
 package no.lau.vdvil.mix;
 
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.mix.util.SuperPlayingSetup;
@@ -11,7 +12,6 @@ import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import org.junit.Test;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +19,9 @@ import static org.junit.Assert.assertEquals;
 
 public class JavaZoneExample {
     final SuperPlayingSetup player;
-    URL returning = TestMp3s.returningJsonDvl;
-    URL not_alone = TestMp3s.not_aloneDvl;
-    URL scares_me = TestMp3s.scares_meDvl;
+    FileRepresentation returning = TestMp3s.returningJsonDvl;
+    FileRepresentation not_alone = TestMp3s.not_aloneDvl;
+    FileRepresentation scares_me = TestMp3s.scares_meDvl;
     static final MasterBeatPattern mbp = new MasterBeatPattern(0, 32+64*3+ 28, 150F);
 
     public static void main(String[] args) throws Exception {

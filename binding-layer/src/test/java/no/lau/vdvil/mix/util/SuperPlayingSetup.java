@@ -1,5 +1,6 @@
 package no.lau.vdvil.mix.util;
 
+import no.lau.vdvil.cache.CacheMetaData;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.ParseFacade;
@@ -41,8 +42,8 @@ public abstract class SuperPlayingSetup {
         }
     }
 
-    public static MultimediaPart createAudioPart(String id, TimeInterval timeInterval, URL url) {
-        try { return parser.parse(new PartXML(id, timeInterval, new DvlXML("URL Name", url)));
+    public static MultimediaPart createAudioPart(String id, TimeInterval timeInterval, FileRepresentation fileRepresentation) {
+        try { return parser.parse(new PartXML(id, timeInterval, new DvlXML(fileRepresentation)));
         } catch (IOException e) { throw new RuntimeException(e); }
     }
     public static MultimediaPart createLyricPart(String text, TimeInterval timeInterval) {

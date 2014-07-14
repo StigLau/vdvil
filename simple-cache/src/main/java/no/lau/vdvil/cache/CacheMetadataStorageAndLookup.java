@@ -1,8 +1,6 @@
 package no.lau.vdvil.cache;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URL;
@@ -16,12 +14,12 @@ public class CacheMetadataStorageAndLookup implements Serializable{
     final Map<URL, CacheMetaData> urlCacheMetaDataLookup = new HashMap<URL, CacheMetaData>();
     final static String storeLocation = "/tmp/vdvil";
 
-    CacheMetaData putRemoteURL(final URL url) {
+    CacheMetaData putRemoteURL(final URL url, String md5Checksum) {
         //If the remote URL already exists in the cache, reuse that rather than creating a new
         if(urlCacheMetaDataLookup.containsKey(url)) {
             return urlCacheMetaDataLookup.get(url);
         } else {
-            CacheMetaData cacheMetaData = new CacheMetaData(url);
+            CacheMetaData cacheMetaData = new CacheMetaData(url, md5Checksum);
             urlCacheMetaDataLookup.put(url, cacheMetaData);
             return cacheMetaData;
         }
@@ -31,7 +29,7 @@ public class CacheMetadataStorageAndLookup implements Serializable{
         if(urlCacheMetaDataLookup.containsKey(url))
             return urlCacheMetaDataLookup.get(url);
         else
-            return putRemoteURL(url);
+            return putRemoteURL(url, null);
     }
 
     /**

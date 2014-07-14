@@ -64,11 +64,11 @@ public class RendererPlayingTest {
         parts.add(createAudioPart(returningMp3.segments.get(6).id, new Interval(4, 12), TestMp3s.returningDvl));
         parts.add(createAudioPart(returningMp3.segments.get(9).id, new Interval(2, 18), TestMp3s.returningDvl));
         parts.add(createAudioPart(returningMp3.segments.get(10).id, new Interval(48, 12), TestMp3s.returningDvl));
-            parts.add(createImagePart("1", new Interval(0,  16), store.createKey("http://farm6.static.flickr.com/5101/5659214954_5c333c4cd1_d.jpg")));
-            parts.add(createImagePart("2", new Interval(8, 16), store.createKey("http://farm6.static.flickr.com/5181/5659204108_975723a0fe_d.jpg")));
-            parts.add(createImagePart("3", new Interval(32, 16), store.createKey("http://farm6.static.flickr.com/5187/5620387714_f2bb05064b_d.jpg")));
-            parts.add(createImagePart("4", new Interval(48, 16), store.createKey("http://farm6.static.flickr.com/5308/5620385926_1fe89c1011_d.jpg")));
-            parts.add(createImagePart("5", new Interval(64, 16), store.createKey("http://farm6.static.flickr.com/5068/5620372140_6fdf929526_d.jpg")));
+            parts.add(createImagePart("1", new Interval(0,  16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/killer_shibe_huntin_phor_u_on_snow.jpg", "fbef28324d02fab54085b686cec62947")));
+            parts.add(createImagePart("2", new Interval(8, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/shibe_puppy_snow.jpg", "20ff41e030878bc25d6f24a9e1d384bf")));
+            parts.add(createImagePart("3", new Interval(32, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/shibe_lookin_at_u.jpg", "a84415d82a247b110f621ddc4874f3ce")));
+            parts.add(createImagePart("4", new Interval(48, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/shibe_window.jpg", "facde87bfa52415d669c828ac726119a")));
+            parts.add(createImagePart("5", new Interval(64, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/yawny_shibe.jpg", "80547837f13b03e412ffb607e4b0841d")));
         
         return new Composition(getClass().getSimpleName(), masterBeatPattern, parts, FileRepresentation.NULL);
     }

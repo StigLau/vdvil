@@ -16,7 +16,7 @@ public class Track {
         this.bpm = bpm;
         this.mediaFile = mediaFile;
         this.segments = segments;
-        this.fileRepresentation = new CacheMetaData(mediaFile.fileName);
+        this.fileRepresentation = new CacheMetaData(mediaFile.fileName, mediaFile.checksum);
     }
 
     /**

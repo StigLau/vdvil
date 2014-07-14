@@ -50,13 +50,22 @@ public class Store {
     }
 
     public FileRepresentation createKey(String remoteURL, String checksum) {
-        CacheMetaData fileRepresentation = cacheMetadataStorageAndLookup.mutableFileRepresentation(createKey(remoteURL));
-        fileRepresentation.md5CheckSum = checksum;
-        return fileRepresentation;
+        try {
+            return createKey(new URL(remoteURL), checksum);
+        } catch (MalformedURLException e) {
+            log.error("Erronous URL: {}", remoteURL, e);
+            return FileRepresentation.NULL;
+        }
     }
 
+    public FileRepresentation createKey(URL remoteURL, String checksum) {
+        return cacheMetadataStorageAndLookup.putRemoteURL(remoteURL, checksum);
+    }
+
+    @Deprecated //use with checksum!
     public CacheMetaData createKey(URL remoteURL) {
-        return cacheMetadataStorageAndLookup.putRemoteURL(remoteURL);
+        log.info("Deprecated usage!");
+        return (CacheMetaData) createKey(remoteURL, null);
     }
 
     public void addTransport(SimpleVdvilCache cache) {
@@ -79,13 +88,21 @@ public class Store {
         else
             return cache(cacheMetadataStorageAndLookup.findByRemoteURL(remoteURL));
     }
+
+    /**
+     * Shorthand without using fileRepresentation
+     */
+    public FileRepresentation cache(URL remoteURL, String checksum) throws IOException {
+        return this.cache(createKey(remoteURL, checksum));
+    }
+
     /**
      * Assures that a remote file is cached good enough in the local cache.
      * Verifies the sanity of local file with Md5 Checksum if possible
      */
     public FileRepresentation cache(FileRepresentation fileRepresentation) throws IOException {
         if (fileRepresentation == null) {
-            throw new RuntimeException("File with ID " + fileRepresentation + " does not exist in cache.");
+            throw new NullPointerException("FileRepresentation is NULL");
         } else if (fileRepresentation == FileRepresentation.NULL) {
             log.warn("Store was asked to cache FileRepresentation.NULL");
             return fileRepresentation;
@@ -94,7 +111,7 @@ public class Store {
         } else {
             if (fileRepresentation.localStorage() != null) {
                 if (fileRepresentation.md5CheckSum() == null) {
-                    log.info("The file {} is confirmed in cache but has no MD5 checksum", fileRepresentation);
+                    log.info("The file {} is confirmed in cache but has no MD5 checksum", fileRepresentation.remoteAddress());
                     return fileRepresentation;
                 } else {
                     String fileChecksum = DigestUtils.md5Hex(new FileInputStream(fileRepresentation.localStorage()));
@@ -102,7 +119,7 @@ public class Store {
                         log.debug("Checksum of {} confirmed", fileRepresentation);
                         return fileRepresentation;
                     } else {
-                        log.error("Checksum of {} NOT confirmed. File checksum was {}. Retrying download in hope that a fresh download fixes the problem", fileRepresentation, fileChecksum);
+                        log.error("Checksum NOT confirmed for '{}'. Expected checksum '{}', download was '{}'. Retrying download in hope that a fresh download fixes the problem", fileRepresentation.remoteAddress(), fileRepresentation.md5CheckSum(), fileChecksum);
                         CacheMetaData mutable = cacheMetadataStorageAndLookup.mutableFileRepresentation(fileRepresentation);
                         mutable.localStorage = null;
                         return downloadFile(mutable);
@@ -135,7 +152,7 @@ public class Store {
             //Retry the cache again to check that everything is ok!
             return cache(mutable);
         } else {
-            throw new IOException("No more download retries left for " + fileRepresentation.remoteAddress());
+            throw new FileNotFoundException("No more download retries left for " + fileRepresentation.remoteAddress());
         }
     }
 

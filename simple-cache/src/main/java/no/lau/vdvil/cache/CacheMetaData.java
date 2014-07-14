@@ -38,4 +38,8 @@ public class CacheMetaData implements FileRepresentation, Serializable {
     public int downloadAttemptsLeft() {
         return downloadAttempts;
     }
+
+    public String toString() {
+        return remoteAddress != null ? remoteAddress.toString() : super.toString();
+    }
 }

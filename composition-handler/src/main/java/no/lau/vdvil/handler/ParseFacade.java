@@ -2,6 +2,7 @@ package no.lau.vdvil.handler;
 
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
+import no.lau.vdvil.handler.persistence.MultimediaReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
@@ -24,20 +25,21 @@ public class ParseFacade implements MultimediaParser {
      * @return a parsed MultimediaPart. MultimediaPart.NULL if unsuccessful
      */
     public MultimediaPart parse(CompositionInstruction instruction) throws IOException{
-        store.cache(instruction.dvl().url());
+        MultimediaReference dvl = instruction.dvl();
+        store.cache(dvl.url(), dvl.fileChecksum());
         for (MultimediaParser parser : parsers) {
             try {
                 return parser.parse(instruction);
             } catch (Exception e) {
-                log.debug("{} could not parse {}", parser.getClass().getSimpleName(), instruction.dvl().name());
-                log.debug("Parsing error: ", e);
+                log.debug("{} could not parse {}. See Tracelog for further details", parser.getClass().getSimpleName(), instruction.dvl().name());
+                log.trace("Parsing error: ", e);
             }
         }
         String parserList = "";
         for (MultimediaParser parser : parsers) {
             parserList += parser.getClass().getSimpleName() + " ";
         }
-        throw new IOException("No parsers able to parse " + instruction.dvl().name() + ", check debug log! Tried parsers: " + parserList);
+        throw new IOException("No parsers able to parse " + instruction.dvl().url() + ", check debug log! Tried parsers: " + parserList);
     }
 
     public String toString(){

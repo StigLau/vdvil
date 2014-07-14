@@ -8,6 +8,7 @@ import no.lau.vdvil.handler.MultimediaParser;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.handler.persistence.DvlXML;
+import no.lau.vdvil.handler.persistence.MultimediaReference;
 import no.lau.vdvil.handler.persistence.domain.CompositionXml;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,8 @@ public class CompositionJsonParser implements MultimediaParser {
     }
 
     public MultimediaPart parse(CompositionInstruction compositionInstruction) throws IOException {
-        FileRepresentation fileRepresentation = store.cache(compositionInstruction.dvl().url());
+        MultimediaReference dvl = compositionInstruction.dvl();
+        FileRepresentation fileRepresentation = store.cache(dvl.url(), dvl.fileChecksum());
         InputStreamReader reader = new InputStreamReader(new FileInputStream(fileRepresentation.localStorage()));
         CompositionSerializedJson comp = parseJsonStringToTrack(reader);
         for (PartJson part : comp.parts) {

@@ -8,4 +8,5 @@ import java.net.URL;
 public interface MultimediaReference {
     String name();
     URL url();
+    String fileChecksum();
 }
