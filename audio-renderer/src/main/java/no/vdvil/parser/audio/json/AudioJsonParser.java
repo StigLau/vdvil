@@ -18,14 +18,13 @@ public class AudioJsonParser implements MultimediaParser {
 
     public MultimediaPart parse(CompositionInstruction compositionInstruction) throws IOException {
         FileRepresentation fileRepresentation = store.cache(compositionInstruction.dvl().url());
-        Track track = parseJsonStringToTrack(fileRepresentation);
+        Track track = parseJsonStringToTrack(new InputStreamReader(new FileInputStream(fileRepresentation.localStorage())));
         track.fileRepresentation = store.createKey(track.mediaFile.fileName);
         Segment segment = track.findSegment(compositionInstruction.id());
         return new AudioDescription(segment, compositionInstruction, track);
     }
 
-    Track parseJsonStringToTrack(FileRepresentation fileRepresentation) throws FileNotFoundException {
-        InputStreamReader reader = new InputStreamReader(new FileInputStream(fileRepresentation.localStorage()));
+    Track parseJsonStringToTrack(Reader reader) {
         return jsonParser.fromJson(reader, Track.class);
     }
 }
