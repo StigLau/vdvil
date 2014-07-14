@@ -10,12 +10,11 @@ import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.Track;
 import org.junit.Test;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlayingAMixTest {
-    URL psylteDvl = TestMp3s.psylteDvl;
+    FileRepresentation psylteDvl = TestMp3s.psylteDvl;
     Track returning = TestMp3s.returning;
 
     @Test

@@ -38,6 +38,6 @@ public class AudioAndLyricsTest {
         }.play(new MasterBeatPattern(0, 20, 150F));
     }
 
-    URL returningDvl = TestMp3s.returningDvl;
+    FileRepresentation returningDvl = TestMp3s.returningDvl;
 
 }

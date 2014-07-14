@@ -16,8 +16,8 @@ import java.util.List;
 
 public class TimingSyncronizationTest {
 
-    URL space = TestMp3s.spaceDvl;
-    URL surrender = TestMp3s.surrenderDvl;
+    FileRepresentation space = TestMp3s.spaceDvl;
+    FileRepresentation surrender = TestMp3s.surrenderDvl;
     Store store = Store.get();
 
     @Test
@@ -42,14 +42,14 @@ public class TimingSyncronizationTest {
 
                 {
 
-                    parts.add(createImagePart("0", new Interval(0, 6), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg")));
+                    parts.add(createImagePart("0", new Interval(0, 6), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "4648c59ec6235407b59a0327328041b5")));
 
-                    parts.add(createImagePart("1", new Interval(6, 4), store.createKey("http://www.shinyshiny.tv/teddy%20bear%201.jpg")));
+                    parts.add(createImagePart("1", new Interval(6, 4), store.createKey("http://www.shinyshiny.tv/teddy%20bear%201.jpg", "a9e178def69c92cc9355b1e7512dabe8")));
             /*
 parts.add(createImagePart("2", new Interval(8, 4), store.createKey("http://farm6.static.flickr.com/5101/5659214954_5c333c4cd1_d.jpg")));
 parts.add(createImagePart("3", new Interval(12, 4), store.createKey("http://farm6.static.flickr.com/5181/5659204108_975723a0fe_d.jpg")));
             */
-                    parts.add(createImagePart("4", new Interval(16, 2), store.createKey("http://farm6.static.flickr.com/5187/5620387714_f2bb05064b_d.jpg")));
+                    parts.add(createImagePart("4", new Interval(16, 2), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/teddy/checkered_teddy.jpg", "4a2caec562cd04f5418c5cb7629c8f1c")));
             /*
 parts.add(createImagePart("5", new Interval(18, 2), store.createKey("http://farm6.static.flickr.com/5308/5620385926_1fe89c1011_d.jpg")));
 parts.add(createImagePart("6", new Interval(20, 2), store.createKey("http://farm6.static.flickr.com/5068/5620372140_6fdf929526_d.jpg")));

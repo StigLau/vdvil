@@ -30,7 +30,8 @@ public class CompositionXMLParser implements MultimediaParser{
 
     @Deprecated // Could instead use parse(URL)
     public Composition parse(CompositionInstruction compositionInstruction) throws IOException {
-        FileRepresentation fileRepresentation = store.cache(compositionInstruction.dvl().url());
+        MultimediaReference dvl = compositionInstruction.dvl();
+        FileRepresentation fileRepresentation = store.cache(dvl.url(), dvl.fileChecksum());
         CompositionXml compositionXml = parseCompositionXml(new FileInputStream(fileRepresentation.localStorage()));
         return compositionXml.asComposition(fileRepresentation, parser);
     }

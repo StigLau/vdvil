@@ -55,13 +55,13 @@ public class StoreTest {
 
     @Test(expected = UnknownHostException.class)
     public void theDifferentPathsOfStoreCache() throws IOException {
-        store.cache(new CacheMetaData(new URL("http://123ringadingadingading.com")));
+        store.cache(new URL("http://123ringadingadingading.com"));
     }
 
     @Test
     public void downloadSomethingWithWrongChecksum() throws IOException {
         try {
-            store.cache(new CacheMetaData(new URL(psylteDVL), "jalla balla"));
+            store.cache(new URL(psylteDVL), "jalla balla");
         } catch (IOException e) {
             assertEquals("No more download retries left for http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/loaderror-psylteflesk.dvl", e.getMessage());
             return;
