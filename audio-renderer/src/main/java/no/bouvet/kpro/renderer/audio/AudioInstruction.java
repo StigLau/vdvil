@@ -3,7 +3,6 @@ package no.bouvet.kpro.renderer.audio;
 import no.bouvet.kpro.renderer.OldRenderer;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.instruction.SuperInstruction;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -46,7 +45,7 @@ public class AudioInstruction extends SuperInstruction {
 	public AudioInstruction(int start, int end, int cue, int duration, FileRepresentation fileRepresentation) {
         super(start, end - start, fileRepresentation);
         try {
-            source = new MP3Source(new File(fileRepresentation.localStorage().getFile()));
+            source = new MP3Source(fileRepresentation);
         } catch (IOException e) {
             throw new RuntimeException("Problem accessing MP3 file " + fileRepresentation, e);
         }

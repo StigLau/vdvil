@@ -31,11 +31,10 @@ public class AudioMixerTest {
     @Before
     public void setUp() throws IOException {
         FileRepresentation fileRepresentation = Store.get().cache(TestMp3s.returningMp3);
-        File cachedFile = new File(fileRepresentation.localStorage().getFile());
         instruction = new AudioInstruction(0, maxSamplesForTest, 0, 81415, fileRepresentation);
         int internal = 0;
         int sduration = 4410;
-        source = new MP3Source(cachedFile).getBuffer(instruction.getCue() + internal, sduration + 22050);
+        source = new MP3Source(fileRepresentation).getBuffer(instruction.getCue() + internal, sduration + 22050);
         instructions.add(instruction);
     }
 

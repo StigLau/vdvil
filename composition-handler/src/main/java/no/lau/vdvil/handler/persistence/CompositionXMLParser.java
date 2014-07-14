@@ -7,6 +7,7 @@ import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaParser;
 import no.lau.vdvil.handler.persistence.domain.CompositionXml;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -30,7 +31,7 @@ public class CompositionXMLParser implements MultimediaParser{
     @Deprecated // Could instead use parse(URL)
     public Composition parse(CompositionInstruction compositionInstruction) throws IOException {
         FileRepresentation fileRepresentation = store.cache(compositionInstruction.dvl().url());
-        CompositionXml compositionXml = parseCompositionXml(fileRepresentation.localStorage().openStream());
+        CompositionXml compositionXml = parseCompositionXml(new FileInputStream(fileRepresentation.localStorage()));
         return compositionXml.asComposition(fileRepresentation, parser);
     }
 

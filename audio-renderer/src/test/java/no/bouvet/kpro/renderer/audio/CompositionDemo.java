@@ -1,6 +1,5 @@
 package no.bouvet.kpro.renderer.audio;
 
-import java.io.File;
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.OldRenderer;
 import no.lau.vdvil.cache.FileRepresentation;
@@ -13,12 +12,11 @@ public abstract class CompositionDemo {
     static Logger log = LoggerFactory.getLogger(CompositionDemo.class);
     //TODO Wrong address to mp3's. Does this test have any value?
     public static void main(String[] args) throws Exception {
-        Store store = Store.get();
         //FileRepresentation snap = store.cache(ClassLoader.getSystemResource("Snap_-_Rhythm_is_a_Dancer.mp3"));
         //FileRepresentation corona = store.cache(ClassLoader.getSystemResource("Corona_-_Baby_Baby.mp3"));
         FileRepresentation corona = Store.get().cache(TestMp3s.coronamp3);
-		AudioSource sourceA = new MP3Source(new File(corona.localStorage().getFile()));
-		AudioSource sourceB = new MP3Source(new File(corona.localStorage().getFile()));
+		AudioSource sourceA = new MP3Source(corona);
+		AudioSource sourceB = new MP3Source(corona);
 
 		AudioTarget target = null; // Audio output target
 		OldRenderer renderer = null; // OldRenderer
