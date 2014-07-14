@@ -14,6 +14,10 @@
     <dependencies>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
+            <artifactId>renderer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
             <artifactId>composition-handler</artifactId>
         </dependency>
     </dependencies>
