@@ -40,15 +40,6 @@ public class Store {
         return store;
     }
 
-
-    public FileRepresentation createKey(String url) {
-        try {
-            return createKey(new URL(url));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public FileRepresentation createKey(String remoteURL, String checksum) {
         try {
             return createKey(new URL(remoteURL), checksum);
@@ -60,12 +51,6 @@ public class Store {
 
     public FileRepresentation createKey(URL remoteURL, String checksum) {
         return cacheMetadataStorageAndLookup.putRemoteURL(remoteURL, checksum);
-    }
-
-    @Deprecated //use with checksum!
-    public CacheMetaData createKey(URL remoteURL) {
-        log.info("Deprecated usage!");
-        return (CacheMetaData) createKey(remoteURL, null);
     }
 
     public void addTransport(SimpleVdvilCache cache) {

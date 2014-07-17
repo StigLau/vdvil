@@ -1,5 +1,6 @@
 package no.lau.vdvil.renderer.image;
 
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.instruction.ImageInstruction;
@@ -25,7 +26,7 @@ public class FetchingAndParsingTest {
         int duration = 16;
         float bpm = 130F;
 
-        URL imageDescriptionURL = ClassLoader.getSystemResource("ImageDescription.html");
+        FileRepresentation imageDescriptionURL = store.createKey(ClassLoader.getSystemResource("ImageDescription.html"), "ed2b9545a45abab5b2a483a8d6a8b1cb");
         ImageDescription imageDescription = new ImageDescriptionXMLParser().parse(PartXML.create(imageDescriptionURL));
 
         ImageInstruction imageInstruction = ImageInstruction.create(new MasterBeatPattern(new Interval(start, duration), bpm), imageDescription.fileRepresentation());

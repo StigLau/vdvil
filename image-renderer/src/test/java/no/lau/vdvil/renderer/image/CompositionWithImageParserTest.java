@@ -1,5 +1,7 @@
 package no.lau.vdvil.renderer.image;
 
+import no.lau.vdvil.cache.FileRepresentation;
+import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.persistence.CompositionXMLParser;
@@ -16,13 +18,13 @@ public class CompositionWithImageParserTest {
 
     @Test
     public void compositionParsing() throws Exception {
-        URL compositionXmlUrl = ClassLoader.getSystemResource("testCompositionWithImageDvls.xml");
+        FileRepresentation fileRepresentation = Store.get().createKey(ClassLoader.getSystemResource("testCompositionWithImageDvls.xml"), "63d66578887d85accd3a6cb75c663b71");
 
         ParseFacade parser = new ParseFacade();
         parser.addParser(new ImageDescriptionXMLParser());
         parser.addParser(new CompositionXMLParser(parser));
 
-        Composition composition = (Composition) parser.parse(PartXML.create(compositionXmlUrl));
+        Composition composition = (Composition) parser.parse(PartXML.create(fileRepresentation));
         assertEquals("JavaZone Demo", composition.name);
         assert(composition.fileRepresentation().remoteAddress()).toString().endsWith("testCompositionWithImageDvls.xml");
         assertEquals(150, composition.masterBeatPattern.masterBpm.intValue());

@@ -34,9 +34,9 @@ public class TestMp3s {
         }
     }
 
-    public static final URL javaZoneComposition = createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml");
-    public static final URL javaZoneCompositionJson = createURL("http://heap.kompo.st/JavaZone_Demo");
-    public static final URL javaZoneComposition_WithoutImages = createURL("http://kpro09.googlecode.com/svn-history/r530/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml");
+    public static final FileRepresentation javaZoneComposition = createFileRepresentation("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml", "490aa410679405eebbe36b682db9547e");
+    public static final FileRepresentation javaZoneCompositionJson = createFileRepresentation("http://heap.kompo.st/JavaZone_Demo", "45657af53365567c60e47410f4620678");
+    public static final FileRepresentation javaZoneComposition_WithoutImages = createFileRepresentation("http://kpro09.googlecode.com/svn-history/r530/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml", "c6c3b27b83e71c79574c1837062e2345");
     public static final URL NULL = createURL("http://null.com");
 
     public static final Track returning = returning();
@@ -87,8 +87,8 @@ public class TestMp3s {
         return new Track("Corona - Baby baby", 132.98f, mediaFile, segments);
     }
 
-    public static CompositionInstruction compInstructionFactory(URL url, int start, int duration) {
-        return new PartXML("Stub ID", new Interval(start, duration), new DvlXML("Stub Dvl name", url));
+    public static CompositionInstruction compInstructionFactory(FileRepresentation fileRepresentation, int start, int duration) {
+        return new PartXML("Stub ID", new Interval(start, duration), new DvlXML(fileRepresentation));
 
     }
 }

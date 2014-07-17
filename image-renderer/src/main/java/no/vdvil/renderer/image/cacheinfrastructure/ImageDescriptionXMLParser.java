@@ -24,7 +24,7 @@ public class ImageDescriptionXMLParser implements MultimediaParser{
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         documentBuilderFactory.setNamespaceAware(true); // never forget this!
         try {
-            FileRepresentation dvl = store.cache(compositionInstruction.dvl().url());
+            FileRepresentation dvl = store.cache(compositionInstruction.dvl().url(), compositionInstruction.dvl().fileChecksum());
             Document doc = documentBuilderFactory.newDocumentBuilder().parse(dvl.localStorage());
 
             //String xpathExpression = "//book[author='Neal Stephenson']/title/text()";
@@ -33,7 +33,7 @@ public class ImageDescriptionXMLParser implements MultimediaParser{
 
             NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 
-            FileRepresentation imageFileRepresentation = store.createKey(nodes.item(0).getNodeValue());
+            FileRepresentation imageFileRepresentation = store.cache(store.createKey(nodes.item(0).getNodeValue(), null));
             return new ImageDescription(compositionInstruction, imageFileRepresentation);
         } catch (Exception e) {
             throw new IOException("Unable to parse", e);

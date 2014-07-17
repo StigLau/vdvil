@@ -49,5 +49,5 @@ class PlayPanel(val url:URL) {
     }
   }
 
-  def fetchComposition(url:URL) = parser.parse(PartXML.create(url)).asInstanceOf[Composition]
+  def fetchComposition(url:URL) = parser.parse(PartXML.create(store.cache(url))).asInstanceOf[Composition]
 }

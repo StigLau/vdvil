@@ -1,5 +1,6 @@
 package no.lau.vdvil.renderer.image;
 
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.instruction.ImageInstruction;
@@ -9,14 +10,13 @@ import no.vdvil.renderer.image.ImageRenderer;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
 import org.junit.Test;
 import java.io.IOException;
-import java.net.URL;
 
 public class ImageRenderingTest {
-    URL pinkTeddy = ClassLoader.getSystemResource("pink_teddy.jpg");
-    URL dj_teddy = ClassLoader.getSystemResource("dj-teddy.jpg");
-    URL imageDesc = ClassLoader.getSystemResource("ImageDescription.html");
-    URL imageDesc2 = ClassLoader.getSystemResource("ImageDescription2.html");
     Store store = Store.get();
+    FileRepresentation pinkTeddy = store.createKey(ClassLoader.getSystemResource("pink_teddy.jpg"), "5afcd12326717d727f694aba4d2e1055");
+    FileRepresentation dj_teddy = store.createKey(ClassLoader.getSystemResource("dj-teddy.jpg"), "b619f3035beed5a08525700cc4cd2be8");
+    FileRepresentation imageDesc = store.createKey(ClassLoader.getSystemResource("ImageDescription.html"), "ed2b9545a45abab5b2a483a8d6a8b1cb");
+    FileRepresentation imageDesc2 = store.createKey(ClassLoader.getSystemResource("ImageDescription2.html"), "c456e0b04134aa7f7997b90cd3da1a62");
 
     ImageDescriptionXMLParser parser = new ImageDescriptionXMLParser();
 
