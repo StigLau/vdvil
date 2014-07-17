@@ -67,11 +67,11 @@ public class RenderingV2Test {
 
     private MultimediaPart[] createImageParts()  {
         return new MultimediaPart[]{
-                createImagePart("1", new Interval(0, 4), store.createKey("http://farm6.static.flickr.com/5101/5659214954_5c333c4cd1_d.jpg", "428a779e39b173ff2b0d4b91be77d4dc")),
-                createImagePart("2", new Interval(4, 4), store.createKey("http://farm6.static.flickr.com/5181/5659204108_975723a0fe_d.jpg", "3cf1746bcfe9e3f08316b98897757edd")),
-                createImagePart("3", new Interval(8, 4), store.createKey("http://farm6.static.flickr.com/5187/5620387714_f2bb05064b_d.jpg", "3f223cb0cc3b21762c17ee23df275aa4")),
-                createImagePart("4", new Interval(12, 4), store.createKey("http://farm6.static.flickr.com/5308/5620385926_1fe89c1011_d.jpg", "a1698ec1f480d102338b683332e97c1f")),
-                createImagePart("5", new Interval(16, 4), store.createKey("http://farm6.static.flickr.com/5068/5620372140_6fdf929526_d.jpg", "ab956e0a49fb31a2686dd7696b78391b"))
+                createImagePart("1", new Interval(0, 4), store.createKey("http://farm6.static.flickr.com/5101/5659214954_5c333c4cd1_d.jpg", null)),
+                createImagePart("2", new Interval(4, 4), store.createKey("http://farm6.static.flickr.com/5181/5659204108_975723a0fe_d.jpg", null)),
+                createImagePart("3", new Interval(8, 4), store.createKey("http://farm6.static.flickr.com/5187/5620387714_f2bb05064b_d.jpg", null)),
+                createImagePart("4", new Interval(12, 4), store.createKey("http://farm6.static.flickr.com/5308/5620385926_1fe89c1011_d.jpg", null)),
+                createImagePart("5", new Interval(16, 4), store.createKey("http://farm6.static.flickr.com/5068/5620372140_6fdf929526_d.jpg", null))
         };
     }
 
