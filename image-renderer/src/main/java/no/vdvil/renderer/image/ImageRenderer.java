@@ -10,14 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.swing.JFrame;
 import javax.swing.JComponent;
-import java.io.FileInputStream;
-import java.io.IOException;
+import javax.swing.SwingUtilities;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ImageRenderer extends AbstractRenderer implements Renderer {
     private ImageListener[] listener;
-    List<no.lau.vdvil.instruction.Instruction> runningImageInstructionList = new ArrayList<no.lau.vdvil.instruction.Instruction>();
+    List<Instruction> runningImageInstructionList = new ArrayList<Instruction>();
     JFrame frame;
     Logger log = LoggerFactory.getLogger(getClass());
 
@@ -44,11 +43,11 @@ public class ImageRenderer extends AbstractRenderer implements Renderer {
 
     private void renderStuff(final FileRepresentation fileRepresentation) {
         for (final ImageListener imageListener : listener) {
-            javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     try {
-                        imageListener.show(new FileInputStream(fileRepresentation.localStorage()));
-                    } catch (IOException e) {
+                        imageListener.show(fileRepresentation);
+                    } catch (Exception e) {
                         log.error("Error loading image {}", fileRepresentation, e);
                     }
                 }

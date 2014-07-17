@@ -1,8 +1,8 @@
 package no.lau.vdvil.handler.persistence;
 
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.TimeInterval;
-import java.net.URL;
 
 public class PartXML implements CompositionInstruction, MutableCompositionInstruction {
     final String id;
@@ -42,8 +42,8 @@ public class PartXML implements CompositionInstruction, MutableCompositionInstru
     }
     public MultimediaReference dvl() { return dvl; }
 
-    public static CompositionInstruction create(URL url) {
-        return new PartXML("Test Part", new Interval(0, 0), new DvlXML("Test DVL", url))  ;
+    public static CompositionInstruction create(FileRepresentation fileRepresentation) {
+        return new PartXML("Test Part", new Interval(0, 0), new DvlXML(fileRepresentation))  ;
     }
 
     public void moveStart(int cueDifference) {

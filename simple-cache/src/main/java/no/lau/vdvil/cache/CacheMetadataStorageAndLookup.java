@@ -35,7 +35,7 @@ public class CacheMetadataStorageAndLookup implements Serializable{
     /**
      * Mutability "protection", because it is seldom needed.
      */
-    public CacheMetaData mutableFileRepresentation(final FileRepresentation fileRepresentation) {
+    CacheMetaData mutableFileRepresentation(final FileRepresentation fileRepresentation) {
         return (CacheMetaData) fileRepresentation;
     }
 

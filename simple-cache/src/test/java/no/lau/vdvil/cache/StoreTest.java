@@ -36,20 +36,19 @@ public class StoreTest {
 
     @Test
     public void findFileThatAlreadyExistInCache() throws IOException {
-        assertFalse(store.fileExistsInLocalCache(store.createKey("file://non-existing/file")));
+        assertFalse(store.fileExistsInLocalCache(store.createKey("file://non-existing/file", null)));
         assertTrue(store.fileExistsInLocalCache(store.cache(ClassLoader.getSystemResource("empty_testfile.txt"))));
     }
 
     @Test
     public void findAlreadyStoredCachedFiles() throws IOException {
-        FileRepresentation fileRepresentation = store.cache(ClassLoader.getSystemResource("empty_testfile.txt"));
+        FileRepresentation fileRepresentation = store.cache(ClassLoader.getSystemResource("empty_testfile.txt"), "44edc5da79b289f81094d8d5952efde7");
         assertEquals("/tmp/vdvil/files/92179b233a8e682cd472b878c7da3511/default", fileRepresentation.localStorage().getAbsolutePath());
     }
 
     @Test
     public void doesMd5SumsWork() throws IOException {
-        FileRepresentation fr = store.createKey(returningMp3, returningMp3Checksum);
-        FileRepresentation cachedFileRepresentation = store.cache(fr);
+        FileRepresentation cachedFileRepresentation = store.cache(store.createKey(returningMp3, returningMp3Checksum));
         assertEquals("/tmp/vdvil/files/cab1562d1198804b5fb6d62a69004488/default", cachedFileRepresentation.localStorage().toString());
     }
 
