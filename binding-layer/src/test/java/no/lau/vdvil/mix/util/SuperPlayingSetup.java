@@ -1,6 +1,5 @@
 package no.lau.vdvil.mix.util;
 
-import no.lau.vdvil.cache.CacheMetaData;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.ParseFacade;
