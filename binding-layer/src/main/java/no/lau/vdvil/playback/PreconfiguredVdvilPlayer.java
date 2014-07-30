@@ -82,18 +82,22 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
             if(filter.fromBeat <= instruction.start() && instruction.end() <= filter.toBeat) {
                 filteredPartsList.add(multimediaPart);
             } else if(instruction.end() <= filter.fromBeat || filter.toBeat <= instruction.start()) {
-                //Is outside
+                //Is outside filters range
                 log.debug("AbstractInstruction {} starting at {} was filtered out of the composition", multimediaPart, instruction.start());
             }else {
                 if(instruction.start() < filter.fromBeat) {
                     //Crop Start
                     log.debug("AbstractInstruction {} fromBeat was set to {} to hit correct start time", multimediaPart, filter.fromBeat);
-                    ((MutableCompositionInstruction) multimediaPart.compositionInstruction()).moveStart(filter.fromBeat - instruction.start());
+                    int startCrop = filter.fromBeat - instruction.start();
+                    ((MutableCompositionInstruction) multimediaPart.compositionInstruction()).setCueDifference(startCrop);
+                    Integer oldDuration = multimediaPart.compositionInstruction().duration();
+                    ((MutableCompositionInstruction) multimediaPart.compositionInstruction()).setDuration(oldDuration - startCrop);
                 }
                 if(filter.toBeat < instruction.end()) {
                     log.debug("AbstractInstruction {} endBeat was set to {} because it ended to late", multimediaPart, filter.toBeat);
-                    ((MutableCompositionInstruction) multimediaPart.compositionInstruction()).setEnd(filter.toBeat);
-                    //Crop End
+                    //Crop duration
+                    int start = multimediaPart.compositionInstruction().start();
+                    ((MutableCompositionInstruction) multimediaPart.compositionInstruction()).setDuration(filter.toBeat - start);
                 }
                 filteredPartsList.add(multimediaPart);
             }
@@ -104,7 +108,7 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
     /**
      * Cache the different parts of a Composition
      */
-    public static void cache(Composition composition) throws IOException {
+    public static Composition cache(Composition composition) throws IOException {
         composition.updateFileRepresentation(store.cache(composition.fileRepresentation));
         for (MultimediaPart part : composition.multimediaParts) {
             if (part instanceof AudioDescription) {
@@ -113,6 +117,7 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
                 ((ImageDescription)part).updateFileRepresentation(store.cache(part.fileRepresentation()));
             }
         }
+        return composition;
     }
 
     public VdvilPlayer play() {

@@ -3,6 +3,8 @@ package no.vdvil.renderer.lyric;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.instruction.LyricInstruction;
 import no.lau.vdvil.renderer.Renderer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,6 +16,7 @@ public class LyricRenderer implements LyricListener, Renderer {
     JLabel label;
     String text = "";
     List<LyricInstruction> runningLyricInstructions = new ArrayList<LyricInstruction>();
+    Logger log = LoggerFactory.getLogger(LyricRenderer.class);
 
 
     public LyricRenderer(int width, int height) {
@@ -50,6 +53,7 @@ public class LyricRenderer implements LyricListener, Renderer {
     }
 
     public void notify(Instruction instruction, long beat) {
+        log.info("{} to be played at {}",instruction.getClass().getSimpleName(), beat);
         shoutHello((LyricInstruction) instruction);
     }
 }

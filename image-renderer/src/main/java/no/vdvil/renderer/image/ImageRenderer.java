@@ -36,6 +36,7 @@ public class ImageRenderer extends AbstractRenderer implements Renderer {
 
     public void notify(Instruction instruction, long beat) {
         if (instruction instanceof ImageInstruction) {
+            log.info("{} to be played at {}",instruction.getClass().getSimpleName(), beat);
             runningImageInstructionList.add(instruction);
             renderStuff(((ImageInstruction) instruction).fileRepresentation());
         }

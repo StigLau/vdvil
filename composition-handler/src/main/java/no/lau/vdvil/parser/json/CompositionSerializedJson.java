@@ -60,9 +60,9 @@ class PartJson implements CompositionInstruction, MutableCompositionInstruction 
     }
     public MultimediaReference dvl() {return dvl;}
 
-    public void moveStart(int cueDifference) { this.cueDifference = cueDifference; }
+    public void setCueDifference(int cueDifference) { this.cueDifference = cueDifference; }
 
-    public void setEnd(int endBeat) {
-        duration = endBeat - start;
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 }

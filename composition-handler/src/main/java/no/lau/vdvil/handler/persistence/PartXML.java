@@ -8,9 +8,7 @@ public class PartXML implements CompositionInstruction, MutableCompositionInstru
     final String id;
     int start;
 
-    //Note: End and Duration are two sides of the same coin, but from different API versions. Please use duration!
-    private Integer end;
-    private Integer duration;
+    Integer duration;
     int cueDifference; //If the start has been moved, it will affect the cue starting point of multimedia which rely on timing.
     public final DvlXML dvl;
 
@@ -18,11 +16,10 @@ public class PartXML implements CompositionInstruction, MutableCompositionInstru
         this.id = id;
         this.start = timeInterval.start();
         this.duration = timeInterval.duration();
-        this.end = timeInterval.start() + timeInterval.duration();
         this.dvl = dvlXML;
 
-        if(start > end)
-            throw new IllegalArgumentException("End has to be after start!");
+        if(duration() < 0)
+            throw new IllegalArgumentException("Must have a positive duration!");
     }
 
     public String id() { return id; }
@@ -34,11 +31,14 @@ public class PartXML implements CompositionInstruction, MutableCompositionInstru
     public int start() { return start + cueDifference; }
     public int cueDifference() { return cueDifference; }
     public int duration() {
-        return (duration != null) ? duration: end - start;
+        return duration;
     }
-    @Deprecated // Please use duration
+
+    /**
+     * Shorthand for calculating end
+     */
     public int end() {
-        return (end != null) ? end : start + duration;
+        return start() + duration;
     }
     public MultimediaReference dvl() { return dvl; }
 
@@ -46,26 +46,18 @@ public class PartXML implements CompositionInstruction, MutableCompositionInstru
         return new PartXML("Test Part", new Interval(0, 0), new DvlXML(fileRepresentation))  ;
     }
 
-    public void moveStart(int cueDifference) {
+    public void setCueDifference(int cueDifference) {
         this.cueDifference = cueDifference;
     }
 
     /**
-     * The end beat may sometimes be moved to facilitate an early ending.
-     * Really don't like this function which makes the CompositionInstruction mutable.
-     * The side effect is that one has to load/parse the original source to get the original state
-     * Should be a way of creating a copy of the original structure without mutating!
-     * @param endBeat set endBeat
+     * The duration may sometimes be moved to facilitate an early ending.
      */
-    public void setEnd(int endBeat) {
-        this.end = endBeat;
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 
     public String toString() {
-        return start + " - " + end + " " + id;
-    }
-
-    public void setDuration(Integer duration) {
-        this.duration = duration;
+        return start() + " + " + duration() + " " + id;
     }
 }

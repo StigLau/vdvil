@@ -7,9 +7,12 @@ import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaParser;
 import no.lau.vdvil.handler.persistence.domain.CompositionXml;
+import no.lau.vdvil.timing.Interval;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CompositionXMLParser implements MultimediaParser{
 
@@ -24,7 +27,7 @@ public class CompositionXMLParser implements MultimediaParser{
     static {
         xstream = new XStream();
         xstream.alias("composition", CompositionXml.class);
-        xstream.alias("part", PartXML.class);
+        xstream.alias("part", OldPart.class);
         xstream.alias("dvl", DvlXML.class);
     }
 
@@ -32,11 +35,37 @@ public class CompositionXMLParser implements MultimediaParser{
     public Composition parse(CompositionInstruction compositionInstruction) throws IOException {
         MultimediaReference dvl = compositionInstruction.dvl();
         FileRepresentation fileRepresentation = store.cache(dvl.url(), dvl.fileChecksum());
-        CompositionXml compositionXml = parseCompositionXml(new FileInputStream(fileRepresentation.localStorage()));
+        CompositionXml compositionXml = convert(parseCompositionXml(new FileInputStream(fileRepresentation.localStorage())));
+
+        //Convert
         return compositionXml.asComposition(fileRepresentation, parser);
+    }
+
+    /**
+     * Ugly method for converting OlParts to PartXML because of API change
+     */
+    private CompositionXml convert(CompositionXml old) {
+        ArrayList<PartXML> newParts = new ArrayList<PartXML>();
+        List oldparts = old.parts;
+        for (Object oldpart : oldparts) {
+            OldPart ol = (OldPart)oldpart;
+            newParts.add(new PartXML(ol.id, new Interval(ol.start, ol.end - ol.start), ol.dvl));
+        }
+        old.parts = newParts;
+        return old;
     }
 
     public static CompositionXml parseCompositionXml(InputStream stream) throws IOException {
         return (CompositionXml) xstream.fromXML(stream);
     }
+}
+
+/**
+ * Similar to PartXML. Only used by XStream
+ */
+class OldPart {
+    String id;
+    int start;
+    int end;
+    DvlXML dvl;
 }
