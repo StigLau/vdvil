@@ -139,7 +139,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
     public void notify(Instruction instruction, long beat) {
         if(instruction != null) {
             if (instruction instanceof AudioInstruction) {
-                log.info("{} to be played at {}",instruction.getClass().getSimpleName(), beat);
+                log.info("BPM: {} start:{} actual:{}", instruction, instruction.start(), beat);
                 _active.add((AudioInstruction) instruction);
             }
         }
