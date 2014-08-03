@@ -1,5 +1,6 @@
 package no.lau.vdvil.playback;
 
+import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.AudioRenderer;
 import no.lau.vdvil.cache.Store;
@@ -59,19 +60,22 @@ public class PreconfiguredVdvilPlayer implements VdvilPlayer {
     }
 
     public VdvilPlayer init(Composition composition, MasterBeatPattern beatPatternFilter) throws IllegalAccessException {
-        if(isPlaying())
+        if (isPlaying()) {
             throw new IllegalAccessException("Don't change the player during playback. Please stop first");
+        }
+        player = new InstructionPlayer(beatPatternFilter, new Instructions(), renderers);
         try {
-            Composition timeFilteredComposition = filterByTime(composition, beatPatternFilter);
-            cache(composition);
-            player = new InstructionPlayer(
-                    timeFilteredComposition.masterBeatPattern,
-                    timeFilteredComposition.instructions(timeFilteredComposition.masterBeatPattern.masterBpm),
-                    renderers);
+            addComposition(composition, beatPatternFilter, 0);
         } catch (IOException e) {
             log.error("These errors should not happen", e);
         }
         return this;
+    }
+
+    public void addComposition(Composition composition, MasterBeatPattern beatPatternFilter, Integer cueDifference) throws IOException {
+        Composition cachedComposition = cache(filterByTime(composition, beatPatternFilter));
+        Instructions instructions = cachedComposition.instructions(beatPatternFilter.masterBpm, cueDifference);
+        ((InstructionPlayer) player).appendInstructions(instructions);
     }
 
     public static Composition filterByTime(Composition composition, MasterBeatPattern filter) {

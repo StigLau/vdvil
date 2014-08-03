@@ -8,6 +8,11 @@ import no.lau.vdvil.cache.FileRepresentation;
 public abstract class SuperInstruction implements Instruction {
     final long start;
     final long length;
+
+    //Used for printing out instructions original BPM
+    public int startAsBpm;
+    public int durationAsBpm;
+
     protected final FileRepresentation fileRepresentation;
 
     public SuperInstruction(long start, long length, FileRepresentation fileRepresentation) {
@@ -48,4 +53,7 @@ public abstract class SuperInstruction implements Instruction {
         return 0;
     }
 
+    public String toString() {
+        return startAsBpm + " + " + durationAsBpm;
+    }
 }

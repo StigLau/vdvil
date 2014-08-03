@@ -21,9 +21,17 @@ public class Composition implements MultimediaPart {
         this.fileRepresentation = fileRepresentation;
     }
 
-    public Instructions instructions(Float masterBpm) throws IOException {
+    /**
+     * Converts composition to Instructions.
+     * @param movement If the composition is to start on a differnent BPM than 0. null if movement isn't necessary
+     */
+    public Instructions instructions(Float masterBpm, Integer movement) throws IOException {
         Instructions instructions = new Instructions();
         for (MultimediaPart multimediaPart : multimediaParts) {
+            if (movement != null && multimediaPart instanceof MutableInstruction) {
+                MutableInstruction mutableInstruction = (MutableInstruction) multimediaPart;
+                mutableInstruction.moveStart(movement);
+            }
             instructions.append(multimediaPart.asInstruction(masterBpm));
         }
         return instructions;

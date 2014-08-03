@@ -49,6 +49,16 @@ public class OldRenderer {
 		_instructions = instructions;
 	}
 
+    public void appendInstructions(Instructions instructions) {
+        try {
+            for (Instruction newInstruction : instructions.lock()) {
+                _instructions.append(newInstruction);
+            }
+        }finally {
+            instructions.unlock();
+        }
+    }
+
     /**
 	 * Add an AbstractRenderer to this OldRenderer. Each AbstractRenderer will
 	 * receive rendering AbstractInstruction events.

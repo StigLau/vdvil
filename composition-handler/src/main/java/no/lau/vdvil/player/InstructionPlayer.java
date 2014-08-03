@@ -39,4 +39,8 @@ public class InstructionPlayer implements VdvilPlayer {
     public boolean isPlaying() {
         return renderer.isRendering();
     }
+
+    public void appendInstructions(Instructions instructions) {
+        renderer.appendInstructions(instructions);
+    }
 }

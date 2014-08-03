@@ -37,7 +37,7 @@ public class RendererPlayingTest {
     @Test
     public void withRenderer() throws IOException, InterruptedException {
         PreconfiguredVdvilPlayer.cache(composition);
-        Instructions instructions1 = composition.instructions(120F);
+        Instructions instructions1 = composition.instructions(120F, 0);
         OldRenderer renderer = new OldRenderer(instructions1);
         renderer.addRenderer(new AudioRenderer(new AudioPlaybackTarget()));
         renderer.addRenderer(new ImageRenderer(200, 600));
@@ -50,7 +50,7 @@ public class RendererPlayingTest {
     @Ignore
     public void smokingGunwithAudioRenderer() throws IOException {
         AudioRenderer audioRenderer = new AudioRenderer(new AudioPlaybackTarget());
-        List<Instruction> instructions = composition.instructions(beatPattern.masterBpm).lock();
+        List<Instruction> instructions = composition.instructions(beatPattern.masterBpm, 0).lock();
         audioRenderer.notify(instructions.get(0), 0);
         audioRenderer.notify(instructions.get(1), 0);
         audioRenderer.notify(instructions.get(2), 0);
