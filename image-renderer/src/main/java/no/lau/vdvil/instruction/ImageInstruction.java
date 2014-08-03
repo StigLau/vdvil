@@ -15,7 +15,6 @@ public class ImageInstruction extends SuperInstruction {
         super(start, length, fileRepresentation);
     }
 
-    @Deprecated
     public static ImageInstruction create(MasterBeatPattern mbp, FileRepresentation fileRepresentation) {
         float speedFactor = OldRenderer.RATE * 60 / mbp.bpmAt(mbp.fromBeat);
         int _start = new Float(mbp.fromBeat * speedFactor).intValue();

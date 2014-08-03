@@ -59,7 +59,7 @@ public class JavaZoneExample {
     public void testSanityOfTimingCalculation() throws IOException {
         Composition composition = player.compose(mbp);
         //TODO CACHE composition
-        List<Instruction> ins = composition.instructions(mbp.masterBpm).lock();
+        List<Instruction> ins = composition.instructions(mbp.masterBpm, 0).lock();
         assertEquals(14, ins.size());
         printOutInstructions(ins);
 

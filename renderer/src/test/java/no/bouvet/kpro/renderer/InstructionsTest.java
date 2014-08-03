@@ -25,7 +25,7 @@ public class InstructionsTest {
     @Test
     public void testSortingByEnd() {
         List<Instruction> sortedList = testInstructions().sortedByEnd();
-        
+
         assertEquals("1-3", sortedList.get(0).toString());
         assertEquals("4-4", sortedList.get(1).toString());
         assertEquals("1-5", sortedList.get(2).toString());
