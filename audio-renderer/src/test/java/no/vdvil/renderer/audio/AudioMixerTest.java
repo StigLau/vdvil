@@ -12,18 +12,19 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.ShortBuffer;
 import java.util.TreeSet;
-
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class AudioMixerTest {
     AudioInstruction instruction;
     ShortBuffer source;
     int duration = 4410;
     int volume = 127;
-    AudioMixer mixer = new AudioMixer(new AudioPlaybackTarget());
+    AudioPlaybackTarget target = new AudioPlaybackTarget();
     int maxSamplesForTest = 814150;
     TreeSet<Instruction> instructions = Sets.newTreeSet();
 
+
+    int[] mix() { return new int[AudioMixer.MIX_FRAME * 2];}
 
     @Before
     public void setUp() throws IOException {
@@ -37,7 +38,7 @@ public class AudioMixerTest {
 
     @Test
     public void testMixSampleOutput() {
-        int[] mix = mixer.mix;
+        int[] mix = mix();
         AudioMixer.mix(source, duration, Instruction.RESOLUTION, volume, mix);
         assertEquals(8820, mix.length);
         assertEquals(0, mix[0]);
@@ -48,16 +49,17 @@ public class AudioMixerTest {
     
     @Test
     public void testSinglePass() {
-        int available = AudioMixer.singlePass(instruction, 0, mixer);
+        int[] mix = mix();
+        int available = AudioMixer.singlePass(instruction, 0, mix);
         assertEquals(4410, available);
-        assertEquals(8820, mixer.mix.length);
+        assertEquals(8820, mix.length);
     }
 
     @Test
     public void testMixItUp() {
-        int time = AudioMixer.mixItUp(instructions, 0, mixer);
+        int time = AudioMixer.mixItUp(instructions, 0, target);
         assertEquals(4410, time);
-        int time2 = AudioMixer.mixItUp(instructions, Instruction.RESOLUTION, mixer);
+        int time2 = AudioMixer.mixItUp(instructions, Instruction.RESOLUTION, target);
         assertEquals(48510, time2);
     }
 
@@ -66,7 +68,7 @@ public class AudioMixerTest {
         int time = maxSamplesForTest/2;
         System.out.println("Performing Nothing playback with " + getClass());
         while(time < maxSamplesForTest) {
-            time = AudioMixer.mixItUp(instructions, time, mixer);
+            time = AudioMixer.mixItUp(instructions, time, target);
         }
     }
 }

@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
  */
 public class AudioRenderer extends AbstractRenderer implements Runnable, Renderer {
 
-    AudioMixer audioMixer;
+    AudioTarget audioTarget;
     protected boolean _timeSource = false;
 
     protected Thread _thread;
@@ -43,7 +43,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
      * @param target the AudioTarget to send audio to
      */
     public AudioRenderer(AudioTarget target) {
-        audioMixer = new AudioMixer(target);
+        this.audioTarget = target;
     }
 
     /**
@@ -72,7 +72,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
 
         log.debug("Starting at " + ( (float)time / Instruction.RESOLUTION ) + "s with frame size " + ( (float) AudioMixer.MIX_FRAME / Instruction.RESOLUTION ) + "s" );
 
-        audioMixer.target.flush();
+        audioTarget.flush();
 
         _time = time;
         _finished = false;
@@ -92,7 +92,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
             Thread thread = _thread;
             _thread = null;
 
-            audioMixer.target.flush();
+            audioTarget.flush();
 
             while (thread.isAlive()) {
                 try {
@@ -101,7 +101,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
                 }
             }
 
-            audioMixer.target.flush();
+            audioTarget.flush();
             _active.clear();
 
             log.debug("Stopped" );
@@ -168,11 +168,11 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
                 }
                 _active = pruneByTime(_active);
 
-                _time = AudioMixer.mixItUp(Sets.<Instruction>newTreeSet(_active), _time, audioMixer);
+                _time = AudioMixer.mixItUp(Sets.<Instruction>newTreeSet(_active), _time, audioTarget);
             }
         }finally {
             log.debug("End of composition, draining target...");
-            audioMixer.target.drain();
+            audioTarget.drain();
             if (_timeSource) {
                 _renderer.notifyFinished();
             }
