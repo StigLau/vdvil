@@ -25,11 +25,6 @@ import java.util.List;
  * @author Stig Lau
  */
 public class OldRenderer {
-	/**
-	 * The fundamental time unit. There are RATE units per second.
-	 */
-	public final static int RATE = 44100;
-
 	protected ArrayList<Renderer> _renderers = new ArrayList<Renderer>();
 	protected AbstractRenderer _timeSource;
 
@@ -52,6 +47,7 @@ public class OldRenderer {
     public void appendInstructions(Instructions instructions) {
         try {
             for (Instruction newInstruction : instructions.lock()) {
+                _instructions.unlock();
                 _instructions.append(newInstruction);
             }
         }finally {

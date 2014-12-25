@@ -1,8 +1,8 @@
 package no.vdvil.renderer.audio;
 
-import no.bouvet.kpro.renderer.OldRenderer;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.lau.vdvil.cache.FileRepresentation;
+import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.instruction.SuperInstruction;
 
 /**
@@ -24,13 +24,13 @@ public class AudioInstructionV2 extends SuperInstruction{
         if(fileRepresentation.localStorage() == null)
             throw new RuntimeException(track.mediaFile.fileName + " had not been cached before creating instruction! - Downloader not set");
 
-        Float speedFactor = OldRenderer.RATE * 60 / track.bpm;
+        Float speedFactor = Instruction.RESOLUTION * 60 / track.bpm;
         Float differenceBetweenMasterSongAndPart = track.bpm / masterBpm;
         //Start and end come from the composition instructions
         int _start = new Float(start() * speedFactor * differenceBetweenMasterSongAndPart).intValue();
         int _end = new Float((start() + length()) * speedFactor * differenceBetweenMasterSongAndPart).intValue();
         //The cue is where to start inside the mp3 sample
-        Float _cue = (segmentStart + cueDifference) * speedFactor + track.mediaFile.startingOffset * OldRenderer.RATE;
+        Float _cue = (segmentStart + cueDifference) * speedFactor + track.mediaFile.startingOffset * Instruction.RESOLUTION;
         int _duration = _end - _start;
 
         AudioInstruction audioInstruction = new AudioInstruction(_start, _end, _cue.intValue(), _duration, fileRepresentation);

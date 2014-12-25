@@ -1,7 +1,7 @@
 package no.bouvet.kpro.renderer.audio;
 
-import no.bouvet.kpro.renderer.OldRenderer;
 import no.lau.vdvil.cache.FileRepresentation;
+import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.instruction.SuperInstruction;
 import java.io.IOException;
 
@@ -52,7 +52,7 @@ public class AudioInstruction extends SuperInstruction {
 		_cue = cue;
 		_duration = duration;
 
-		_rate1 = OldRenderer.RATE;
+		_rate1 = Instruction.RESOLUTION;
 		_rated = 0;
 		_volume1 = 127;
 		_volumed = 0;
@@ -93,7 +93,7 @@ public class AudioInstruction extends SuperInstruction {
 	 *            the constant rate
 	 */
 	public void setConstantRate(float rate) {
-		_rate1 = (int) (rate * OldRenderer.RATE);
+		_rate1 = (int) (rate * Instruction.RESOLUTION);
 		_rated = 0;
 	}
 
@@ -107,8 +107,8 @@ public class AudioInstruction extends SuperInstruction {
 	 *            the rate at the end of the section
 	 */
 	public void setInterpolatedRate(float rate1, float rate2) {
-		_rate1 = (int) (rate1 * OldRenderer.RATE);
-		_rated = (long) (rate2 * OldRenderer.RATE) - _rate1;
+		_rate1 = (int) (rate1 * Instruction.RESOLUTION);
+		_rated = (long) (rate2 * Instruction.RESOLUTION) - _rate1;
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class AudioInstruction extends SuperInstruction {
 	 * @param time
 	 *            the time in samples within the section, where 0 is the start
 	 *            of the section
-	 * @return the rate in integer form relative to OldRenderer.RATE
+	 * @return the rate in integer form relative to Instruction.RESOLUTION
 	 */
 	public int getInterpolatedRate(int time) {
 		return _rate1 + (int) (_rated * time / _duration);

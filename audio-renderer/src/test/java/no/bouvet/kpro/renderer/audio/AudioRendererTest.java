@@ -4,6 +4,7 @@ import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.OldRenderer;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
+import no.lau.vdvil.instruction.Instruction;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,7 @@ public class AudioRendererTest {
 			// Create the renderer instruction list
 
 			Instructions instructions = new Instructions();
-			AudioInstruction instruction = new AudioInstruction(0, 206959, 0, OldRenderer.RATE, fileRepresentation);
+			AudioInstruction instruction = new AudioInstruction(0, 206959, 0, Instruction.RESOLUTION, fileRepresentation);
 			instruction.setInterpolatedRate(0.1f, 0.4f);
 			instruction.setInterpolatedVolume(1.5f, 0.1f);
 			instructions.append(instruction);

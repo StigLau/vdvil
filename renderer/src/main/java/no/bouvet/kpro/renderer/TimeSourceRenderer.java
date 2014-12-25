@@ -116,7 +116,7 @@ public class TimeSourceRenderer extends AbstractRenderer implements Runnable {
 
 		while (_thread != null) {
 			int elapsed = (int) ((System.currentTimeMillis() - started)
-					* OldRenderer.RATE / 1000);
+					* Instruction.RESOLUTION / 1000);
 
 			_renderer.notifyTime(_time + elapsed);
 
