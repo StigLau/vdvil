@@ -4,7 +4,8 @@ import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.instruction.Instruction;
-import no.lau.vdvil.mix.util.SuperPlayingSetup;
+import no.lau.vdvil.mix.util.CompositionHelper;
+import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
 import no.lau.vdvil.timing.Interval;
 import no.vdvil.renderer.audio.TestMp3s;
 import no.lau.vdvil.handler.Composition;
@@ -14,51 +15,51 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 
 public class JavaZoneExample {
-    final SuperPlayingSetup player;
+
+    FileRepresentation jz = Store.get().cache(TestMp3s.javaZoneComposition);
     FileRepresentation returning = TestMp3s.returningJsonDvl;
     FileRepresentation not_alone = TestMp3s.not_aloneDvl;
     FileRepresentation scares_me = TestMp3s.scares_meDvl;
-    static final MasterBeatPattern mbp = new MasterBeatPattern(0, 32+64*3+ 28, 150F);
+    static final MasterBeatPattern mbp = new MasterBeatPattern(0, 32 + 64 * 3 + 28, 150F);
 
     public static void main(String[] args) throws Exception {
         new JavaZoneExample().play();
     }
-    JavaZoneExample() {
-        player = new SuperPlayingSetup() {
-            @Override
-            public Composition compose(MasterBeatPattern masterBeatPattern) throws IOException {
-                List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
-                parts.add(createAudioPart("4479230163500364845", new Interval(0, 32), not_alone));
-                parts.add(createAudioPart("5403996530329584526", new Interval(16, 32), scares_me));
-                parts.add(createAudioPart("8313187524105777940", new Interval(32, 38), not_alone));
-                parts.add(createAudioPart("5403996530329584526", new Interval(48, 16), scares_me));
-                parts.add(createAudioPart("1826025806904317462", new Interval(64, 48), scares_me));
-                parts.add(createAudioPart("6401936245564505757", new Interval(32+64, 44), returning));
-                parts.add(createAudioPart("6401936245564505757", new Interval(32+64, 44), returning));
-                parts.add(createAudioPart("6182122145512625145", new Interval(64*2, 46), returning));
-                parts.add(createAudioPart("3378726703924324403", new Interval(16+64*2, 30), returning));
-                parts.add(createAudioPart("4823965795648964701", new Interval(14+32+64*2, 1), returning));
-                parts.add(createAudioPart("5560598317419002938", new Interval(15+32+64*2, 1), returning));
-                parts.add(createAudioPart("9040781467677187716", new Interval(16+32+64*2, 64), returning));
-                parts.add(createAudioPart("8301899110835906945", new Interval(16+64*3, 16), scares_me));
-                parts.add(createAudioPart("5555459205073513470", new Interval(32+64*3, 28), scares_me));
-                return new Composition(getClass().getSimpleName(), masterBeatPattern, parts, Store.get().cache(TestMp3s.javaZoneComposition));
-            }
-        };
+
+    JavaZoneExample() throws Exception {
     }
 
     void play() {
-        player.play(mbp);
+        //player = new PreconfiguredWavSerializer(new File("/tmp/woopie.wav"));
+        new PreconfiguredVdvilPlayer().init(composition).playUntilEnd();
     }
+
+    Composition composition = new CompositionHelper() {
+        public Composition compose() {
+            List<MultimediaPart> parts = new ArrayList<>();
+            parts.add(createAudioPart("4479230163500364845", new Interval(0, 32), not_alone));
+            parts.add(createAudioPart("5403996530329584526", new Interval(16, 32), scares_me));
+            parts.add(createAudioPart("8313187524105777940", new Interval(32, 38), not_alone));
+            parts.add(createAudioPart("5403996530329584526", new Interval(48, 16), scares_me));
+            parts.add(createAudioPart("1826025806904317462", new Interval(64, 48), scares_me));
+            parts.add(createAudioPart("6401936245564505757", new Interval(32 + 64, 44), returning));
+            parts.add(createAudioPart("6401936245564505757", new Interval(32 + 64, 44), returning));
+            parts.add(createAudioPart("6182122145512625145", new Interval(64 * 2, 46), returning));
+            parts.add(createAudioPart("3378726703924324403", new Interval(16 + 64 * 2, 30), returning));
+            parts.add(createAudioPart("4823965795648964701", new Interval(14 + 32 + 64 * 2, 1), returning));
+            parts.add(createAudioPart("5560598317419002938", new Interval(15 + 32 + 64 * 2, 1), returning));
+            parts.add(createAudioPart("9040781467677187716", new Interval(16 + 32 + 64 * 2, 64), returning));
+            parts.add(createAudioPart("8301899110835906945", new Interval(16 + 64 * 3, 16), scares_me));
+            parts.add(createAudioPart("5555459205073513470", new Interval(32 + 64 * 3, 28), scares_me));
+            return new Composition(getClass().getSimpleName(), mbp, parts, jz);
+        }
+    }.compose();
 
     @Test
     public void testSanityOfTimingCalculation() throws IOException {
-        Composition composition = player.compose(mbp);
-        //TODO CACHE composition
         List<Instruction> ins = composition.instructions(mbp.masterBpm, 0).lock();
         assertEquals(14, ins.size());
         printOutInstructions(ins);
@@ -82,8 +83,8 @@ public class JavaZoneExample {
     private void printOutInstructions(List<Instruction> instructions) {
         for (int i = 0; i < instructions.size(); i++) {
             AudioInstruction ins = (AudioInstruction) instructions.get(i);
-            System.out.println("checkInstruction(ins.get("+i+"), " +
-                ins.start() + ", " + ins.length() + ", " + ins.end() + ", " + ins.getCue() + ", " + ins.getSourceDuration() + ");");
+            System.out.println("checkInstruction(ins.get(" + i + "), " +
+                    ins.start() + ", " + ins.length() + ", " + ins.end() + ", " + ins.getCue() + ", " + ins.getSourceDuration() + ");");
         }
     }
 
