@@ -1,6 +1,6 @@
 package no.bouvet.kpro.renderer.audio;
 
-import no.bouvet.kpro.renderer.OldRenderer;
+import no.lau.vdvil.instruction.Instruction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
@@ -52,8 +52,8 @@ public class WaveFileTarget implements AudioTarget {
 		_raf.writeInt(swap32(16));
 		_raf.writeShort(swap16(1));
 		_raf.writeShort(swap16(2));
-		_raf.writeInt(swap32(OldRenderer.RATE));
-		_raf.writeInt(swap32(OldRenderer.RATE * 4));
+		_raf.writeInt(swap32(Instruction.RESOLUTION));
+		_raf.writeInt(swap32(Instruction.RESOLUTION * 4));
 		_raf.writeShort(swap16(4));
 		_raf.writeShort(swap16(16));
 

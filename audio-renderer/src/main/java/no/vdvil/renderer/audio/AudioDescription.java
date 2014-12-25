@@ -1,6 +1,5 @@
 package no.vdvil.renderer.audio;
 
-import no.bouvet.kpro.renderer.OldRenderer;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.MultimediaPart;
@@ -36,14 +35,14 @@ public class AudioDescription implements MultimediaPart, MutableInstruction {
 
     @Deprecated
     public AudioInstruction asInstruction(Float masterBpm) {
-        Float speedFactor = OldRenderer.RATE * 60 / track.bpm;
+        Float speedFactor = Instruction.RESOLUTION * 60 / track.bpm;
         Float differenceBetweenMasterSongAndPart = track.bpm / masterBpm;
         //Start and end come from the composition instructions
         int _start = calculate(compositionInstruction.start() + bpmCueDifference, speedFactor, differenceBetweenMasterSongAndPart);
         int _duration = calculate(compositionInstruction.duration() + bpmCueDifference, speedFactor, differenceBetweenMasterSongAndPart);
         int _end = _start + _duration;
         //The cue is where to start inside the mp3 sample
-        int _cue = new Float((segment.start + compositionInstruction.cueDifference()) * speedFactor + track.mediaFile.startingOffset * OldRenderer.RATE).intValue();
+        int _cue = new Float((segment.start + compositionInstruction.cueDifference()) * speedFactor + track.mediaFile.startingOffset * Instruction.RESOLUTION).intValue();
 
         AudioInstruction audioInstruction = new AudioInstruction(_start, _end, _cue, _duration, fileRepresentation);
         //Set start and duration for logging purposes

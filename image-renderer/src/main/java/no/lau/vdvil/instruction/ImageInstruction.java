@@ -1,6 +1,5 @@
 package no.lau.vdvil.instruction;
 
-import no.bouvet.kpro.renderer.OldRenderer;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.timing.MasterBeatPattern;
 
@@ -16,7 +15,7 @@ public class ImageInstruction extends SuperInstruction {
     }
 
     public static ImageInstruction create(MasterBeatPattern mbp, FileRepresentation fileRepresentation) {
-        float speedFactor = OldRenderer.RATE * 60 / mbp.bpmAt(mbp.fromBeat);
+        float speedFactor = Instruction.RESOLUTION * 60 / mbp.bpmAt(mbp.fromBeat);
         int _start = new Float(mbp.fromBeat * speedFactor).intValue();
         int _end = new Float(mbp.toBeat * speedFactor).intValue();
         int lenght = _end - _start;

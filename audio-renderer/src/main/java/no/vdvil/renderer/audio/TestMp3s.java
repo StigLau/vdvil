@@ -1,11 +1,11 @@
 package no.vdvil.renderer.audio;
 
-import no.bouvet.kpro.renderer.OldRenderer;
 import no.lau.vdvil.cache.CacheMetaData;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.handler.persistence.DvlXML;
 import no.lau.vdvil.handler.persistence.PartXML;
+import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.timing.Interval;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -72,7 +72,7 @@ public class TestMp3s {
     }
 
     static Track corona() {
-        MediaFile mediaFile = new MediaFile(coronamp3, OldRenderer.RATE * 0.445f, "e0e5beecd6a34f6a8ebae2c8840769af");
+        MediaFile mediaFile = new MediaFile(coronamp3, Instruction.RESOLUTION * 0.445f, "e0e5beecd6a34f6a8ebae2c8840769af");
         List<Segment> segments = new ArrayList<Segment>();
         segments.add(new Segment("a", 0, "Baby, why can't we just stay together", 16));
         segments.add(new Segment("b", 16, "Baby, why can't we just stay together", 16));

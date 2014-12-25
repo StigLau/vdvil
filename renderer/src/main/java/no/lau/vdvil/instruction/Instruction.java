@@ -6,6 +6,11 @@ package no.lau.vdvil.instruction;
  * @since June 2012
  */
 public interface Instruction extends Comparable{
+
+    /**
+     * The fundamental time unit (resolution. There are RATE units per second.
+     */
+    public static int RESOLUTION = 44100;
     long start();
 
     long length();

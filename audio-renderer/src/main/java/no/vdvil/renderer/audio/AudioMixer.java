@@ -1,11 +1,10 @@
 package no.vdvil.renderer.audio;
 
-import no.bouvet.kpro.renderer.OldRenderer;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.AudioSource;
 import no.bouvet.kpro.renderer.audio.AudioTarget;
 import no.lau.vdvil.instruction.Instruction;
-
+import static no.lau.vdvil.instruction.Instruction.RESOLUTION;
 import java.nio.ShortBuffer;
 import java.util.SortedSet;
 
@@ -14,10 +13,11 @@ public class AudioMixer {
      * The size of a audioMixer frame, in samples. 1/10th of a second.
      */
     public final static int MIX_FRAME = 4410;
+    /**
+     * The fundamental time unit resolution. There are units per second.
+     */
 
-    byte[] output = new byte[MIX_FRAME * 4];
     int[] mix = new int[MIX_FRAME * 2];
-    int available = -1;
     public final AudioTarget target;
 
     public AudioMixer(AudioTarget target) {
@@ -30,24 +30,28 @@ public class AudioMixer {
             audioMixer.mix[fill++] = 0;
         }
 
+        int available = -1;
+        byte[] output = new byte[MIX_FRAME * 4];
+
         for (Instruction instruction : _active) {
-            if (instruction.start() > time)
-                audioMixer.available = ((Long)instruction.start()).intValue() - time;
-            else
-                audioMixer.available = singlePass((AudioInstruction) instruction, time, audioMixer);
+            if (instruction.start() > time) {
+                available = ((Long) instruction.start()).intValue() - time;
+            } else {
+                available = singlePass((AudioInstruction) instruction, time, audioMixer);
+            }
         }
-        if (audioMixer.available > 0) {
-            for (int convert = 0; convert < audioMixer.output.length;) {
+        if (available > 0) {
+            for (int convert = 0; convert < output.length;) {
                 int v = audioMixer.mix[convert >>> 1];
                 if (v > 32766)
                     v = 32766;
                 else if (v < -32766)
                     v = -32766;
-                audioMixer.output[convert++] = (byte) (v & 0xFF);
-                audioMixer.output[convert++] = (byte) (v >>> 8);
+                output[convert++] = (byte) (v & 0xFF);
+                output[convert++] = (byte) (v >>> 8);
             }
 
-            int wrote = audioMixer.target.write(audioMixer.output, 0, audioMixer.available);
+            int wrote = audioMixer.target.write(output, 0, available);
             time += wrote;
         }
         return time;
@@ -66,7 +70,7 @@ public class AudioMixer {
             while (external < _time) {
                 long rate = instruction
                         .getInterpolatedRate((int) internal);
-                frame = MIX_FRAME * rate / OldRenderer.RATE;
+                frame = MIX_FRAME * rate / RESOLUTION;
                 internal += frame;
                 external += MIX_FRAME;
             }
@@ -97,7 +101,7 @@ public class AudioMixer {
         int internal = instruction.getCacheInternal();
         int rate = instruction.getInterpolatedRate(internal);
         int volume = instruction.getInterpolatedVolume(internal);
-        int sduration = duration * rate / OldRenderer.RATE;
+        int sduration = duration * rate / RESOLUTION;
 
         instruction.advanceCache(duration, sduration);
 
@@ -117,7 +121,7 @@ public class AudioMixer {
      * @param duration
      *            the number of samples to mix, in output time
      * @param rate
-     *            the rate to mix the source samples, relative to OldRenderer.RATE
+     *            the rate to mix the source samples, relative to RESOLUTION
      * @param volume
      *            the volume to mix the source samples, relative to 127
      */
@@ -125,7 +129,7 @@ public class AudioMixer {
         int base = source.position();
 
         for (int time = 0, output = 0; time < duration; time++) {
-            int input = base + ((time * rate / OldRenderer.RATE) << 1);
+            int input = base + ((time * rate / RESOLUTION) << 1);
 
             mix[output++] += (source.get(input) * volume) >> 7;
             mix[output++] += (source.get(input + 1) * volume) >> 7;

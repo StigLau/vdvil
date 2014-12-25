@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.common.collect.Sets;
 import no.bouvet.kpro.renderer.AbstractRenderer;
-import no.bouvet.kpro.renderer.OldRenderer;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.renderer.Renderer;
 import no.vdvil.renderer.audio.AudioMixer;
@@ -71,7 +70,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
     public boolean start(int time) {
         stop();
 
-        log.debug("Starting at " + ( (float)time / OldRenderer.RATE ) + "s with frame size " + ( (float) AudioMixer.MIX_FRAME / OldRenderer.RATE ) + "s" );
+        log.debug("Starting at " + ( (float)time / Instruction.RESOLUTION ) + "s with frame size " + ( (float) AudioMixer.MIX_FRAME / Instruction.RESOLUTION ) + "s" );
 
         audioMixer.target.flush();
 
@@ -162,25 +161,27 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
      * It may also provide time source information to the master OldRenderer.
      */
     public void run() {
-        while (!_finished || !(_active.isEmpty())) {
-            if (_timeSource) {
-                _renderer.notifyTime(_time + AudioMixer.MIX_FRAME);
+        try {
+            while (!_finished || !_active.isEmpty()) {
+                if (_timeSource) {
+                    _renderer.notifyTime(_time + AudioMixer.MIX_FRAME);
+                }
+                _active = pruneByTime(_active);
+
+                _time = AudioMixer.mixItUp(Sets.<Instruction>newTreeSet(_active), _time, audioMixer);
             }
-            _active = pruneByTime(_active);
-
-            _time = AudioMixer.mixItUp(Sets.<Instruction>newTreeSet(_active), _time, audioMixer);
-        }
-        log.debug("End of composition, draining target..." );
-        audioMixer.target.drain();
-
-        if (_timeSource) {
-            _renderer.notifyFinished();
+        }finally {
+            log.debug("End of composition, draining target...");
+            audioMixer.target.drain();
+            if (_timeSource) {
+                _renderer.notifyFinished();
+            }
         }
     }
 
 
 
-    
+
 
     List<AudioInstruction> pruneByTime(List<AudioInstruction> active) {
         List<AudioInstruction> prunedList = new ArrayList<AudioInstruction>();

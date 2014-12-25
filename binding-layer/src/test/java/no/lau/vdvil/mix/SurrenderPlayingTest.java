@@ -31,13 +31,13 @@ public class SurrenderPlayingTest extends SuperPlayingSetup {
         Composition javaZone = (Composition) parser.parse(PartXML.create(TestMp3s.javaZoneComposition));
         vdvilPlayer.init(surrender);
         vdvilPlayer.addComposition(javaZone, new MasterBeatPattern(0, 32, 150F), 32);
-        vdvilPlayer.addComposition(surrender, new MasterBeatPattern(0, 64, 150F), 64);
         vdvilPlayer.play();
+        vdvilPlayer.addComposition(surrender, new MasterBeatPattern(0, 64, 150F), 64);
         System.in.read(); //Wait for enter to be pressed
         vdvilPlayer.stop();
     }
 
-    public static void main() throws IOException, IllegalAccessException {
+    public static void main(String[] s) throws IOException, IllegalAccessException {
         new SurrenderPlayingTest().play();
     }
 

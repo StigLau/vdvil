@@ -4,6 +4,7 @@ import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.OldRenderer;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
+import no.lau.vdvil.instruction.Instruction;
 import no.vdvil.renderer.audio.TestMp3s;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,9 +53,9 @@ public abstract class CompositionDemo {
 
     private static void assertAudioSourcesCorrect(AudioSource sourceA, AudioSource sourceB) throws Exception {
         // Check the durations to make sure the correct songs are used
-        if (Math.abs(sourceA.getDuration() - 10037376) > OldRenderer.RATE) {
+        if (Math.abs(sourceA.getDuration() - 10037376) > Instruction.RESOLUTION) {
             throw new Exception("Source A has the wrong duration, perhaps it is the wrong version of the song");
-        } else if (Math.abs(sourceB.getDuration() - 9895680) > OldRenderer.RATE) {
+        } else if (Math.abs(sourceB.getDuration() - 9895680) > Instruction.RESOLUTION) {
             throw new Exception("Source B has the wrong duration, perhaps it is the wrong version of the song");
         }
     }
