@@ -9,10 +9,12 @@ import no.lau.vdvil.player.VdvilPlayer;
 import no.vdvil.parser.audio.json.AudioJsonParser;
 import no.vdvil.renderer.audio.AudioXMLParser;
 import java.io.File;
+import java.util.ArrayList;
 
 public class PreconfiguredWavSerializer extends PlayerAbstract implements VdvilPlayer {
 
     public PreconfiguredWavSerializer(File resultingFile) {
+        renderers = new ArrayList<>();
         renderers.add(new AudioRenderer(new WaveFileTarget(resultingFile)));
 
         PARSE_FACADE = new ParseFacade();
