@@ -12,7 +12,7 @@ class VdvilTest {
   val vdvilPlayer = new PreconfiguredVdvilPlayer
 
   @Test def play {
-    val composition = PreconfiguredVdvilPlayer.PARSE_FACADE.parse(PartXML.create(Store.get().cache(url))).asInstanceOf[Composition]
+    val composition = new PreconfiguredVdvilPlayer().PARSE_FACADE.parse(PartXML.create(Store.get().cache(url))).asInstanceOf[Composition]
     vdvilPlayer.init(composition.withBeatPattern(new MasterBeatPattern(0, 16, 150F)))
     vdvilPlayer.play()
     while (vdvilPlayer.isPlaying)
