@@ -1,13 +1,11 @@
 package no.lau.vdvil.mix.util;
 
 import no.lau.vdvil.cache.FileRepresentation;
-import no.lau.vdvil.handler.Composition;
-import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
+import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.persistence.DvlXML;
 import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
-import no.lau.vdvil.timing.MasterBeatPattern;
 import no.lau.vdvil.timing.TimeInterval;
 import no.vdvil.renderer.audio.AudioDescription;
 import no.vdvil.renderer.audio.Segment;
@@ -17,29 +15,13 @@ import no.vdvil.renderer.lyric.LyricDescription;
 import java.io.IOException;
 import java.net.URL;
 
-public abstract class SuperPlayingSetup {
-    protected PreconfiguredVdvilPlayer vdvilPlayer;
-    public static ParseFacade parser = PreconfiguredVdvilPlayer.PARSE_FACADE;
+/**
+ * @author Stig@Lau.no - 25/12/14.
+ * Functionality for creating Compositions for test usage
+ */
+public abstract class CompositionHelper {
 
-    public abstract Composition compose(MasterBeatPattern masterBeatPattern) throws IOException;
-
-    public SuperPlayingSetup() {
-        vdvilPlayer = new PreconfiguredVdvilPlayer();
-    }
-
-    @Deprecated
-    //TODO Refactor this into PreCondiguredVdvilPlayer
-    public void play(MasterBeatPattern masterBeatPattern) {
-        try {
-            vdvilPlayer.init(compose(masterBeatPattern));
-            vdvilPlayer.play();
-            while (vdvilPlayer.isPlaying())
-                Thread.sleep(200);
-            vdvilPlayer.stop();
-        } catch (Exception e) {
-            throw new RuntimeException("This should not happen", e);
-        }
-    }
+    public static ParseFacade parser = new PreconfiguredVdvilPlayer().PARSE_FACADE;
 
     public static MultimediaPart createAudioPart(String id, TimeInterval timeInterval, FileRepresentation fileRepresentation) {
         try { return parser.parse(new PartXML(id, timeInterval, new DvlXML(fileRepresentation)));

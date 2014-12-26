@@ -22,13 +22,13 @@ public class PlayingAMixTest {
     public void play() throws IOException {
         new PreconfiguredVdvilPlayer().init(new CompositionHelper() {
             public Composition compose() {
-                List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
+                List<MultimediaPart> parts = new ArrayList<>();
                 parts.add(createAudioPart(returning.segments.get(3).id, new Interval(0, 20), TestMp3s.returningDvl));
                 //parts.add(createAudioPart("", new Interval(8, 8), psylteDvl, downloader)); //psylteFlesk.segments.get(4)
                 parts.add(createAudioPart(returning.segments.get(6).id, new Interval(12, 40), TestMp3s.returningDvl));
                 parts.add(createAudioPart(returning.segments.get(3).id, new Interval(20, 12), TestMp3s.returningDvl));
                 return new Composition(getClass().getSimpleName(), new MasterBeatPattern(0, 16, 130F), parts, FileRepresentation.NULL);
             }
-        }).playUntilEnd();
+        }.compose()).playUntilEnd();
     }
 }

@@ -11,7 +11,7 @@ import org.junit.Test;
 import java.io.IOException;
 
 public class PlayingMixFromCompositionOnWebTest {
-     ParseFacade parser = PreconfiguredVdvilPlayer.PARSE_FACADE;
+     ParseFacade parser = new PreconfiguredVdvilPlayer().PARSE_FACADE;
     @Test
     public void play() throws IOException, IllegalAccessException, InterruptedException {
         FileRepresentation fileRepresentation = TestMp3s.javaZoneCompositionJson;

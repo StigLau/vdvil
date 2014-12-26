@@ -6,8 +6,6 @@ import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.composition.CompositionAdapter;
 import no.lau.vdvil.control.Conductor;
 import no.lau.vdvil.handler.MultimediaPart;
-import static no.lau.vdvil.mix.util.SuperPlayingSetup.*;
-
 import no.lau.vdvil.renderer.MetronomeRenderer;
 import no.lau.vdvil.timing.*;
 import no.vdvil.renderer.audio.AudioRendererV2;
@@ -17,6 +15,9 @@ import no.vdvil.renderer.image.ImageRenderer;
 import no.vdvil.renderer.lyric.LyricRenderer;
 import org.junit.Test;
 import java.io.IOException;
+import static no.lau.vdvil.mix.util.CompositionHelper.createAudioPart;
+import static no.lau.vdvil.mix.util.CompositionHelper.createImagePart;
+import static no.lau.vdvil.mix.util.CompositionHelper.createLyricPart;
 
 public class RenderingV2Test {
     Store store = Store.get();
@@ -55,14 +56,14 @@ public class RenderingV2Test {
         }
     }
 
-    private MultimediaPart[] createLyricParts()  {
+    private MultimediaPart[] createLyricParts() {
         return new MultimediaPart[]{
-                        createLyricPart("Du ", new Interval(0, 4)),
-                        createLyricPart("hasst ", new Interval(4, 4)),
-                        createLyricPart("mich ", new Interval(8, 4)),
-                        createLyricPart("gefragt", new Interval(12, 4)),
-                        createLyricPart(",und ich hab nichts gesagt", new Interval(16, 4))
-                };
+                createLyricPart("Du ", new Interval(0, 4)),
+                createLyricPart("hasst ", new Interval(4, 4)),
+                createLyricPart("mich ", new Interval(8, 4)),
+                createLyricPart("gefragt", new Interval(12, 4)),
+                createLyricPart(",und ich hab nichts gesagt", new Interval(16, 4))
+        };
     }
 
     private MultimediaPart[] createImageParts()  {
