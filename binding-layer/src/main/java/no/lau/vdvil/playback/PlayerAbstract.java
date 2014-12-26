@@ -85,7 +85,7 @@ public class PlayerAbstract implements VdvilPlayer{
                 filteredPartsList.add(multimediaPart);
             }
         }
-        return new Composition(composition.name, filter, filteredPartsList, composition.fileRepresentation());
+        return new Composition(composition.name, filter, composition.fileRepresentation(), () -> filteredPartsList);
     }
 
     /**

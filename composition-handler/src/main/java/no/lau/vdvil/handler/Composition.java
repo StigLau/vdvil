@@ -14,10 +14,10 @@ public class Composition implements MultimediaPart {
     public final List<MultimediaPart> multimediaParts;
     public FileRepresentation fileRepresentation;
 
-    public Composition(String name, MasterBeatPattern masterBeatPattern, List<MultimediaPart> multimediaParts, FileRepresentation fileRepresentation) {
+    public Composition(String name, MasterBeatPattern masterBeatPattern, FileRepresentation fileRepresentation, Compositeur compositeur) {
         this.name = name;
         this.masterBeatPattern = masterBeatPattern;
-        this.multimediaParts = multimediaParts;
+        this.multimediaParts = compositeur.parts();
         this.fileRepresentation = fileRepresentation;
     }
 
@@ -57,7 +57,7 @@ public class Composition implements MultimediaPart {
      * Creates a copy of this Composition with a different beatPattern
      */
     public Composition withBeatPattern(MasterBeatPattern beatPattern) {
-        return new Composition(name, beatPattern, multimediaParts, fileRepresentation);
+        return new Composition(name, beatPattern, fileRepresentation, () -> multimediaParts);
     }
 
     public String toString() {

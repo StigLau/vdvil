@@ -1,6 +1,7 @@
 package no.lau.vdvil.mix.util;
 
 import no.lau.vdvil.cache.FileRepresentation;
+import no.lau.vdvil.handler.Compositeur;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.persistence.DvlXML;
@@ -19,7 +20,7 @@ import java.net.URL;
  * @author Stig@Lau.no - 25/12/14.
  * Functionality for creating Compositions for test usage
  */
-public abstract class CompositionHelper {
+public abstract class CompositionHelper implements Compositeur {
 
     public static ParseFacade parser = new PreconfiguredVdvilPlayer().PARSE_FACADE;
 

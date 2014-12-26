@@ -19,13 +19,13 @@ import no.vdvil.renderer.image.ImageRenderer;
 import org.junit.Ignore;
 import org.junit.Test;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RendererPlayingTest {
     Store store = Store.get();
     Track returningMp3 = TestMp3s.returning;
-    MasterBeatPattern beatPattern = new MasterBeatPattern(0, 18, 120F);
+    MasterBeatPattern mbp = new MasterBeatPattern(0, 18, 120F);
 
     @Test
     public void withRenderer() throws IOException, InterruptedException {
@@ -35,7 +35,7 @@ public class RendererPlayingTest {
         renderer.addRenderer(new AudioRenderer(new AudioPlaybackTarget()));
         renderer.addRenderer(new ImageRenderer(200, 600));
         renderer.start(0);
-        while(renderer.isRendering())
+        while (renderer.isRendering())
             Thread.sleep(1000);
     }
 
@@ -43,7 +43,7 @@ public class RendererPlayingTest {
     @Ignore
     public void smokingGunwithAudioRenderer() throws IOException {
         AudioRenderer audioRenderer = new AudioRenderer(new AudioPlaybackTarget());
-        List<Instruction> instructions = composition.instructions(beatPattern.masterBpm, 0).lock();
+        List<Instruction> instructions = composition.instructions(mbp.masterBpm, 0).lock();
         audioRenderer.notify(instructions.get(0), 0);
         audioRenderer.notify(instructions.get(1), 0);
         audioRenderer.notify(instructions.get(2), 0);
@@ -51,20 +51,18 @@ public class RendererPlayingTest {
         audioRenderer.run();
     }
 
-    Composition composition = new CompositionHelper() {
-        public Composition compose() {
-            List<MultimediaPart> parts = new ArrayList<>();
-            parts.add(createAudioPart(returningMp3.segments.get(3).id, new Interval(0, 4), TestMp3s.returningDvl));
-            parts.add(createAudioPart(returningMp3.segments.get(6).id, new Interval(4, 12), TestMp3s.returningDvl));
-            parts.add(createAudioPart(returningMp3.segments.get(9).id, new Interval(2, 18), TestMp3s.returningDvl));
-            parts.add(createAudioPart(returningMp3.segments.get(10).id, new Interval(48, 12), TestMp3s.returningDvl));
-            parts.add(createImagePart("1", new Interval(0, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/killer_shibe_huntin_phor_u_on_snow.jpg", "fbef28324d02fab54085b686cec62947")));
-            parts.add(createImagePart("2", new Interval(8, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/shibe_puppy_snow.jpg", "20ff41e030878bc25d6f24a9e1d384bf")));
-            parts.add(createImagePart("3", new Interval(32, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/shibe_lookin_at_u.jpg", "a84415d82a247b110f621ddc4874f3ce")));
-            parts.add(createImagePart("4", new Interval(48, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/shibe_window.jpg", "facde87bfa52415d669c828ac726119a")));
-            parts.add(createImagePart("5", new Interval(64, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/yawny_shibe.jpg", "80547837f13b03e412ffb607e4b0841d")));
-
-            return new Composition(getClass().getSimpleName(), beatPattern, parts, FileRepresentation.NULL);
+    Composition composition = new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
+        public List<MultimediaPart> parts() {
+            return Arrays.asList(
+                    createAudioPart(returningMp3.segments.get(3).id, new Interval(0, 4), TestMp3s.returningDvl),
+                    createAudioPart(returningMp3.segments.get(6).id, new Interval(4, 12), TestMp3s.returningDvl),
+                    createAudioPart(returningMp3.segments.get(9).id, new Interval(2, 18), TestMp3s.returningDvl),
+                    createAudioPart(returningMp3.segments.get(10).id, new Interval(48, 12), TestMp3s.returningDvl),
+                    createImagePart("1", new Interval(0, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/killer_shibe_huntin_phor_u_on_snow.jpg", "fbef28324d02fab54085b686cec62947")),
+                    createImagePart("2", new Interval(8, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/shibe_puppy_snow.jpg", "20ff41e030878bc25d6f24a9e1d384bf")),
+                    createImagePart("3", new Interval(32, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/shibe_lookin_at_u.jpg", "a84415d82a247b110f621ddc4874f3ce")),
+                    createImagePart("4", new Interval(48, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/shibe_window.jpg", "facde87bfa52415d669c828ac726119a")),
+                    createImagePart("5", new Interval(64, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/yawny_shibe.jpg", "80547837f13b03e412ffb607e4b0841d")));
         }
-    }.compose();
+    });
 }

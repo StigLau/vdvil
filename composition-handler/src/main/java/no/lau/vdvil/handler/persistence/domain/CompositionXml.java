@@ -8,7 +8,6 @@ import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ public class CompositionXml {
 
 
     public Composition asComposition(FileRepresentation fileRepresentation, ParseFacade parseFacade) {
-        List<MultimediaPart> newparts = new ArrayList<MultimediaPart>();
+        List<MultimediaPart> newparts = new ArrayList<>();
         int beatLength = 0;
         for (final PartXML partXML : this.parts) {
             int end = partXML.start() + partXML.duration();
@@ -38,6 +37,6 @@ public class CompositionXml {
                 log.error("Unable to parse or download {}", partXML.dvl.name());
             }
         }
-        return new Composition(this.name, new MasterBeatPattern(0, beatLength, this.masterBpm), newparts, fileRepresentation);
+        return new Composition(this.name, new MasterBeatPattern(0, beatLength, this.masterBpm), fileRepresentation, () -> newparts);
     }
 }
