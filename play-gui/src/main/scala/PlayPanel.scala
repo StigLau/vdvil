@@ -3,14 +3,14 @@ package no.lau.vdvil.player
 import java.net.URL
 import no.lau.vdvil.handler.Composition
 import no.lau.vdvil.handler.persistence.PartXML
-import no.lau.vdvil.playback.PreconfiguredVdvilPlayer
+import no.lau.vdvil.playback.{PlayerAbstract, PreconfiguredVdvilPlayer}
 import no.lau.vdvil.timing.MasterBeatPattern
 import swing._
 import event.ButtonClicked
 import no.lau.vdvil.cache.Store
 
 class PlayPanel(val url:URL) {
-  val parser = PreconfiguredVdvilPlayer.PARSE_FACADE
+  val parser = new PreconfiguredVdvilPlayer().PARSE_FACADE
   val store = Store.get()
   var composition: Composition = fetchComposition(url)
   def name = composition.name
@@ -36,7 +36,7 @@ class PlayPanel(val url:URL) {
     reactions += {case ButtonClicked(_) => {
 
       composition = fetchComposition(url)
-      PreconfiguredVdvilPlayer.cache(composition)
+      PlayerAbstract.cache(composition)
       stopField.text_=(composition.masterBeatPattern.toBeat.toString)
     }}
   }

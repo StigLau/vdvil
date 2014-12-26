@@ -22,7 +22,7 @@ public class ImagePanel extends JPanel implements ImageListener {
             BufferedImage tmpImage = ImageIO.read(fileRepresentation.localStorage());
             if(tmpImage != null) {
                 log.trace("Resizes {} to fit screen", fileRepresentation.remoteAddress());
-                image = resizeImageToFrameSize();
+                image = resizeImageToFrameSize(tmpImage);
                 repaint();
             }
         } catch (IOException e) {
@@ -30,9 +30,9 @@ public class ImagePanel extends JPanel implements ImageListener {
         }
     }
 
-    public Image resizeImageToFrameSize() {
-        Dimension recalculated = recalculateImageSize(image.getWidth(null), image.getHeight(null), this.getWidth(), this.getHeight());
-        return image.getScaledInstance(recalculated.width, recalculated.height, Image.SCALE_DEFAULT);
+    public Image resizeImageToFrameSize(Image img) {
+        Dimension recalculated = recalculateImageSize(img.getWidth(null), img.getHeight(null), this.getWidth(), this.getHeight());
+        return img.getScaledInstance(recalculated.width, recalculated.height, Image.SCALE_DEFAULT);
     }
 
     public Dimension recalculateImageSize(int imgWidth, int imgHeight, final int panelWidth, final int panelHeight) {
