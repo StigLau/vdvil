@@ -26,8 +26,11 @@ public class SurrenderPlayingTest {
     Store store = Store.get();
     FileRepresentation surrenderDvl;
 
-    public void play() throws IOException, IllegalAccessException {
+    public SurrenderPlayingTest() throws IOException {
         surrenderDvl = store.cache(ClassLoader.getSystemResource("Way_Out_West-Surrender-Eelke_Kleijn_Remix.dvl.xml"), "e4d263440e684878cf3b7d3ec1c44b46");
+    }
+
+    public void play() throws IOException {
         PreconfiguredVdvilPlayer vdvilPlayer = new PreconfiguredVdvilPlayer();
         Composition surrender = createComposition(new MasterBeatPattern(0, 32, 150F));
         Composition javaZone = (Composition) vdvilPlayer.PARSE_FACADE.parse(PartXML.create(TestMp3s.javaZoneComposition));
