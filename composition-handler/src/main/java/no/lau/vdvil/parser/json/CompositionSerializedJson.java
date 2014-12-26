@@ -26,7 +26,7 @@ class CompositionSerializedJson {
     Map<String, URL> dvls;
 
     public Composition asComposition(FileRepresentation fileRepresentation, ParseFacade parser) {
-        List<MultimediaPart> newparts = new ArrayList<MultimediaPart>();
+        List<MultimediaPart> newparts = new ArrayList<>();
         int beatLength = 0;
         for (final PartJson part : this.parts) {
             if (part.start + part.duration > beatLength)
@@ -37,7 +37,7 @@ class CompositionSerializedJson {
                 System.out.println("Unable to parse or download " + part.dvl.name());
             }
         }
-        return new Composition(this.name, new MasterBeatPattern(0, beatLength, this.masterBpm), newparts, fileRepresentation);
+        return new Composition(this.name, new MasterBeatPattern(0, beatLength, this.masterBpm), fileRepresentation, () -> newparts);
     }
 }
 

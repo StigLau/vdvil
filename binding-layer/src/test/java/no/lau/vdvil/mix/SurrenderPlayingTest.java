@@ -17,7 +17,7 @@ import no.vdvil.renderer.audio.AudioDescription;
 import no.vdvil.renderer.audio.TestMp3s;
 import org.junit.Test;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -116,24 +116,22 @@ public class SurrenderPlayingTest {
 
 
     Composition createComposition(MasterBeatPattern mbp) {
-        return new CompositionHelper() {
-            public Composition compose() {
-                List<MultimediaPart> parts = new ArrayList<>();
-                parts.add(createImagePart("Diving Teddy", new Interval(0, 16), store.createKey("http://www.shinyshiny.tv/teddy%20bear%201.jpg", "a9e178def69c92cc9355b1e7512dabe8")));
-                parts.add(createImagePart("Dead Teddy", new Interval(16, 16), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "4648c59ec6235407b59a0327328041b5")));
-                parts.add(createImagePart("Diving Teddy", new Interval(32, 16), store.createKey("http://farm3.static.flickr.com/2095/2282261838_276a37d325_o_d.jpg", "5afcd12326717d727f694aba4d2e1055")));
-                parts.add(createImagePart("Dead Teddy", new Interval(64, 32), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "Dootsie")));
-                parts.add(createImagePart("Diving Teddy", new Interval(240, 4), store.createKey("http://www.shinyshiny.tv/teddy%20bear%201.jpg", "hey")));
+        return new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
+            public List<MultimediaPart> parts() {
+                return Arrays.asList(
+                        createImagePart("Diving Teddy", new Interval(0, 16), store.createKey("http://www.shinyshiny.tv/teddy%20bear%201.jpg", "a9e178def69c92cc9355b1e7512dabe8")),
+                        createImagePart("Dead Teddy", new Interval(16, 16), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "4648c59ec6235407b59a0327328041b5")),
+                        createImagePart("Diving Teddy", new Interval(32, 16), store.createKey("http://farm3.static.flickr.com/2095/2282261838_276a37d325_o_d.jpg", "5afcd12326717d727f694aba4d2e1055")),
+                        createImagePart("Dead Teddy", new Interval(64, 32), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "Dootsie")),
+                        createImagePart("Diving Teddy", new Interval(240, 4), store.createKey("http://www.shinyshiny.tv/teddy%20bear%201.jpg", "hey")),
 
-                parts.add(createAudioPart("0-128Surrender", new Interval(0, 16), surrenderDvl));
-                parts.add(createAudioPart("256-352Surrender", new Interval(16, 64), surrenderDvl)); // Elguitar
-                parts.add(createAudioPart("352-512Surrender", new Interval(16 + 64, 64), surrenderDvl));
-                parts.add(createAudioPart("352-512Surrender", new Interval(16 + 64 * 2, 64 + 32), surrenderDvl));
-                parts.add(createAudioPart("480-544Surrender", new Interval(16 + 32 + 64 * 3, 64), surrenderDvl)); // Synth X2
-                parts.add(createAudioPart("768-896Surrender", new Interval(16 + 32 + 64 * 4, 128), surrenderDvl));
-
-                return new Composition("SurrenderTest", mbp, parts, surrenderDvl);
+                        createAudioPart("0-128Surrender", new Interval(0, 16), surrenderDvl),
+                        createAudioPart("256-352Surrender", new Interval(16, 64), surrenderDvl), // Elguitar
+                        createAudioPart("352-512Surrender", new Interval(16 + 64, 64), surrenderDvl),
+                        createAudioPart("352-512Surrender", new Interval(16 + 64 * 2, 64 + 32), surrenderDvl),
+                        createAudioPart("480-544Surrender", new Interval(16 + 32 + 64 * 3, 64), surrenderDvl), // Synth X2
+                        createAudioPart("768-896Surrender", new Interval(16 + 32 + 64 * 4, 128), surrenderDvl));
             }
-        }.compose();
+        });
     }
 }
