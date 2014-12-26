@@ -4,28 +4,28 @@ import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaPart;
-import no.lau.vdvil.mix.util.SuperPlayingSetup;
+import no.lau.vdvil.mix.util.CompositionHelper;
+import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.TestMp3s;
 import org.junit.Test;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TimingSyncronizationTest {
-
     FileRepresentation space = TestMp3s.spaceDvl;
     FileRepresentation surrender = TestMp3s.surrenderDvl;
     Store store = Store.get();
 
     @Test
     public void play() {
-        new SuperPlayingSetup() {
-            @Override
-            public Composition compose(MasterBeatPattern masterBeatPattern) throws IOException {
-                List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
+        new PreconfiguredVdvilPlayer().init(composition).playUntilEnd();
+    }
+
+    Composition composition = new CompositionHelper() {
+        public Composition compose() {
+            List<MultimediaPart> parts = new ArrayList<>();
         /*
         parts.add(createAudioPart(returning.segments.get(0).id, new Interval(0, 16), TestMp3s.returningDvl));
         parts.add(createAudioPart(returning.segments.get(6).id, new Interval(16, 16), TestMp3s.returningDvl));
@@ -102,9 +102,7 @@ parts.add(createImagePart("47", new Interval(160, 4), store.createKey("http://fa
 parts.add(createImagePart("48", new Interval(164, 4), store.createKey("http://farm6.static.flickr.com/5138/5483248017_97eca81997_d.jpg")));
 */
                 }
-                return new Composition(getClass().getSimpleName(), masterBeatPattern, parts, FileRepresentation.NULL);
-            }
-
-        }.play(new MasterBeatPattern(0, 128, 130F));
-    }
+            return new Composition(getClass().getSimpleName(), new MasterBeatPattern(0, 128, 130F), parts, FileRepresentation.NULL);
+        }
+    }.compose();
 }

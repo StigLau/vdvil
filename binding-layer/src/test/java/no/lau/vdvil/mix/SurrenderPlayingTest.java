@@ -9,7 +9,7 @@ import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.instruction.ImageInstruction;
 import no.lau.vdvil.instruction.Instruction;
-import no.lau.vdvil.mix.util.SuperPlayingSetup;
+import no.lau.vdvil.mix.util.CompositionHelper;
 import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
@@ -22,13 +22,15 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class SurrenderPlayingTest extends SuperPlayingSetup {
+public class SurrenderPlayingTest {
     Store store = Store.get();
     FileRepresentation surrenderDvl;
 
     public void play() throws IOException, IllegalAccessException {
-        Composition surrender = compose(new MasterBeatPattern(0, 32, 150F));
-        Composition javaZone = (Composition) parser.parse(PartXML.create(TestMp3s.javaZoneComposition));
+        surrenderDvl = store.cache(ClassLoader.getSystemResource("Way_Out_West-Surrender-Eelke_Kleijn_Remix.dvl.xml"), "e4d263440e684878cf3b7d3ec1c44b46");
+        PreconfiguredVdvilPlayer vdvilPlayer = new PreconfiguredVdvilPlayer();
+        Composition surrender = createComposition(new MasterBeatPattern(0, 32, 150F));
+        Composition javaZone = (Composition) vdvilPlayer.PARSE_FACADE.parse(PartXML.create(TestMp3s.javaZoneComposition));
         vdvilPlayer.init(surrender);
         vdvilPlayer.addComposition(javaZone, new MasterBeatPattern(0, 32, 150F), 32);
         vdvilPlayer.play();
@@ -43,7 +45,7 @@ public class SurrenderPlayingTest extends SuperPlayingSetup {
 
     @Test
     public void testTimeIntervalsProducedForInstructions() throws IOException {
-        Composition composition = compose(new MasterBeatPattern(0, 256, 120F));
+        Composition composition = createComposition(new MasterBeatPattern(0, 256, 120F));
         PreconfiguredVdvilPlayer.cache(composition);
         Instructions instructions = composition.instructions(120F, null);
         List<Instruction> instructionList = instructions.lock();
@@ -84,7 +86,7 @@ public class SurrenderPlayingTest extends SuperPlayingSetup {
 
     @Test
     public void testIntegrityOfInstructions() throws IOException {
-        Composition composition = compose(new MasterBeatPattern(0, 128, 130F));
+        Composition composition = createComposition(new MasterBeatPattern(0, 128, 130F));
         List<MultimediaPart> parts = composition.multimediaParts;
         assertEquals(0, ((AudioDescription) parts.get(5)).compositionInstruction.start());
         assertEquals(16, ((AudioDescription) parts.get(5)).compositionInstruction.duration());
@@ -113,22 +115,25 @@ public class SurrenderPlayingTest extends SuperPlayingSetup {
     }
 
 
-    public Composition compose(MasterBeatPattern masterBeatPattern) throws IOException {
-        surrenderDvl = store.cache(ClassLoader.getSystemResource("Way_Out_West-Surrender-Eelke_Kleijn_Remix.dvl.xml"), "e4d263440e684878cf3b7d3ec1c44b46");
-        List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
-        parts.add(createImagePart("Diving Teddy", new Interval(0, 16), store.createKey("http://www.shinyshiny.tv/teddy%20bear%201.jpg", "a9e178def69c92cc9355b1e7512dabe8")));
-        parts.add(createImagePart("Dead Teddy", new Interval(16, 16), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "4648c59ec6235407b59a0327328041b5")));
-        parts.add(createImagePart("Diving Teddy", new Interval(32, 16), store.createKey("http://farm3.static.flickr.com/2095/2282261838_276a37d325_o_d.jpg", "5afcd12326717d727f694aba4d2e1055")));
-        parts.add(createImagePart("Dead Teddy", new Interval(64, 32), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "Dootsie")));
-        parts.add(createImagePart("Diving Teddy", new Interval(240, 4), store.createKey("http://www.shinyshiny.tv/teddy%20bear%201.jpg", "hey")));
+    Composition createComposition(MasterBeatPattern mbp) {
+        return new CompositionHelper() {
+            public Composition compose() {
+                List<MultimediaPart> parts = new ArrayList<>();
+                parts.add(createImagePart("Diving Teddy", new Interval(0, 16), store.createKey("http://www.shinyshiny.tv/teddy%20bear%201.jpg", "a9e178def69c92cc9355b1e7512dabe8")));
+                parts.add(createImagePart("Dead Teddy", new Interval(16, 16), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "4648c59ec6235407b59a0327328041b5")));
+                parts.add(createImagePart("Diving Teddy", new Interval(32, 16), store.createKey("http://farm3.static.flickr.com/2095/2282261838_276a37d325_o_d.jpg", "5afcd12326717d727f694aba4d2e1055")));
+                parts.add(createImagePart("Dead Teddy", new Interval(64, 32), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "Dootsie")));
+                parts.add(createImagePart("Diving Teddy", new Interval(240, 4), store.createKey("http://www.shinyshiny.tv/teddy%20bear%201.jpg", "hey")));
 
-        parts.add(createAudioPart("0-128Surrender",   new Interval(0, 16), surrenderDvl));
-        parts.add(createAudioPart("256-352Surrender", new Interval(16, 64), surrenderDvl)); // Elguitar
-        parts.add(createAudioPart("352-512Surrender", new Interval(16+64, 64), surrenderDvl));
-        parts.add(createAudioPart("352-512Surrender", new Interval(16+64*2, 64+32), surrenderDvl));
-        parts.add(createAudioPart("480-544Surrender", new Interval(16+32+64*3, 64), surrenderDvl)); // Synth X2
-        parts.add(createAudioPart("768-896Surrender", new Interval(16+32+64*4, 128), surrenderDvl));
+                parts.add(createAudioPart("0-128Surrender", new Interval(0, 16), surrenderDvl));
+                parts.add(createAudioPart("256-352Surrender", new Interval(16, 64), surrenderDvl)); // Elguitar
+                parts.add(createAudioPart("352-512Surrender", new Interval(16 + 64, 64), surrenderDvl));
+                parts.add(createAudioPart("352-512Surrender", new Interval(16 + 64 * 2, 64 + 32), surrenderDvl));
+                parts.add(createAudioPart("480-544Surrender", new Interval(16 + 32 + 64 * 3, 64), surrenderDvl)); // Synth X2
+                parts.add(createAudioPart("768-896Surrender", new Interval(16 + 32 + 64 * 4, 128), surrenderDvl));
 
-        return new Composition("SurrenderTest", masterBeatPattern, parts, surrenderDvl);
+                return new Composition("SurrenderTest", mbp, parts, surrenderDvl);
+            }
+        }.compose();
     }
 }
