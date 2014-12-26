@@ -44,17 +44,15 @@ public class ImageRenderer extends AbstractRenderer implements Renderer {
 
     private void renderStuff(final FileRepresentation fileRepresentation) {
         for (final ImageListener imageListener : listener) {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    try {
-                        imageListener.show(fileRepresentation);
-                    } catch (Exception e) {
-                        log.error("Error loading image {}", fileRepresentation, e);
-                    }
+            SwingUtilities.invokeLater(() -> {
+                try {
+                    imageListener.show(fileRepresentation);
+                } catch (Exception e) {
+                    log.error("Error loading image {}", fileRepresentation, e);
                 }
             });
-                if(!frame.isVisible())
-                    frame.setVisible(true);
+            if (!frame.isVisible())
+                frame.setVisible(true);
         }
     }
 

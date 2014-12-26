@@ -13,7 +13,7 @@ import java.io.IOException;
 public class PlayingMixFromCompositionOnWebTest {
      ParseFacade parser = new PreconfiguredVdvilPlayer().PARSE_FACADE;
     @Test
-    public void play() throws IOException, IllegalAccessException, InterruptedException {
+    public void play() throws IOException, InterruptedException {
         FileRepresentation fileRepresentation = TestMp3s.javaZoneCompositionJson;
         PreconfiguredVdvilPlayer vdvilPlayer = new PreconfiguredVdvilPlayer();
         Composition composition = (Composition) parser.parse(PartXML.create(fileRepresentation));
