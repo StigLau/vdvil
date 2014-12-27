@@ -10,7 +10,7 @@ import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.mix.util.CompositionHelper;
-import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
+import no.lau.vdvil.playback.BackStage;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.TestMp3s;
@@ -29,7 +29,7 @@ public class RendererPlayingTest {
 
     @Test
     public void withRenderer() throws IOException, InterruptedException {
-        PreconfiguredVdvilPlayer.cache(composition);
+        BackStage.cache(composition);
         Instructions instructions1 = composition.instructions(120F, 0);
         OldRenderer renderer = new OldRenderer(instructions1);
         renderer.addRenderer(new AudioRenderer(new AudioPlaybackTarget()));

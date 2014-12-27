@@ -6,17 +6,16 @@ import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.instruction.Instruction;
-import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
+import no.lau.vdvil.playback.BackStage;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.lau.vdvil.timing.TimeInterval;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 
-public class PreconfiguredVdvilPlayerTest {
+public class VdvilAudioConfigTest {
     MasterBeatPattern filter = new MasterBeatPattern(4, 8, -1F);
 
     @Test
@@ -24,14 +23,14 @@ public class PreconfiguredVdvilPlayerTest {
         List<MultimediaPart> parts = new ArrayList<>();
         parts.add(instructionDummy("Ends BeforeFilter", new Interval(0, 4)));
         parts.add(instructionDummy("AfterEnd", new Interval(12, 6)));
-        Composition filteredComposition = PreconfiguredVdvilPlayer.filterByTime(createComposition(parts), filter);
+        Composition filteredComposition = BackStage.filterByTime(createComposition(parts), filter);
         assertEquals(0, filteredComposition.multimediaParts.size());
     }
     @Test
     public void croppedInBothEnds() {
         List<MultimediaPart> parts = new ArrayList<>();
         parts.add(instructionDummy("LoongSectionNeedsToBeClippedInBothEnds", new Interval(2, 15)));
-        Composition filteredComposition = PreconfiguredVdvilPlayer.filterByTime(createComposition(parts), filter);
+        Composition filteredComposition = BackStage.filterByTime(createComposition(parts), filter);
         CompositionInstruction cropped = filteredComposition.multimediaParts.get(0).compositionInstruction();
         assertEquals(4, cropped.start());
         assertEquals(8, cropped.end());
@@ -41,7 +40,7 @@ public class PreconfiguredVdvilPlayerTest {
     public void croppingStart() {
         List<MultimediaPart> parts = new ArrayList<>();
         parts.add(instructionDummy("StartClippedByFilter", new Interval(2, 4)));
-        Composition filteredComposition = PreconfiguredVdvilPlayer.filterByTime(createComposition(parts), filter);
+        Composition filteredComposition = BackStage.filterByTime(createComposition(parts), filter);
         CompositionInstruction cropped = filteredComposition.multimediaParts.get(0).compositionInstruction();
         assertEquals(4, cropped.start());
         assertEquals(6, cropped.end());
@@ -50,7 +49,7 @@ public class PreconfiguredVdvilPlayerTest {
     public void croppingEnd() {
         List<MultimediaPart> parts = new ArrayList<>();
         parts.add(instructionDummy("EndClippedByFilter", new Interval(6, 4)));
-        Composition filteredComposition = PreconfiguredVdvilPlayer.filterByTime(createComposition(parts), filter);
+        Composition filteredComposition = BackStage.filterByTime(createComposition(parts), filter);
         CompositionInstruction cropped = filteredComposition.multimediaParts.get(0).compositionInstruction();
         assertEquals(6, cropped.start());
         assertEquals(8, cropped.end());
@@ -61,7 +60,7 @@ public class PreconfiguredVdvilPlayerTest {
         List<MultimediaPart> parts = new ArrayList<>();
         parts.add(instructionDummy("InsideFilter", new Interval(4, 4)));
         parts.add(instructionDummy("SpaciouslyInsideFilter", new Interval(5, 2)));
-        Composition filteredComposition = PreconfiguredVdvilPlayer.filterByTime(createComposition(parts), filter);
+        Composition filteredComposition = BackStage.filterByTime(createComposition(parts), filter);
         assertEquals(2, filteredComposition.multimediaParts.size());
     }
 

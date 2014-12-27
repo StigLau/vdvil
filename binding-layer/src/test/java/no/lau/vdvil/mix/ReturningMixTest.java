@@ -4,7 +4,7 @@ import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.mix.util.CompositionHelper;
-import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
+import no.lau.vdvil.playback.BackStage;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.TestMp3s;
@@ -19,7 +19,7 @@ public class ReturningMixTest {
 
     @Test
     public void play() {
-        new PreconfiguredVdvilPlayer().init(composition).playUntilEnd();
+        new BackStage().prepare(composition).playUntilEnd();
     }
 
     Composition composition = new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
