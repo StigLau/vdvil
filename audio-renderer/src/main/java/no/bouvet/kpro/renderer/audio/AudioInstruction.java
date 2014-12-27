@@ -60,9 +60,6 @@ public class AudioInstruction extends SuperInstruction {
 
     /**
 	 * Get the AudioSource.
-	 *
-	 * @return the AudioSource
-     * TODO Possibly called WAY too many times!!
 	 */
 	public AudioSource getSource() {
         return source;
