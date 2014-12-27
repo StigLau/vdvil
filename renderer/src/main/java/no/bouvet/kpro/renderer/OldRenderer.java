@@ -47,7 +47,6 @@ public class OldRenderer {
     public void appendInstructions(Instructions instructions) {
         try {
             for (Instruction newInstruction : instructions.lock()) {
-                _instructions.unlock();
                 _instructions.append(newInstruction);
             }
         }finally {
@@ -87,20 +86,19 @@ public class OldRenderer {
 	 * @param time the time in samples to start rendering
 	 * @return true if rendering started
 	 */
-	public synchronized boolean start(int time) {
+	public synchronized void start(int time) {
 		stop();
 
-		if (_renderers.isEmpty()) {
-			return false;
-		} else if ((time < 0) || (time >= _instructions.getDuration())) {
-			return false;
-		} else if (_timeSource == null) {
+		if (_renderers.isEmpty() || ((time < 0) || (time >= _instructions.getDuration()))) {
+			fail();
+		}
+        if (_timeSource == null) {
 			addRenderer(new TimeSourceRenderer());
 		}
 
 		_instructionList = _instructions.lock();
 		if (_instructionList == null)
-			return false;
+			fail();
 
 		for (_instructionPtr = 0; _instructionPtr < _instructionList.size(); _instructionPtr++) {
 			Instruction instruction = _instructionList.get(_instructionPtr);
@@ -109,50 +107,33 @@ public class OldRenderer {
 		}
 
 		if (_instructionPtr >= _instructionList.size()) {
-			_instructionList = null;
-			_instructions.unlock();
-
-			return false;
+			fail();
 		}
 
-		ArrayList<AbstractRenderer> started = new ArrayList<AbstractRenderer>();
-		boolean failure = false;
+		ArrayList<AbstractRenderer> started = new ArrayList<>();
 
+        log.info("Starting renderers that are not timesource");
 		for (Renderer renderer : _renderers) {
             AbstractRenderer abstractRenderer = (AbstractRenderer) renderer;
 			if (abstractRenderer != _timeSource) {
-				if (abstractRenderer.start(time)) {
-					started.add(abstractRenderer);
-				} else {
-					failure = true;
-					break;
-				}
+                log.info("{} started", abstractRenderer);
+				abstractRenderer.start(time);
+                started.add(abstractRenderer);
 			}
 		}
 
-		if (!failure) {
-			if (_timeSource.start(time)) {
-				started.add(_timeSource);
-			} else {
-				failure = true;
-			}
-		}
 
-		if (failure) {
-			for (AbstractRenderer renderer : started) {
-				renderer.stop();
-			}
-
-			_instructionList = null;
-			_instructions.unlock();
-
-			return false;
-		}
+        log.info("TimeSource {} started", _timeSource);
+        _timeSource.start(time);
+        started.add(_timeSource);
 
 		_rendering = true;
-
-		return true;
 	}
+
+    void fail() {
+        stop();
+        throw new RuntimeException("Renderer start failed. Cleaned up");
+    }
 
 	/**
 	 * Stop rendering.

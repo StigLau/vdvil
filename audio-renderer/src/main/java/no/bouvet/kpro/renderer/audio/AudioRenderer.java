@@ -64,10 +64,9 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
      *
      * @param time
      *            The time in samples when rendering begins
-     * @return true
      */
     @Override
-    public boolean start(int time) {
+    public void start(int time) {
         stop();
 
         log.debug("Starting at " + ( (float)time / Instruction.RESOLUTION ) + "s with frame size " + ( (float) AudioMixer.MIX_FRAME / Instruction.RESOLUTION ) + "s" );
@@ -79,8 +78,6 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
 
         _thread = new Thread(this);
         _thread.start();
-
-        return true;
     }
 
     /**
