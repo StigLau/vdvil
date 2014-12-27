@@ -3,14 +3,14 @@ package no.lau.vdvil.player
 import java.net.URL
 import no.lau.vdvil.handler.Composition
 import no.lau.vdvil.handler.persistence.PartXML
-import no.lau.vdvil.playback.{PlayerAbstract, PreconfiguredVdvilPlayer}
+import no.lau.vdvil.playback.{BackStage, VdvilAudioConfig}
 import no.lau.vdvil.timing.MasterBeatPattern
 import swing._
 import event.ButtonClicked
 import no.lau.vdvil.cache.Store
 
 class PlayPanel(val url:URL) {
-  val parser = new PreconfiguredVdvilPlayer().PARSE_FACADE
+  val parser = new VdvilAudioConfig().getParseFacade;
   val store = Store.get()
   var composition: Composition = fetchComposition(url)
   def name = composition.name
@@ -30,23 +30,22 @@ class PlayPanel(val url:URL) {
   val startField = new TextField("0", 4)
   val stopField = new TextField(beatPattern.toBeat.toString, 4)
   val playCompositionButton = new Button("Play Composition") {
-    reactions += {case ButtonClicked(_) => compositionPlayer.pauseAndplay(new MasterBeatPattern(startField.text.toInt, stopField.text.toInt, bpmField.text.toFloat))}
+    reactions += {case ButtonClicked(_) => pauseAndplay(new MasterBeatPattern(startField.text.toInt, stopField.text.toInt, bpmField.text.toFloat))}
   }
   val reloadButton = new Button("Reload Composition") {
     reactions += {case ButtonClicked(_) => {
 
       composition = fetchComposition(url)
-      PlayerAbstract.cache(composition)
+      BackStage.cache(composition)
       stopField.text_=(composition.masterBeatPattern.toBeat.toString)
     }}
   }
-  val compositionPlayer = new PreconfiguredVdvilPlayer() {
-    def pauseAndplay(beatPattern:MasterBeatPattern) {
-      stop
-      init(composition, beatPattern)
-      println("Playing " + composition.name + " " + beatPattern)
-      play
-    }
+  val compositionPlayer = new BackStage().prepare(composition, beatPattern)
+
+  def pauseAndplay(beatPattern: MasterBeatPattern) {
+    compositionPlayer.stop
+    println("Playing " + composition.name + " " + beatPattern)
+    compositionPlayer.play
   }
 
   def fetchComposition(url:URL) = parser.parse(PartXML.create(store.cache(url))).asInstanceOf[Composition]
