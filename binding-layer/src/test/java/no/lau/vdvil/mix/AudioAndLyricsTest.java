@@ -2,7 +2,7 @@ package no.lau.vdvil.mix;
 
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.mix.util.CompositionHelper;
-import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
+import no.lau.vdvil.playback.BackStage;
 import no.lau.vdvil.timing.Interval;
 import no.vdvil.renderer.audio.TestMp3s;
 import no.lau.vdvil.handler.Composition;
@@ -21,7 +21,7 @@ public class AudioAndLyricsTest {
 
     @Test
     public void play() {
-        new PreconfiguredVdvilPlayer().init(composition).playUntilEnd();
+        new BackStage().prepare(composition).playUntilEnd();
     }
 
     Composition composition = new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {

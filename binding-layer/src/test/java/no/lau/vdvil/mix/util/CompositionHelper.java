@@ -6,7 +6,7 @@ import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.persistence.DvlXML;
 import no.lau.vdvil.handler.persistence.PartXML;
-import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
+import no.lau.vdvil.playback.VdvilAudioConfig;
 import no.lau.vdvil.timing.TimeInterval;
 import no.vdvil.renderer.audio.AudioDescription;
 import no.vdvil.renderer.audio.Segment;
@@ -22,7 +22,7 @@ import java.net.URL;
  */
 public abstract class CompositionHelper implements Compositeur {
 
-    public static ParseFacade parser = new PreconfiguredVdvilPlayer().PARSE_FACADE;
+    public static ParseFacade parser = new VdvilAudioConfig().getParseFacade();
 
     public static MultimediaPart createAudioPart(String id, TimeInterval timeInterval, FileRepresentation fileRepresentation) {
         try { return parser.parse(new PartXML(id, timeInterval, new DvlXML(fileRepresentation)));

@@ -4,57 +4,66 @@ import no.bouvet.kpro.renderer.Instructions;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaPart;
-import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.handler.persistence.MutableCompositionInstruction;
 import no.lau.vdvil.player.InstructionPlayer;
 import no.lau.vdvil.player.VdvilPlayer;
+import no.lau.vdvil.player.VdvilPlayerConfig;
 import no.lau.vdvil.renderer.Renderer;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.AudioDescription;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Backstage is where the preperation before performing is done;
+ * Deserilizing compositions, caching files and preparing object graphs.
  * @author Stig@Lau.no - 25/12/14.
  */
-public class PlayerAbstract implements VdvilPlayer{
-    static Logger log = LoggerFactory.getLogger(PreconfiguredWavSerializer.class);
-    public ParseFacade PARSE_FACADE;
+public class BackStage {
+    static Logger log = LoggerFactory.getLogger(BackStage.class);
 
     List<Renderer> renderers;
 
-    VdvilPlayer player = VdvilPlayer.NULL;
     static Store store = Store.get();
-    private boolean initialized = false;
 
-    public VdvilPlayer init(Composition composition) {
-        return init(composition, composition.masterBeatPattern);
+    /**
+     * Playback to audio Config
+     */
+    public BackStage() {
+        renderers = new VdvilAudioConfig().getRenderers();
     }
 
-    public VdvilPlayer init(Composition composition, MasterBeatPattern beatPatternFilter) {
-        if (isPlaying()) {
-            throw new RuntimeException("Don't change the player during playback. Please stop first");
-        }
-        player = new InstructionPlayer(beatPatternFilter, new Instructions(), renderers);
+    /**
+     * Choose playback configuration, like wav persistence
+     */
+    public BackStage(VdvilPlayerConfig config) {
+        renderers = config.getRenderers();
+    }
+
+
+    public VdvilPlayer prepare(Composition composition) {
+        return prepare(composition, composition.masterBeatPattern);
+    }
+
+    public VdvilPlayer prepare(Composition composition, MasterBeatPattern beatPatternFilter) {
+        InstructionPlayer player = new InstructionPlayer(beatPatternFilter, new Instructions(), renderers);
         try {
-            addComposition(composition, beatPatternFilter, 0);
+            addComposition(player, composition, beatPatternFilter, 0);
         } catch (IOException e) {
             log.error("These errors should not happen", e);
         }
-        this.initialized = true;
-        return this;
+        return player;
     }
 
-    public void addComposition(Composition composition, MasterBeatPattern beatPatternFilter, Integer cueDifference) throws IOException {
+    public void addComposition(InstructionPlayer player, Composition composition, MasterBeatPattern beatPatternFilter, Integer cueDifference) throws IOException {
         Composition cachedComposition = cache(filterByTime(composition, beatPatternFilter));
         Instructions instructions = cachedComposition.instructions(beatPatternFilter.masterBpm, cueDifference);
-        ((InstructionPlayer) player).appendInstructions(instructions);
+        player.appendInstructions(instructions);
     }
 
     public static Composition filterByTime(Composition composition, MasterBeatPattern filter) {
@@ -101,34 +110,5 @@ public class PlayerAbstract implements VdvilPlayer{
             }
         }
         return composition;
-    }
-
-    public VdvilPlayer play() {
-        if(!initialized || player == NULL)
-            throw new RuntimeException(getClass().getSimpleName() + ".init has not been run!");
-        player.play();
-        return this;
-    }
-
-    @Deprecated //Should perhaps not use this....
-    public void playUntilEnd() {
-        try {
-            play();
-            while (isPlaying())
-                Thread.sleep(200);
-            stop();
-        } catch (Exception e) {
-            throw new RuntimeException("This should not happen", e);
-        }
-    }
-
-    public VdvilPlayer stop() {
-        if(isPlaying())
-            player.stop();
-        return this;
-    }
-
-    public boolean isPlaying() {
-        return player != NULL && player.isPlaying();
     }
 }

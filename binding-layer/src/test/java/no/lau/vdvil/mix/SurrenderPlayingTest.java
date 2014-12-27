@@ -10,7 +10,9 @@ import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.instruction.ImageInstruction;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.mix.util.CompositionHelper;
-import no.lau.vdvil.playback.PreconfiguredVdvilPlayer;
+import no.lau.vdvil.playback.BackStage;
+import no.lau.vdvil.playback.VdvilAudioConfig;
+import no.lau.vdvil.player.InstructionPlayer;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.AudioDescription;
@@ -31,13 +33,13 @@ public class SurrenderPlayingTest {
     }
 
     public void play() throws IOException {
-        PreconfiguredVdvilPlayer vdvilPlayer = new PreconfiguredVdvilPlayer();
+        BackStage backStage = new BackStage();
         Composition surrender = createComposition(new MasterBeatPattern(0, 32, 150F));
-        Composition javaZone = (Composition) vdvilPlayer.PARSE_FACADE.parse(PartXML.create(TestMp3s.javaZoneComposition));
-        vdvilPlayer.init(surrender);
-        vdvilPlayer.addComposition(javaZone, new MasterBeatPattern(0, 32, 150F), 32);
+        Composition javaZone = (Composition) new VdvilAudioConfig().getParseFacade().parse(PartXML.create(TestMp3s.javaZoneComposition));
+        InstructionPlayer vdvilPlayer = (InstructionPlayer) backStage.prepare(surrender);
+        backStage.addComposition(vdvilPlayer, javaZone, new MasterBeatPattern(0, 32, 150F), 32);
         vdvilPlayer.play();
-        vdvilPlayer.addComposition(surrender, new MasterBeatPattern(0, 64, 150F), 64);
+        backStage.addComposition(vdvilPlayer, surrender, new MasterBeatPattern(0, 64, 150F), 64);
         System.in.read(); //Wait for enter to be pressed
         vdvilPlayer.stop();
     }
@@ -49,7 +51,7 @@ public class SurrenderPlayingTest {
     @Test
     public void testTimeIntervalsProducedForInstructions() throws IOException {
         Composition composition = createComposition(new MasterBeatPattern(0, 256, 120F));
-        PreconfiguredVdvilPlayer.cache(composition);
+        BackStage.cache(composition);
         Instructions instructions = composition.instructions(120F, null);
         List<Instruction> instructionList = instructions.lock();
 

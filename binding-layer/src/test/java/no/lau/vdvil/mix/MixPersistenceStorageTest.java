@@ -3,7 +3,8 @@ package no.lau.vdvil.mix;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.mix.util.CompositionHelper;
-import no.lau.vdvil.playback.PreconfiguredWavSerializer;
+import no.lau.vdvil.playback.BackStage;
+import no.lau.vdvil.playback.VdvilWavConfig;
 import no.lau.vdvil.timing.Interval;
 import no.vdvil.renderer.audio.TestMp3s;
 import no.lau.vdvil.handler.Composition;
@@ -28,7 +29,7 @@ public class MixPersistenceStorageTest {
     @Test
     public void play() throws IOException {
         File testFile = new File("/tmp/" + getClass().getSimpleName() + new Random().nextInt() + ".wav");
-        new PreconfiguredWavSerializer(testFile).init(composition).playUntilEnd();
+        new BackStage(new VdvilWavConfig(testFile)).prepare(composition).playUntilEnd();
         String fileCheckSum = DigestUtils.md5Hex(new FileInputStream(testFile));
         assertEquals("1758f12b33f68880dc0953aa04292c85", fileCheckSum);
         if(!testFile.delete()) {
