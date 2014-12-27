@@ -52,18 +52,19 @@ public class BackStage {
 
     public VdvilPlayer prepare(Composition composition, MasterBeatPattern beatPatternFilter) {
         InstructionPlayer player = new InstructionPlayer(beatPatternFilter, new Instructions(), renderers);
+        return addComposition(player, composition, beatPatternFilter, 0);
+    }
+
+    public InstructionPlayer addComposition(InstructionPlayer player, Composition composition, MasterBeatPattern beatPatternFilter, Integer cueDifference) {
         try {
-            addComposition(player, composition, beatPatternFilter, 0);
+            Composition cachedComposition = cache(filterByTime(composition, beatPatternFilter));
+            Instructions instructions = cachedComposition.instructions(beatPatternFilter.masterBpm, cueDifference);
+            player.appendInstructions(instructions);
+
         } catch (IOException e) {
             log.error("These errors should not happen", e);
         }
         return player;
-    }
-
-    public void addComposition(InstructionPlayer player, Composition composition, MasterBeatPattern beatPatternFilter, Integer cueDifference) throws IOException {
-        Composition cachedComposition = cache(filterByTime(composition, beatPatternFilter));
-        Instructions instructions = cachedComposition.instructions(beatPatternFilter.masterBpm, cueDifference);
-        player.appendInstructions(instructions);
     }
 
     public static Composition filterByTime(Composition composition, MasterBeatPattern filter) {
