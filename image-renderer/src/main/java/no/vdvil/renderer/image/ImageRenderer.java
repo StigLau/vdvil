@@ -29,11 +29,6 @@ public class ImageRenderer extends AbstractRenderer implements Renderer {
         }
     }
 
-    @Override
-    public boolean start(int time) {
-        return true;
-    }
-
     public void notify(Instruction instruction, long beat) {
         if (instruction instanceof ImageInstruction) {
             log.info("BPM: {} start:{} actual:{}", instruction, instruction.start(), beat);

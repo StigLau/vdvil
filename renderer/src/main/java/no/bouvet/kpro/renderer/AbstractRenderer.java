@@ -59,10 +59,8 @@ public abstract class AbstractRenderer implements Renderer {
 	 * 
 	 * @param time
 	 *            The time in samples when rendering begins
-	 * @return true if the AbstractRenderer started
 	 */
-	public boolean start(int time) {
-		return true;
+	public void start(int time) {
 	}
 
 	/**

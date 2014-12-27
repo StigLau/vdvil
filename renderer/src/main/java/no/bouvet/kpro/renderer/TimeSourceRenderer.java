@@ -24,12 +24,6 @@ public class TimeSourceRenderer extends AbstractRenderer implements Runnable {
 	protected int _time;
 
 	/**
-	 * Construct a new TimeSourceRenderer instance.
-	 */
-	public TimeSourceRenderer() {
-	}
-
-	/**
 	 * Request that this TimeSourceRenderer become the time source. It will
 	 * always agree.
 	 * 
@@ -44,9 +38,8 @@ public class TimeSourceRenderer extends AbstractRenderer implements Runnable {
 	 * Start this TimeSourceRenderer, at the given point in time.
 	 * 
 	 * @param time The time in samples when rendering begins
-	 * @return true, always
 	 */
-	public boolean start(int time) {
+	public void start(int time) {
 		stop();
 
 		if (_timeSource) {
@@ -55,8 +48,6 @@ public class TimeSourceRenderer extends AbstractRenderer implements Runnable {
 			_thread = new Thread(this);
 			_thread.start();
 		}
-
-		return true;
 	}
 
 	/**
