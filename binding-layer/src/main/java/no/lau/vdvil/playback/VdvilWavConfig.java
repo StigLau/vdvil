@@ -9,15 +9,31 @@ import no.lau.vdvil.player.VdvilPlayerConfig;
 import no.lau.vdvil.renderer.Renderer;
 import no.vdvil.parser.audio.json.AudioJsonParser;
 import no.vdvil.renderer.audio.AudioXMLParser;
+import org.apache.commons.codec.digest.DigestUtils;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class VdvilWavConfig implements VdvilPlayerConfig {
-    private final File resultingFile;
+    public final File resultingFile;
 
-    public VdvilWavConfig(File resultingFile) {
-        this.resultingFile = resultingFile;
+    /**
+     * As a testfile, the file will be deleted on exit
+     */
+    public VdvilWavConfig(Object fileOwner) {
+        String filename = fileOwner.getClass().getSimpleName();
+        try {
+            resultingFile = File.createTempFile(filename, ".wav");
+            resultingFile.deleteOnExit();
+        } catch (IOException e) {
+            throw new RuntimeException("Could not create tempfile " + filename, e);
+        }
+    }
+
+    public String checksum() throws IOException {
+        return DigestUtils.md5Hex(new FileInputStream(resultingFile));
     }
 
     public ParseFacade getParseFacade() {

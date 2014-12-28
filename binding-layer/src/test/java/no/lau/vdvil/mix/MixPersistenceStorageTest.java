@@ -10,16 +10,11 @@ import no.vdvil.renderer.audio.TestMp3s;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.Track;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 public class MixPersistenceStorageTest {
     FileRepresentation psylteDvl = TestMp3s.psylteDvl;
@@ -28,13 +23,9 @@ public class MixPersistenceStorageTest {
 
     @Test
     public void play() throws IOException {
-        File testFile = new File("/tmp/" + getClass().getSimpleName() + new Random().nextInt() + ".wav");
-        new BackStage(new VdvilWavConfig(testFile)).prepare(composition).playUntilEnd();
-        String fileCheckSum = DigestUtils.md5Hex(new FileInputStream(testFile));
-        assertEquals("1758f12b33f68880dc0953aa04292c85", fileCheckSum);
-        if(!testFile.delete()) {
-            fail("Testfile " + testFile + " could not be deleted!");
-        }
+        VdvilWavConfig asFile = new VdvilWavConfig(this);
+        new BackStage(asFile).prepare(composition).playUntilEnd();
+        assertEquals("1758f12b33f68880dc0953aa04292c85", asFile.checksum());
     }
 
     Composition composition = new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
