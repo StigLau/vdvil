@@ -11,7 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 import java.io.IOException;
 import java.nio.ShortBuffer;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class AudioMixerTest {
@@ -21,7 +22,7 @@ public class AudioMixerTest {
     int volume = 127;
     AudioPlaybackTarget target = new AudioPlaybackTarget();
     int maxSamplesForTest = 814150;
-    TreeSet<Instruction> instructions = Sets.newTreeSet();
+    List<AudioInstruction> instructions = new ArrayList<>();
 
 
     int[] mix() { return new int[AudioMixer.MIX_FRAME * 2];}
