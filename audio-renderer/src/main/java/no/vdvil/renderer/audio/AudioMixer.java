@@ -6,7 +6,7 @@ import no.bouvet.kpro.renderer.audio.AudioTarget;
 import no.lau.vdvil.instruction.Instruction;
 import static no.lau.vdvil.instruction.Instruction.RESOLUTION;
 import java.nio.ShortBuffer;
-import java.util.SortedSet;
+import java.util.List;
 
 public class AudioMixer {
     /**
@@ -14,7 +14,7 @@ public class AudioMixer {
      */
     public final static int MIX_FRAME = 4410;
 
-    public static int mixItUp(SortedSet<Instruction> _active, int time, AudioTarget target) {
+    public static int mixItUp(List<AudioInstruction> _active, int time, AudioTarget target) {
         int[] mix = new int[MIX_FRAME * 2];
         for (int fill = 0; fill < mix.length;) {
             mix[fill++] = 0;

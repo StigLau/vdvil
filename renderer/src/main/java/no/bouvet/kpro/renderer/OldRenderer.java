@@ -163,7 +163,7 @@ public class OldRenderer {
     public void notifyTime(int time) {
         for (Instruction instruction : _instructionList) {
             if (!played.contains(instruction) && instruction.start() <= time) {
-                log.info("Starting {}", instruction);
+                log.info("Starting {} {}", instruction.getClass().getSimpleName(), instruction);
                 dispatchInstruction(time, instruction);
                 played.add(instruction);
             }
@@ -171,7 +171,7 @@ public class OldRenderer {
         log.trace("Pruning list of played instructions");
         for (Instruction stopInstruction : played) {
             if(!stopped.contains(stopInstruction) && stopInstruction.end() <= time) {
-                log.info("Stopping {}", stopInstruction);
+                log.info("Stopping {} {}", stopInstruction.getClass().getSimpleName(), stopInstruction);
                 dispatchStopInstruction(stopInstruction);
                 stopped.add(stopInstruction);
             }

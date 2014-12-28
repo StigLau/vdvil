@@ -2,8 +2,6 @@ package no.bouvet.kpro.renderer.audio;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.collect.Sets;
 import no.bouvet.kpro.renderer.AbstractRenderer;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.renderer.Renderer;
@@ -165,7 +163,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
                 }
                 _active = pruneByTime(_active);
 
-                _time = AudioMixer.mixItUp(Sets.<Instruction>newTreeSet(_active), _time, audioTarget);
+                _time = AudioMixer.mixItUp(_active, _time, audioTarget);
             }
         }finally {
             log.debug("End of composition, draining target...");
