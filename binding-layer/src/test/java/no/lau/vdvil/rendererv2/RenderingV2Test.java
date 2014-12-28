@@ -21,22 +21,8 @@ import static no.lau.vdvil.mix.util.CompositionHelper.createLyricPart;
 
 public class RenderingV2Test {
     Store store = Store.get();
+    Track returning = TestMp3s.returning;
 
-    public void playImageAndLyrics() throws InterruptedException, IOException {
-        Clock clock = new SystemClock();
-        long origo = clock.getCurrentTimeMillis() + 2000; //Give the app 2 sec to start up
-        final RunnableResolutionTimer timer = new RunnableResolutionTimer(clock, origo);
-        Conductor conductor = new Conductor(timer, new MasterBeatPattern(0, 20, 130F));
-        conductor.addInstruction(new ImageRenderer(800, 600), CompositionAdapter.cacheAndconvert(store, createImageParts()));
-        conductor.addInstruction(new LyricRenderer(600, 50), CompositionAdapter.cacheAndconvert(store, createLyricParts()));
-        MetronomeRenderer metronome = new MetronomeRenderer(0, 20);
-        conductor.addInstruction(metronome, metronome.instructions());
-
-        timer.play();
-        while (conductor.isPlaying()) {
-            Thread.sleep(500);
-        }
-    }
     @Test
     public void playAudio() throws InterruptedException, IOException {
         Clock clock = new SystemClock();
@@ -44,7 +30,7 @@ public class RenderingV2Test {
         final RunnableResolutionTimer timer = new RunnableResolutionTimer(clock, origo);
         Conductor conductor = new Conductor(timer, new MasterBeatPattern(0, 20, 130F));
         conductor.addInstruction(new ImageRenderer(800, 600), CompositionAdapter.cacheAndconvert(store, createImageParts()));
-        //conductor.addInstruction(new LyricRenderer(600, 50), CompositionAdapter.cacheAndconvert(createLyricParts()));
+        conductor.addInstruction(new LyricRenderer(600, 50), CompositionAdapter.cacheAndconvert(store, createLyricParts()));
         AudioTarget audioTarget = new AudioPlaybackTarget();
         conductor.addInstruction(new AudioRendererV2(audioTarget, 130F), CompositionAdapter.cacheAndconvert(store, createAudioParts()));
         MetronomeRenderer metronome = new MetronomeRenderer(0, 20);
@@ -75,9 +61,6 @@ public class RenderingV2Test {
                 createImagePart("5", new Interval(16, 4), store.createKey("http://farm6.static.flickr.com/5068/5620372140_6fdf929526_d.jpg", null))
         };
     }
-
-
-    Track returning = TestMp3s.returning;
 
     MultimediaPart[] createAudioParts() {
         return new MultimediaPart[]{
