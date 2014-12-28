@@ -56,7 +56,7 @@ public class RendererTest {
 				} catch (InterruptedException e) {
 				}
 
-				if ((System.currentTimeMillis() - start) > 5000) {
+				if ((System.currentTimeMillis() - start) > 10000) {
 					throw new Exception(
 							"Timed out waiting for OldRenderer to finish");
 				}

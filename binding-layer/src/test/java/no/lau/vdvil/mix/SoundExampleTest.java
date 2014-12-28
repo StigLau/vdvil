@@ -3,25 +3,34 @@ package no.lau.vdvil.mix;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.mix.util.CompositionHelper;
 import no.lau.vdvil.playback.BackStage;
+import no.lau.vdvil.playback.VdvilWavConfig;
 import no.lau.vdvil.timing.Interval;
 import no.vdvil.renderer.audio.TestMp3s;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import org.junit.Test;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import static org.junit.Assert.assertEquals;
 
 public class SoundExampleTest {
-    FileRepresentation returning = TestMp3s.returningDvl;
-    MasterBeatPattern mbp = new MasterBeatPattern(0, 8, 135F);
+    static FileRepresentation returning = TestMp3s.returningDvl;
+    static MasterBeatPattern mbp = new MasterBeatPattern(0, 256, 135F);
 
     @Test
-    public void play() {
+    public void persistenceTest() throws IOException {
+        VdvilWavConfig asFile = new VdvilWavConfig(this);
+        new BackStage(asFile).prepare(composition).playUntilEnd();
+        assertEquals("6f6baa326fce891df727f55217b6edca", asFile.checksum());
+    }
+
+    public static void main(String[] args) throws Exception {
         new BackStage().prepare(composition).playUntilEnd();
     }
 
-    Composition composition = new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
+    static Composition composition = new Composition(SoundExampleTest.class.getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
         public List<MultimediaPart> parts() {
             return Arrays.asList(
                     createAudioPart("2754708889643705332", new Interval(0, 16), returning),
