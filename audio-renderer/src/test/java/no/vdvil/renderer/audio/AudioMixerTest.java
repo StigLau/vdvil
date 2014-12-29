@@ -29,7 +29,7 @@ public class AudioMixerTest {
 
     @Before
     public void setUp() throws IOException {
-        FileRepresentation fileRepresentation = Store.get().cache(TestMp3s.returningMp3);
+        FileRepresentation fileRepresentation = Store.get().cache(TestMp3s.returningMp3, "3e3477a6ccba67aa9f3196390f48b67d");
         instruction = new AudioInstruction(0, maxSamplesForTest, 0, 81415, fileRepresentation);
         int internal = 0;
         int sduration = 4410;
