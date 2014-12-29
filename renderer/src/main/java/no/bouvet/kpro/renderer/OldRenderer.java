@@ -178,7 +178,7 @@ public class OldRenderer {
         }
 
         if(_instructionList.size() == played.size() && played.size() == stopped.size()) {
-            log.info("Sending null instruction to stop");
+            log.info("All instructions played - sending STOP instruction");
             dispatchInstruction(time, null);
         }
 	}

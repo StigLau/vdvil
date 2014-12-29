@@ -42,7 +42,7 @@
         <module>simple-cache</module>
         <module>json-parser</module>
         <module>play-gui</module>
-        <module>play-gui-webstart-distribution</module>
+        <!-- <module>play-gui-webstart-distribution</module> Commented out until v1.0-snapshot-7 is released-->
         <module>binding-layer</module>
         <module>editingclient</module>
     </modules>
