@@ -43,11 +43,11 @@ public class SurrenderPlayingTest {
         System.in.read(); //Wait for enter to be pressed
         vdvilPlayer.stop();
     }
-
+/*
     public static void main(String[] s) throws IOException, IllegalAccessException {
         new SurrenderPlayingTest().play();
     }
-
+    */
     @Test
     public void testTimeIntervalsProducedForInstructions() throws IOException {
         Composition composition = createComposition(new MasterBeatPattern(0, 256, 120F));

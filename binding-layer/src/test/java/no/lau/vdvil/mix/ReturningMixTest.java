@@ -26,9 +26,11 @@ public class ReturningMixTest {
         new BackStage(asFile).prepare(composition).playUntilEnd();
         assertEquals("d1134d514e7bb5a7d95123eac64f1d1e", asFile.checksum());
     }
+    /*
     public static void main(String[] args) throws Exception {
         new BackStage().prepare(composition).playUntilEnd();
     }
+    */
 
     static Composition composition = new Composition(ReturningMixTest.class.getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
         public List<MultimediaPart> parts() {

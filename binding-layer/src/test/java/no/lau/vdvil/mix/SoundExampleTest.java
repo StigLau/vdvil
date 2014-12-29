@@ -25,11 +25,11 @@ public class SoundExampleTest {
         new BackStage(asFile).prepare(composition).playUntilEnd();
         assertEquals("6f6baa326fce891df727f55217b6edca", asFile.checksum());
     }
-
+/*
     public static void main(String[] args) throws Exception {
         new BackStage().prepare(composition).playUntilEnd();
     }
-
+    */
     static Composition composition = new Composition(SoundExampleTest.class.getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
         public List<MultimediaPart> parts() {
             return Arrays.asList(
