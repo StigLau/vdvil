@@ -28,7 +28,7 @@ public class RenderingV2Test {
         Clock clock = new SystemClock();
         long origo = clock.getCurrentTimeMillis() + 2000; //Give the app 2 sec to start up
         final RunnableResolutionTimer timer = new RunnableResolutionTimer(clock, origo);
-        Conductor conductor = new Conductor(timer, new MasterBeatPattern(0, 20, 130F));
+        Conductor conductor = new Conductor(timer, new MasterBeatPattern(0, 16, 130F));
         conductor.addInstruction(new ImageRenderer(800, 600), CompositionAdapter.cacheAndconvert(store, createImageParts()));
         conductor.addInstruction(new LyricRenderer(600, 50), CompositionAdapter.cacheAndconvert(store, createLyricParts()));
         AudioTarget audioTarget = new AudioPlaybackTarget();
@@ -65,9 +65,9 @@ public class RenderingV2Test {
     MultimediaPart[] createAudioParts() {
         return new MultimediaPart[]{
                 createAudioPart(returning.segments.get(0).id, new Interval(0, 16), TestMp3s.returningDvl),
-                createAudioPart(returning.segments.get(6).id, new Interval(16, 16), TestMp3s.returningDvl),
-                createAudioPart(returning.segments.get(9).id, new Interval(32, 16), TestMp3s.returningDvl),
-                createAudioPart(returning.segments.get(10).id, new Interval(48, 16), TestMp3s.returningDvl)
+                //createAudioPart(returning.segments.get(6).id, new Interval(16, 16), TestMp3s.returningDvl),
+                //createAudioPart(returning.segments.get(9).id, new Interval(32, 16), TestMp3s.returningDvl),
+                //createAudioPart(returning.segments.get(10).id, new Interval(48, 16), TestMp3s.returningDvl)
         };
     }
 }

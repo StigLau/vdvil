@@ -9,6 +9,7 @@ import no.lau.vdvil.playback.BackStage;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.TestMp3s;
+import org.junit.Ignore;
 import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
@@ -17,12 +18,33 @@ public class TimingSyncronizationTest {
     FileRepresentation space = TestMp3s.spaceDvl;
     FileRepresentation surrender = TestMp3s.surrenderDvl;
     Store store = Store.get();
+    MasterBeatPattern quickMbp = new MasterBeatPattern(0, 8, 130F);
     MasterBeatPattern mbp = new MasterBeatPattern(0, 128, 130F);
 
+    @Test
+    public void quickPlay() {
+        new BackStage().prepare(quickComposition).playUntilEnd();
+    }
+
+    @Ignore
     @Test
     public void play() {
         new BackStage().prepare(composition).playUntilEnd();
     }
+
+    Composition quickComposition = new Composition(getClass().getSimpleName(), quickMbp, FileRepresentation.NULL, new CompositionHelper() {
+        public List<MultimediaPart> parts() {
+            return Arrays.asList(
+                    createAudioPart("4975745638923227772", new Interval(0, 4), space),
+                    createAudioPart("4882945013722419329", new Interval(4, 4), space),
+
+                    createImagePart("0", new Interval(0, 2), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "4648c59ec6235407b59a0327328041b5")),
+
+                    createImagePart("1", new Interval(2, 2), store.createKey("http://www.shinyshiny.tv/teddy%20bear%201.jpg", "a9e178def69c92cc9355b1e7512dabe8")),
+                    createImagePart("4", new Interval(4, 2), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/teddy/checkered_teddy.jpg", "4a2caec562cd04f5418c5cb7629c8f1c")),
+                    createImagePart("5", new Interval(6, 2), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/teddy/Snow_bears.jpg", "b7752d3eee31b6f4e4a2bc5a2b40b3d3")));
+        }
+    });
 
     Composition composition = new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
         public List<MultimediaPart> parts() {
