@@ -5,7 +5,9 @@ import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.playback.BackStage;
+import no.lau.vdvil.playback.LameEnkoderWrapping;
 import no.lau.vdvil.playback.VdvilAudioConfig;
+import no.lau.vdvil.playback.VdvilWavConfig;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.TestMp3s;
 import org.slf4j.Logger;
@@ -24,6 +26,8 @@ import static spark.Spark.post;
 public class PlayPerViewController {
 
     private final Logger logger = LoggerFactory.getLogger(PlayPerViewController.class);
+    ParseFacade parser = new VdvilAudioConfig().getParseFacade();
+    FileRepresentation fileRepresentation = TestMp3s.javaZoneComposition_WithoutImages;
 
     public PlayPerViewController() {
         get("/vdvil/play", (req, res) -> new ModelAndView("a simple model", "godmode.mustache"), new MustacheTemplateEngine());
@@ -31,19 +35,38 @@ public class PlayPerViewController {
 
         get("/vdvil/kompose", (request, response) -> {
             logger.info("Komposing");
-
             try {
-                ParseFacade parser = new VdvilAudioConfig().getParseFacade();
-                FileRepresentation fileRepresentation = TestMp3s.javaZoneComposition_WithoutImages;
-                Composition composition = (Composition) parser.parse(PartXML.create(fileRepresentation));
-                new BackStage().prepare(composition, new MasterBeatPattern(0, 16, 150F)).playUntilEnd();
+                new BackStage().prepare(kompost(fileRepresentation), new MasterBeatPattern(0, 16, 150F)).playUntilEnd();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Shitz", e);
             }
-
             response.redirect("/vdvil/");
             return "";
         });
 
+        get("/vdvil/kompost", (request, response) -> {
+            logger.info("Komposting");
+
+            try {
+                VdvilWavConfig config = new VdvilWavConfig(this);
+                new BackStage(config)
+                        .prepare(kompost(fileRepresentation), new MasterBeatPattern(0, 256, 150F))
+                        .playUntilEnd();
+                logger.info("File is located at {}", config.resultingFile);
+                String mp3File = new LameEnkoderWrapping().enkode(config.resultingFile.getAbsolutePath());
+                logger.info("Resulting file {}", mp3File);
+            } catch (Exception e) {
+                logger.error("Shitz in pantz", e);
+            }
+            response.redirect("/vdvil/");
+            return "Yay!";
+        });
+
     }
+
+    Composition kompost(FileRepresentation fileRepresentation) throws IOException {
+        return (Composition) parser.parse(PartXML.create(fileRepresentation));
+    }
+
+
 }
