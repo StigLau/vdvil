@@ -14,8 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.ModelAndView;
 import spark.template.mustache.MustacheTemplateEngine;
-
+import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -32,7 +34,6 @@ public class PlayPerViewController {
     public PlayPerViewController() {
         get("/vdvil/play", (req, res) -> new ModelAndView("a simple model", "godmode.mustache"), new MustacheTemplateEngine());
 
-
         get("/vdvil/kompose", (request, response) -> {
             logger.info("Komposing");
             try {
@@ -44,24 +45,24 @@ public class PlayPerViewController {
             return "";
         });
 
-        get("/vdvil/kompost", (request, response) -> {
-            logger.info("Komposting");
+        get("/vdvil/kompost", (req, res) -> new ModelAndView(status(), "komposted.mustache"), new MustacheTemplateEngine());
+    }
 
-            try {
-                VdvilWavConfig config = new VdvilWavConfig(this);
-                new BackStage(config)
-                        .prepare(kompost(fileRepresentation), new MasterBeatPattern(0, 256, 150F))
-                        .playUntilEnd();
-                logger.info("File is located at {}", config.resultingFile);
-                String mp3File = new LameEnkoderWrapping().enkode(config.resultingFile.getAbsolutePath());
-                logger.info("Resulting file {}", mp3File);
-            } catch (Exception e) {
-                logger.error("Shitz in pantz", e);
-            }
-            response.redirect("/vdvil/");
-            return "Yay!";
-        });
-
+    Map<String, String> status() {
+        Map<String, String> status = new HashMap<>();
+        try {
+            VdvilWavConfig config = new VdvilWavConfig(this);
+            new BackStage(config)
+                    .prepare(kompost(fileRepresentation), new MasterBeatPattern(0, 256, 150F))
+                    .playUntilEnd();
+            logger.info("File is located at {}", config.resultingFile);
+            String mp3File = new LameEnkoderWrapping().enkode(config.resultingFile.getAbsolutePath());
+            status.put("theFile", new File(mp3File).getName());
+            logger.info("Resulting file {}", mp3File);
+        } catch (Exception e) {
+            logger.error("Shitz in pantz", e);
+        }
+        return status;
     }
 
     Composition kompost(FileRepresentation fileRepresentation) throws IOException {

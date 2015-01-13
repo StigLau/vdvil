@@ -9,8 +9,8 @@ import static spark.SparkBase.staticFileLocation;
  */
 public class StaticFileController {
     public StaticFileController() {
-        staticFileLocation("/static");
+        //staticFileLocation("/static");
         //Use this for dev purposes and create symlink to src/main/resources/static
-        //externalStaticFileLocation("./static");
+        externalStaticFileLocation("./static");
     }
 }
