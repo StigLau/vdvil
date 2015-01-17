@@ -13,6 +13,7 @@ import no.vdvil.renderer.audio.TestMp3s;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.ModelAndView;
+import spark.Request;
 import spark.template.mustache.MustacheTemplateEngine;
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +30,10 @@ public class PlayPerViewController {
 
     private final Logger logger = LoggerFactory.getLogger(PlayPerViewController.class);
     ParseFacade parser = new VdvilAudioConfig().getParseFacade();
-    FileRepresentation fileRepresentation = TestMp3s.javaZoneComposition_WithoutImages;
+    FileRepresentation[] fileRepresentation = new FileRepresentation[] {
+            TestMp3s.javaZoneComposition_WithoutImages,
+            TestMp3s.javaZoneComposition
+    };
 
     public PlayPerViewController() {
         get("/vdvil/play", (req, res) -> new ModelAndView("a simple model", "godmode.mustache"), new MustacheTemplateEngine());
@@ -37,7 +41,7 @@ public class PlayPerViewController {
         get("/vdvil/kompose", (request, response) -> {
             logger.info("Komposing");
             try {
-                new BackStage().prepare(kompost(fileRepresentation), new MasterBeatPattern(0, 16, 150F)).playUntilEnd();
+                new BackStage().prepare(kompost(fileRepresentation[0]), new MasterBeatPattern(0, 16, 150F)).playUntilEnd();
             } catch (IOException e) {
                 logger.error("Shitz", e);
             }
@@ -45,15 +49,17 @@ public class PlayPerViewController {
             return "";
         });
 
-        get("/vdvil/kompost", (req, res) -> new ModelAndView(status(), "komposted.mustache"), new MustacheTemplateEngine());
+        get("/vdvil/kompost/*", (req, res) -> new ModelAndView(status(req), "komposted.mustache"), new MustacheTemplateEngine());
     }
 
-    Map<String, String> status() {
+    Map<String, String> status(Request request) {
+        int kompostId = Integer.parseInt(request.splat()[0]);
+
         Map<String, String> status = new HashMap<>();
         try {
             VdvilWavConfig config = new VdvilWavConfig(this);
             new BackStage(config)
-                    .prepare(kompost(fileRepresentation), new MasterBeatPattern(0, 256, 150F))
+                    .prepare(kompost(fileRepresentation[kompostId]), new MasterBeatPattern(0, 256, 150F))
                     .playUntilEnd();
             logger.info("File is located at {}", config.resultingFile);
             String mp3File = new LameEnkoderWrapping().enkode(config.resultingFile.getAbsolutePath());
