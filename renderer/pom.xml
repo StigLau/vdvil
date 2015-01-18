@@ -8,7 +8,14 @@
   <parent>
     <groupId>no.lau.vdvil</groupId>
     <artifactId>vdvil</artifactId>
-    <version>y</version>
+    <version>0.15-SNAPSHOT</version>
   </parent>
 
+    <dependencies>
+        <!-- This dependency is here to give the common dependency FileRepresentation -->
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>simple-cache</artifactId>
+        </dependency>
+    </dependencies>
 </project>

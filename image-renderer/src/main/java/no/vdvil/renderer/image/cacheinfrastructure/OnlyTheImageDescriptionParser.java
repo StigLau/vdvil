@@ -1,19 +1,14 @@
 package no.vdvil.renderer.image.cacheinfrastructure;
 
-import no.lau.vdvil.cache.DownloaderFacade;
+import no.lau.vdvil.cache.FileRepresentation;
+import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.MultimediaParser;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 
 public class OnlyTheImageDescriptionParser implements MultimediaParser {
-    private DownloaderFacade downloaderFacade;
-
-    public OnlyTheImageDescriptionParser(DownloaderFacade downloaderFacade){
-        this.downloaderFacade = downloaderFacade;
-    }
 
     /**
      * Ugly implemented Parser of "xml" documents to fetch out values which result in an ImageDescription
@@ -25,12 +20,12 @@ public class OnlyTheImageDescriptionParser implements MultimediaParser {
     public ImageDescription parse(CompositionInstruction compositionInstruction) throws IOException {
         URL imageUrl = compositionInstruction.dvl().url();
         //Buffer
-        InputStream inputStream = downloaderFacade.fetchAsStream(imageUrl);
+        FileRepresentation fileRepresentation = Store.get().cache(imageUrl);
         //Try to load as Image
-        if(ImageIO.read(inputStream) != null)
-            return new ImageDescription(compositionInstruction, imageUrl);
+        if(ImageIO.read(fileRepresentation.localStorage()) != null)
+            return new ImageDescription(compositionInstruction, fileRepresentation);
         else
-            throw new IOException("Could not parse as image: " + imageUrl);
+            throw new IOException("Could not parse as image: " + compositionInstruction.dvl().name());
     }
 
     public String toString() {

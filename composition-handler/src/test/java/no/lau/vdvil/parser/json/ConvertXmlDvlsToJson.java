@@ -24,7 +24,7 @@ public class ConvertXmlDvlsToJson {
     }
 
     public String convertToJson(URL xmlFile) throws IOException {
-        CompositionXml compositionXml = new CompositionXMLParser(null).parseCompositionXml(xmlFile.openStream());
-        return new CompositionJsonParser(null).convertCompositionToJson(compositionXml);
+        CompositionXml compositionXml = CompositionXMLParser.parseCompositionXml(xmlFile.openStream());
+        return CompositionJsonParser.convertCompositionToJson(compositionXml);
     }
 }

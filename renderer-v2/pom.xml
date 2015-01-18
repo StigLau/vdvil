@@ -8,10 +8,14 @@
   <parent>
     <groupId>no.lau.vdvil</groupId>
     <artifactId>vdvil</artifactId>
-    <version>y</version>
+    <version>0.15-SNAPSHOT</version>
   </parent>
 
     <dependencies>
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>renderer</artifactId>
+        </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
             <artifactId>composition-handler</artifactId>

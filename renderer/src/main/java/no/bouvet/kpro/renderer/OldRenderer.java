@@ -25,18 +25,16 @@ import java.util.List;
  * @author Stig Lau
  */
 public class OldRenderer {
-	/**
-	 * The fundamental time unit. There are RATE units per second.
-	 */
-	public final static int RATE = 44100;
-
-	protected ArrayList<Renderer> _renderers = new ArrayList<Renderer>();
+	protected ArrayList<Renderer> _renderers = new ArrayList<>();
 	protected AbstractRenderer _timeSource;
 
 	protected Instructions _instructions;
 	protected List<Instruction> _instructionList;
-	protected int _instructionPtr;
-    protected int stopInstructionPtr;
+
+    //Temporary lists used for housekeeping of what has played and stopped
+    List<Instruction> played = new ArrayList<>();
+    List<Instruction> stopped = new ArrayList<>();
+
 	protected boolean _rendering = false;
     Logger log = LoggerFactory.getLogger(getClass());
 
@@ -48,6 +46,16 @@ public class OldRenderer {
 	public OldRenderer(Instructions instructions) {
 		_instructions = instructions;
 	}
+
+    public void appendInstructions(Instructions instructions) {
+        try {
+            for (Instruction newInstruction : instructions.lock()) {
+                _instructions.append(newInstruction);
+            }
+        }finally {
+            instructions.unlock();
+        }
+    }
 
     /**
 	 * Add an AbstractRenderer to this OldRenderer. Each AbstractRenderer will
@@ -79,100 +87,70 @@ public class OldRenderer {
 	 * Instructions list
 	 * 
 	 * @param time the time in samples to start rendering
-	 * @return true if rendering started
 	 */
-	public synchronized boolean start(int time) {
+	public synchronized void start(int time) {
+        log.info("Starting playback");
 		stop();
 
-		if (_renderers.isEmpty()) {
-			return false;
-		} else if ((time < 0) || (time >= _instructions.getDuration())) {
-			return false;
-		} else if (_timeSource == null) {
+		if (_renderers.isEmpty() || ((time < 0) || (time >= _instructions.getDuration()))) {
+			fail();
+		}
+        if (_timeSource == null) {
 			addRenderer(new TimeSourceRenderer());
 		}
 
 		_instructionList = _instructions.lock();
-		if (_instructionList == null)
-			return false;
+		if (_instructionList == null) {
+            log.error("No instructions in list");
+            fail();
+        }
 
-		for (_instructionPtr = 0; _instructionPtr < _instructionList.size(); _instructionPtr++) {
-			Instruction instruction = _instructionList.get(_instructionPtr);
-			if (instruction.end() > time)
-				break;
-		}
-
-		if (_instructionPtr >= _instructionList.size()) {
-			_instructionList = null;
-			_instructions.unlock();
-
-			return false;
-		}
-
-		ArrayList<AbstractRenderer> started = new ArrayList<AbstractRenderer>();
-		boolean failure = false;
-
+        log.info("Starting renderers that are not timesource");
 		for (Renderer renderer : _renderers) {
             AbstractRenderer abstractRenderer = (AbstractRenderer) renderer;
 			if (abstractRenderer != _timeSource) {
-				if (abstractRenderer.start(time)) {
-					started.add(abstractRenderer);
-				} else {
-					failure = true;
-					break;
-				}
+                log.info("{} started", abstractRenderer);
+				abstractRenderer.start(time);
 			}
 		}
 
-		if (!failure) {
-			if (_timeSource.start(time)) {
-				started.add(_timeSource);
-			} else {
-				failure = true;
-			}
-		}
-
-		if (failure) {
-			for (AbstractRenderer renderer : started) {
-				renderer.stop();
-			}
-
-			_instructionList = null;
-			_instructions.unlock();
-
-			return false;
-		}
-
+        log.info("TimeSource {} started", _timeSource);
+        _timeSource.start(time);
 		_rendering = true;
-
-		return true;
 	}
+
+    void fail() {
+        stop();
+        throw new RuntimeException("Renderer start failed. Cleaned up");
+    }
 
 	/**
-	 * Stop rendering.
-	 */
-	public synchronized void stop() {
-		if (_instructionList != null) {
-			_timeSource.stop();
+     * Stop rendering.
+     */
+    public synchronized void stop() {
+        log.info("Stopping renderer if started and cleaning up");
 
-			for (Renderer renderer : _renderers) {
-				if (renderer != _timeSource) {
-					((AbstractRenderer)renderer).stop();
-				}
-			}
+        if (_timeSource != null) {
+            _timeSource.stop();
+        }
+        for (Renderer renderer : _renderers) {
+            if (renderer != _timeSource) {
+                ((AbstractRenderer) renderer).stop();
+            }
+        }
 
-			_instructionList = null;
-			_instructions.unlock();
-		}
-	}
+        played = new ArrayList<>();
+        stopped = new ArrayList<>();
+        _instructions.unlock();
+    }
 
 	/**
 	 * Check if rendering is underway, and has not yet finished.
 	 * 
 	 * @return true if rendering is underway, and has not yet finished
 	 */
-	public synchronized boolean isRendering() {
-		return (_instructionList != null) && _rendering;
+	public boolean isRendering() {
+		return _rendering;
 	}
 
 	/**
@@ -182,30 +160,29 @@ public class OldRenderer {
 	 * 
 	 * @param time the time that has been reached
 	 */
-	public void notifyTime(int time) {
-		if (_instructionList != null) {
-			if(_instructionPtr < _instructionList.size()) {
-				Instruction instruction = _instructionList.get(_instructionPtr);
-
-				if (instruction.start() <= time) {
-					dispatchInstruction(time, instruction);
-                    _instructionPtr++;
-				}
-			}
-            List<Instruction> stopInstructionSortedByEnd = _instructions.sortedByEnd();
-            if(stopInstructionPtr < stopInstructionSortedByEnd.size()) {
-				Instruction stopInstruction = stopInstructionSortedByEnd.get(stopInstructionPtr);
-				if (stopInstruction.end() <= time) {
-                    dispatchStopInstruction(stopInstruction);
-                    stopInstructionPtr++;
-				}
+    public void notifyTime(int time) {
+        for (Instruction instruction : _instructionList) {
+            if (!played.contains(instruction) && instruction.start() <= time) {
+                log.info("Starting {} {}", instruction.getClass().getSimpleName(), instruction);
+                dispatchInstruction(time, instruction);
+                played.add(instruction);
             }
+        }
+        log.trace("Pruning list of played instructions");
+        for (Instruction stopInstruction : played) {
+            if(!stopped.contains(stopInstruction) && stopInstruction.end() <= time) {
+                log.info("Stopping {} {}", stopInstruction.getClass().getSimpleName(), stopInstruction);
+                dispatchStopInstruction(stopInstruction);
+                stopped.add(stopInstruction);
+            }
+        }
 
-			if (_instructionPtr >= _instructionList.size()) {
-				dispatchInstruction(time, null);
-			}
-		}
+        if(_instructionList.size() == played.size() && played.size() == stopped.size()) {
+            log.info("All instructions played - sending STOP instruction");
+            dispatchInstruction(time, null);
+        }
 	}
+
 
 	/**
 	 * Notify the OldRenderer that the last AbstractInstruction has finished rendering.

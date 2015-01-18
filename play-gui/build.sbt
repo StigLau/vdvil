@@ -2,9 +2,9 @@ organization := "no.lau.vdvil"
 
 name := "play-gui"
 
-version := "0.11-SNAPSHOT"
+version := "0.15-SNAPSHOT"
 
-scalaVersion := "2.9.1"
+scalaVersion := "2.10.3"
 
 externalPom()
 

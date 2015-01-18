@@ -1,6 +1,8 @@
 package no.bouvet.kpro.renderer;
 
 import no.lau.vdvil.instruction.Instruction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The TimeSourceRenderer class is a specialization of the AbstractRenderer
@@ -22,31 +24,24 @@ public class TimeSourceRenderer extends AbstractRenderer implements Runnable {
 	protected boolean _timeSource = false;
 	protected Thread _thread;
 	protected int _time;
+    private Logger log = LoggerFactory.getLogger(TimeSourceRenderer.class);
 
-	/**
-	 * Construct a new TimeSourceRenderer instance.
-	 */
-	public TimeSourceRenderer() {
-	}
-
-	/**
+    /**
 	 * Request that this TimeSourceRenderer become the time source. It will
 	 * always agree.
 	 * 
 	 * @return true
 	 */
 	public boolean requestTimeSource() {
-		_timeSource = true;
-		return true;
+		return _timeSource = true;
 	}
 
 	/**
 	 * Start this TimeSourceRenderer, at the given point in time.
 	 * 
 	 * @param time The time in samples when rendering begins
-	 * @return true, always
 	 */
-	public boolean start(int time) {
+	public void start(int time) {
 		stop();
 
 		if (_timeSource) {
@@ -55,24 +50,16 @@ public class TimeSourceRenderer extends AbstractRenderer implements Runnable {
 			_thread = new Thread(this);
 			_thread.start();
 		}
-
-		return true;
 	}
 
 	/**
 	 * Stop this TimeSourceRenderer.
 	 */
-	public void stop() {
-		if (_thread != null) {
-			Thread thread = _thread;
+    public void stop(Instruction instruction) {
+        log.trace("Got stop instruction");
+        if (_thread != null) {
+			_thread.interrupt();
 			_thread = null;
-
-			while (thread.isAlive()) {
-				try {
-					thread.join();
-				} catch (Exception e) {
-				}
-			}
 		}
 	}
 
@@ -101,9 +88,6 @@ public class TimeSourceRenderer extends AbstractRenderer implements Runnable {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public void stop(Instruction instruction) {
-    }
-
     /**
 	 * This is the implementation of Runnable.run, and is the main thread
 	 * procedure.
@@ -115,14 +99,14 @@ public class TimeSourceRenderer extends AbstractRenderer implements Runnable {
 		long started = System.currentTimeMillis();
 
 		while (_thread != null) {
-			int elapsed = (int) ((System.currentTimeMillis() - started)
-					* OldRenderer.RATE / 1000);
+			int elapsed = (int) ((System.currentTimeMillis() - started) * Instruction.RESOLUTION / 1000);
 
 			_renderer.notifyTime(_time + elapsed);
 
 			try {
 				Thread.sleep(SLEEP_TIME);
 			} catch (InterruptedException e) {
+                log.trace("Stop interruption");
 			}
 		}
 	}

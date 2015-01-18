@@ -1,8 +1,8 @@
 package no.lau.vdvil.renderer.image;
 
-import no.lau.vdvil.cache.SimpleCacheImpl;
-import no.lau.vdvil.cache.SimpleVdvilCache;
-import no.lau.vdvil.handler.DownloadAndParseFacade;
+import no.lau.vdvil.cache.FileRepresentation;
+import no.lau.vdvil.cache.Store;
+import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.persistence.CompositionXMLParser;
 import no.lau.vdvil.handler.persistence.PartXML;
@@ -16,29 +16,26 @@ import static org.junit.Assert.assertEquals;
 
 public class CompositionWithImageParserTest {
 
-    SimpleVdvilCache cache = new SimpleCacheImpl();
-
     @Test
     public void compositionParsing() throws Exception {
-        URL compositionXmlUrl = getClass().getResource("/testCompositionWithImageDvls.xml");
+        FileRepresentation fileRepresentation = Store.get().createKey(ClassLoader.getSystemResource("testCompositionWithImageDvls.xml"), "63d66578887d85accd3a6cb75c663b71");
 
-        DownloadAndParseFacade facade = new DownloadAndParseFacade();
-        facade.addParser(new ImageDescriptionXMLParser(cache));
-        facade.addParser(new CompositionXMLParser(facade));
-        facade.addCache(cache);
+        ParseFacade parser = new ParseFacade();
+        parser.addParser(new ImageDescriptionXMLParser());
+        parser.addParser(new CompositionXMLParser(parser));
 
-        Composition composition = (Composition) facade.parse(PartXML.create(compositionXmlUrl));
+        Composition composition = (Composition) parser.parse(PartXML.create(fileRepresentation));
         assertEquals("JavaZone Demo", composition.name);
-        assert(composition.url.toString().endsWith("testCompositionWithImageDvls.xml"));
+        assert(composition.fileRepresentation().remoteAddress()).toString().endsWith("testCompositionWithImageDvls.xml");
         assertEquals(150, composition.masterBeatPattern.masterBpm.intValue());
-        assertEquals(1, composition.multimediaParts.size());
+        assertEquals(2, composition.multimediaParts.size());
 
         URL xmlImageUrl = new URL("http://farm3.static.flickr.com/2095/2282261838_276a37d325_o_d.jpg");
 
-        assertEquals(ImageDescription.class,  composition.multimediaParts.get(0).getClass());
+        assertEquals(ImageDescription.class, composition.multimediaParts.get(0).getClass());
         ImageDescription imageDescription = (ImageDescription) composition.multimediaParts.get(0);
-        assertEquals(xmlImageUrl, imageDescription.src);
+        assertEquals(xmlImageUrl, imageDescription.fileRepresentation().remoteAddress());
         ImageInstruction imageInstruction = imageDescription.asInstruction(120F);
-        assertEquals(xmlImageUrl, imageInstruction.imageUrl);
+        assertEquals(xmlImageUrl, imageInstruction.fileRepresentation().remoteAddress());
     }
 }

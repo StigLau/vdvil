@@ -71,10 +71,21 @@ public class Instructions {
 		return _duration;
 	}
 
-    public List<Instruction> sortedByEnd() {
-    List<Instruction> instructionList = new ArrayList<Instruction>(_list);
+    /**
+     * Creates a copy of the instructions list sorted by the endings.
+     * Used for stopping instructions
+     */
+    List<Instruction> sortedByEnd() {
+        List<Instruction> instructionList = instructionsCopy();
         Collections.sort(instructionList, new EndSorter());
         return instructionList;
+    }
+
+    /**
+     * @return a current copy of the instructions list. Note that this function is not thread safe. If Threads are an issue, use lock/unlock!
+     */
+    public List<Instruction> instructionsCopy() {
+        return new ArrayList<Instruction>(_list);
     }
 }
 

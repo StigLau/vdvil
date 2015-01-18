@@ -2,12 +2,12 @@ package no.bouvet.kpro.renderer.audio;
 
 import java.io.*;
 import java.nio.ShortBuffer;
-
 import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.Decoder;
 import javazoom.jl.decoder.Header;
 import javazoom.jl.decoder.Obuffer;
-import no.bouvet.kpro.renderer.OldRenderer;
+import no.lau.vdvil.cache.FileRepresentation;
+import no.lau.vdvil.instruction.Instruction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,7 +61,7 @@ public class MP3Source implements AudioSource {
 	protected int _frameCount;
 	protected boolean _stereo = false;
 
-	protected final static int BUFFER_DURATION = 5 * OldRenderer.RATE;
+	protected final static int BUFFER_DURATION = 5 * Instruction.RESOLUTION;
 	protected ShortBuffer _buffer = ShortBuffer.allocate(BUFFER_DURATION * 2);
 	protected MP3Output _output = new MP3Output(_buffer);
 	protected int _bufferFrame = 0;
@@ -83,7 +83,6 @@ public class MP3Source implements AudioSource {
 	 * @throws IOException
 	 *             if the file could not be opened, not be understood, or was of
 	 *             the wrong format
-	 * @author Michael Stokes
 	 */
 	public MP3Source(File file) throws IOException {
 		log.debug("Opening " + file.toString() );
@@ -109,10 +108,12 @@ public class MP3Source implements AudioSource {
 		}
 	}
 
-	/**
+    public MP3Source(FileRepresentation fileRepresentation) throws IOException {
+        this(fileRepresentation.localStorage());
+    }
+
+    /**
 	 * Close the source and the underlying file.
-	 * 
-	 * @author Michael Stokes
 	 */
 	public void close() {
 		try {
@@ -137,7 +138,6 @@ public class MP3Source implements AudioSource {
 	 * frame.
 	 * 
 	 * @return The duration of the audio source, in number of samples
-	 * @author Michael Stokes
 	 */
 	public int getDuration() {
 		return _frameCount * _frameSize;
@@ -159,7 +159,6 @@ public class MP3Source implements AudioSource {
 	 *            The number of audio samples to make available, in samples
 	 * @return A ShortBuffer object that contains the requested audio data, with
 	 *         the current position set to the first requested sample
-	 * @author Michael Stokes
 	 */
 	public ShortBuffer getBuffer(int time, int duration) {
 		// Convert the time period into a frame period (first and last)
@@ -226,7 +225,6 @@ public class MP3Source implements AudioSource {
 	 * Build an index of the MPEG audio frames in the file.
 	 * 
 	 * @return true if the file was indexed successfully
-	 * @author Michael Stokes
 	 */
 	protected boolean index() {
 		// Work with 8K blocks for speed
@@ -337,8 +335,8 @@ public class MP3Source implements AudioSource {
 
 				// Make sure the frequency is what we want
 
-				if (frequency != OldRenderer.RATE) {
-					log.debug( "File is " + frequency + " Hz, this source is " + OldRenderer.RATE + " Hz only, falling back to default" );
+				if (frequency != Instruction.RESOLUTION) {
+					log.debug( "File is " + frequency + " Hz, this source is " + Instruction.RESOLUTION + " Hz only, falling back to default" );
 					return false;
 				}
 
@@ -383,7 +381,7 @@ public class MP3Source implements AudioSource {
 
 		if (_frameCount > 10) {
 			// Notify the user
-			float seconds = (float)( _frameCount * _frameSize ) / OldRenderer.RATE;
+			float seconds = (float)( _frameCount * _frameSize ) / Instruction.RESOLUTION;
 			log.debug( "Indexed " + _frameCount + " frames, duration is " + seconds + "s" );
 			return true;
 		} else {
@@ -400,7 +398,6 @@ public class MP3Source implements AudioSource {
 	 * @param frames
 	 *            the number of frames to decode
 	 * @return true if the frames were decoded successfully
-	 * @author Michael Stokes
 	 */
 	protected boolean decodeFrames(int frame, int frames) {
 		// Catch decoding exceptions
@@ -490,7 +487,6 @@ public class MP3Source implements AudioSource {
 		 * 
 		 * @param raf
 		 *            The RandomAccessFile to read from
-		 * @author Michael Stokes
 		 */
 		public MP3Input(RandomAccessFile raf) {
 			_raf = raf;
@@ -499,10 +495,8 @@ public class MP3Source implements AudioSource {
 		/**
 		 * Read a byte from the file.
 		 * 
-		 * @returns The byte that was read
-		 * @author Michael Stokes
+		 * @return The byte that was read
 		 */
-		@Override
 		public int read() throws IOException {
 			return _raf.read();
 		}
@@ -512,10 +506,8 @@ public class MP3Source implements AudioSource {
 		 * 
 		 * @param b
 		 *            The byte array to read into
-		 * @returns The number of bytes read
-		 * @author Michael Stokes
+		 * @return The number of bytes read
 		 */
-		@Override
 		public int read(byte[] b) throws IOException {
 			return _raf.read(b);
 		}
@@ -529,10 +521,8 @@ public class MP3Source implements AudioSource {
 		 *            The first array index to read into
 		 * @param len
 		 *            The number of bytes to read
-		 * @returns The number of bytes read
-		 * @author Michael Stokes
+		 * @return The number of bytes read
 		 */
-		@Override
 		public int read(byte[] b, int off, int len) throws IOException {
 			return _raf.read(b, off, len);
 		}
@@ -552,9 +542,7 @@ public class MP3Source implements AudioSource {
 		/**
 		 * Create a new MP3Output that writes to the given ShortBuffer.
 		 * 
-		 * @param target
-		 *            The ShortBuffer to write to
-		 * @author Michael Stokes
+		 * @param target The ShortBuffer to write to
 		 */
 		public MP3Output(ShortBuffer target) {
 			_target = target;
@@ -564,10 +552,7 @@ public class MP3Source implements AudioSource {
 		 * Set the offset (in samples) within the output buffer where new
 		 * samples should be written.
 		 * 
-		 * @param offset
-		 *            The offset, in number of samples, where new samples should
-		 *            be written
-		 * @author Michael Stokes
+		 * @param offset The offset, in number of samples, where new samples should be written
 		 */
 		public void setOffset(int offset) {
 			_offset1 = offset * 2;
@@ -577,13 +562,9 @@ public class MP3Source implements AudioSource {
 		/**
 		 * Append a new sample from the given channel.
 		 * 
-		 * @param channel
-		 *            The channel number (0 for left, 1 for right)
-		 * @param value
-		 *            The 16-bit sample value
-		 * @author Michael Stokes
+		 * @param channel The channel number (0 for left, 1 for right)
+		 * @param value The 16-bit sample value
 		 */
-		@Override
 		public void append(int channel, short value) {
 			switch (channel) {
 			case 0:
@@ -606,19 +587,15 @@ public class MP3Source implements AudioSource {
 			}
 		}
 
-		@Override
 		public void clear_buffer() {
 		}
 
-		@Override
 		public void close() {
 		}
 
-		@Override
 		public void set_stop_flag() {
 		}
 
-		@Override
 		public void write_buffer(int blah) {
 		}
 	}

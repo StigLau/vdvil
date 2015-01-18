@@ -2,6 +2,7 @@ package no.bouvet.kpro.renderer;
 
 import static org.junit.Assert.assertTrue;
 
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.instruction.SuperInstruction;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class RendererTest {
 			// Create the renderer instruction list
 
 			Instructions instructions = new Instructions();
-			Instruction instruction = new SuperInstruction(OldRenderer.RATE * 2, renderer.RATE * 3) { };
+            Instruction instruction = new SuperInstruction(Instruction.RESOLUTION * 2, Instruction.RESOLUTION * 3, FileRepresentation.NULL) { };
 			instructions.append(instruction);
 
 			// Create the OldRenderer with a TestRenderer instance
@@ -55,7 +56,7 @@ public class RendererTest {
 				} catch (InterruptedException e) {
 				}
 
-				if ((System.currentTimeMillis() - start) > 5000) {
+				if ((System.currentTimeMillis() - start) > 10000) {
 					throw new Exception(
 							"Timed out waiting for OldRenderer to finish");
 				}
@@ -64,11 +65,11 @@ public class RendererTest {
 			// Convert the observed instruction delivery time into a renderer
 			// time
 
-			_delivered = (_delivered - start) * OldRenderer.RATE / 1000;
+			_delivered = (_delivered - start) * Instruction.RESOLUTION / 1000;
 
 			// Assert that the delivery occurred within 0.2 seconds of the mark
 
-			assertTrue(Math.abs(_delivered - instruction.start()) < OldRenderer.RATE / 5);
+			assertTrue(Math.abs(_delivered - instruction.start()) < Instruction.RESOLUTION / 5);
 		} finally {
 			if (renderer != null)
 				renderer.stop();

@@ -11,6 +11,6 @@ public class ImageRenderer implements Renderer {
     final static String[] acceptHeaders = new String[]{"Image/png", "Image/jpg"};
 
     public void notify(Instruction instruction, long beat) {
-        log.info("Displaying {}", ((ImageInstruction) instruction).imageUrl);
+        log.info("Displaying {}", ((ImageInstruction) instruction).fileRepresentation());
     }
 }

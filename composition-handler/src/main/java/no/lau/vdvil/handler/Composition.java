@@ -1,29 +1,37 @@
 package no.lau.vdvil.handler;
 
 import no.bouvet.kpro.renderer.Instructions;
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
 public class Composition implements MultimediaPart {
     public final String name;
     public final MasterBeatPattern masterBeatPattern;
     public final List<MultimediaPart> multimediaParts;
-    public final URL url;
+    public FileRepresentation fileRepresentation;
 
-    public Composition(String name, MasterBeatPattern masterBeatPattern, List<MultimediaPart> multimediaParts, URL url) {
+    public Composition(String name, MasterBeatPattern masterBeatPattern, FileRepresentation fileRepresentation, Compositeur compositeur) {
         this.name = name;
         this.masterBeatPattern = masterBeatPattern;
-        this.multimediaParts = multimediaParts;
-        this.url = url;
+        this.multimediaParts = compositeur.parts();
+        this.fileRepresentation = fileRepresentation;
     }
 
-    public Instructions instructions(Float masterBpm) throws IOException {
+    /**
+     * Converts composition to Instructions.
+     * @param movement If the composition is to start on a differnent BPM than 0. null if movement isn't necessary
+     */
+    public Instructions instructions(Float masterBpm, Integer movement) throws IOException {
         Instructions instructions = new Instructions();
         for (MultimediaPart multimediaPart : multimediaParts) {
+            if (movement != null && multimediaPart instanceof MutableInstruction) {
+                MutableInstruction mutableInstruction = (MutableInstruction) multimediaPart;
+                mutableInstruction.moveStart(movement);
+            }
             instructions.append(multimediaPart.asInstruction(masterBpm));
         }
         return instructions;
@@ -41,21 +49,23 @@ public class Composition implements MultimediaPart {
         throw new RuntimeException("No CompositionInstruction set up for a Composition");
     }
 
-    public void cache(DownloadAndParseFacade downloader) throws IOException {
-        for (MultimediaPart multimediaPart : multimediaParts) {
-            multimediaPart.cache(downloader);
-        }
+    public FileRepresentation fileRepresentation() {
+        return this.fileRepresentation;
     }
 
     /**
      * Creates a copy of this Composition with a different beatPattern
      */
     public Composition withBeatPattern(MasterBeatPattern beatPattern) {
-        return new Composition(name, beatPattern, multimediaParts, url);
+        return new Composition(name, beatPattern, fileRepresentation, () -> multimediaParts);
     }
 
     public String toString() {
         return name + "; " + masterBeatPattern.toString() + ". " + multimediaParts.size() + " parts" ;
+    }
+
+    public void updateFileRepresentation(FileRepresentation fileRepresentation) {
+        this.fileRepresentation = fileRepresentation;
     }
 }
 

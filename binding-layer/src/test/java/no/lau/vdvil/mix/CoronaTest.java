@@ -1,27 +1,31 @@
 package no.lau.vdvil.mix;
 
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaPart;
+import no.lau.vdvil.mix.util.CompositionHelper;
+import no.lau.vdvil.playback.BackStage;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.*;
 import org.junit.Test;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class CoronaTest extends SuperPlayingSetup{
+public class CoronaTest {
+    Track corona = TestMp3s.corona;
+    MasterBeatPattern mbp = new MasterBeatPattern(0, 32, 150F);
+
     @Test
     public void play() {
-        super.play(new MasterBeatPattern(0, 32, 150F));
+        new BackStage().prepare(composition).playUntilEnd();
     }
-    Track corona = TestMp3s.corona;
 
-    @Override
-    protected Composition compose(MasterBeatPattern masterBeatPattern) throws IOException {
-        List<MultimediaPart> parts = new ArrayList<MultimediaPart>();
-        parts.add(createPart(new Interval(0, 20), corona.segments.get(3), corona));
-        parts.add(createPart(new Interval(4, 4), corona.segments.get(6), corona));
-        return new Composition(getClass().getSimpleName(), masterBeatPattern, parts, TestMp3s.NULL);
-    }
+    Composition composition = new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
+        public List<MultimediaPart> parts() {
+            return Arrays.asList(
+                    createPart(new Interval(0, 20), corona.segments.get(3), corona, corona.mediaFile.fileName),
+                    createPart(new Interval(4, 4), corona.segments.get(6), corona, corona.mediaFile.fileName));
+        }
+    });
 }

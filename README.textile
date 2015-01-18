@@ -10,3 +10,6 @@ Available at http://play.kompo.st with demo composition [Github|https://raw.gith
 
 JSON file upload to kompo.st store
 curl -X POST https://stiglau:password@stiglau.cloudant.com/kompost/ -H "Content-Type: application/json" -d @JavazoneExample.composition.dvl.json
+
+h3. Turning on debug logging
+-Dorg.slf4j.simpleLogger.defaultLogLevel=debug
