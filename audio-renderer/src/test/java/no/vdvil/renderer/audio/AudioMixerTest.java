@@ -1,6 +1,5 @@
 package no.vdvil.renderer.audio;
 
-import com.google.common.collect.Sets;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.MP3Source;

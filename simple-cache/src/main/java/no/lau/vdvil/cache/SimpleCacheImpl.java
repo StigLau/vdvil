@@ -43,13 +43,11 @@ public class SimpleCacheImpl implements VdvilCache, SimpleVdvilCache {
      * Used by testing purposes
      */
     public void fetchFromInternet(URL url, File localStorage) throws IOException {
-            InputStream inputStream = addHostAuthentication(url).getInputStream();
         FileOutputStream outputStream = FileUtils.openOutputStream(localStorage);
-        try {
+        try (InputStream inputStream = addHostAuthentication(url).getInputStream()) {
             IOUtils.copy(inputStream, outputStream);
         } finally {
             IOUtils.closeQuietly(outputStream);
-            inputStream.close();
         }
     }
 
