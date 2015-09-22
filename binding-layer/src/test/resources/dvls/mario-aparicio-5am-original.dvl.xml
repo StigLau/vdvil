@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<komposition>
+    <reference>Mario_Aparicio-5am_original.mp3</reference>
+    <type>audioKomposition</type>
+    <mediaFile>
+        <fileName>https://s3.amazonaws.com/dvl-test-music/music/mario-aparicio-5am-original.mp3</fileName>
+        <startingOffset>0.00</startingOffset>
+        <checksum>0a5e2b8803623743210e65f1c2d5d7c7</checksum>
+        <type>url</type>
+    </mediaFile>
+    <bpm>125.0</bpm>
+    <segments>
+        <segment>
+            <id>Intro?</id>
+            <start>0</start>
+            <end>128</end>
+        </segment>
+        <segment>
+            <id>Verse1?</id>
+            <start>128</start>
+            <end>256</end>
+        </segment>
+        <segment>
+            <id>Refrain 1?</id>
+            <start>256</start>
+            <end>384</end>
+        </segment>
+        <segment>
+            <id>Verse 2?</id>
+            <start>384</start>
+            <end>512</end>
+        </segment>
+        <segment>
+            <id>Refrain 2?</id>
+            <start>512</start>
+            <end>640</end>
+        </segment>
+        <segment>
+            <id>Outro ?</id>
+            <start>640</start>
+            <end>768</end>
+        </segment>
+    </segments>
+</komposition>
