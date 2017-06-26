@@ -103,9 +103,9 @@
     }
 ],
     "dvls":{
-        "returning":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl",
-        "Youre not alone":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/olive-youre_not_alone.dvl",
-        "It scares me":"http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl",
+        "returning":"https://s3.amazonaws.com/dvl-test-music/dvl/holden-nothing-93_returning_mix.dvl",
+        "Youre not alone":"https://s3.amazonaws.com/dvl-test-music/dvl/olive-youre_not_alone.dvl",
+        "It scares me":"https://s3.amazonaws.com/dvl-test-music/dvl/christian_cambas-it_scares_me.dvl",
         "Snoop Teddy":"https://github.com/StigLau/vdvil/raw/master/image-renderer/src/test/resources/ImageDescription2.html",
         "Pimp Teddy":"https://github.com/StigLau/vdvil/raw/master/image-renderer/src/test/resources/ImageDescription.html"
     }

@@ -1,7 +1,7 @@
 {"reference":"Holden an Thompsen - Nothing",
     "bpm":130.0,
     "mediaFile":{
-        "fileName":"http://kpro09.googlecode.com/svn/test-files/holden-nothing-93_returning_mix.mp3",
+        "fileName":"https://s3.amazonaws.com/dvl-test-music/music/holden-nothing-93_returning_mix.mp3",
         "startingOffset":5.945,
         "checksum":"3e3477a6ccba67aa9f3196390f48b67d"
     }, "segments":[
