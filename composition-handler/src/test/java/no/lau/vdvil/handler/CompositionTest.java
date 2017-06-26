@@ -13,7 +13,7 @@ public class CompositionTest {
         ParseFacade parseFacade = new ParseFacade();
         parseFacade.addParser(new CompositionXMLParser(parseFacade));
 
-        FileRepresentation fileRepresentation = Store.get().createKey(ClassLoader.getSystemResource("CompositionExample.xml"), "33b7c142b2761a9a8cc0e6839b2b83d1");
+        FileRepresentation fileRepresentation = Store.get().createKey(ClassLoader.getSystemResource("CompositionExample.xml"), "82058797b8edfdbe5fac1218806a175c");
         Composition composition = (Composition) parseFacade.parse(PartXML.create(fileRepresentation));
         assertEquals("A simple example", composition.name);
         assertEquals(150, composition.masterBeatPattern.masterBpm.intValue());
