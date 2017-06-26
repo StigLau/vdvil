@@ -30,7 +30,7 @@
     </part><part>
         <id>cfw1</id>
         <dvl>
-            <url>http://www.shinyshiny.tv/teddy%20bear%201.jpg</url>
+            <url>https://s3.amazonaws.com/dvl-test-music/test-images/teddy/teddy+bear+1.jpg</url>
             <name>Click Flash Wirr</name>
         </dvl>
         <start>4</start>

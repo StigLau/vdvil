@@ -30,7 +30,7 @@ public class JavaZoneExample {
     public void persistenceTest() throws IOException {
         VdvilWavConfig asFile = new VdvilWavConfig(this);
         new BackStage(asFile).prepare(composition).playUntilEnd();
-        assertEquals("asd123", asFile.checksum());
+        assertEquals("a3e24ad10fc7dcfe62efe0568070ad0d", asFile.checksum());
     }
 
     public static void main(String[] args) throws Exception {

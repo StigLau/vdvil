@@ -5727,7 +5727,7 @@
       <instanceOf>
         <topicRef xlink:href="#id83"></topicRef>
       </instanceOf>
-      <baseNameString>http://kpro09.googlecode.com/svn/test-files/space_manoeuvres-stage_one_original.mp3</baseNameString>
+      <baseNameString>https://s3.amazonaws.com/dvl-test-music/music/space_manoeuvres-stage_one_original.mp3</baseNameString>
     </baseName>
     <baseName>
       <instanceOf>

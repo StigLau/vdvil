@@ -29,7 +29,7 @@ public class SurrenderPlayingTest {
     FileRepresentation surrenderDvl;
 
     public SurrenderPlayingTest() throws IOException {
-        surrenderDvl = store.cache(ClassLoader.getSystemResource("Way_Out_West-Surrender-Eelke_Kleijn_Remix.dvl.xml"), "e4d263440e684878cf3b7d3ec1c44b46");
+        surrenderDvl = store.cache(ClassLoader.getSystemResource("Way_Out_West-Surrender-Eelke_Kleijn_Remix.dvl.xml"), "fc75a9899ee6082d769ea35941d3a36a");
     }
 
     public void play() throws IOException {
@@ -124,11 +124,11 @@ public class SurrenderPlayingTest {
         return new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
             public List<MultimediaPart> parts() {
                 return Arrays.asList(
-                        createImagePart("Diving Teddy", new Interval(0, 16), store.createKey("http://www.shinyshiny.tv/teddy%20bear%201.jpg", "a9e178def69c92cc9355b1e7512dabe8")),
+                        createImagePart("Diving Teddy", new Interval(0, 16), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/teddy+bear+1.jpg", "a9e178def69c92cc9355b1e7512dabe8")),
                         createImagePart("Dead Teddy", new Interval(16, 16), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "4648c59ec6235407b59a0327328041b5")),
                         createImagePart("Diving Teddy", new Interval(32, 16), store.createKey("http://farm3.static.flickr.com/2095/2282261838_276a37d325_o_d.jpg", "5afcd12326717d727f694aba4d2e1055")),
                         createImagePart("Dead Teddy", new Interval(64, 32), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "Dootsie")),
-                        createImagePart("Diving Teddy", new Interval(240, 4), store.createKey("http://www.shinyshiny.tv/teddy%20bear%201.jpg", "hey")),
+                        createImagePart("Diving Teddy", new Interval(240, 4), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/teddy+bear+1.jpg", "hey")),
 
                         createAudioPart("0-128Surrender", new Interval(0, 16), surrenderDvl),
                         createAudioPart("256-352Surrender", new Interval(16, 64), surrenderDvl), // Elguitar

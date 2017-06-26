@@ -1,7 +1,7 @@
 <track>
   <reference>Holden an Thompsen - Nothing</reference>
   <mediaFile>
-    <fileName>http://kpro09.googlecode.com/svn/test-files/holden-nothing-93_returning_mix.mp3</fileName>
+    <fileName>https://s3.amazonaws.com/dvl-test-music/music/holden-nothing-93_returning_mix.mp3</fileName>
     <startingOffset>5.945</startingOffset>
     <checksum>3e3477a6ccba67aa9f3196390f48b67d</checksum>
   </mediaFile>
