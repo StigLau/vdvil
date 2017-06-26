@@ -54,11 +54,11 @@ public class RenderingV2Test {
 
     private MultimediaPart[] createImageParts()  {
         return new MultimediaPart[]{
-                createImagePart("1", new Interval(0, 4), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/teddy/checkered_teddy.jpg", "4a2caec562cd04f5418c5cb7629c8f1c")),
-                createImagePart("2", new Interval(4, 4), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/teddy/Snow_bears.jpg", "b7752d3eee31b6f4e4a2bc5a2b40b3d3")),
-                createImagePart("3", new Interval(8, 4), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/teddy/mac_bear.jpg", "11384f70753cbfa466ceb6f8133f3aec")),
-                createImagePart("4", new Interval(12, 4), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/teddy/relax_bear.jpg", "6fef5b4efb4b9edfc21e66a603093aa9")),
-                createImagePart("5", new Interval(16, 4), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/teddy/sitting_together_bears.jpg", "44e75d099a9b64fe400985089c9fda79"))
+                createImagePart("1", new Interval(0, 4), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/checkered_teddy.jpg", "4a2caec562cd04f5418c5cb7629c8f1c")),
+                createImagePart("2", new Interval(4, 4), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/Snow_bears.jpg", "b7752d3eee31b6f4e4a2bc5a2b40b3d3")),
+                createImagePart("3", new Interval(8, 4), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/mac_bear.jpg", "11384f70753cbfa466ceb6f8133f3aec")),
+                createImagePart("4", new Interval(12, 4), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/relax_bear.jpg", "6fef5b4efb4b9edfc21e66a603093aa9")),
+                createImagePart("5", new Interval(16, 4), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/sitting_together_bears.jpg", "44e75d099a9b64fe400985089c9fda79"))
         };
     }
 

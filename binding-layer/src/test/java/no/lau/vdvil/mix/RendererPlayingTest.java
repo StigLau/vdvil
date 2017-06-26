@@ -58,11 +58,11 @@ public class RendererPlayingTest {
                     createAudioPart(returningMp3.segments.get(6).id, new Interval(4, 12), TestMp3s.returningDvl),
                     createAudioPart(returningMp3.segments.get(9).id, new Interval(2, 18), TestMp3s.returningDvl),
                     createAudioPart(returningMp3.segments.get(10).id, new Interval(48, 12), TestMp3s.returningDvl),
-                    createImagePart("1", new Interval(0, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/killer_shibe_huntin_phor_u_on_snow.jpg", "fbef28324d02fab54085b686cec62947")),
-                    createImagePart("2", new Interval(8, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/shibe_puppy_snow.jpg", "20ff41e030878bc25d6f24a9e1d384bf")),
-                    createImagePart("3", new Interval(32, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/shibe_lookin_at_u.jpg", "a84415d82a247b110f621ddc4874f3ce")),
-                    createImagePart("4", new Interval(48, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/shibe_window.jpg", "facde87bfa52415d669c828ac726119a")),
-                    createImagePart("5", new Interval(64, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/shiba/yawny_shibe.jpg", "80547837f13b03e412ffb607e4b0841d")));
+                    createImagePart("1", new Interval(0, 16), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/shiba/killer_shibe_huntin_phor_u_on_snow.jpg", "fbef28324d02fab54085b686cec62947")),
+                    createImagePart("2", new Interval(8, 16), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/shiba/shibe_puppy_snow.jpg", "20ff41e030878bc25d6f24a9e1d384bf")),
+                    createImagePart("3", new Interval(32, 16), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/shiba/shibe_lookin_at_u.jpg", "a84415d82a247b110f621ddc4874f3ce")),
+                    createImagePart("4", new Interval(48, 16), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/shiba/shibe_window.jpg", "facde87bfa52415d669c828ac726119a")),
+                    createImagePart("5", new Interval(64, 16), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/shiba/yawny_shibe.jpg", "80547837f13b03e412ffb607e4b0841d")));
         }
     });
 }

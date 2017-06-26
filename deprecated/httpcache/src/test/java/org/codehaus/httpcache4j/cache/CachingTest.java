@@ -21,8 +21,8 @@ import static org.junit.Assert.assertTrue;
  */
 public class CachingTest {
     Logger log =  LoggerFactory.getLogger(getClass());
-    URL returningmp3 = createURL("http://kpro09.googlecode.com/svn/test-files/holden-nothing-93_returning_mix.mp3");
-    URL dvlUrl = createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl");
+    URL returningmp3 =  createURL("https://s3.amazonaws.com/dvl-test-music/music/holden-nothing-93_returning_mix.mp3");
+    URL dvlUrl =        createURL("https://s3.amazonaws.com/dvl-test-music/dvl/holden-nothing-93_returning_mix.dvl");
 
 
     //Pull down .vdl file from url reference

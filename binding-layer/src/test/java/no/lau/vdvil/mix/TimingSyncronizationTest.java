@@ -40,9 +40,9 @@ public class TimingSyncronizationTest {
 
                     createImagePart("0", new Interval(0, 2), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "4648c59ec6235407b59a0327328041b5")),
 
-                    createImagePart("1", new Interval(2, 2), store.createKey("http://www.shinyshiny.tv/teddy%20bear%201.jpg", "a9e178def69c92cc9355b1e7512dabe8")),
-                    createImagePart("4", new Interval(4, 2), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/teddy/checkered_teddy.jpg", "4a2caec562cd04f5418c5cb7629c8f1c")),
-                    createImagePart("5", new Interval(6, 2), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/teddy/Snow_bears.jpg", "b7752d3eee31b6f4e4a2bc5a2b40b3d3")));
+                    createImagePart("1", new Interval(2, 2), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/teddy+bear+1.jpg", "a9e178def69c92cc9355b1e7512dabe8")),
+                    createImagePart("4", new Interval(4, 2), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/checkered_teddy.jpg", "4a2caec562cd04f5418c5cb7629c8f1c")),
+                    createImagePart("5", new Interval(6, 2), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/Snow_bears.jpg", "b7752d3eee31b6f4e4a2bc5a2b40b3d3")));
         }
     });
 
@@ -66,17 +66,17 @@ public class TimingSyncronizationTest {
 
                     createImagePart("0", new Interval(0, 16), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "4648c59ec6235407b59a0327328041b5")),
 
-                    createImagePart("1", new Interval(16, 16), store.createKey("http://www.shinyshiny.tv/teddy%20bear%201.jpg", "a9e178def69c92cc9355b1e7512dabe8")),
+                    createImagePart("1", new Interval(16, 16), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/teddy+bear+1.jpg", "a9e178def69c92cc9355b1e7512dabe8")),
             /*
 createImagePart("2", new Interval(8, 4), store.createKey("http://farm6.static.flickr.com/5101/5659214954_5c333c4cd1_d.jpg")),
 createImagePart("3", new Interval(12, 4), store.createKey("http://farm6.static.flickr.com/5181/5659204108_975723a0fe_d.jpg")),
             */
-                    createImagePart("4", new Interval(32, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/teddy/checkered_teddy.jpg", "4a2caec562cd04f5418c5cb7629c8f1c")),
-                    createImagePart("5", new Interval(48, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/teddy/Snow_bears.jpg", "b7752d3eee31b6f4e4a2bc5a2b40b3d3")),
-                    createImagePart("6", new Interval(64, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/teddy/mac_bear.jpg", "11384f70753cbfa466ceb6f8133f3aec")),
-                    createImagePart("7", new Interval(80, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/teddy/relax_bear.jpg", "6fef5b4efb4b9edfc21e66a603093aa9")),
-                    createImagePart("8", new Interval(96, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/teddy/sitting_together_bears.jpg", "44e75d099a9b64fe400985089c9fda79")),
-                    createImagePart("9", new Interval(112, 16), store.createKey("https://kpro09.googlecode.com/svn/test-files/pics/teddy/stacked_bears.jpg", "e838ba5f3c46c97d55e3a9d46afa883d")));
+                    createImagePart("4", new Interval(32, 16), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/checkered_teddy.jpg", "4a2caec562cd04f5418c5cb7629c8f1c")),
+                    createImagePart("5", new Interval(48, 16), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/Snow_bears.jpg", "b7752d3eee31b6f4e4a2bc5a2b40b3d3")),
+                    createImagePart("6", new Interval(64, 16), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/mac_bear.jpg", "11384f70753cbfa466ceb6f8133f3aec")),
+                    createImagePart("7", new Interval(80, 16), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/relax_bear.jpg", "6fef5b4efb4b9edfc21e66a603093aa9")),
+                    createImagePart("8", new Interval(96, 16), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/sitting_together_bears.jpg", "44e75d099a9b64fe400985089c9fda79")),
+                    createImagePart("9", new Interval(112, 16), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/stacked_bears.jpg", "e838ba5f3c46c97d55e3a9d46afa883d")));
             /*
 createImagePart("5", new Interval(18, 2), store.createKey("http://farm6.static.flickr.com/5308/5620385926_1fe89c1011_d.jpg")),
 createImagePart("6", new Interval(20, 2), store.createKey("http://farm6.static.flickr.com/5068/5620372140_6fdf929526_d.jpg")),

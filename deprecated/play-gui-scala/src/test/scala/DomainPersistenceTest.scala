@@ -34,7 +34,7 @@ class DomainPersistenceTest {
 
 @Deprecated // Remove usage of "baseurl + something
 object JavaZoneDemoComposition {
-  val baseUrl = "http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/"
+  val baseUrl = "https://s3.amazonaws.com/dvl-test-music/dvl/"
   val returning = Dvl(TestMp3s.returningDvl, "returning")
   val not_alone = Dvl(TestMp3s.not_aloneDvl, "You're not alone")
   val scares_me = Dvl(TestMp3s.scares_meDvl, "It scares me")

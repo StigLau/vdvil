@@ -3,7 +3,7 @@
     <reference>The_Hurt_feat__Sam_Mollison_Andre_Sobota_Remix.mp3</reference>
     <type>audioKomposition</type>
     <mediaFile>
-        <fileName>https://kpro09.googlecode.com/svn/test-files/The_Hurt_feat__Sam_Mollison_Andre_Sobota_Remix.mp3</fileName>
+        <fileName>https://s3.amazonaws.com/dvl-test-music/music/The_Hurt_feat__Sam_Mollison_Andre_Sobota_Remix.mp3</fileName>
         <startingOffset>0.00</startingOffset>
         <checksum>eb20387d0f0f26f1c6381c3270aa3873</checksum>
         <type>url</type>

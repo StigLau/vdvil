@@ -18,7 +18,7 @@ public class StoreTest {
     String returningMp3 = "https://s3.amazonaws.com/dvl-test-music/music/holden-nothing-93_returning_mix.mp3";
     String returningMp3Checksum = "3e3477a6ccba67aa9f3196390f48b67d";
     String psylteDVL = "https://s3.amazonaws.com/dvl-test-music/dvl/loaderror-psylteflesk.dvl";
-    String psylteDVLChecksum = "88a5ea828b7029b3887a9ccbdf810408";
+    String psylteDVLChecksum = "fe002d377092e28afdbf25ca1eeba915";
 
 
     Store store;
@@ -73,6 +73,6 @@ public class StoreTest {
     public void downloadSomethingWithCorrectChecksum() throws IOException {
         FileRepresentation fileRepresentation = store.cache(new CacheMetaData(new URL(psylteDVL), psylteDVLChecksum));
         assertEquals("/tmp/vdvil/files/0f6169eb434aa02b2f79929aabba1d9e/default", fileRepresentation.localStorage().getAbsolutePath());
-        assertEquals("88a5ea828b7029b3887a9ccbdf810408", fileRepresentation.md5CheckSum());
+        assertEquals("fe002d377092e28afdbf25ca1eeba915", fileRepresentation.md5CheckSum());
     }
 }
