@@ -2,10 +2,10 @@ package no.lau.vdvil.cache;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import sun.misc.BASE64Encoder;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,6 +79,6 @@ class UsernameAndPassword {
 
     String b64Encoded() {
         String userAndPassword = username + ":" + password;
-        return new BASE64Encoder().encode (userAndPassword.getBytes());
+        return Base64.getEncoder().encodeToString(userAndPassword.getBytes());
     }
 }
