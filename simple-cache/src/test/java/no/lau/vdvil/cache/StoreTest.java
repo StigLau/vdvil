@@ -43,7 +43,7 @@ public class StoreTest {
     @Test
     public void findAlreadyStoredCachedFiles() throws IOException {
         FileRepresentation fileRepresentation = store.cache(ClassLoader.getSystemResource("empty_testfile.txt"), "44edc5da79b289f81094d8d5952efde7");
-        assertEquals("/tmp/vdvil/files/a31a2c495689a77c76ca06f92d5515ef/default", fileRepresentation.localStorage().getAbsolutePath());
+        assertEquals("/tmp/vdvil/files/c28cbd3b6c75c0aa4dc6a4ff4b7c5bf5/default", fileRepresentation.localStorage().getAbsolutePath());
     }
 
     @Test
