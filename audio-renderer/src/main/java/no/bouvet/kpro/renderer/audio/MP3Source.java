@@ -84,7 +84,9 @@ public class MP3Source implements AudioSource {
 	 *             if the file could not be opened, not be understood, or was of
 	 *             the wrong format
 	 */
-	public MP3Source(File file) throws IOException {
+	public MP3Source(File filez) throws IOException {
+		log.warn("Ugly hack in progress of transforming heterogenous something into correct mp3 reference");
+		File file = new File(filez.getAbsolutePath() + ".mp3");
 		log.debug("Opening " + file.toString() );
 
 		// Open the file
