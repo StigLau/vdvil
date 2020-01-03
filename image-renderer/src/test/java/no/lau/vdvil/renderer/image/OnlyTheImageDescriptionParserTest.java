@@ -11,7 +11,7 @@ import java.net.URL;
 import static org.junit.Assert.assertEquals;
 
 public class OnlyTheImageDescriptionParserTest {
-    String imagePath = "http://farm3.static.flickr.com/2095/2282261838_276a37d325_o_d.jpg";
+    String imagePath = "https://kompost.s3.amazonaws.com/dvl-test/images/cute-teddy.jpg";
     URL compositionXmlUrl = ClassLoader.getSystemResource("testCompositionWithImageDvls.xml");
     OnlyTheImageDescriptionParser parser = new OnlyTheImageDescriptionParser();
 
