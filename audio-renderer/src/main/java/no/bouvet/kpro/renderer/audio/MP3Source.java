@@ -86,7 +86,16 @@ public class MP3Source implements AudioSource {
 	 */
 	public MP3Source(File filez) throws IOException {
 		log.warn("Ugly hack in progress of transforming heterogenous something into correct mp3 reference");
-		File file = new File(filez.getAbsolutePath() + ".mp3");
+		File file;
+		if(new File(filez.getAbsolutePath()).exists()) {
+			file = new File(filez.getAbsolutePath());
+		} else { //Try adding the filenameEnding
+			String filenameEnding = "";
+			if(!filez.getAbsoluteFile().toString().contains(".mp3")) {
+				filenameEnding = ".mp3";
+			}
+			file = new File(filez.getAbsolutePath() + filenameEnding);
+		}
 		log.debug("Opening " + file.toString() );
 
 		// Open the file
