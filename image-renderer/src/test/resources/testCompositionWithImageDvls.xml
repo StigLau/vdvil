@@ -5,7 +5,7 @@
         <part>
             <id>4479230163500364845</id>
             <dvl>
-                <url>https://github.com/StigLau/vdvil/raw/master/image-renderer/src/test/resources/ImageDescription.html</url>
+                <url>https://github.com/StigLau/vdvil/raw/utvikling/image-renderer/src/test/resources/ImageDescription.html</url>
                 <name>Pimp Teddy</name>
             </dvl>
             <start>0</start>
@@ -14,7 +14,7 @@
         <part>
             <id>5403996530329584526</id>
             <dvl>
-                <url>https://github.com/StigLau/vdvil/raw/master/image-renderer/src/test/resources/ImageDescription2.html</url>
+                <url>https://github.com/StigLau/vdvil/raw/utvikling/image-renderer/src/test/resources/ImageDescription2.html</url>
                 <name>Pimp teddy 2</name>
             </dvl>
             <start>16</start>

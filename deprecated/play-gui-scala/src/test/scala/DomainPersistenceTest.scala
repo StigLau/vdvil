@@ -41,9 +41,9 @@ object JavaZoneDemoComposition {
 
   val mixTape:List[MultimediaPartTrait] = AudioPart(not_alone, 0, 32, "4479230163500364845") ::
     LyricPart("Vegen til mitt hjarte går gjennom skivane mine", 2, 8) ::
-    ImagePart("1", new URL("http://farm3.static.flickr.com/2095/2282261838_276a37d325_o_d.jpg"), 2, 8) ::
+    ImagePart("1", new URL("https://dvl-test-music.s3.amazonaws.com/test-images/teddy/cute-teddy.jpg"), 2, 8) ::
     AudioPart(scares_me, 16, 48, "5403996530329584526") ::
-    ImagePart("2", new URL("http://farm5.static.flickr.com/4002/4186213402_41896e5599_z_d.jpg"), 8, 16) ::
+    ImagePart("2", new URL("https://dvl-test-music.s3.amazonaws.com/test-images/teddy/4186213402_41896e5599_z.jpg"), 8, 16) ::
     LyricPart("Scares Me", 16, 18) ::
     AudioPart(not_alone, 32, 70, "8313187524105777940") ::
     ImagePart("3", new URL("http://farm1.static.flickr.com/40/87264190_d673a87545_o_d.jpg"), 32, 34) ::

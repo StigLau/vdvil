@@ -18,7 +18,7 @@ public class CompositionWithImageParserTest {
 
     @Test
     public void compositionParsing() throws Exception {
-        FileRepresentation fileRepresentation = Store.get().createKey(ClassLoader.getSystemResource("testCompositionWithImageDvls.xml"), "63d66578887d85accd3a6cb75c663b71");
+        FileRepresentation fileRepresentation = Store.get().createKey(ClassLoader.getSystemResource("testCompositionWithImageDvls.xml"), "28295bc73c892d874dddbc1a74ddb4aa");
 
         ParseFacade parser = new ParseFacade();
         parser.addParser(new ImageDescriptionXMLParser());
@@ -30,7 +30,7 @@ public class CompositionWithImageParserTest {
         assertEquals(150, composition.masterBeatPattern.masterBpm.intValue());
         assertEquals(2, composition.multimediaParts.size());
 
-        URL xmlImageUrl = new URL("http://farm3.static.flickr.com/2095/2282261838_276a37d325_o_d.jpg");
+        URL xmlImageUrl = new URL("https://dvl-test-music.s3.amazonaws.com/test-images/teddy/cute-teddy.jpg");
 
         assertEquals(ImageDescription.class, composition.multimediaParts.get(0).getClass());
         ImageDescription imageDescription = (ImageDescription) composition.multimediaParts.get(0);

@@ -126,7 +126,7 @@ public class SurrenderPlayingTest {
                 return Arrays.asList(
                         createImagePart("Diving Teddy", new Interval(0, 16), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/teddy+bear+1.jpg", "a9e178def69c92cc9355b1e7512dabe8")),
                         createImagePart("Dead Teddy", new Interval(16, 16), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "4648c59ec6235407b59a0327328041b5")),
-                        createImagePart("Diving Teddy", new Interval(32, 16), store.createKey("http://farm3.static.flickr.com/2095/2282261838_276a37d325_o_d.jpg", "5afcd12326717d727f694aba4d2e1055")),
+                        createImagePart("Diving Teddy", new Interval(32, 16), store.createKey("https://dvl-test-music.s3.amazonaws.com/test-images/teddy/cute-teddy.jpg", "5afcd12326717d727f694aba4d2e1055")),
                         createImagePart("Dead Teddy", new Interval(64, 32), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "Dootsie")),
                         createImagePart("Diving Teddy", new Interval(240, 4), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/teddy+bear+1.jpg", "hey")),
 
