@@ -30,7 +30,7 @@ public class CompositionWithImageParserTest {
         assertEquals(150, composition.masterBeatPattern.masterBpm.intValue());
         assertEquals(2, composition.multimediaParts.size());
 
-        URL xmlImageUrl = new URL("http://farm3.static.flickr.com/2095/2282261838_276a37d325_o_d.jpg");
+        URL xmlImageUrl = new URL("https://dvl-test-music.s3.amazonaws.com/test-images/teddy/cute-teddy.jpg");
 
         assertEquals(ImageDescription.class, composition.multimediaParts.get(0).getClass());
         ImageDescription imageDescription = (ImageDescription) composition.multimediaParts.get(0);

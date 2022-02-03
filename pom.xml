@@ -99,7 +99,7 @@
             <dependency>
                 <groupId>com.thoughtworks.xstream</groupId>
                 <artifactId>xstream</artifactId>
-                <version>1.4.1</version>
+                <version>1.4.19</version>
             </dependency>
             <dependency>
                 <groupId>com.google.code.gson</groupId>
@@ -112,18 +112,18 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.7</version>
+            <version>1.7.33</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.7</version>
+            <version>1.7.33</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -142,6 +142,18 @@
                 <version>3.8.1</version>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0-M5</version>
+                    <configuration>
+                        <excludedGroups>Deprecated</excludedGroups><!-- To be switched based on whether running on github/actions or naught -->
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
     
     <profiles>
@@ -168,7 +180,7 @@
                             <artifactId>maven-surefire-plugin</artifactId>
                             <version>3.0.0-M5</version>
                             <configuration>
-                                <excludedGroups>IntegrationTest</excludedGroups><!-- To be switched based on whether running on github/actions or naught -->
+                                <excludedGroups>IntegrationTest, Deprecated</excludedGroups><!-- To be switched based on whether running on github/actions or naught -->
                             </configuration>
                         </plugin>
                     </plugins>

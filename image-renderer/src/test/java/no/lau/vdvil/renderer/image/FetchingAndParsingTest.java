@@ -26,7 +26,7 @@ public class FetchingAndParsingTest {
         int duration = 16;
         float bpm = 130F;
 
-        FileRepresentation imageDescriptionURL = store.createKey(ClassLoader.getSystemResource("ImageDescription.html"), "ed2b9545a45abab5b2a483a8d6a8b1cb");
+        FileRepresentation imageDescriptionURL = store.createKey(ClassLoader.getSystemResource("ImageDescription.html"), "2aa04fa306899ab577a9a94d357dbd0e");
         ImageDescription imageDescription = new ImageDescriptionXMLParser().parse(PartXML.create(imageDescriptionURL));
 
         ImageInstruction imageInstruction = ImageInstruction.create(new MasterBeatPattern(new Interval(start, duration), bpm), imageDescription.fileRepresentation());

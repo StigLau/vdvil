@@ -4,8 +4,10 @@ import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.persistence.*;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+import org.junit.experimental.categories.Category;
 
+import static org.junit.Assert.assertEquals;
+@Category({Deprecated.class})
 public class CompositionTest {
 
     @Test

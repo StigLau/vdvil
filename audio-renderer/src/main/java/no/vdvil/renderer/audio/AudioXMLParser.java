@@ -18,6 +18,11 @@ public class AudioXMLParser implements MultimediaParser {
         xstream.alias("track", Track.class);
         xstream.alias("mediaFile", MediaFile.class);
         xstream.alias("segment", Segment.class);
+        xstream.allowTypesByWildcard(new String[] {
+                "no.vdvil.renderer.audio.Track",
+                "no.vdvil.renderer.audio.MediaFile",
+                "no.vdvil.renderer.audio.Segment"
+        });
     }
 
     public AudioDescription parse(CompositionInstruction compositionInstruction) throws IOException {
