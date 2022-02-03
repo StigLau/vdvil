@@ -29,6 +29,11 @@ public class CompositionXMLParser implements MultimediaParser{
         xstream.alias("composition", CompositionXml.class);
         xstream.alias("part", OldPart.class);
         xstream.alias("dvl", DvlXML.class);
+        xstream.allowTypesByWildcard(new String[] {
+                "no.lau.vdvil.handler.persistence.domain.CompositionXml",
+                "no.lau.vdvil.handler.persistence.OldPart",
+                "no.lau.vdvil.handler.persistence.DvlXML"
+        });
     }
 
     @Deprecated // Could instead use parse(URL)
