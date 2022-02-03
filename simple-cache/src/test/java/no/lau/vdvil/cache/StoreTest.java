@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Random;
 
 import static org.junit.Assert.*;
 
@@ -52,9 +53,10 @@ public class StoreTest {
         assertEquals("/tmp/vdvil/files/8020a9194279b68610499dfbc0d4619a/default", cachedFileRepresentation.localStorage().toString());
     }
 
-    @Test//(expected = UnknownHostException.class)
+    @Test(expected = UnknownHostException.class)
     public void theDifferentPathsOfStoreCache() throws IOException {
-        store.cache(new URL("http://123ringadingadingading.com"));
+        int randomnr = new Random().nextInt();
+        store.cache(new URL("https://" + randomnr + "ringadingadingading.com"));
     }
 
     @Test
