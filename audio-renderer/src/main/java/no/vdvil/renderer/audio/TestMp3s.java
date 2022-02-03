@@ -18,7 +18,7 @@ public class TestMp3s {
 
     public static final FileRepresentation psylteDvl =              createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/loaderror-psylteflesk.dvl", "11qqw");
     public static final FileRepresentation returningDvl =           createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/holden-nothing-93_returning_mix.dvl", "7a7051b2295481de6d741c83fe194708");
-    public static final FileRepresentation returningJsonDvl =       createFileRepresentation("https://raw.github.com/StigLau/vdvil/utvikling/audio-renderer/src/test/resources/Returning.dvl.json", "2c118b9104462f6e8888c4aaf316cc6a");
+    public static final FileRepresentation returningJsonDvl =       createFileRepresentation("https://raw.github.com/StigLau/vdvil/master/audio-renderer/src/test/resources/Returning.dvl.json", "3c226b18dd7a9b2a92ac539683b72a01");
     public static final FileRepresentation unfinishedSympathyDvl =  createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/unfinished_sympathy.dvl", "123");
     public static final FileRepresentation not_aloneDvl =           createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/olive-youre_not_alone.dvl", "94d57a015484d1019f0458c575a199e3");
     public static final FileRepresentation scares_meDvl =           createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/christian_cambas-it_scares_me.dvl", "c65b216c36a7fe55df539142bcd9cf1b");

@@ -38,7 +38,7 @@ public class TimingSyncronizationTest {
                     createAudioPart("4975745638923227772", new Interval(0, 4), space),
                     createAudioPart("4882945013722419329", new Interval(4, 4), space),
 
-                    createImagePart("0", new Interval(0, 2), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "4648c59ec6235407b59a0327328041b5")),
+                    createImagePart("0", new Interval(0, 2), store.createKey("https://dvl-test-music.s3.amazonaws.com/test-images/teddy/Dead_Teddy_by_Cast_Down_Doll.jpg", "4648c59ec6235407b59a0327328041b5")),
 
                     createImagePart("1", new Interval(2, 2), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/teddy+bear+1.jpg", "a9e178def69c92cc9355b1e7512dabe8")),
                     createImagePart("4", new Interval(4, 2), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/checkered_teddy.jpg", "4a2caec562cd04f5418c5cb7629c8f1c")),
@@ -64,7 +64,7 @@ public class TimingSyncronizationTest {
                     createAudioPart("544-656Surrender", new Interval(112, 16), surrender),
 
 
-                    createImagePart("0", new Interval(0, 16), store.createKey("http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg", "4648c59ec6235407b59a0327328041b5")),
+                    createImagePart("0", new Interval(0, 16), store.createKey("https://dvl-test-music.s3.amazonaws.com/test-images/teddy/Dead_Teddy_by_Cast_Down_Doll.jpg", "4648c59ec6235407b59a0327328041b5")),
 
                     createImagePart("1", new Interval(16, 16), store.createKey("https://s3.amazonaws.com/dvl-test-music/test-images/teddy/teddy+bear+1.jpg", "a9e178def69c92cc9355b1e7512dabe8")),
             /*
