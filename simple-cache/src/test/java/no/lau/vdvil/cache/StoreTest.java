@@ -31,7 +31,7 @@ public class StoreTest {
 
     @Test
     public void cacheFile() throws IOException {
-        URL testFile = ClassLoader.getSystemResource("empty_testfile.txt");
+        URL testFile = StoreTest.class.getClassLoader().getSystemResource("empty_testfile.txt");
         store.cache(testFile);
     }
 
