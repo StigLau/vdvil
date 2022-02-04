@@ -45,6 +45,7 @@
         <!--<module>play-gui</module> -->
         <module>binding-layer</module>
         <module>common-test</module>
+        <module>common-utils</module>
         <module>deprecated-utils</module>
         <!--    <module>play-per-view</module> -->
     </modules>
@@ -85,6 +86,11 @@
             <dependency>
                 <groupId>no.lau.vdvil</groupId>
                 <artifactId>binding-layer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>no.lau.vdvil</groupId>
+                <artifactId>common-utils</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
