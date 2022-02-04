@@ -23,7 +23,7 @@ public class MP3SourceTest {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		source.close();
 	}
 

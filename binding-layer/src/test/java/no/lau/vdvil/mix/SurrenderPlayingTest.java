@@ -25,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class SurrenderPlayingTest {
-    Store store = Store.get();
+    final Store store = Store.get();
     FileRepresentation surrenderDvl;
 
     public SurrenderPlayingTest() throws IOException {
@@ -90,7 +90,7 @@ public class SurrenderPlayingTest {
     }
 
     @Test
-    public void testIntegrityOfInstructions() throws IOException {
+    public void testIntegrityOfInstructions() {
         Composition composition = createComposition(new MasterBeatPattern(0, 128, 130F));
         List<MultimediaPart> parts = composition.multimediaParts;
         assertEquals(0, ((AudioDescription) parts.get(5)).compositionInstruction.start());
