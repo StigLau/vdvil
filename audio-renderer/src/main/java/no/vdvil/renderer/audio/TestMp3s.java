@@ -18,7 +18,7 @@ public class TestMp3s {
 
     public static final FileRepresentation psylteDvl =              createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/loaderror-psylteflesk.dvl", "11qqw");
     public static final FileRepresentation returningDvl =           createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/holden-nothing-93_returning_mix.dvl", "7a7051b2295481de6d741c83fe194708");
-    public static final FileRepresentation returningJsonDvl =       createFileRepresentation("https://raw.github.com/StigLau/vdvil/master/audio-renderer/src/test/resources/Returning.dvl.json", "3c226b18dd7a9b2a92ac539683b72a01");
+    public static final FileRepresentation returningJsonDvl =       createFileRepresentation("https://raw.github.com/StigLau/vdvil/master/audio-renderer/src/test/resources/Returning.dvl.json", "2c118b9104462f6e8888c4aaf316cc6a");
     public static final FileRepresentation unfinishedSympathyDvl =  createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/unfinished_sympathy.dvl", "123");
     public static final FileRepresentation not_aloneDvl =           createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/olive-youre_not_alone.dvl", "94d57a015484d1019f0458c575a199e3");
     public static final FileRepresentation scares_meDvl =           createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/christian_cambas-it_scares_me.dvl", "c65b216c36a7fe55df539142bcd9cf1b");
@@ -35,9 +35,9 @@ public class TestMp3s {
     }
 
     public static final FileRepresentation javaZoneComposition = createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/composition/javazone.dvl.composition.xml", "490aa410679405eebbe36b682db9547e");
-    public static final FileRepresentation javaZoneCompositionJson = createFileRepresentation("http://heap.kompo.st/JavaZone_Demo", "45657af53365567c60e47410f4620678");
+    public static final FileRepresentation javaZoneCompositionJson = createFileRepresentation("https://heap.kompo.st/JavaZone_Demo", "45657af53365567c60e47410f4620678");
     public static final FileRepresentation javaZoneComposition_WithoutImages = createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/composition/javazone.dvl.composition.xml", "c6c3b27b83e71c79574c1837062e2345");
-    public static final URL NULL = createURL("http://null.com");
+    public static final URL NULL = createURL("https://null.com");
 
     public static final Track returning = returning();
     public static final Track corona = corona();
@@ -52,7 +52,7 @@ public class TestMp3s {
 
     static Track returning() {
         MediaFile mediaFile = new MediaFile(returningMp3, 5.945F, "3e3477a6ccba67aa9f3196390f48b67d");
-        List<Segment> segments = new ArrayList<Segment>();
+        List<Segment> segments = new ArrayList<>();
         segments.add(new Segment("4336519975847252321",  0, "low", 64));
         segments.add(new Segment("4638184666682848978", 64, "", 64));
         segments.add(new Segment("2754708889643705332", 128, "Up", 128));
@@ -73,7 +73,7 @@ public class TestMp3s {
 
     static Track corona() {
         MediaFile mediaFile = new MediaFile(coronamp3, Instruction.RESOLUTION * 0.445f, "e0e5beecd6a34f6a8ebae2c8840769af");
-        List<Segment> segments = new ArrayList<Segment>();
+        List<Segment> segments = new ArrayList<>();
         segments.add(new Segment("a", 0, "Baby, why can't we just stay together", 16));
         segments.add(new Segment("b", 16, "Baby, why can't we just stay together", 16));
         segments.add(new Segment("c", 32, "Intro", 32));

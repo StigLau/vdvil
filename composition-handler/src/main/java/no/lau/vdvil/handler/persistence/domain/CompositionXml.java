@@ -21,7 +21,7 @@ public class CompositionXml {
     public Float masterBpm;
     public List<PartXML> parts;
 
-    static Logger log = LoggerFactory.getLogger(CompositionXml.class);
+    static final Logger log = LoggerFactory.getLogger(CompositionXml.class);
 
 
     public Composition asComposition(FileRepresentation fileRepresentation, ParseFacade parseFacade) {

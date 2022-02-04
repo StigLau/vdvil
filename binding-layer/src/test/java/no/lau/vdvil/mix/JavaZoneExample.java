@@ -17,10 +17,10 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class JavaZoneExample {
-    FileRepresentation returning = TestMp3s.returningJsonDvl;
-    FileRepresentation not_alone = TestMp3s.not_aloneDvl;
-    FileRepresentation scares_me = TestMp3s.scares_meDvl;
-    public MasterBeatPattern mbp = new MasterBeatPattern(0, 32 + 64 * 3 + 28, 150F);
+    final FileRepresentation returning = TestMp3s.returningJsonDvl;
+    final FileRepresentation not_alone = TestMp3s.not_aloneDvl;
+    final FileRepresentation scares_me = TestMp3s.scares_meDvl;
+    public final MasterBeatPattern mbp = new MasterBeatPattern(0, 32 + 64 * 3 + 28, 150F);
 
     @Before
     public void setUp() throws IOException {
@@ -33,11 +33,11 @@ public class JavaZoneExample {
         assertEquals("a3e24ad10fc7dcfe62efe0568070ad0d", asFile.checksum());
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         new BackStage().prepare(new JavaZoneExample().composition).playUntilEnd();
     }
 
-    Composition composition = new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
+    final Composition composition = new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
         public List<MultimediaPart> parts() {
             return Arrays.asList(
                     createAudioPart("4479230163500364845", new Interval(0, 32), not_alone),

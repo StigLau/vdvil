@@ -11,7 +11,7 @@ import java.util.*;
  * @since  10/27/13
  */
 public class CacheMetadataStorageAndLookup implements Serializable{
-    final Map<URL, CacheMetaData> urlCacheMetaDataLookup = new HashMap<URL, CacheMetaData>();
+    final Map<URL, CacheMetaData> urlCacheMetaDataLookup = new HashMap<>();
     final static String storeLocation = "/tmp/vdvil";
 
     CacheMetaData putRemoteURL(final URL url, String md5Checksum) {

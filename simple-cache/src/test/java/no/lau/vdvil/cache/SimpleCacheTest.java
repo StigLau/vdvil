@@ -13,7 +13,7 @@ public class SimpleCacheTest {
     URL testFile;
     URL ftpFile;
 
-    SimpleCacheImpl cacheImpl = new SimpleCacheImpl();
+    final SimpleCacheImpl cacheImpl = new SimpleCacheImpl();
 
     @Before
     public void setup() throws MalformedURLException {

@@ -16,7 +16,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class VdvilAudioConfigTest {
-    MasterBeatPattern filter = new MasterBeatPattern(4, 8, -1F);
+    final MasterBeatPattern filter = new MasterBeatPattern(4, 8, -1F);
 
     @Test
     public void removedByFilter() {
@@ -66,7 +66,7 @@ public class VdvilAudioConfigTest {
 
     private MultimediaPart instructionDummy(final String id, final TimeInterval timeInterval) {
         return new MultimediaPart() {
-            CompositionInstruction compositionInstruction = new PartXML(id, timeInterval, null);
+            final CompositionInstruction compositionInstruction = new PartXML(id, timeInterval, null);
             public Instruction asInstruction(Float masterBpm) { return null; }
 
             public no.lau.vdvil.instruction.Instruction asV2Instruction() {

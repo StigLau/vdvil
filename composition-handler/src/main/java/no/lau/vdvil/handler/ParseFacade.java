@@ -13,9 +13,9 @@ import java.util.List;
  * A frontend for multiple Caches and Parsers
  */
 public class ParseFacade implements MultimediaParser {
-    Logger log = LoggerFactory.getLogger(getClass());
-    List<MultimediaParser> parsers = new ArrayList<MultimediaParser>();
-    Store store = Store.get();
+    final Logger log = LoggerFactory.getLogger(getClass());
+    final List<MultimediaParser> parsers = new ArrayList<>();
+    final Store store = Store.get();
 
     public static final ParseFacade NULL = new ParseFacade();
 

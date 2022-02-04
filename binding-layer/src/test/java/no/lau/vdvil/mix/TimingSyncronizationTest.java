@@ -1,5 +1,6 @@
 package no.lau.vdvil.mix;
 
+import no.lau.IntegrationTest;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.Composition;
@@ -11,15 +12,18 @@ import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.TestMp3s;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
 import java.util.Arrays;
 import java.util.List;
 
+@Category(IntegrationTest.class)
 public class TimingSyncronizationTest {
-    FileRepresentation space = TestMp3s.spaceDvl;
-    FileRepresentation surrender = TestMp3s.surrenderDvl;
-    Store store = Store.get();
-    MasterBeatPattern quickMbp = new MasterBeatPattern(0, 8, 130F);
-    MasterBeatPattern mbp = new MasterBeatPattern(0, 128, 130F);
+    final FileRepresentation space = TestMp3s.spaceDvl;
+    final FileRepresentation surrender = TestMp3s.surrenderDvl;
+    final Store store = Store.get();
+    final MasterBeatPattern quickMbp = new MasterBeatPattern(0, 8, 130F);
+    final MasterBeatPattern mbp = new MasterBeatPattern(0, 128, 130F);
 
     @Test
     public void quickPlay() {
@@ -32,7 +36,7 @@ public class TimingSyncronizationTest {
         new BackStage().prepare(composition).playUntilEnd();
     }
 
-    Composition quickComposition = new Composition(getClass().getSimpleName(), quickMbp, FileRepresentation.NULL, new CompositionHelper() {
+    final Composition quickComposition = new Composition(getClass().getSimpleName(), quickMbp, FileRepresentation.NULL, new CompositionHelper() {
         public List<MultimediaPart> parts() {
             return Arrays.asList(
                     createAudioPart("4975745638923227772", new Interval(0, 4), space),
@@ -46,7 +50,7 @@ public class TimingSyncronizationTest {
         }
     });
 
-    Composition composition = new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
+    final Composition composition = new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
         public List<MultimediaPart> parts() {
             return Arrays.asList(
         /*

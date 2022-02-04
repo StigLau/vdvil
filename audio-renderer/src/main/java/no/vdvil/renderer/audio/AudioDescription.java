@@ -6,13 +6,10 @@ import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.MutableInstruction;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.instruction.Instruction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AudioDescription implements MultimediaPart, MutableInstruction {
 
-    Logger log = LoggerFactory.getLogger(getClass());
-    private Segment segment;
+    final private Segment segment;
     public final CompositionInstruction compositionInstruction;
     final Track track;
     FileRepresentation fileRepresentation;

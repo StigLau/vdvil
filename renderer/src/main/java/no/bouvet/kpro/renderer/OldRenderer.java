@@ -25,10 +25,10 @@ import java.util.List;
  * @author Stig Lau
  */
 public class OldRenderer {
-	protected ArrayList<Renderer> _renderers = new ArrayList<>();
+	protected final ArrayList<Renderer> _renderers = new ArrayList<>();
 	protected AbstractRenderer _timeSource;
 
-	protected Instructions _instructions;
+	protected final Instructions _instructions;
 	protected List<Instruction> _instructionList;
 
     //Temporary lists used for housekeeping of what has played and stopped
@@ -36,7 +36,7 @@ public class OldRenderer {
     List<Instruction> stopped = new ArrayList<>();
 
 	protected boolean _rendering = false;
-    Logger log = LoggerFactory.getLogger(getClass());
+    final Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * Construct a new OldRenderer, rendering the given Instructions list.

@@ -6,8 +6,11 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import static no.lau.NullChecker.nullChecked;
 
 /**
  * @author Stig@Lau.no
@@ -15,11 +18,11 @@ import java.util.List;
  */
 public class Store {
 
-    List<SimpleVdvilCache> transports = new ArrayList<SimpleVdvilCache>();
-    Logger log = LoggerFactory.getLogger(getClass());
+    final List<SimpleVdvilCache> transports = new ArrayList<>();
+    final Logger log = LoggerFactory.getLogger(getClass());
 
     //Main storage mechanism against file for metadata
-    CacheMetadataStorageAndLookup cacheMetadataStorageAndLookup;
+    final CacheMetadataStorageAndLookup cacheMetadataStorageAndLookup;
 
     //There is only one store
     private static Store store;
@@ -68,17 +71,14 @@ public class Store {
     }
 
     public FileRepresentation cache(URL remoteURL) throws IOException {
-        if(remoteURL == null)
-            throw new RuntimeException("Cannot cache NULL URL");
-        else
-            return cache(cacheMetadataStorageAndLookup.findByRemoteURL(remoteURL));
+            return cache(cacheMetadataStorageAndLookup.findByRemoteURL(nullChecked(remoteURL)));
     }
 
     /**
      * Shorthand without using fileRepresentation
      */
     public FileRepresentation cache(URL remoteURL, String checksum) throws IOException {
-        return this.cache(createKey(remoteURL, checksum));
+            return this.cache(createKey(nullChecked(remoteURL), checksum));
     }
 
     /**
@@ -99,7 +99,7 @@ public class Store {
                     log.info("The file {} is confirmed in cache but has no MD5 checksum", fileRepresentation.remoteAddress());
                     return fileRepresentation;
                 } else {
-                    String fileChecksum = DigestUtils.md5Hex(new FileInputStream(fileRepresentation.localStorage()));
+                    String fileChecksum = DigestUtils.md5Hex(Files.readAllBytes(Paths.get(fileRepresentation.localStorage().toURI())));
                     if (fileChecksum.equals(fileRepresentation.md5CheckSum())) {
                         log.debug("Checksum of {} confirmed", fileRepresentation);
                         return fileRepresentation;

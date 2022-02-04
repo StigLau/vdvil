@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
  * Convinience class for converting dvl xmls to json
  */
 public class ConvertXmlDvlsToJson {
-    Logger logger = LoggerFactory.getLogger(getClass());
+    final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Test
     public void testConvertingStaticXmlFile() throws IOException {

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.net.URL;
 
 public class CacheMetaData implements FileRepresentation, Serializable {
-    URL remoteAddress;
+    final URL remoteAddress;
     File localStorage;
     String md5CheckSum;
     int downloadAttempts = 1; //Increase to allow retries of downloading during the current session

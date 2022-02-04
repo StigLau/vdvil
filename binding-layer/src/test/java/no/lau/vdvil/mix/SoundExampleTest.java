@@ -16,8 +16,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class SoundExampleTest {
-    static FileRepresentation returning = TestMp3s.returningDvl;
-    static MasterBeatPattern mbp = new MasterBeatPattern(0, 256, 135F);
+    static final FileRepresentation returning = TestMp3s.returningDvl;
+    static final MasterBeatPattern mbp = new MasterBeatPattern(0, 256, 135F);
 
     @Test
     public void persistenceTest() throws IOException {
@@ -30,7 +30,7 @@ public class SoundExampleTest {
         new BackStage().prepare(composition).playUntilEnd();
     }
     */
-    static Composition composition = new Composition(SoundExampleTest.class.getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
+    static final Composition composition = new Composition(SoundExampleTest.class.getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
         public List<MultimediaPart> parts() {
             return Arrays.asList(
                     createAudioPart("2754708889643705332", new Interval(0, 16), returning),

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class CompositionXMLParser implements MultimediaParser{
 
-    static XStream xstream;
+    static final XStream xstream;
     ParseFacade parser;
     Store store;
 
@@ -50,8 +50,8 @@ public class CompositionXMLParser implements MultimediaParser{
      * Ugly method for converting OlParts to PartXML because of API change
      */
     private CompositionXml convert(CompositionXml old) {
-        ArrayList<PartXML> newParts = new ArrayList<PartXML>();
-        List oldparts = old.parts;
+        ArrayList<PartXML> newParts = new ArrayList<>();
+        List<PartXML> oldparts = old.parts;
         for (Object oldpart : oldparts) {
             OldPart ol = (OldPart)oldpart;
             newParts.add(new PartXML(ol.id, new Interval(ol.start, ol.end - ol.start), ol.dvl));
@@ -60,7 +60,7 @@ public class CompositionXMLParser implements MultimediaParser{
         return old;
     }
 
-    public static CompositionXml parseCompositionXml(InputStream stream) throws IOException {
+    public static CompositionXml parseCompositionXml(InputStream stream) {
         return (CompositionXml) xstream.fromXML(stream);
     }
 }

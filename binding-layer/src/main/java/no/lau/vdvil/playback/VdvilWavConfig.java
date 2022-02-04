@@ -11,8 +11,9 @@ import no.vdvil.parser.audio.json.AudioJsonParser;
 import no.vdvil.renderer.audio.AudioXMLParser;
 import org.apache.commons.codec.digest.DigestUtils;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class VdvilWavConfig implements VdvilPlayerConfig {
     }
 
     public String checksum() throws IOException {
-        return DigestUtils.md5Hex(new FileInputStream(resultingFile));
+        return DigestUtils.md5Hex(Files.readAllBytes(Paths.get(resultingFile.toURI())));
     }
 
     public ParseFacade getParseFacade() {
