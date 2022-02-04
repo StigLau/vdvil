@@ -11,7 +11,7 @@ import no.vdvil.renderer.audio.TestMp3s;
 import java.io.IOException;
 
 public class PlayingMixFromCompositionOnWebTest {
-     static ParseFacade parser = new VdvilAudioConfig().getParseFacade();
+     static final ParseFacade parser = new VdvilAudioConfig().getParseFacade();
 
     public static void main(String[] args) throws IOException {
         FileRepresentation fileRepresentation = TestMp3s.javaZoneCompositionJson;

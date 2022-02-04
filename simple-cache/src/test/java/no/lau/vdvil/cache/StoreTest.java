@@ -18,10 +18,10 @@ import static org.junit.Assert.*;
  */
 @Category(IntegrationTest.class)
 public class StoreTest {
-    String returningMp3 = "https://s3.amazonaws.com/dvl-test-music/music/holden-nothing-93_returning_mix.mp3";
-    String returningMp3Checksum = "3e3477a6ccba67aa9f3196390f48b67d";
-    String psylteDVL = "https://s3.amazonaws.com/dvl-test-music/dvl/loaderror-psylteflesk.dvl";
-    String psylteDVLChecksum = "fe002d377092e28afdbf25ca1eeba915";
+    final String returningMp3 = "https://s3.amazonaws.com/dvl-test-music/music/holden-nothing-93_returning_mix.mp3";
+    final String returningMp3Checksum = "3e3477a6ccba67aa9f3196390f48b67d";
+    final String psylteDVL = "https://s3.amazonaws.com/dvl-test-music/dvl/loaderror-psylteflesk.dvl";
+    final String psylteDVLChecksum = "fe002d377092e28afdbf25ca1eeba915";
 
 
     Store store;
@@ -63,7 +63,7 @@ public class StoreTest {
     }
 
     @Test
-    public void downloadSomethingWithWrongChecksum() throws IOException {
+    public void downloadSomethingWithWrongChecksum() {
         try {
             store.cache(new URL(psylteDVL), "jalla balla");
         } catch (IOException e) {
