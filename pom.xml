@@ -189,7 +189,7 @@
         <developerConnection>scm:git:ssh://git@github.com/StigLau/vdvil.git</developerConnection>
         <url>http://github.com/StigLau/vdvil</url>
     </scm>
-
+<!--
     <distributionManagement>
         <repository>
             <id>sonatype-nexus-staging</id>
@@ -201,5 +201,13 @@
             <name>Sonatype Nexus Snapshots</name>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+    </distributionManagement>
+    -->
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub StigLau Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/StigLau/vdvil</url>
+        </repository>
     </distributionManagement>
 </project>
