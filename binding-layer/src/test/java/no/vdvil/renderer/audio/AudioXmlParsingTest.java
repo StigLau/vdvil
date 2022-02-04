@@ -1,6 +1,7 @@
 package no.vdvil.renderer.audio;
 
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
+import no.lau.IntegrationTest;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.Composition;
@@ -10,6 +11,8 @@ import no.lau.vdvil.timing.Interval;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -17,6 +20,7 @@ import static no.lau.NullChecker.nullChecked;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@Category(IntegrationTest.class)
 public class AudioXmlParsingTest {
 
     ParseFacade parseFacade;
