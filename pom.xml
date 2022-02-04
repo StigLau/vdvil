@@ -6,11 +6,11 @@
     <packaging>pom</packaging>
     <name>Vdvil Root</name>
     <description>Vdvil - Framework for multimedia structuring, composition and playback</description>
-    <url>http://play.kompo.st</url>
+    <url>https://play.kompo.st</url>
     <licenses>
         <license>
             <name>Apache 2</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
             <comments>A business-friendly OSS license</comments>
         </license>
@@ -19,7 +19,7 @@
         <developer>
             <name>Stig Lau</name>
             <email>stig@lau.no</email>
-            <url>http://stig.lau.no</url>
+            <url>https://stig.lau.no</url>
         </developer>
         <developer>
             <name>Konrad Beiske</name>
@@ -102,6 +102,7 @@
                 <groupId>no.lau.vdvil</groupId>
                 <artifactId>common-test</artifactId>
                 <version>${project.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>no.lau.vdvil</groupId>
@@ -124,6 +125,11 @@
                 <artifactId>gson</artifactId>
                 <version>2.2.2</version>
             </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>20041127.091804</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
@@ -143,8 +149,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <build>
@@ -205,7 +211,7 @@
     <scm>
         <connection>scm:git:ssh://github.com/StigLau/vdvil.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/StigLau/vdvil.git</developerConnection>
-        <url>http://github.com/StigLau/vdvil</url>
+        <url>https://github.com/StigLau/vdvil</url>
     </scm>
 <!--
     <distributionManagement>
