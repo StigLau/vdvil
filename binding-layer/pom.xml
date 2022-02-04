@@ -32,5 +32,9 @@
             <groupId>no.lau.vdvil</groupId>
             <artifactId>renderer-v2</artifactId>
         </dependency>
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>deprecated-utils</artifactId>
+        </dependency>
     </dependencies>
 </project>

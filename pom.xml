@@ -44,6 +44,8 @@
         <!-- <module>play-gui-webstart-distribution</module> Commented out until v1.0-snapshot-7 is released-->
         <!--<module>play-gui</module> -->
         <module>binding-layer</module>
+        <module>common-test</module>
+        <module>deprecated-utils</module>
         <!--    <module>play-per-view</module> -->
     </modules>
 
@@ -83,6 +85,16 @@
             <dependency>
                 <groupId>no.lau.vdvil</groupId>
                 <artifactId>binding-layer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>no.lau.vdvil</groupId>
+                <artifactId>deprecated-utils</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>no.lau.vdvil</groupId>
+                <artifactId>common-test</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

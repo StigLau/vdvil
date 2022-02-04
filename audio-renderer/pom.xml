@@ -39,5 +39,10 @@
             <version>1.4</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>common-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

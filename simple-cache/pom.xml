@@ -34,5 +34,11 @@
             <artifactId>commons-io</artifactId>
             <version>1.4</version>
         </dependency>
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>common-test</artifactId>
+            <version>0.16-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
