@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class FilteringTest {
     @Test
     public void testSettingValueIfEndTimeAfterStart() {
-        List<MultimediaPart> partList = new ArrayList<MultimediaPart>();
+        List<MultimediaPart> partList = new ArrayList<>();
         partList.add(new ImageDescription(new PartXML("0 14", new Interval(0, 14), null), null));
         partList.add(new ImageDescription(new PartXML("33 34", new Interval(33, 1), null), null));
         partList.add(new ImageDescription(new PartXML("18 1", new Interval(18, 1), null), null));
@@ -36,7 +36,7 @@ public class FilteringTest {
 
     @Test
     public void testSegmentStartsAndStopsOutsideOfWindow() {
-        List<MultimediaPart> partList = new ArrayList<MultimediaPart>();
+        List<MultimediaPart> partList = new ArrayList<>();
         partList.add(new ImageDescription(new PartXML("0 20", new Interval(0, 20), null), null));
         Composition testComposition = new Composition("", new MasterBeatPattern(2, 10, 120F), null, () -> partList);
 

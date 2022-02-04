@@ -18,9 +18,9 @@ import java.net.URL;
 public class CompositionJsonParser implements MultimediaParser {
 
     final ParseFacade parser;
-    Store store;
-    static Gson jsonParser = new Gson();
-    Logger log = LoggerFactory.getLogger(getClass());
+    final Store store;
+    static final Gson jsonParser = new Gson();
+    final Logger log = LoggerFactory.getLogger(getClass());
 
     public CompositionJsonParser(ParseFacade parser) {
         this.parser = parser;

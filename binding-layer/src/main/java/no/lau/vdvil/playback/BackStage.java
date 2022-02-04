@@ -25,11 +25,11 @@ import java.util.List;
  * @author Stig@Lau.no - 25/12/14.
  */
 public class BackStage {
-    static Logger log = LoggerFactory.getLogger(BackStage.class);
+    static final Logger log = LoggerFactory.getLogger(BackStage.class);
 
-    List<Renderer> renderers;
+    final List<Renderer> renderers;
 
-    static Store store = Store.get();
+    static final Store store = Store.get();
 
     /**
      * Playback to audio Config

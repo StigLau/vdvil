@@ -7,7 +7,7 @@ import org.junit.experimental.categories.Category;
 @Category(IntegrationTest.class)
 public class AudioPlaybackTargetTest extends AudioTargetTest {
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		target = new AudioPlaybackTarget();
 	}
 }

@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LyricRenderer implements LyricListener, Renderer {
-    JFrame frame;
-    JLabel label;
+    final JFrame frame;
+    final JLabel label;
     String text = "";
-    List<LyricInstruction> runningLyricInstructions = new ArrayList<LyricInstruction>();
-    Logger log = LoggerFactory.getLogger(LyricRenderer.class);
+    final List<LyricInstruction> runningLyricInstructions = new ArrayList<>();
+    final Logger log = LoggerFactory.getLogger(LyricRenderer.class);
 
 
     public LyricRenderer(int width, int height) {
@@ -28,11 +28,7 @@ public class LyricRenderer implements LyricListener, Renderer {
     }
 
     private void shoutHello(final LyricInstruction lyricInstruction) {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                fire(lyricInstruction.text);
-            }
-        });
+        javax.swing.SwingUtilities.invokeLater(() -> fire(lyricInstruction.text));
     }
 
     public boolean isRendering() {

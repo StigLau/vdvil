@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 
 public class FetchingAndParsingTest {
 
-    Store store = Store.get();
+    final Store store = Store.get();
 
     @Test
     public void fetchingAndParsing() throws Exception {
@@ -36,7 +36,7 @@ public class FetchingAndParsingTest {
 
     @Test
     public void testFileCacheAccepts() throws MalformedURLException {
-        assertTrue(store.accepts(new URL("http://yes.com")));
+        assertTrue(store.accepts(new URL("https://yes.com")));
         assertTrue(store.accepts(new URL("file://localhost/Users")));
         assertFalse(store.accepts(new URL("ftp://no.com")));
     }

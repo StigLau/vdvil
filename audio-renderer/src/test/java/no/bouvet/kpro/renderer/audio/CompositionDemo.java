@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class CompositionDemo {
-    static Logger log = LoggerFactory.getLogger(CompositionDemo.class);
+    static final Logger log = LoggerFactory.getLogger(CompositionDemo.class);
     //TODO Wrong address to mp3's. Does this test have any value?
     public static void main(String[] args) throws Exception {
         //FileRepresentation snap = store.cache(ClassLoader.getSystemResource("Snap_-_Rhythm_is_a_Dancer.mp3"));

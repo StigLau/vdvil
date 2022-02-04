@@ -25,7 +25,7 @@ public class Composition implements MultimediaPart {
      * Converts composition to Instructions.
      * @param movement If the composition is to start on a differnent BPM than 0. null if movement isn't necessary
      */
-    public Instructions instructions(Float masterBpm, Integer movement) throws IOException {
+    public Instructions instructions(Float masterBpm, Integer movement) {
         Instructions instructions = new Instructions();
         for (MultimediaPart multimediaPart : multimediaParts) {
             if (movement != null && multimediaPart instanceof MutableInstruction) {
