@@ -1,5 +1,6 @@
 package no.lau.vdvil.renderer.image;
 
+import no.lau.IntegrationTest;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.persistence.PartXML;
@@ -9,8 +10,11 @@ import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.image.ImageRenderer;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescriptionXMLParser;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
 import java.io.IOException;
 
+@Category(IntegrationTest.class)
 public class ImageRenderingTest {
     Store store = Store.get();
     FileRepresentation pinkTeddy = store.createKey(ClassLoader.getSystemResource("pink_teddy.jpg"), "5afcd12326717d727f694aba4d2e1055");
