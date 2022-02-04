@@ -52,11 +52,16 @@ public class SimpleCacheImpl implements VdvilCache, SimpleVdvilCache {
      */
     public void fetchFromInternet(URL url, File localStorage) throws IOException {
         Path target = Paths.get(localStorage.toURI());
-        if(Files.exists(target)) {
-            log.warn("File {} already exists and will be overwritten", target);
-        }
+        Path parent = target.getParent();
         try (InputStream inputStream = addHostAuthentication(url).getInputStream()) {
+            if(Files.exists(target)) {
+                log.warn("File {} already exists and will be overwritten", target);
+            } else {
+                Files.createDirectories(parent);
+            }
             Files.copy(inputStream, target, REPLACE_EXISTING);
+
+
         }
     }
 
