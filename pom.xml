@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>no.lau.vdvil</groupId>
     <artifactId>vdvil</artifactId>
-    <version>0.15-SNAPSHOT</version>
+    <version>0.15.0</version>
     <packaging>pom</packaging>
     <name>Vdvil Root</name>
     <description>Vdvil - Framework for multimedia structuring, composition and playback</description>
@@ -186,7 +186,7 @@
         <developerConnection>scm:git:ssh://git@github.com/StigLau/vdvil.git</developerConnection>
         <url>http://github.com/StigLau/vdvil</url>
     </scm>
-
+<!--
     <distributionManagement>
         <repository>
             <id>sonatype-nexus-staging</id>
@@ -199,4 +199,13 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+    -->
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub StigLau Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/StigLau/vdvil</url>
+        </repository>
+    </distributionManagement>
+
 </project>
