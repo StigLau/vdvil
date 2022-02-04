@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 public class CompositionJsonParserTest {
 
     @Test
-    public void testParsingComposition() throws Exception {
+    public void testParsingComposition() {
         InputStreamReader reader = new InputStreamReader(ClassLoader.getSystemResourceAsStream("CompositionExample.dvl.json"));
 
         CompositionSerializedJson comp = CompositionJsonParser.parseJsonStringToTrack(reader);

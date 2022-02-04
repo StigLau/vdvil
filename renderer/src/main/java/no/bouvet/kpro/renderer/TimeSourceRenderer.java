@@ -24,7 +24,7 @@ public class TimeSourceRenderer extends AbstractRenderer implements Runnable {
 	protected boolean _timeSource = false;
 	protected Thread _thread;
 	protected int _time;
-    private Logger log = LoggerFactory.getLogger(TimeSourceRenderer.class);
+    private final Logger log = LoggerFactory.getLogger(TimeSourceRenderer.class);
 
     /**
 	 * Request that this TimeSourceRenderer become the time source. It will

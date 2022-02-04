@@ -6,7 +6,7 @@ import no.lau.vdvil.timing.TimeInterval;
 
 public class PartXML implements CompositionInstruction, MutableCompositionInstruction {
     final String id;
-    int start;
+    final int start;
 
     Integer duration;
     int cueDifference; //If the start has been moved, it will affect the cue starting point of multimedia which rely on timing.

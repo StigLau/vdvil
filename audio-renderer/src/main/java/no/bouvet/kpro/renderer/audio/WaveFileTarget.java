@@ -17,7 +17,7 @@ public class WaveFileTarget implements AudioTarget {
 	protected File _file;
 	protected RandomAccessFile _raf;
 	protected int _duration = 0;
-    Logger log = LoggerFactory.getLogger(getClass());
+    final Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * Constructs a new WaveFileTarget. The file to create or overwrite is

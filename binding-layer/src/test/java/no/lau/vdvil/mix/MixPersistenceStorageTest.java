@@ -18,8 +18,8 @@ import static org.junit.Assert.assertEquals;
 
 public class MixPersistenceStorageTest {
     FileRepresentation psylteDvl = TestMp3s.psylteDvl;
-    Track returning = TestMp3s.returning;
-    MasterBeatPattern mbp = new MasterBeatPattern(0, 16, 130F);
+    final Track returning = TestMp3s.returning;
+    final MasterBeatPattern mbp = new MasterBeatPattern(0, 16, 130F);
 
     @Test
     public void play() throws IOException {
@@ -28,7 +28,7 @@ public class MixPersistenceStorageTest {
         assertEquals("1758f12b33f68880dc0953aa04292c85", asFile.checksum());
     }
 
-    Composition composition = new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
+    final Composition composition = new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
         public List<MultimediaPart> parts() {
             return Arrays.asList(
                     createAudioPart(returning.segments.get(3).id, new Interval(0, 20), TestMp3s.returningDvl),

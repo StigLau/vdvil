@@ -53,7 +53,7 @@ public class MP3Source implements AudioSource {
 			160, 96, 352, 224, 192, 176, 112, 384, 256, 224, 192, 128, 416,
 			320, 256, 224, 144, 448, 384, 320, 256, 160, 0, 0, 0, 0, 0 };
 
-	protected File _file;
+	protected final File _file;
 	protected RandomAccessFile _raf;
 
 	protected int[] _frames;
@@ -62,15 +62,15 @@ public class MP3Source implements AudioSource {
 	protected boolean _stereo = false;
 
 	protected final static int BUFFER_DURATION = 5 * Instruction.RESOLUTION;
-	protected ShortBuffer _buffer = ShortBuffer.allocate(BUFFER_DURATION * 2);
-	protected MP3Output _output = new MP3Output(_buffer);
+	protected final ShortBuffer _buffer = ShortBuffer.allocate(BUFFER_DURATION * 2);
+	protected final MP3Output _output = new MP3Output(_buffer);
 	protected int _bufferFrame = 0;
 	protected int _bufferSize = 0;
 
 	protected Decoder _decoder;
 	protected Bitstream _bitstream;
 	protected int _nextFrame;
-    Logger log = LoggerFactory.getLogger(getClass());
+    final Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * Constructs a new MP3Source, reading from file. The file will be opened
@@ -490,8 +490,8 @@ public class MP3Source implements AudioSource {
 	 * 
 	 * @author Michael Stokes
 	 */
-	protected class MP3Input extends InputStream {
-		protected RandomAccessFile _raf;
+	protected static class MP3Input extends InputStream {
+		protected final RandomAccessFile _raf;
 
 		/**
 		 * Construct a new MP3Input
@@ -546,7 +546,7 @@ public class MP3Source implements AudioSource {
 	 * @author Michael Stokes
 	 */
 	protected class MP3Output extends Obuffer {
-		protected ShortBuffer _target;
+		protected final ShortBuffer _target;
 		protected int _offset1;
 		protected int _offset2;
 

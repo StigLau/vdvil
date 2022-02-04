@@ -19,7 +19,7 @@ import javax.sound.sampled.SourceDataLine;
 public class AudioPlaybackTarget implements AudioTarget {
 	protected SourceDataLine _line;
 	protected int _base;
-    Logger log = LoggerFactory.getLogger(getClass());
+    final Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * Constructs a new AudioPlaybackTarget. The audio output device is opened

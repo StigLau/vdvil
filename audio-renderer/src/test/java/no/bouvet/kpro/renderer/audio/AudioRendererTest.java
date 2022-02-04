@@ -2,15 +2,18 @@ package no.bouvet.kpro.renderer.audio;
 
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.OldRenderer;
+import no.lau.IntegrationTest;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.instruction.Instruction;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Category(IntegrationTest.class)
 public class AudioRendererTest {
-    Logger log = LoggerFactory.getLogger(getClass());
+    final Logger log = LoggerFactory.getLogger(getClass());
 
 	@Test
 	public void playingOWherePitchIncreases() {

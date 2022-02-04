@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 public class ImagePanel extends JPanel implements ImageListener {
 
     private Image image;
-    private static Logger log = LoggerFactory.getLogger(ImagePanel.class);
+    private static final Logger log = LoggerFactory.getLogger(ImagePanel.class);
 
     public void show(FileRepresentation fileRepresentation) {
         try {

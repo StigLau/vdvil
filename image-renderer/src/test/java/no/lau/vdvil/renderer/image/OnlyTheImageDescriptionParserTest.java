@@ -11,9 +11,9 @@ import java.net.URL;
 import static org.junit.Assert.assertEquals;
 
 public class OnlyTheImageDescriptionParserTest {
-    String imagePath = "https://dvl-test-music.s3.amazonaws.com/test-images/teddy/teddy+bear+1.jpg";
-    URL compositionXmlUrl = ClassLoader.getSystemResource("testCompositionWithImageDvls.xml");
-    OnlyTheImageDescriptionParser parser = new OnlyTheImageDescriptionParser();
+    final String imagePath = "https://dvl-test-music.s3.amazonaws.com/test-images/teddy/teddy+bear+1.jpg";
+    final URL compositionXmlUrl = ClassLoader.getSystemResource("testCompositionWithImageDvls.xml");
+    final OnlyTheImageDescriptionParser parser = new OnlyTheImageDescriptionParser();
 
     @Test
     public void testFetchingImage() throws IOException {

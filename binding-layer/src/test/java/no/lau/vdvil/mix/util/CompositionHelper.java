@@ -22,7 +22,7 @@ import java.net.URL;
  */
 public abstract class CompositionHelper implements Compositeur {
 
-    public static ParseFacade parser = new VdvilAudioConfig().getParseFacade();
+    public static final ParseFacade parser = new VdvilAudioConfig().getParseFacade();
 
     public static MultimediaPart createAudioPart(String id, TimeInterval timeInterval, FileRepresentation fileRepresentation) {
         try { return parser.parse(new PartXML(id, timeInterval, new DvlXML(fileRepresentation)));

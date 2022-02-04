@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  */
 public class AudioRenderer extends AbstractRenderer implements Runnable, Renderer {
 
-    AudioTarget audioTarget;
+    final AudioTarget audioTarget;
     protected boolean _timeSource = false;
 
     protected Thread _thread;
@@ -31,8 +31,8 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
     protected int _time;
     protected boolean _finished;
 
-    protected List<AudioInstruction> _active = new ArrayList<AudioInstruction>();
-    Logger log = LoggerFactory.getLogger(getClass());
+    protected List<AudioInstruction> _active = new ArrayList<>();
+    final Logger log = LoggerFactory.getLogger(getClass());
 
     /**
      * Construct a new AudioRenderer instance that will mix audio and send it to
@@ -179,7 +179,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
 
 
     List<AudioInstruction> pruneByTime(List<AudioInstruction> active) {
-        List<AudioInstruction> prunedList = new ArrayList<AudioInstruction>();
+        List<AudioInstruction> prunedList = new ArrayList<>();
         for (AudioInstruction instruction : active) {
             if(instruction.end() > _time && instruction.getSourceDuration() > 0)
                 prunedList.add(instruction);

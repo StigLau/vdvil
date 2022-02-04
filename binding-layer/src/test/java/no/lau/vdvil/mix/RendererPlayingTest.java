@@ -4,6 +4,7 @@ import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.OldRenderer;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.AudioRenderer;
+import no.lau.IntegrationTest;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.Composition;
@@ -18,14 +19,17 @@ import no.vdvil.renderer.audio.Track;
 import no.vdvil.renderer.image.ImageRenderer;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+@Category(IntegrationTest.class)
 public class RendererPlayingTest {
-    Store store = Store.get();
-    Track returningMp3 = TestMp3s.returning;
-    MasterBeatPattern mbp = new MasterBeatPattern(0, 18, 120F);
+    final Store store = Store.get();
+    final Track returningMp3 = TestMp3s.returning;
+    final MasterBeatPattern mbp = new MasterBeatPattern(0, 18, 120F);
 
     @Test
     public void withRenderer() throws IOException, InterruptedException {
@@ -51,7 +55,7 @@ public class RendererPlayingTest {
         audioRenderer.run();
     }
 
-    Composition composition = new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
+    final Composition composition = new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
         public List<MultimediaPart> parts() {
             return Arrays.asList(
                     createAudioPart(returningMp3.segments.get(3).id, new Interval(0, 4), TestMp3s.returningDvl),

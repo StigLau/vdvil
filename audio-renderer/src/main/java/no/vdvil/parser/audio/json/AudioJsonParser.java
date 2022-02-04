@@ -15,7 +15,7 @@ import java.io.*;
 public class AudioJsonParser implements MultimediaParser {
 
     final Store store = Store.get();
-    Gson jsonParser = new Gson();
+    final Gson jsonParser = new Gson();
 
     public MultimediaPart parse(CompositionInstruction compositionInstruction) throws IOException {
         MultimediaReference dvl = compositionInstruction.dvl();

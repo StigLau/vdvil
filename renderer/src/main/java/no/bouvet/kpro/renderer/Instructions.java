@@ -15,7 +15,7 @@ import no.lau.vdvil.instruction.Instruction;
  * @author Stig Lau
  */
 public class Instructions {
-	List<Instruction> _list = new ArrayList<Instruction>();
+	final List<Instruction> _list = new ArrayList<>();
 	long _duration = 0;
 	boolean _locked = false;
 
@@ -77,7 +77,7 @@ public class Instructions {
      */
     List<Instruction> sortedByEnd() {
         List<Instruction> instructionList = instructionsCopy();
-        Collections.sort(instructionList, new EndSorter());
+        instructionList.sort(new EndSorter());
         return instructionList;
     }
 
@@ -85,12 +85,12 @@ public class Instructions {
      * @return a current copy of the instructions list. Note that this function is not thread safe. If Threads are an issue, use lock/unlock!
      */
     public List<Instruction> instructionsCopy() {
-        return new ArrayList<Instruction>(_list);
+        return new ArrayList<>(_list);
     }
 }
 
 class EndSorter implements Comparator {
   public int compare(Object i1, Object i2) {
-    return ((Long)((Instruction)i1).end()).compareTo(((Instruction)i2).end());
+    return Long.compare(((Instruction) i1).end(), ((Instruction) i2).end());
   }
 }

@@ -10,8 +10,8 @@ import java.io.IOException;
 
 public class AudioXMLParser implements MultimediaParser {
 
-    Store store = Store.get();
-    XStream xstream;
+    final Store store = Store.get();
+    final XStream xstream;
 
     public AudioXMLParser() {
         xstream = new XStream();

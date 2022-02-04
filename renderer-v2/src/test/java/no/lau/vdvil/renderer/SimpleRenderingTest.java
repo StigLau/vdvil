@@ -9,7 +9,7 @@ import java.net.MalformedURLException;
 public class SimpleRenderingTest {
 
     @Test
-    public void imageAndMetronomeTest() throws InterruptedException, MalformedURLException {
+    public void imageAndMetronomeTest() throws InterruptedException {
         Clock clock = new SystemClock();
         long origo = clock.getCurrentTimeMillis();
         final RunnableResolutionTimer timer = new RunnableResolutionTimer(clock, origo);

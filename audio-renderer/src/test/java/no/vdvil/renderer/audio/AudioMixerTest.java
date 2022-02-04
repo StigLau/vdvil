@@ -3,25 +3,29 @@ package no.vdvil.renderer.audio;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.MP3Source;
+import no.lau.IntegrationTest;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.instruction.Instruction;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
 import java.io.IOException;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 
+@Category(IntegrationTest.class)
 public class AudioMixerTest {
     AudioInstruction instruction;
     ShortBuffer source;
-    int duration = 4410;
-    int volume = 127;
-    AudioPlaybackTarget target = new AudioPlaybackTarget();
-    int maxSamplesForTest = 814150;
-    List<AudioInstruction> instructions = new ArrayList<>();
+    final int duration = 4410;
+    final int volume = 127;
+    final AudioPlaybackTarget target = new AudioPlaybackTarget();
+    final int maxSamplesForTest = 814150;
+    final List<AudioInstruction> instructions = new ArrayList<>();
 
 
     int[] mix() { return new int[AudioMixer.MIX_FRAME * 2];}
