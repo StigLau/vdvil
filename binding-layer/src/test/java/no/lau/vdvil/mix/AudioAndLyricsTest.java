@@ -1,5 +1,6 @@
 package no.lau.vdvil.mix;
 
+import no.lau.IntegrationTest;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.mix.util.CompositionHelper;
 import no.lau.vdvil.playback.BackStage;
@@ -9,6 +10,8 @@ import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,15 +19,16 @@ import java.util.List;
  * Simple test for setting up a test of lyric/GUI and music
  */
 public class AudioAndLyricsTest {
-    FileRepresentation returningDvl = TestMp3s.returningDvl;
-    MasterBeatPattern mbp = new MasterBeatPattern(0, 20, 150F);
+    final FileRepresentation returningDvl = TestMp3s.returningDvl;
+    final MasterBeatPattern mbp = new MasterBeatPattern(0, 20, 150F);
 
     @Test
+    @Category(IntegrationTest.class)
     public void play() {
         new BackStage().prepare(composition).playUntilEnd();
     }
 
-    Composition composition = new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
+    final Composition composition = new Composition(getClass().getSimpleName(), mbp, FileRepresentation.NULL, new CompositionHelper() {
         public List<MultimediaPart> parts() {
             return Arrays.asList(
                     createAudioPart("2754708889643705332", new Interval(0, 16), returningDvl),

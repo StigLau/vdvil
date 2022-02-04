@@ -8,8 +8,8 @@ import no.lau.vdvil.instruction.LyricInstruction;
 
 public class LyricDescription implements MultimediaPart {
 
-    private String text;
-    private CompositionInstruction compositionInstruction;
+    private final String text;
+    private final CompositionInstruction compositionInstruction;
 
     public LyricDescription(String text, CompositionInstruction compositionInstruction) {
         this.text = text;

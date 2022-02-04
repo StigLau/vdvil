@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImageRenderer extends AbstractRenderer implements Renderer {
-    private ImageListener[] listener;
-    List<Instruction> runningImageInstructionList = new ArrayList<Instruction>();
-    JFrame frame;
-    Logger log = LoggerFactory.getLogger(getClass());
+    private final ImageListener[] listener;
+    final List<Instruction> runningImageInstructionList = new ArrayList<>();
+    final JFrame frame;
+    final Logger log = LoggerFactory.getLogger(getClass());
 
     public ImageRenderer(int width, int height) {
         listener = new ImageListener[] {new ImagePanel()};

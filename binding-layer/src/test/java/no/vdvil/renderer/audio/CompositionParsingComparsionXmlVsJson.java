@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 public class CompositionParsingComparsionXmlVsJson {
 
-    ParseFacade parseFacade = new ParseFacade();
+    final ParseFacade parseFacade = new ParseFacade();
     AudioXMLParser audioXMLParser;
 
     @Before

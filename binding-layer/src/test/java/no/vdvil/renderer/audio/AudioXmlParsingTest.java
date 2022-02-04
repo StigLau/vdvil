@@ -32,7 +32,7 @@ public class AudioXmlParsingTest {
 
     @Test
     public void audioXmlParsing() throws Exception {
-        URL url = nullChecked(ClassLoader.getSystemResource("audio/AudioExample2.dvl.xml"));
+        URL url = nullChecked(ClassLoader.getSystemResource("audio/AudioExample.dvl.xml"));
 
         String segmentId = "4336519975847252321";
         CompositionInstruction ci = new PartXML(segmentId, new Interval(-1, 0), new DvlXML(Store.get().cache(url, "7a7051b2295481de6d741c83fe194708")));

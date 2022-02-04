@@ -1,10 +1,12 @@
 package no.lau.vdvil.mix;
 
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
+import no.lau.IntegrationTest;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.playback.BackStage;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,8 +16,9 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Stig@Lau.no - 29/12/14.
  */
+@Category(IntegrationTest.class)
 public class JavaZoneExampleTest {
-    JavaZoneExample jz = new JavaZoneExample();
+    final JavaZoneExample jz = new JavaZoneExample();
 
     @Before
     public void setUp() throws IOException {
