@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import static no.lau.NullChecker.nullChecked;
@@ -16,11 +18,11 @@ import static no.lau.NullChecker.nullChecked;
  */
 public class Store {
 
-    List<SimpleVdvilCache> transports = new ArrayList<SimpleVdvilCache>();
-    Logger log = LoggerFactory.getLogger(getClass());
+    final List<SimpleVdvilCache> transports = new ArrayList<>();
+    final Logger log = LoggerFactory.getLogger(getClass());
 
     //Main storage mechanism against file for metadata
-    CacheMetadataStorageAndLookup cacheMetadataStorageAndLookup;
+    final CacheMetadataStorageAndLookup cacheMetadataStorageAndLookup;
 
     //There is only one store
     private static Store store;
@@ -97,7 +99,7 @@ public class Store {
                     log.info("The file {} is confirmed in cache but has no MD5 checksum", fileRepresentation.remoteAddress());
                     return fileRepresentation;
                 } else {
-                    String fileChecksum = DigestUtils.md5Hex(new FileInputStream(fileRepresentation.localStorage()));
+                    String fileChecksum = DigestUtils.md5Hex(Files.readAllBytes(Paths.get(fileRepresentation.localStorage().toURI())));
                     if (fileChecksum.equals(fileRepresentation.md5CheckSum())) {
                         log.debug("Checksum of {} confirmed", fileRepresentation);
                         return fileRepresentation;

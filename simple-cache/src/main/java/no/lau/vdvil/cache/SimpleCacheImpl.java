@@ -1,16 +1,24 @@
 package no.lau.vdvil.cache;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
 public class SimpleCacheImpl implements VdvilCache, SimpleVdvilCache {
-    private Map<String, UsernameAndPassword> hostAccessList = new HashMap<String, UsernameAndPassword>();
+    private final Map<String, UsernameAndPassword> hostAccessList = new HashMap<>();
+
+    Logger log = LoggerFactory.getLogger(SimpleCacheImpl.class);
 
     enum accepts { HTTP, HTTPS, FILE }
 
@@ -43,11 +51,12 @@ public class SimpleCacheImpl implements VdvilCache, SimpleVdvilCache {
      * Used by testing purposes
      */
     public void fetchFromInternet(URL url, File localStorage) throws IOException {
-        FileOutputStream outputStream = FileUtils.openOutputStream(localStorage);
+        Path target = Paths.get(localStorage.toURI());
+        if(Files.exists(target)) {
+            log.warn("File {} already exists and will be overwritten", target);
+        }
         try (InputStream inputStream = addHostAuthentication(url).getInputStream()) {
-            IOUtils.copy(inputStream, outputStream);
-        } finally {
-            IOUtils.closeQuietly(outputStream);
+            Files.copy(inputStream, target, REPLACE_EXISTING);
         }
     }
 
