@@ -24,5 +24,10 @@
             <groupId>no.lau.vdvil</groupId>
             <artifactId>simple-cache</artifactId>
         </dependency>
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>common-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
