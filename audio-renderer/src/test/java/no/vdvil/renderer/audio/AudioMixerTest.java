@@ -3,17 +3,21 @@ package no.vdvil.renderer.audio;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.MP3Source;
+import no.lau.IntegrationTest;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.instruction.Instruction;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
 import java.io.IOException;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 
+@Category(IntegrationTest.class)
 public class AudioMixerTest {
     AudioInstruction instruction;
     ShortBuffer source;
