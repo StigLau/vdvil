@@ -3,7 +3,9 @@ package no.bouvet.kpro.renderer.audio;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -33,7 +35,7 @@ public class WaveFileTargetTest extends AudioTargetTest {
 		target.close();
 		target = null;
 
-        String md5 = DigestUtils.md5Hex(new FileInputStream(file));
+        String md5 = DigestUtils.md5Hex(Files.readAllBytes(Paths.get(file.toURI())));
 		assertEquals("f54fd889d8255823527e15cef4419189", md5);
 	}
 }

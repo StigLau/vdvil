@@ -35,9 +35,9 @@ public class TestMp3s {
     }
 
     public static final FileRepresentation javaZoneComposition = createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/composition/javazone.dvl.composition.xml", "490aa410679405eebbe36b682db9547e");
-    public static final FileRepresentation javaZoneCompositionJson = createFileRepresentation("http://heap.kompo.st/JavaZone_Demo", "45657af53365567c60e47410f4620678");
+    public static final FileRepresentation javaZoneCompositionJson = createFileRepresentation("https://heap.kompo.st/JavaZone_Demo", "45657af53365567c60e47410f4620678");
     public static final FileRepresentation javaZoneComposition_WithoutImages = createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/composition/javazone.dvl.composition.xml", "c6c3b27b83e71c79574c1837062e2345");
-    public static final URL NULL = createURL("http://null.com");
+    public static final URL NULL = createURL("https://null.com");
 
     public static final Track returning = returning();
     public static final Track corona = corona();
@@ -52,7 +52,7 @@ public class TestMp3s {
 
     static Track returning() {
         MediaFile mediaFile = new MediaFile(returningMp3, 5.945F, "3e3477a6ccba67aa9f3196390f48b67d");
-        List<Segment> segments = new ArrayList<Segment>();
+        List<Segment> segments = new ArrayList<>();
         segments.add(new Segment("4336519975847252321",  0, "low", 64));
         segments.add(new Segment("4638184666682848978", 64, "", 64));
         segments.add(new Segment("2754708889643705332", 128, "Up", 128));
@@ -73,7 +73,7 @@ public class TestMp3s {
 
     static Track corona() {
         MediaFile mediaFile = new MediaFile(coronamp3, Instruction.RESOLUTION * 0.445f, "e0e5beecd6a34f6a8ebae2c8840769af");
-        List<Segment> segments = new ArrayList<Segment>();
+        List<Segment> segments = new ArrayList<>();
         segments.add(new Segment("a", 0, "Baby, why can't we just stay together", 16));
         segments.add(new Segment("b", 16, "Baby, why can't we just stay together", 16));
         segments.add(new Segment("c", 32, "Intro", 32));
