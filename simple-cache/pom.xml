@@ -36,6 +36,10 @@
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
+            <artifactId>common-utils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>no.lau.vdvil</groupId>
             <artifactId>common-test</artifactId>
             <version>0.16-SNAPSHOT</version>
             <scope>test</scope>

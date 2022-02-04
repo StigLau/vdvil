@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import static no.lau.NullChecker.nullChecked;
 
 /**
  * @author Stig@Lau.no
@@ -68,17 +69,14 @@ public class Store {
     }
 
     public FileRepresentation cache(URL remoteURL) throws IOException {
-        if(remoteURL == null)
-            throw new RuntimeException("Cannot cache NULL URL");
-        else
-            return cache(cacheMetadataStorageAndLookup.findByRemoteURL(remoteURL));
+            return cache(cacheMetadataStorageAndLookup.findByRemoteURL(nullChecked(remoteURL)));
     }
 
     /**
      * Shorthand without using fileRepresentation
      */
     public FileRepresentation cache(URL remoteURL, String checksum) throws IOException {
-        return this.cache(createKey(remoteURL, checksum));
+            return this.cache(createKey(nullChecked(remoteURL), checksum));
     }
 
     /**
