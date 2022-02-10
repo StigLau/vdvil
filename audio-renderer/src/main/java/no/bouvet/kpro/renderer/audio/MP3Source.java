@@ -78,7 +78,7 @@ public class MP3Source implements AudioSource {
 	 * understand the file, or if the file is not 44100 Hz, an exception will be
 	 * thrown.
 	 * 
-	 * @param file
+	 * @param filez
 	 *            The file to be opened
 	 * @throws IOException
 	 *             if the file could not be opened, not be understood, or was of
@@ -96,7 +96,7 @@ public class MP3Source implements AudioSource {
 			}
 			file = new File(filez.getAbsolutePath() + filenameEnding);
 		}
-		log.debug("Opening " + file.toString() );
+		log.debug("Opening " + file);
 
 		// Open the file
 
@@ -139,7 +139,7 @@ public class MP3Source implements AudioSource {
 
 			log.debug( "Closed " + _file.toString() );
 		} catch (Exception e) {
-			log.debug( "Exception closing: " + e.toString() );
+			log.debug( "Exception closing: " + e);
 		}
 	}
 
@@ -384,7 +384,7 @@ public class MP3Source implements AudioSource {
 				sync = true;
 			}
 		} catch (Exception e) {
-			log.debug("Exception indexing: " + e.toString() );
+			log.debug("Exception indexing: " + e);
 			return false;
 		}
 
@@ -478,7 +478,7 @@ public class MP3Source implements AudioSource {
 
 			return (_nextFrame != frame);
 		} catch (Exception e) {
-			log.debug("Exception decoding: " + e.toString() );
+			log.debug("Exception decoding: " + e);
 		}
 
 		return false;

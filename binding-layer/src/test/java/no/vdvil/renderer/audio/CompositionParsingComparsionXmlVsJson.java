@@ -34,12 +34,12 @@ public class CompositionParsingComparsionXmlVsJson {
         CompositionInstruction compositionInstruction2 = TestMp3s.compInstructionFactory(TestMp3s.javaZoneComposition, 0, 128);
         Composition xmlComposition = (Composition) parseFacade.parse(compositionInstruction2);
 
-        assertEquals(new Float(150), xmlComposition.masterBeatPattern.masterBpm);
-        assertEquals(new Float(150), jsonComposition.masterBeatPattern.masterBpm);
-        assertEquals(new Integer(0), jsonComposition.masterBeatPattern.fromBeat);
-        assertEquals(new Integer(0), xmlComposition.masterBeatPattern.fromBeat);
-        assertEquals(new Integer(252), jsonComposition.masterBeatPattern.toBeat);
-        assertEquals(new Integer(252), xmlComposition.masterBeatPattern.toBeat);
+        assertEquals(Float.valueOf(150F), xmlComposition.masterBeatPattern.masterBpm);
+        assertEquals(Float.valueOf(150F), jsonComposition.masterBeatPattern.masterBpm);
+        assertEquals(Integer.valueOf(0), jsonComposition.masterBeatPattern.fromBeat);
+        assertEquals(Integer.valueOf(0), xmlComposition.masterBeatPattern.fromBeat);
+        assertEquals(Integer.valueOf(252), jsonComposition.masterBeatPattern.toBeat);
+        assertEquals(Integer.valueOf(252), xmlComposition.masterBeatPattern.toBeat);
         assertEquals(14, xmlComposition.multimediaParts.size());
         assertEquals(14, jsonComposition.multimediaParts.size());
 

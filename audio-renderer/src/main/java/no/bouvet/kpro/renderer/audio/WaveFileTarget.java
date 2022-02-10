@@ -89,7 +89,7 @@ public class WaveFileTarget implements AudioTarget {
 
 			log.debug("Closed " + _file.toString() );
 		} catch (Exception e) {
-			log.debug("Exception closing: " + e.toString() );
+			log.debug("Exception closing: " + e);
 		}
 	}
 
@@ -162,7 +162,7 @@ public class WaveFileTarget implements AudioTarget {
 		try {
 			_raf.write(buffer, offset << 2, duration << 2);
 		} catch (Exception e) {
-			log.debug( "Exception writing: " + e.toString() );
+			log.debug( "Exception writing: " + e);
 		}
 
 		// Increment the duration

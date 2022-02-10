@@ -30,5 +30,5 @@ public interface MultimediaPart {
 
     CompositionInstruction compositionInstruction();
 
-    public FileRepresentation fileRepresentation();
+    FileRepresentation fileRepresentation();
 }
