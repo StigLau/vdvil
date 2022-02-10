@@ -140,7 +140,6 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
-            <version>4.13.1</version>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.33</version>
