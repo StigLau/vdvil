@@ -10,7 +10,7 @@ public interface Instruction extends Comparable{
     /**
      * The fundamental time unit (resolution. There are RATE units per second.
      */
-    public static int RESOLUTION = 44100;
+    int RESOLUTION = 44100;
     long start();
 
     long length();

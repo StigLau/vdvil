@@ -9,7 +9,7 @@ import java.util.List;
  * @author Stig@Lau.no - 27/12/14.
  */
 public interface VdvilPlayerConfig {
-    public ParseFacade getParseFacade() ;
+    ParseFacade getParseFacade() ;
 
-    public List<Renderer> getRenderers() ;
+    List<Renderer> getRenderers() ;
 }

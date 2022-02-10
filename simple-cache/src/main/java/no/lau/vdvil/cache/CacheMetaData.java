@@ -29,7 +29,6 @@ public class CacheMetaData implements FileRepresentation, Serializable {
 
     /**
      * Ability to update local storage after caching
-     * @param localStorage
      */
     public void updateLocalStorage(File localStorage) {
         this.localStorage = localStorage;

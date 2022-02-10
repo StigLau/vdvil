@@ -4,7 +4,6 @@ import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.control.Conductor;
 import no.lau.vdvil.timing.*;
 import org.junit.Test;
-import java.net.MalformedURLException;
 
 public class SimpleRenderingTest {
 

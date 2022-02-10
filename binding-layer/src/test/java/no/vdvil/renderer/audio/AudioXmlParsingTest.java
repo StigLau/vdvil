@@ -39,7 +39,7 @@ public class AudioXmlParsingTest {
         URL url = nullChecked(ClassLoader.getSystemResource("audio/AudioExample.dvl.xml"));
 
         String segmentId = "4336519975847252321";
-        CompositionInstruction ci = new PartXML(segmentId, new Interval(-1, 0), new DvlXML(Store.get().cache(url, "7a7051b2295481de6d741c83fe194708")));
+        CompositionInstruction ci = new PartXML(segmentId, new Interval(-1, 0), new DvlXML(Store.get().cache(url, "a11234ac9dfcc7e0d0de1489fcd8d9ad")));
         AudioDescription audioDescription = audioXMLParser.parse(ci);
         //Magic that "caches" the file
         audioDescription.updateFileRepresentation(Store.get().cache(audioDescription.fileRepresentation()));

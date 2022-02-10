@@ -5,7 +5,6 @@ import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.timing.MasterBeatPattern;
-import java.io.IOException;
 import java.util.List;
 
 public class Composition implements MultimediaPart {
