@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>no.lau.vdvil</groupId>
     <artifactId>vdvil</artifactId>
-    <version>0.16.1</version>
+    <version>0.16.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Vdvil Root</name>
     <description>Vdvil - Framework for multimedia structuring, composition and playback</description>
@@ -129,6 +129,12 @@
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
                 <version>20041127.091804</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>

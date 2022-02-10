@@ -11,7 +11,7 @@ public interface FileRepresentation {
     int downloadAttemptsLeft();
 
     //Used in tests and when there are no uses for a FileRepresentation (Metronome Renderer)
-    static FileRepresentation NULL = new FileRepresentation() {
+    FileRepresentation NULL = new FileRepresentation() {
         public URL remoteAddress() {return nullURL();}
         public File localStorage() {return new File("NULL");}
         public String md5CheckSum() {return "NULL";}

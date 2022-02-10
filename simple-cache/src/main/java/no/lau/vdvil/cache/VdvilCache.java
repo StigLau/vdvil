@@ -14,7 +14,6 @@ public interface VdvilCache {
      * A simple shorthand for fetching the file, regardless of optimization. This works best with files that one knows the checksum of the file in question
      * @param url where the file is located on the web
      * @param localStorage where the file is to be stored locally
-     * @return the file if it is found
      * @throws FileNotFoundException if the file was not found
      */
     void fetchFromInternet(URL url, File localStorage) throws IOException;
