@@ -1,12 +1,11 @@
 package no.bouvet.kpro.renderer.audio;
 
-import no.lau.IntegrationTest;
-import org.junit.Before;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 
-@Category(IntegrationTest.class)
+@Tag("IntegrationTest")
 public class AudioPlaybackTargetTest extends AudioTargetTest {
-	@Before
+	@BeforeEach
 	public void setUp() {
 		target = new AudioPlaybackTarget();
 	}

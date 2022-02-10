@@ -1,15 +1,15 @@
 package no.bouvet.kpro.renderer.audio;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import no.lau.vdvil.instruction.Instruction;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 public abstract class AudioTargetTest {
 	protected AudioTarget target;
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		if (target != null) {
 			target.close();

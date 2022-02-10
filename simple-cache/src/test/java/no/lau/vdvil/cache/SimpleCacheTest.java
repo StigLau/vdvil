@@ -1,11 +1,11 @@
 package no.lau.vdvil.cache;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import java.net.MalformedURLException;
 import java.net.URL;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SimpleCacheTest {
 
@@ -15,7 +15,7 @@ public class SimpleCacheTest {
 
     final SimpleCacheImpl cacheImpl = new SimpleCacheImpl();
 
-    @Before
+    @BeforeEach
     public void setup() throws MalformedURLException {
         localTestFile = getClass().getResource("/empty_testfile.txt");
         testFile = new URL("file://tmp/vdvil");

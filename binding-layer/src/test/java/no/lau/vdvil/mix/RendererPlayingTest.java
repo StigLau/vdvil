@@ -4,7 +4,6 @@ import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.OldRenderer;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.AudioRenderer;
-import no.lau.IntegrationTest;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.Composition;
@@ -17,15 +16,15 @@ import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.TestMp3s;
 import no.vdvil.renderer.audio.Track;
 import no.vdvil.renderer.image.ImageRenderer;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-@Category(IntegrationTest.class)
+@Tag("IntegrationTest")
 public class RendererPlayingTest {
     final Store store = Store.get();
     final Track returningMp3 = TestMp3s.returning;
@@ -44,8 +43,8 @@ public class RendererPlayingTest {
     }
 
     @Test
-    @Ignore
-    public void smokingGunwithAudioRenderer() throws IOException {
+    @Disabled
+    public void smokingGunwithAudioRenderer() {
         AudioRenderer audioRenderer = new AudioRenderer(new AudioPlaybackTarget());
         List<Instruction> instructions = composition.instructions(mbp.masterBpm, 0).lock();
         audioRenderer.notify(instructions.get(0), 0);

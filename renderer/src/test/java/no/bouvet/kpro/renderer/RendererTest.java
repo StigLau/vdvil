@@ -1,11 +1,11 @@
 package no.bouvet.kpro.renderer;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.instruction.SuperInstruction;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RendererTest {
 	private long _delivered = 0;

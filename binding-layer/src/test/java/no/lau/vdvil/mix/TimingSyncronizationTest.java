@@ -1,6 +1,5 @@
 package no.lau.vdvil.mix;
 
-import no.lau.IntegrationTest;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.Composition;
@@ -10,14 +9,14 @@ import no.lau.vdvil.playback.BackStage;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.audio.TestMp3s;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 
 import java.util.Arrays;
 import java.util.List;
 
-@Category(IntegrationTest.class)
+@Tag("IntegrationTest")
 public class TimingSyncronizationTest {
     final FileRepresentation space = TestMp3s.spaceDvl;
     final FileRepresentation surrender = TestMp3s.surrenderDvl;
@@ -30,7 +29,7 @@ public class TimingSyncronizationTest {
         new BackStage().prepare(quickComposition).playUntilEnd();
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void play() {
         new BackStage().prepare(composition).playUntilEnd();

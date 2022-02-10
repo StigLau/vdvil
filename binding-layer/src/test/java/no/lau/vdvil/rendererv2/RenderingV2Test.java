@@ -2,7 +2,6 @@ package no.lau.vdvil.rendererv2;
 
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.AudioTarget;
-import no.lau.IntegrationTest;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.composition.CompositionAdapter;
 import no.lau.vdvil.control.Conductor;
@@ -14,15 +13,15 @@ import no.vdvil.renderer.audio.TestMp3s;
 import no.vdvil.renderer.audio.Track;
 import no.vdvil.renderer.image.ImageRenderer;
 import no.vdvil.renderer.lyric.LyricRenderer;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 
 import java.io.IOException;
 import static no.lau.vdvil.mix.util.CompositionHelper.createAudioPart;
 import static no.lau.vdvil.mix.util.CompositionHelper.createImagePart;
 import static no.lau.vdvil.mix.util.CompositionHelper.createLyricPart;
 
-@Category(IntegrationTest.class)
+@Tag("IntegrationTest")
 public class RenderingV2Test {
     final Store store = Store.get();
     final Track returning = TestMp3s.returning;

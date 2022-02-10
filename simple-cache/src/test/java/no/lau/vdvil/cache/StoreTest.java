@@ -1,22 +1,21 @@
 package no.lau.vdvil.cache;
 
-import no.lau.IntegrationTest;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Random;
-
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Stig@Lau.no
  * @since  10/27/13
  */
-@Category(IntegrationTest.class)
+@Tag("IntegrationTest")
 public class StoreTest {
     final String returningMp3 = "https://s3.amazonaws.com/dvl-test-music/music/holden-nothing-93_returning_mix.mp3";
     final String returningMp3Checksum = "3e3477a6ccba67aa9f3196390f48b67d";
@@ -25,7 +24,7 @@ public class StoreTest {
 
 
     Store store;
-    @Before
+    @BeforeEach
     public void setUp() {
         store = new Store();
         store.addTransport(new SimpleCacheImpl());
@@ -56,10 +55,13 @@ public class StoreTest {
         assertEquals("/tmp/vdvil/files/8020a9194279b68610499dfbc0d4619a/default", cachedFileRepresentation.localStorage().toString());
     }
 
-    @Test(expected = UnknownHostException.class)
-    public void theDifferentPathsOfStoreCache() throws IOException {
+    @Test
+    public void theDifferentPathsOfStoreCache() {
         int randomnr = new Random().nextInt();
-        store.cache(new URL("https://" + randomnr + "ringadingadingading.com"));
+        UnknownHostException thrown = Assertions.assertThrows(UnknownHostException.class, () -> {
+            store.cache(new URL("https://" + randomnr + "ringadingadingading.com"));
+        });
+        assertEquals(randomnr + "ringadingadingading.com", thrown.getMessage());
     }
 
     @Test

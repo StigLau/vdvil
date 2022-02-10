@@ -6,10 +6,11 @@ import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Test that filtering is performed correctly
@@ -29,9 +30,10 @@ public class FilteringTest {
         assertEquals(19, result.multimediaParts.get(0).compositionInstruction().end());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testStartOkSmallEnd() {
-        new PartXML("17 -1", new Interval(17, -1), null);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new PartXML("17 -1", new Interval(17, -1), null));
+        assertEquals("Must have a positive duration!", exception.getMessage());
     }
 
     @Test

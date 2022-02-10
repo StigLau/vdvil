@@ -1,20 +1,18 @@
 package no.bouvet.kpro.renderer.audio;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import no.lau.IntegrationTest;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 
-@Category(IntegrationTest.class)
+@Tag("IntegrationTest")
 public class AudioInstructionTest {
 	private AudioInstruction inst;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
         FileRepresentation testMp3 = Store.get().cache(ClassLoader.getSystemResource("test.mp3"));
 		inst = new AudioInstruction(0, 5, 20, 10, testMp3);

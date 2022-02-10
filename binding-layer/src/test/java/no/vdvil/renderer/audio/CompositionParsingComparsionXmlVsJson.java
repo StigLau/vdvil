@@ -6,19 +6,19 @@ import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.handler.persistence.CompositionXMLParser;
 import no.lau.vdvil.parser.json.CompositionJsonParser;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.net.URL;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CompositionParsingComparsionXmlVsJson {
 
     final ParseFacade parseFacade = new ParseFacade();
     AudioXMLParser audioXMLParser;
 
-    @Before
+    @BeforeEach
     public void setup() {
         parseFacade.addParser(new CompositionXMLParser(parseFacade));
         parseFacade.addParser(new CompositionJsonParser(parseFacade));
@@ -27,7 +27,7 @@ public class CompositionParsingComparsionXmlVsJson {
     }
 
     @Test
-    @Ignore //Parsing fails
+    @Disabled //Parsing fails
     public void xmlVsJsonComparison() throws IOException {
         CompositionInstruction compositionInstruction = TestMp3s.compInstructionFactory(TestMp3s.javaZoneCompositionJson, 0, 128);
         Composition jsonComposition = (Composition) parseFacade.parse(compositionInstruction);

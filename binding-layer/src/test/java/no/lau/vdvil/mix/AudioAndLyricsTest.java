@@ -1,6 +1,5 @@
 package no.lau.vdvil.mix;
 
-import no.lau.IntegrationTest;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.mix.util.CompositionHelper;
 import no.lau.vdvil.playback.BackStage;
@@ -9,8 +8,8 @@ import no.vdvil.renderer.audio.TestMp3s;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.timing.MasterBeatPattern;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +22,7 @@ public class AudioAndLyricsTest {
     final MasterBeatPattern mbp = new MasterBeatPattern(0, 20, 150F);
 
     @Test
-    @Category(IntegrationTest.class)
+    @Tag("IntegrationTest")
     public void play() {
         new BackStage().prepare(composition).playUntilEnd();
     }

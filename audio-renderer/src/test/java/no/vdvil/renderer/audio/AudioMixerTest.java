@@ -3,21 +3,19 @@ package no.vdvil.renderer.audio;
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
 import no.bouvet.kpro.renderer.audio.AudioPlaybackTarget;
 import no.bouvet.kpro.renderer.audio.MP3Source;
-import no.lau.IntegrationTest;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.instruction.Instruction;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Category(IntegrationTest.class)
+@Tag("IntegrationTest")
 public class AudioMixerTest {
     AudioInstruction instruction;
     ShortBuffer source;
@@ -30,7 +28,7 @@ public class AudioMixerTest {
 
     int[] mix() { return new int[AudioMixer.MIX_FRAME * 2];}
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
         FileRepresentation fileRepresentation = Store.get().cache(TestMp3s.returningMp3, "3e3477a6ccba67aa9f3196390f48b67d");
         instruction = new AudioInstruction(0, maxSamplesForTest, 0, 81415, fileRepresentation);

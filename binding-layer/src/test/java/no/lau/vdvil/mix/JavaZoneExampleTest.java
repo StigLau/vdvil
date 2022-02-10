@@ -1,32 +1,31 @@
 package no.lau.vdvil.mix;
 
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
-import no.lau.IntegrationTest;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.playback.BackStage;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Stig@Lau.no - 29/12/14.
  */
-@Category(IntegrationTest.class)
+@Tag("IntegrationTest")
 public class JavaZoneExampleTest {
     final JavaZoneExample jz = new JavaZoneExample();
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
         BackStage.cache(jz.composition);
     }
 
     @Test
-    public void testSanityOfTimingCalculation() throws IOException {
+    public void testSanityOfTimingCalculation() {
         List<Instruction> ins = jz.composition.instructions(jz.mbp.masterBpm, 0).lock();
         assertEquals(14, ins.size());
         printOutInstructions(ins);

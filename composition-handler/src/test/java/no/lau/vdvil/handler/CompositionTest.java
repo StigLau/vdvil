@@ -3,11 +3,11 @@ package no.lau.vdvil.handler;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.persistence.*;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 
-import static org.junit.Assert.assertEquals;
-@Category({Deprecated.class})
+import static org.junit.jupiter.api.Assertions.assertEquals;
+@Tag("Deprecated")
 public class CompositionTest {
 
     @Test

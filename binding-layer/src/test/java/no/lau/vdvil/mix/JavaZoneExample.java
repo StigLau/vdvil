@@ -9,12 +9,12 @@ import no.vdvil.renderer.audio.TestMp3s;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.timing.MasterBeatPattern;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JavaZoneExample {
     final FileRepresentation returning = TestMp3s.returningJsonDvl;
@@ -22,7 +22,7 @@ public class JavaZoneExample {
     final FileRepresentation scares_me = TestMp3s.scares_meDvl;
     public final MasterBeatPattern mbp = new MasterBeatPattern(0, 32 + 64 * 3 + 28, 150F);
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
         BackStage.cache(composition);
     }

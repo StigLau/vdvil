@@ -1,32 +1,31 @@
 package no.vdvil.renderer.audio;
 
 import no.bouvet.kpro.renderer.audio.AudioInstruction;
-import no.lau.IntegrationTest;
 import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.Composition;
 import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.persistence.*;
 import no.lau.vdvil.timing.Interval;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 
 import java.io.IOException;
 import java.net.URL;
 
 import static no.lau.NullChecker.nullChecked;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@Category(IntegrationTest.class)
+@Tag("IntegrationTest")
 public class AudioXmlParsingTest {
 
     ParseFacade parseFacade;
     AudioXMLParser audioXMLParser;
 
-    @Before
+    @BeforeEach
     public void setup() {
         parseFacade = new ParseFacade();
         parseFacade.addParser(new CompositionXMLParser(parseFacade));
@@ -48,7 +47,7 @@ public class AudioXmlParsingTest {
     }
 
     @Test
-    @Ignore //Parsing fails
+    @Disabled //Parsing fails
     public void compositionWithAudioParsing() throws IOException {
         String segmentId = "4479230163500364845";
         FileRepresentation compositionUrl = TestMp3s.javaZoneComposition;

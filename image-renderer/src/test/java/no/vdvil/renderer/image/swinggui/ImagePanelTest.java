@@ -1,8 +1,8 @@
 package no.vdvil.renderer.image.swinggui;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import java.awt.Dimension;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Stig@Lau.no - 26/12/14.
