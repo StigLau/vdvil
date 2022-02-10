@@ -1,25 +1,25 @@
 package no.lau.vdvil.handler;
 
-import no.lau.vdvil.cache.SimpleCacheImpl;
+import no.lau.vdvil.cache.FileRepresentation;
+import no.lau.vdvil.cache.Store;
 import no.lau.vdvil.handler.persistence.*;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 
-import java.net.URL;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+@Tag("Deprecated")
 public class CompositionTest {
-
-    Logger log = LoggerFactory.getLogger(getClass());
 
     @Test
     public void testParsingComposition() throws Exception {
-        DownloadAndParseFacade downloadAndParseFacade = new DownloadAndParseFacade();
-        downloadAndParseFacade.addCache(new SimpleCacheImpl());
-        downloadAndParseFacade.addParser(new CompositionXMLParser(downloadAndParseFacade));
+        ParseFacade parseFacade = new ParseFacade();
+        parseFacade.addParser(new CompositionXMLParser(parseFacade));
 
-        URL url = ClassLoader.getSystemResource("CompositionExample.xml");
-        Composition composition = (Composition) downloadAndParseFacade.parse(PartXML.create(url));
-        log.info("composition = " + composition);
+        FileRepresentation fileRepresentation = Store.get().createKey(ClassLoader.getSystemResource("CompositionExample.xml"), "82058797b8edfdbe5fac1218806a175c");
+        Composition composition = (Composition) parseFacade.parse(PartXML.create(fileRepresentation));
+        assertEquals("A simple example", composition.name);
+        assertEquals(150, composition.masterBeatPattern.masterBpm.intValue());
+        assertEquals(0, composition.masterBeatPattern.fromBeat.intValue());
+        assertEquals(64, composition.masterBeatPattern.toBeat.intValue());
     }
 }

@@ -1,6 +1,6 @@
 package no.bouvet.kpro.renderer.audio;
 
-import no.bouvet.kpro.renderer.OldRenderer;
+import no.lau.vdvil.instruction.Instruction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.sound.sampled.AudioFormat;
@@ -19,7 +19,7 @@ import javax.sound.sampled.SourceDataLine;
 public class AudioPlaybackTarget implements AudioTarget {
 	protected SourceDataLine _line;
 	protected int _base;
-    Logger log = LoggerFactory.getLogger(getClass());
+    final Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * Constructs a new AudioPlaybackTarget. The audio output device is opened
@@ -30,8 +30,8 @@ public class AudioPlaybackTarget implements AudioTarget {
 	 * @throws LineUnavailableException wrapped in RuntimeException if the audio device could not be opened
 	 */
 	public AudioPlaybackTarget() {
-		log.debug("Opening audio device for " + OldRenderer.RATE + " Hz stereo 16-bit real-time output" );
-		AudioFormat format = new AudioFormat(OldRenderer.RATE, 16, 2, true, false);
+		log.debug("Opening audio device for " + Instruction.RESOLUTION + " Hz stereo 16-bit real-time output" );
+		AudioFormat format = new AudioFormat(Instruction.RESOLUTION, 16, 2, true, false);
 
         try {
             _line = AudioSystem.getSourceDataLine(format);

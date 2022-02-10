@@ -4,7 +4,7 @@
     <parent>
         <groupId>no.lau.vdvil</groupId>
         <artifactId>vdvil</artifactId>
-        <version>y</version>
+        <version>0.16-SNAPSHOT</version>
     </parent>
 
     <artifactId>play-gui-webstart-distribution</artifactId>
@@ -35,9 +35,9 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo.webstart</groupId>
+                <groupId>org.codehaus.mojo</groupId>
                 <artifactId>webstart-maven-plugin</artifactId>
-                <version>1.0-beta-1</version>
+                <version>1.0-beta-6</version>
                 <executions>
                     <execution>
                         <phase>install</phase>

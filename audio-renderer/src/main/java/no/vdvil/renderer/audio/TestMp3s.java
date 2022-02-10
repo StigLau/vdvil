@@ -1,9 +1,11 @@
 package no.vdvil.renderer.audio;
 
-import no.bouvet.kpro.renderer.OldRenderer;
+import no.lau.vdvil.cache.CacheMetaData;
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.handler.persistence.DvlXML;
 import no.lau.vdvil.handler.persistence.PartXML;
+import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.timing.Interval;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -11,22 +13,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestMp3s {
-    public static final URL coronamp3 =             createURL("http://kpro09.googlecode.com/svn/test-files/Corona_-_Baby_Baby.mp3");
-    public static final URL returningMp3 =          createURL("http://kpro09.googlecode.com/svn/test-files/holden-nothing-93_returning_mix.mp3");
+    public static final URL coronamp3 =             createURL("https://s3.amazonaws.com/dvl-test-music/music/Corona_-_Baby_Baby.mp3");
+    public static final URL returningMp3 =          createURL("https://s3.amazonaws.com/dvl-test-music/music/holden-nothing-93_returning_mix.mp3");
 
-    public static final URL psylteDvl =             createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/loaderror-psylteflesk.dvl");
-    public static final URL returningDvl =          createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/holden-nothing-93_returning_mix.dvl");
-    public static final URL returningJsonDvl =      createURL("https://raw.github.com/StigLau/vdvil/utvikling/audio-renderer/src/test/resources/Returning.dvl.json");
-    public static final URL unfinishedSympathyDvl = createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/unfinished_sympathy.dvl");
-    public static final URL not_aloneDvl =          createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/olive-youre_not_alone.dvl");
-    public static final URL scares_meDvl =          createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/christian_cambas-it_scares_me.dvl");
-    public static final URL spaceDvl =              createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/dvl/space_manoeuvres-stage_one_original.dvl");
-    public static final URL surrenderDvl =          createURL("https://raw.github.com/StigLau/vdvil/master/binding-layer/src/test/resources/Way_Out_West-Surrender-Eelke_Kleijn_Remix.dvl.xml");
+    public static final FileRepresentation psylteDvl =              createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/loaderror-psylteflesk.dvl", "11qqw");
+    public static final FileRepresentation returningDvl =           createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/holden-nothing-93_returning_mix.dvl", "7a7051b2295481de6d741c83fe194708");
+    public static final FileRepresentation returningJsonDvl =       createFileRepresentation("https://raw.github.com/StigLau/vdvil/master/audio-renderer/src/test/resources/Returning.dvl.json", "2c118b9104462f6e8888c4aaf316cc6a");
+    public static final FileRepresentation unfinishedSympathyDvl =  createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/unfinished_sympathy.dvl", "123");
+    public static final FileRepresentation not_aloneDvl =           createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/olive-youre_not_alone.dvl", "94d57a015484d1019f0458c575a199e3");
+    public static final FileRepresentation scares_meDvl =           createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/christian_cambas-it_scares_me.dvl", "c65b216c36a7fe55df539142bcd9cf1b");
+    public static final FileRepresentation spaceDvl =               createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/space_manoeuvres-stage_one_original.dvl", "8262405fb97d00ebdb0ba92fcf727e55");
+    public static final FileRepresentation surrenderDvl =           createFileRepresentation("https://raw.github.com/StigLau/vdvil/master/binding-layer/src/test/resources/Way_Out_West-Surrender-Eelke_Kleijn_Remix.dvl.xml", "e4d263440e684878cf3b7d3ec1c44b46");
 
-    public static final URL javaZoneComposition = createURL("http://kpro09.googlecode.com/svn/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml");
-    public static final URL javaZoneCompositionJson = createURL("http://heap.kompo.st/JavaZone_Demo");
-    public static final URL javaZoneComposition_WithoutImages = createURL("http://kpro09.googlecode.com/svn-history/r530/trunk/graph-gui-scala/src/main/resources/composition/javazone.dvl.composition.xml");
-    public static final URL NULL = createURL("http://null.com");
+    private static FileRepresentation createFileRepresentation(String remoteLocation, String md5Checksum) {
+        try {
+            URL url = new URL(remoteLocation);
+            return new CacheMetaData(url, md5Checksum);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("This should never happen!", e);
+        }
+    }
+
+    public static final FileRepresentation javaZoneComposition = createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/composition/javazone.dvl.composition.xml", "490aa410679405eebbe36b682db9547e");
+    public static final FileRepresentation javaZoneCompositionJson = createFileRepresentation("https://heap.kompo.st/JavaZone_Demo", "45657af53365567c60e47410f4620678");
+    public static final FileRepresentation javaZoneComposition_WithoutImages = createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/composition/javazone.dvl.composition.xml", "c6c3b27b83e71c79574c1837062e2345");
+    public static final URL NULL = createURL("https://null.com");
 
     public static final Track returning = returning();
     public static final Track corona = corona();
@@ -41,7 +52,7 @@ public class TestMp3s {
 
     static Track returning() {
         MediaFile mediaFile = new MediaFile(returningMp3, 5.945F, "3e3477a6ccba67aa9f3196390f48b67d");
-        List<Segment> segments = new ArrayList<Segment>();
+        List<Segment> segments = new ArrayList<>();
         segments.add(new Segment("4336519975847252321",  0, "low", 64));
         segments.add(new Segment("4638184666682848978", 64, "", 64));
         segments.add(new Segment("2754708889643705332", 128, "Up", 128));
@@ -61,8 +72,8 @@ public class TestMp3s {
     }
 
     static Track corona() {
-        MediaFile mediaFile = new MediaFile(coronamp3, OldRenderer.RATE * 0.445f, "e0e5beecd6a34f6a8ebae2c8840769af");
-        List<Segment> segments = new ArrayList<Segment>();
+        MediaFile mediaFile = new MediaFile(coronamp3, Instruction.RESOLUTION * 0.445f, "e0e5beecd6a34f6a8ebae2c8840769af");
+        List<Segment> segments = new ArrayList<>();
         segments.add(new Segment("a", 0, "Baby, why can't we just stay together", 16));
         segments.add(new Segment("b", 16, "Baby, why can't we just stay together", 16));
         segments.add(new Segment("c", 32, "Intro", 32));
@@ -76,8 +87,8 @@ public class TestMp3s {
         return new Track("Corona - Baby baby", 132.98f, mediaFile, segments);
     }
 
-    public static CompositionInstruction compInstructionFactory(URL url, int start, int duration) {
-        return new PartXML("Stub ID", new Interval(start, duration), new DvlXML("Stub Dvl name", url));
+    public static CompositionInstruction compInstructionFactory(FileRepresentation fileRepresentation, int start, int duration) {
+        return new PartXML("Stub ID", new Interval(start, duration), new DvlXML(fileRepresentation));
 
     }
 }

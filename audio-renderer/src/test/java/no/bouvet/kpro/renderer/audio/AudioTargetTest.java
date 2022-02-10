@@ -1,15 +1,15 @@
 package no.bouvet.kpro.renderer.audio;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import no.bouvet.kpro.renderer.OldRenderer;
-import org.junit.After;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import no.lau.vdvil.instruction.Instruction;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 public abstract class AudioTargetTest {
 	protected AudioTarget target;
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 		if (target != null) {
 			target.close();
@@ -38,14 +38,14 @@ public abstract class AudioTargetTest {
 		writeSamples();
 		target.drain();
 
-		assertEquals(OldRenderer.RATE, target.getOutputPosition());
+		assertEquals(Instruction.RESOLUTION, target.getOutputPosition());
 	}
 
 	protected void writeSamples() {
-		byte[] samples = new byte[OldRenderer.RATE * 4];
+		byte[] samples = new byte[Instruction.RESOLUTION * 4];
 		float factor = (float) Math.PI * 2.0f / 44.1f;
 
-		for (int sample = 0, offset = 0; sample < OldRenderer.RATE; sample++) {
+		for (int sample = 0, offset = 0; sample < Instruction.RESOLUTION; sample++) {
 			float time = sample * factor;
 			short value = (short) (Math.sin(time) * 32000);
 
@@ -55,6 +55,6 @@ public abstract class AudioTargetTest {
 			samples[offset++] = (byte) (value >>> 8);
 		}
 
-		target.write(samples, 0, OldRenderer.RATE);
+		target.write(samples, 0, Instruction.RESOLUTION);
 	}
 }

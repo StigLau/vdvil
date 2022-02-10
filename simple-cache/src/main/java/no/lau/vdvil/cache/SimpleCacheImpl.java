@@ -1,21 +1,24 @@
 package no.lau.vdvil.cache;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import sun.misc.BASE64Encoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SimpleCacheImpl extends CacheFacade {
-    private Map<String, UsernameAndPassword> hostAccessList = new HashMap<String, UsernameAndPassword>();
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
-    @Override
-    protected String storeLocation() {
-        return "/tmp/vdvil";
-    }
+public class SimpleCacheImpl implements VdvilCache, SimpleVdvilCache {
+    private final Map<String, UsernameAndPassword> hostAccessList = new HashMap<>();
+
+    Logger log = LoggerFactory.getLogger(SimpleCacheImpl.class);
 
     enum accepts { HTTP, HTTPS, FILE }
 
@@ -46,30 +49,24 @@ public class SimpleCacheImpl extends CacheFacade {
     /**
      * A shorthand for fetching files if they have been downloaded to disk
      * Used by testing purposes
-     *
-     * @param url      to the file
-     * @param checksum may be null if no checksum
-     * @return the file or null if empty
      */
-    @Override
-    public File fetchFromInternetOrRepository(URL url, String checksum) throws IOException {
-        File fileLocation = fileLocation(url);
+    public void fetchFromInternet(URL url, File localStorage) throws IOException {
+        Path target = Paths.get(localStorage.toURI());
+        Path parent = target.getParent();
+        try (InputStream inputStream = addHostAuthentication(url).getInputStream()) {
+            if(Files.exists(target)) {
+                log.warn("File {} already exists and will be overwritten", target);
+            } else {
+                Files.createDirectories(parent);
+            }
+            Files.copy(inputStream, target, REPLACE_EXISTING);
 
-        if (refreshCache || !existsInRepository(fileLocation, checksum)) {
-            InputStream inputStream = addHostAuthentication(url).getInputStream();
-            FileOutputStream outputStream = FileUtils.openOutputStream(fileLocation);
-            try {
-                IOUtils.copy(inputStream, outputStream);
-            } finally {
-                IOUtils.closeQuietly(outputStream);
-                inputStream.close();
-            }
-            if (fileLocation.length() == 0) {
-                fileLocation.delete();
-                fileLocation = null;
-            }
+
         }
-        return fileLocation;
+    }
+
+    public InputStream fetchAsStream(URL url) throws IOException {
+        return url.openStream();
     }
 
     private URLConnection addHostAuthentication(URL url) throws IOException {
@@ -96,8 +93,6 @@ class UsernameAndPassword {
 
     String b64Encoded() {
         String userAndPassword = username + ":" + password;
-        return new BASE64Encoder().encode (userAndPassword.getBytes());
+        return Base64.getEncoder().encodeToString(userAndPassword.getBytes());
     }
-
-
 }

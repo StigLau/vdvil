@@ -7,26 +7,25 @@ import java.io.InputStream;
 import java.net.URL;
 
 /**
- * A generic interface for all caches
+ * A generic interface for all transports
  */
 public interface VdvilCache {
     /**
      * A simple shorthand for fetching the file, regardless of optimization. This works best with files that one knows the checksum of the file in question
      * @param url where the file is located on the web
-     * @param checksum to verify the file that is downloaded
-     * @return the file if it is found
+     * @param localStorage where the file is to be stored locally
      * @throws FileNotFoundException if the file was not found
      */
-    File fetchFromInternetOrRepository(URL url, String checksum) throws IOException;
+    void fetchFromInternet(URL url, File localStorage) throws IOException;
 
     /**
-     * Preferred way of downloading files - as streams
+     * Access to streams, bypassing cache
      * @param url path to stream
      * @return inputStream
      */
     InputStream fetchAsStream(URL url) throws IOException;
 
-    /**
+    /*
      * Invalidates a file in the local cache
      * @param url the original url of the file
      */

@@ -1,9 +1,8 @@
 package no.lau.vdvil.handler;
 
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.instruction.Instruction;
-
-import java.io.IOException;
 
 public interface MultimediaPart {
     MultimediaPart NULL = new MultimediaPart() {
@@ -12,7 +11,6 @@ public interface MultimediaPart {
             return null;
         }
 
-        @Override
         public no.lau.vdvil.instruction.Instruction asV2Instruction() {
             return null;
         }
@@ -21,7 +19,9 @@ public interface MultimediaPart {
             return null;
         }
 
-        public void cache(DownloadAndParseFacade downloader) throws IOException { }
+        public FileRepresentation fileRepresentation() {
+            return FileRepresentation.NULL;
+        }
     };
 
     Instruction asInstruction(Float masterBpm);
@@ -30,8 +30,5 @@ public interface MultimediaPart {
 
     CompositionInstruction compositionInstruction();
 
-    /**
-     * Try to download multimedia payload to cache
-     */
-    void cache(DownloadAndParseFacade downloader) throws IOException;
+    FileRepresentation fileRepresentation();
 }

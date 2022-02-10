@@ -15,12 +15,4 @@ public class Segment {
         this.duration = duration;
         this.end = start+duration;
     }
-
-    @Deprecated
-    /**
-     * Old API which uses end in stead of length
-     */
-    public Segment(String id, int start, int end, String text) {
-        this(id, start, text, end-start);
-    }
 }

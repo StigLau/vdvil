@@ -2,11 +2,12 @@ package no.lau.vdvil.timing;
 
 import no.lau.vdvil.control.Conductor;
 import no.lau.vdvil.renderer.MetronomeRenderer;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TimingTest {
     static final Logger log = LoggerFactory.getLogger(TimingTest.class);
@@ -22,16 +23,16 @@ public class TimingTest {
         assertEquals(0, (long) timer.updateSlider(0));
         assertEquals(500, timer.timeSlider);
 
-        assertEquals(null, timer.updateSlider(1));
+        assertNull(timer.updateSlider(1));
         assertEquals(500, timer.timeSlider);
 
-        assertEquals(null, timer.updateSlider(499));
+        assertNull(timer.updateSlider(499));
         assertEquals(500, timer.timeSlider);
 
         assertEquals(500, (long) timer.updateSlider(501));
         assertEquals(1000, timer.timeSlider);
 
-        assertEquals(null, timer.updateSlider(1));//skipping back in time requires rewinding the lastBeat!
+        assertNull(timer.updateSlider(1));//skipping back in time requires rewinding the lastBeat!
         assertEquals(1000, timer.timeSlider);
     }
 

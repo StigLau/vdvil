@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<komposition xmlns:xlink="http://www.w3.org/1999/xhtml">
+    <bpm>124.0</bpm>
+    <reference>The_Hurt_feat__Sam_Mollison_Andre_Sobota_Remix.kompo.xml</reference>
+    <segments>
+        <segment>
+            <start>0</start>
+            <duration>32</duration>
+            <id>Intro?</id>
+        </segment>
+        <segment>
+            <start>32</start>
+            <duration>64</duration>
+            <id>Verse 2?</id>
+        </segment>
+    </segments>
+    <sources>
+        <a xlink:type="audio" href="https://raw.githubusercontent.com/StigLau/vdvil/utvikling/binding-layer/src/test/resources/dvls/The_Hurt_feat__Sam_Mollison_Andre_Sobota_Remix.dvl.xml" md5checksum="d9a31672aa17608c7f8c259a0ed1755e">The_Hurt_feat__Sam_Mollison_Andre_Sobota_Remix.dvl.xml</a>
+    </sources>
+</komposition>

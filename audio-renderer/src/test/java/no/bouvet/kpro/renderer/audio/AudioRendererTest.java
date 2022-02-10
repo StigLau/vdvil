@@ -1,14 +1,18 @@
 package no.bouvet.kpro.renderer.audio;
 
-import java.net.URL;
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.OldRenderer;
-import org.junit.Test;
+import no.lau.vdvil.cache.FileRepresentation;
+import no.lau.vdvil.cache.Store;
+import no.lau.vdvil.instruction.Instruction;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Tag("IntegrationTest")
 public class AudioRendererTest {
-    Logger log = LoggerFactory.getLogger(getClass());
+    final Logger log = LoggerFactory.getLogger(getClass());
 
 	@Test
 	public void playingOWherePitchIncreases() {
@@ -18,7 +22,7 @@ public class AudioRendererTest {
 		try {
 			// Create the AudioSource
 
-			URL url = getClass().getResource("/test.mp3");
+			FileRepresentation fileRepresentation = Store.get().cache(ClassLoader.getSystemResource("test.mp3"));
 
 			// Create the AudioTarget
 
@@ -27,7 +31,7 @@ public class AudioRendererTest {
 			// Create the renderer instruction list
 
 			Instructions instructions = new Instructions();
-			AudioInstruction instruction = new AudioInstruction(0, 206959, url, 0, OldRenderer.RATE);
+			AudioInstruction instruction = new AudioInstruction(0, 206959, 0, Instruction.RESOLUTION, fileRepresentation);
 			instruction.setInterpolatedRate(0.1f, 0.4f);
 			instruction.setInterpolatedVolume(1.5f, 0.1f);
 			instructions.append(instruction);

@@ -1,10 +1,9 @@
 package no.bouvet.kpro.renderer.audio;
 
-import no.bouvet.kpro.renderer.OldRenderer;
+import no.lau.vdvil.cache.FileRepresentation;
+import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.instruction.SuperInstruction;
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 /**
  * The AudioInstruction class is a specialization of the AbstractInstruction class. It
@@ -19,7 +18,7 @@ import java.net.URL;
  * @author Stig Lau
  */
 public class AudioInstruction extends SuperInstruction {
-	protected MP3Source source;
+	protected final MP3Source source;
 	protected int _cue;
 	protected int _duration;
 
@@ -38,26 +37,22 @@ public class AudioInstruction extends SuperInstruction {
      *            the start time of the instruction in samples (super)
      * @param end
      *            the end time of the instruction in samples (super)
-     * @param source
-*            the AudioSource to use
      * @param cue
 *            the cue point (start point) within source in samples
      * @param duration
      *      * @throws RuntimeException if unable to access mp3 file
      */
-	public AudioInstruction(int start, int end, URL source, int cue, int duration) {
-        super(start, end - start);
-
+	public AudioInstruction(int start, int end, int cue, int duration, FileRepresentation fileRepresentation) {
+        super(start, end - start, fileRepresentation);
         try {
-            this.source = new MP3Source(new File(source.getFile()));
+            source = new MP3Source(fileRepresentation);
         } catch (IOException e) {
-            throw new RuntimeException("Problem accessing MP3 file " + source, e);
+            throw new RuntimeException("Problem accessing MP3 file " + fileRepresentation, e);
         }
-
 		_cue = cue;
 		_duration = duration;
 
-		_rate1 = OldRenderer.RATE;
+		_rate1 = Instruction.RESOLUTION;
 		_rated = 0;
 		_volume1 = 127;
 		_volumed = 0;
@@ -65,8 +60,6 @@ public class AudioInstruction extends SuperInstruction {
 
     /**
 	 * Get the AudioSource.
-	 *
-	 * @return the AudioSource
 	 */
 	public AudioSource getSource() {
         return source;
@@ -97,7 +90,7 @@ public class AudioInstruction extends SuperInstruction {
 	 *            the constant rate
 	 */
 	public void setConstantRate(float rate) {
-		_rate1 = (int) (rate * OldRenderer.RATE);
+		_rate1 = (int) (rate * Instruction.RESOLUTION);
 		_rated = 0;
 	}
 
@@ -111,8 +104,8 @@ public class AudioInstruction extends SuperInstruction {
 	 *            the rate at the end of the section
 	 */
 	public void setInterpolatedRate(float rate1, float rate2) {
-		_rate1 = (int) (rate1 * OldRenderer.RATE);
-		_rated = (long) (rate2 * OldRenderer.RATE) - _rate1;
+		_rate1 = (int) (rate1 * Instruction.RESOLUTION);
+		_rated = (long) (rate2 * Instruction.RESOLUTION) - _rate1;
 	}
 
 	/**
@@ -121,7 +114,7 @@ public class AudioInstruction extends SuperInstruction {
 	 * @param time
 	 *            the time in samples within the section, where 0 is the start
 	 *            of the section
-	 * @return the rate in integer form relative to OldRenderer.RATE
+	 * @return the rate in integer form relative to Instruction.RESOLUTION
 	 */
 	public int getInterpolatedRate(int time) {
 		return _rate1 + (int) (_rated * time / _duration);

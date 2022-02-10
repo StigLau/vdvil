@@ -2,6 +2,7 @@ package no.lau.vdvil.player;
 
 import no.bouvet.kpro.renderer.Instructions;
 import no.bouvet.kpro.renderer.OldRenderer;
+import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.lau.vdvil.renderer.Renderer;
 import java.util.List;
@@ -23,18 +24,37 @@ public class InstructionPlayer implements VdvilPlayer {
         }
     }
 
-    public void play() {
+    public VdvilPlayer play() {
         MasterBeatPattern untilStart = new MasterBeatPattern(0, masterBeatPattern.fromBeat, masterBeatPattern.masterBpm);
         //TODO Note that there are potential problems here!!!
-        Float duration = untilStart.durationCalculation() * OldRenderer.RATE / 1000;
+        Float duration = untilStart.durationCalculation() * Instruction.RESOLUTION / 1000;
         renderer.start(duration.intValue());
+        return this;
     }
 
-    public void stop() {
-        renderer.stop();
+    public void playUntilEnd() {
+        try {
+            play();
+            while (isPlaying())
+                Thread.sleep(200);
+            stop();
+        } catch (Exception e) {
+            throw new RuntimeException("This should not happen", e);
+        }
+    }
+
+    public VdvilPlayer stop() {
+        if(isPlaying()) {
+            renderer.stop();
+        }
+        return this;
     }
 
     public boolean isPlaying() {
         return renderer.isRendering();
+    }
+
+    public void appendInstructions(Instructions instructions) {
+        renderer.appendInstructions(instructions);
     }
 }

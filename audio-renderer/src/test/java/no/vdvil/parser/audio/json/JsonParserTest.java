@@ -1,16 +1,14 @@
 package no.vdvil.parser.audio.json;
 
 import com.google.gson.Gson;
-import no.lau.vdvil.cache.DownloaderFacade;
 import no.vdvil.renderer.audio.MediaFile;
 import no.vdvil.renderer.audio.Segment;
 import no.vdvil.renderer.audio.TestMp3s;
 import no.vdvil.renderer.audio.Track;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -19,21 +17,21 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class JsonParserTest {
 
-    String testJson = "{\"reference\":\"trackReference\",\"bpm\":123.0,\"mediaFile\":{\"fileName\":\"http://url.com\",\"startingOffset\":1000.0,\"checksum\":\"a checksum\"},\"segments\":[{\"id\":\"id1\",\"text\":\"hello\",\"start\":0,\"duration\":16,\"end\":16},{\"id\":\"id2\",\"text\":\"goodbye\",\"start\":16,\"duration\":16,\"end\":32}]}";
+    final String testJson = "{\"reference\":\"trackReference\",\"bpm\":123.0,\"mediaFile\":{\"fileName\":\"https://url.com\",\"startingOffset\":1000.0,\"checksum\":\"a checksum\"},\"segments\":[{\"id\":\"id1\",\"text\":\"hello\",\"start\":0,\"duration\":16,\"end\":16},{\"id\":\"id2\",\"text\":\"goodbye\",\"start\":16,\"duration\":16,\"end\":32}]}";
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Test
     public void testWritingTrackToJson() throws MalformedURLException {
-        List<Segment> segments = new ArrayList<Segment>();
+        List<Segment> segments = new ArrayList<>();
         segments.add(new Segment("id1", 0, "hello", 16));
         segments.add(new Segment("id2", 16, "goodbye", 16));
 
-        Track track = new Track("trackReference", 123F, new MediaFile(new URL("http://url.com"), 1000F, "a checksum"), segments);
+        Track track = new Track("trackReference", 123F, new MediaFile(new URL("https://url.com"), 1000F, "a checksum"), segments);
         Gson gson = new Gson();
         String jsonResult = gson.toJson(track);
         System.out.println(jsonResult);
@@ -42,22 +40,21 @@ public class JsonParserTest {
 
     @Test
     public void testParsingJson() throws MalformedURLException {
-        DownloaderFacade downloader = null;
-        AudioJsonParser audioJsonParser = new AudioJsonParser(downloader);
+        AudioJsonParser audioJsonParser = new AudioJsonParser();
         Track track = audioJsonParser.parseJsonStringToTrack(new StringReader(testJson));
         assertEquals("trackReference", track.reference);
-        assertEquals(new URL("http://url.com"), track.mediaFile.fileName);
+        assertEquals(new URL("https://url.com"), track.mediaFile.fileName);
     }
     @Test
-    public void jsonReturning() throws MalformedURLException {
+    public void jsonReturning() {
         System.out.println(new Gson().toJson(TestMp3s.returning));
     }
 
     @Test
-    public void testParsingReturning() throws IOException {
+    public void testParsingReturning() {
         InputStream stream = this.getClass().getResourceAsStream("/Returning.dvl.json");
         InputStreamReader reader = new InputStreamReader(stream);
-        Track track = new AudioJsonParser(null).parseJsonStringToTrack(reader);
+        Track track = new AudioJsonParser().parseJsonStringToTrack(reader);
         printTrackProperties(track);
         assertEquals(new Float(130.0F), track.bpm);
         assertEquals(15, track.segments.size());

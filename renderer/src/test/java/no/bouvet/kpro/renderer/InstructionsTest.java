@@ -1,10 +1,11 @@
 package no.bouvet.kpro.renderer;
 
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.instruction.SuperInstruction;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import java.util.List;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InstructionsTest {
 
@@ -24,7 +25,7 @@ public class InstructionsTest {
     @Test
     public void testSortingByEnd() {
         List<Instruction> sortedList = testInstructions().sortedByEnd();
-        
+
         assertEquals("1-3", sortedList.get(0).toString());
         assertEquals("4-4", sortedList.get(1).toString());
         assertEquals("1-5", sortedList.get(2).toString());
@@ -54,7 +55,7 @@ public class InstructionsTest {
 
 class TestInstruction extends SuperInstruction {
     public TestInstruction(int start, int length) {
-        super(start, length);
+        super(start, length, FileRepresentation.NULL);
     }
 
     public String toString() {

@@ -2,10 +2,7 @@ package no.bouvet.kpro.renderer.audio;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.collect.Sets;
 import no.bouvet.kpro.renderer.AbstractRenderer;
-import no.bouvet.kpro.renderer.OldRenderer;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.renderer.Renderer;
 import no.vdvil.renderer.audio.AudioMixer;
@@ -26,7 +23,7 @@ import org.slf4j.LoggerFactory;
  */
 public class AudioRenderer extends AbstractRenderer implements Runnable, Renderer {
 
-    AudioMixer audioMixer;
+    final AudioTarget audioTarget;
     protected boolean _timeSource = false;
 
     protected Thread _thread;
@@ -34,8 +31,8 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
     protected int _time;
     protected boolean _finished;
 
-    protected List<AudioInstruction> _active = new ArrayList<AudioInstruction>();
-    Logger log = LoggerFactory.getLogger(getClass());
+    protected List<AudioInstruction> _active = new ArrayList<>();
+    final Logger log = LoggerFactory.getLogger(getClass());
 
     /**
      * Construct a new AudioRenderer instance that will mix audio and send it to
@@ -44,7 +41,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
      * @param target the AudioTarget to send audio to
      */
     public AudioRenderer(AudioTarget target) {
-        audioMixer = new AudioMixer(target);
+        this.audioTarget = target;
     }
 
     /**
@@ -65,23 +62,20 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
      *
      * @param time
      *            The time in samples when rendering begins
-     * @return true
      */
     @Override
-    public boolean start(int time) {
+    public void start(int time) {
         stop();
 
-        log.debug("Starting at " + ( (float)time / OldRenderer.RATE ) + "s with frame size " + ( (float) AudioMixer.MIX_FRAME / OldRenderer.RATE ) + "s" );
+        log.debug("Starting at " + ( (float)time / Instruction.RESOLUTION ) + "s with frame size " + ( (float) AudioMixer.MIX_FRAME / Instruction.RESOLUTION ) + "s" );
 
-        audioMixer.target.flush();
+        audioTarget.flush();
 
         _time = time;
         _finished = false;
 
         _thread = new Thread(this);
         _thread.start();
-
-        return true;
     }
 
     /**
@@ -93,7 +87,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
             Thread thread = _thread;
             _thread = null;
 
-            audioMixer.target.flush();
+            audioTarget.flush();
 
             while (thread.isAlive()) {
                 try {
@@ -102,7 +96,7 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
                 }
             }
 
-            audioMixer.target.flush();
+            audioTarget.flush();
             _active.clear();
 
             log.debug("Stopped" );
@@ -138,8 +132,8 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
      */
     public void notify(Instruction instruction, long beat) {
         if(instruction != null) {
-            log.info("Got instruction {} to be played at {}",instruction.getClass().getName(), beat);
             if (instruction instanceof AudioInstruction) {
+                log.info("BPM: {} start:{} actual:{}", instruction, instruction.start(), beat);
                 _active.add((AudioInstruction) instruction);
             }
         }
@@ -162,28 +156,30 @@ public class AudioRenderer extends AbstractRenderer implements Runnable, Rendere
      * It may also provide time source information to the master OldRenderer.
      */
     public void run() {
-        while (!_finished || !(_active.isEmpty())) {
-            if (_timeSource) {
-                _renderer.notifyTime(_time + AudioMixer.MIX_FRAME);
+        try {
+            while (!_finished || !_active.isEmpty()) {
+                if (_timeSource) {
+                    _renderer.notifyTime(_time + AudioMixer.MIX_FRAME);
+                }
+                _active = pruneByTime(_active);
+
+                _time = AudioMixer.mixItUp(_active, _time, audioTarget);
             }
-            _active = pruneByTime(_active);
-
-            _time = AudioMixer.mixItUp(Sets.<Instruction>newTreeSet(_active), _time, audioMixer);
-        }
-        log.debug("End of composition, draining target..." );
-        audioMixer.target.drain();
-
-        if (_timeSource) {
-            _renderer.notifyFinished();
+        }finally {
+            log.debug("End of composition, draining target...");
+            audioTarget.drain();
+            if (_timeSource) {
+                _renderer.notifyFinished();
+            }
         }
     }
 
 
 
-    
+
 
     List<AudioInstruction> pruneByTime(List<AudioInstruction> active) {
-        List<AudioInstruction> prunedList = new ArrayList<AudioInstruction>();
+        List<AudioInstruction> prunedList = new ArrayList<>();
         for (AudioInstruction instruction : active) {
             if(instruction.end() > _time && instruction.getSourceDuration() > 0)
                 prunedList.add(instruction);

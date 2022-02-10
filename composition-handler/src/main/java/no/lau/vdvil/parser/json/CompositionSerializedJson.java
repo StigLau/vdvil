@@ -1,7 +1,8 @@
 package no.lau.vdvil.parser.json;
 
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.Composition;
-import no.lau.vdvil.handler.DownloadAndParseFacade;
+import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.CompositionInstruction;
 import no.lau.vdvil.handler.persistence.MultimediaReference;
@@ -24,19 +25,19 @@ class CompositionSerializedJson {
     List<PartJson> parts;
     Map<String, URL> dvls;
 
-    public Composition asComposition(URL url, DownloadAndParseFacade downloadAndParseFacade) {
-        List<MultimediaPart> newparts = new ArrayList<MultimediaPart>();
+    public Composition asComposition(FileRepresentation fileRepresentation, ParseFacade parser) {
+        List<MultimediaPart> newparts = new ArrayList<>();
         int beatLength = 0;
         for (final PartJson part : this.parts) {
             if (part.start + part.duration > beatLength)
                 beatLength = part.start + part.duration;
             try {
-                newparts.add(downloadAndParseFacade.parse(part));
+                newparts.add(parser.parse(part));
             } catch (IOException e) {
                 System.out.println("Unable to parse or download " + part.dvl.name());
             }
         }
-        return new Composition(this.name, new MasterBeatPattern(0, beatLength, this.masterBpm), newparts, url);
+        return new Composition(this.name, new MasterBeatPattern(0, beatLength, this.masterBpm), fileRepresentation, () -> newparts);
     }
 }
 
@@ -59,9 +60,9 @@ class PartJson implements CompositionInstruction, MutableCompositionInstruction 
     }
     public MultimediaReference dvl() {return dvl;}
 
-    public void moveStart(int cueDifference) { this.cueDifference = cueDifference; }
+    public void setCueDifference(int cueDifference) { this.cueDifference = cueDifference; }
 
-    public void setEnd(int endBeat) {
-        duration = endBeat - start;
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 }

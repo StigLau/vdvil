@@ -1,0 +1,72 @@
+<komposition>
+    <reference>Hesnes_Islands-Jaran_Flaath.mp4</reference>
+    <bpm>125.0</bpm>
+    <mediaFile>
+        <fileName>https://www.youtube.com/watch?v=ZSs0PBuLeSc</fileName>
+        <startingOffset>0.00</startingOffset>
+        <checksumFileSize>99449938</checksumFileSize>
+        <type>youtube</type>
+        <finalFileName>some value</finalFileName></mediaFile>
+    <segments>
+        <segment>
+            <id>Many red huts and narrow fjord, flying downwards</id>
+            <start>6973633</start>
+            <end>21921900</end>
+        </segment>
+        <segment>
+            <id>Fly out to sun</id>
+            <start>25125100</start>
+            <end>36302933</end>
+        </segment>
+        <segment>
+            <id>Panoramic greens and blues</id>
+            <start>37904533</start>
+            <end>59259200</end>
+        </segment>
+        <segment>
+            <id>Two racing bots</id>
+            <start>60860800</start>
+            <end>71504767</end>
+        </segment>
+        <segment>
+            <id>Tree boat</id>
+            <start>73106367</start>
+            <end>85385300</end>
+        </segment>
+        <segment>
+            <id>Tree boat going out</id>
+            <start>86986900</start>
+            <end>115782333</end>
+        </segment>
+        <segment>
+            <id>Two boats zooming past</id>
+            <start>116850067</start>
+            <end>130730600</end>
+        </segment>
+        <segment>
+            <id>Two boats fly over</id>
+            <start>132332200</start>
+            <end>144577767</end>
+        </segment>
+        <segment>
+            <id>Continued flying</id>
+            <start>147247100</start>
+            <end>173907067</end>
+        </segment>
+        <segment>
+            <id>Boats in ponds</id>
+            <start>174974800</start>
+            <end>184584400</end>
+        </segment>
+        <segment>
+            <id>Chasing boat into sunset</id>
+            <start>186186000</start>
+            <end>196863333</end>
+        </segment>
+        <segment>
+            <id>Fly out into the boarder</id>
+            <start>197931067</start>
+            <end>235768867</end>
+        </segment>
+    </segments>
+</komposition>

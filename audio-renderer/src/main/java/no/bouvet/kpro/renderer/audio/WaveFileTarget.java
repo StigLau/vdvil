@@ -1,6 +1,6 @@
 package no.bouvet.kpro.renderer.audio;
 
-import no.bouvet.kpro.renderer.OldRenderer;
+import no.lau.vdvil.instruction.Instruction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
@@ -17,7 +17,7 @@ public class WaveFileTarget implements AudioTarget {
 	protected File _file;
 	protected RandomAccessFile _raf;
 	protected int _duration = 0;
-    Logger log = LoggerFactory.getLogger(getClass());
+    final Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * Constructs a new WaveFileTarget. The file to create or overwrite is
@@ -25,42 +25,46 @@ public class WaveFileTarget implements AudioTarget {
 	 * exception is thrown.
 	 * 
 	 * @param file to load
-	 * @throws Exception if the file cannot be written to
+	 * throws exception as Runtime exception; if the file cannot be written to
 	 */
-	public WaveFileTarget(File file) throws Exception {
-		log.debug("Writing to file " + file.toString() );
+	public WaveFileTarget(File file) {
+        try {
+            log.debug("Writing to file " + file.toString());
 
-		// Delete the file if it exists
+            // Delete the file if it exists
 
-		if (file.exists())
-			file.delete();
+            if (file.exists())
+                file.delete();
 
-		// Open the file
+            // Open the file
 
-		_file = file;
-		_raf = new RandomAccessFile(file, "rw");
+            _file = file;
+            _raf = new RandomAccessFile(file, "rw");
 
-		// Write the RIFF header chunk, with WAVE subtype
+            // Write the RIFF header chunk, with WAVE subtype
 
-		_raf.write(new byte[] { 'R', 'I', 'F', 'F' });
-		_raf.writeInt(0);
-		_raf.write(new byte[] { 'W', 'A', 'V', 'E' });
+            _raf.write(new byte[]{'R', 'I', 'F', 'F'});
+            _raf.writeInt(0);
+            _raf.write(new byte[]{'W', 'A', 'V', 'E'});
 
-		// Write the format chunk
+            // Write the format chunk
 
-		_raf.write(new byte[] { 'f', 'm', 't', ' ' });
-		_raf.writeInt(swap32(16));
-		_raf.writeShort(swap16(1));
-		_raf.writeShort(swap16(2));
-		_raf.writeInt(swap32(OldRenderer.RATE));
-		_raf.writeInt(swap32(OldRenderer.RATE * 4));
-		_raf.writeShort(swap16(4));
-		_raf.writeShort(swap16(16));
+            _raf.write(new byte[]{'f', 'm', 't', ' '});
+            _raf.writeInt(swap32(16));
+            _raf.writeShort(swap16(1));
+            _raf.writeShort(swap16(2));
+            _raf.writeInt(swap32(Instruction.RESOLUTION));
+            _raf.writeInt(swap32(Instruction.RESOLUTION * 4));
+            _raf.writeShort(swap16(4));
+            _raf.writeShort(swap16(16));
 
-		// Write the data chunk header
+            // Write the data chunk header
 
-		_raf.write(new byte[] { 'd', 'a', 't', 'a' });
-		_raf.writeInt(0);
+            _raf.write(new byte[]{'d', 'a', 't', 'a'});
+            _raf.writeInt(0);
+        }catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 	}
 
 	/**
@@ -85,7 +89,7 @@ public class WaveFileTarget implements AudioTarget {
 
 			log.debug("Closed " + _file.toString() );
 		} catch (Exception e) {
-			log.debug("Exception closing: " + e.toString() );
+			log.debug("Exception closing: " + e);
 		}
 	}
 
@@ -158,7 +162,7 @@ public class WaveFileTarget implements AudioTarget {
 		try {
 			_raf.write(buffer, offset << 2, duration << 2);
 		} catch (Exception e) {
-			log.debug( "Exception writing: " + e.toString() );
+			log.debug( "Exception writing: " + e);
 		}
 
 		// Increment the duration

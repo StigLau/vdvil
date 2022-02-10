@@ -1,6 +1,6 @@
 package no.bouvet.kpro.renderer.audio;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -9,21 +9,21 @@ import java.net.URL;
 import java.nio.ShortBuffer;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class MP3SourceTest {
 	private MP3Source source;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		URL url = getClass().getResource("/test.mp3");
 		source = new MP3Source(new File(url.getFile()));
 	}
 
-	@After
-	public void tearDown() throws Exception {
+	@AfterEach
+	public void tearDown() {
 		source.close();
 	}
 

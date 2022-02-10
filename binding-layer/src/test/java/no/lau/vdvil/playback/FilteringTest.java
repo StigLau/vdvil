@@ -6,12 +6,11 @@ import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.timing.Interval;
 import no.lau.vdvil.timing.MasterBeatPattern;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Test that filtering is performed correctly
@@ -19,30 +18,31 @@ import static org.junit.Assert.assertEquals;
 public class FilteringTest {
     @Test
     public void testSettingValueIfEndTimeAfterStart() {
-        List<MultimediaPart> partList = new ArrayList<MultimediaPart>();
+        List<MultimediaPart> partList = new ArrayList<>();
         partList.add(new ImageDescription(new PartXML("0 14", new Interval(0, 14), null), null));
         partList.add(new ImageDescription(new PartXML("33 34", new Interval(33, 1), null), null));
         partList.add(new ImageDescription(new PartXML("18 1", new Interval(18, 1), null), null));
-        Composition testComposition = new Composition("", new MasterBeatPattern(0, 120, 120F), partList, null);
+        Composition testComposition = new Composition("", new MasterBeatPattern(0, 120, 120F), null, () -> partList);
 
-        Composition result = PreconfiguredVdvilPlayer.filterByTime(testComposition, new MasterBeatPattern(16, 32, 130F));
+        Composition result = BackStage.filterByTime(testComposition, new MasterBeatPattern(16, 32, 130F));
         assertEquals(1, result.multimediaParts.size());
         assertEquals("18 1", result.multimediaParts.get(0).compositionInstruction().id());
         assertEquals(19, result.multimediaParts.get(0).compositionInstruction().end());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testStartOkSmallEnd() {
-        new PartXML("17 -1", new Interval(17, -1), null);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new PartXML("17 -1", new Interval(17, -1), null));
+        assertEquals("Must have a positive duration!", exception.getMessage());
     }
 
     @Test
     public void testSegmentStartsAndStopsOutsideOfWindow() {
-        List<MultimediaPart> partList = new ArrayList<MultimediaPart>();
+        List<MultimediaPart> partList = new ArrayList<>();
         partList.add(new ImageDescription(new PartXML("0 20", new Interval(0, 20), null), null));
-        Composition testComposition = new Composition("", new MasterBeatPattern(2, 10, 120F), partList, null);
+        Composition testComposition = new Composition("", new MasterBeatPattern(2, 10, 120F), null, () -> partList);
 
-        Composition result = PreconfiguredVdvilPlayer.filterByTime(testComposition, new MasterBeatPattern(4, 8, 130F));
+        Composition result = BackStage.filterByTime(testComposition, new MasterBeatPattern(4, 8, 130F));
         assertEquals(4, result.multimediaParts.get(0).compositionInstruction().start());
         assertEquals(8, result.multimediaParts.get(0).compositionInstruction().end());
     }

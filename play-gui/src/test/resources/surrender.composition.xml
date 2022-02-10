@@ -22,7 +22,7 @@
         </part><part>
         <id>cfw0</id>
         <dvl>
-            <url>http://fc03.deviantart.net/fs17/f/2007/182/f/4/Dead_Teddy_by_Cast_Down_Doll.jpg</url>
+            <url>https://dvl-test-music.s3.amazonaws.com/test-images/teddy/Dead_Teddy_by_Cast_Down_Doll.jpg</url>
             <name>Click Flash Wirr</name>
         </dvl>
         <start>0</start>
@@ -30,7 +30,7 @@
     </part><part>
         <id>cfw1</id>
         <dvl>
-            <url>http://www.shinyshiny.tv/teddy%20bear%201.jpg</url>
+            <url>https://s3.amazonaws.com/dvl-test-music/test-images/teddy/teddy+bear+1.jpg</url>
             <name>Click Flash Wirr</name>
         </dvl>
         <start>4</start>

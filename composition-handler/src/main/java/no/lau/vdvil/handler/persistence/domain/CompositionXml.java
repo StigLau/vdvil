@@ -1,12 +1,14 @@
 package no.lau.vdvil.handler.persistence.domain;
 
+import no.lau.vdvil.cache.FileRepresentation;
 import no.lau.vdvil.handler.Composition;
-import no.lau.vdvil.handler.DownloadAndParseFacade;
+import no.lau.vdvil.handler.ParseFacade;
 import no.lau.vdvil.handler.MultimediaPart;
 import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.timing.MasterBeatPattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,18 +21,22 @@ public class CompositionXml {
     public Float masterBpm;
     public List<PartXML> parts;
 
-    public Composition asComposition(URL url, DownloadAndParseFacade downloadAndParseFacade) {
-        List<MultimediaPart> newparts = new ArrayList<MultimediaPart>();
+    static final Logger log = LoggerFactory.getLogger(CompositionXml.class);
+
+
+    public Composition asComposition(FileRepresentation fileRepresentation, ParseFacade parseFacade) {
+        List<MultimediaPart> newparts = new ArrayList<>();
         int beatLength = 0;
         for (final PartXML partXML : this.parts) {
-            if (partXML.end() > beatLength)
-                beatLength = partXML.end();
+            int end = partXML.start() + partXML.duration();
+            if (end > beatLength)
+                beatLength = end;
             try {
-                newparts.add(downloadAndParseFacade.parse(partXML));
+                newparts.add(parseFacade.parse(partXML));
             } catch (IOException e) {
-                System.out.println("Unable to parse or download "+partXML.dvl.name());
+                log.error("Unable to parse or download {}", partXML.dvl.name());
             }
         }
-        return new Composition(this.name, new MasterBeatPattern(0, beatLength, this.masterBpm), newparts, url);
+        return new Composition(this.name, new MasterBeatPattern(0, beatLength, this.masterBpm), fileRepresentation, () -> newparts);
     }
 }
