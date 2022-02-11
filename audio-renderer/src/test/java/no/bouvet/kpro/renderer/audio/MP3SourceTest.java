@@ -8,7 +8,7 @@ import java.io.File;
 import java.net.URL;
 import java.nio.ShortBuffer;
 
-import org.apache.commons.codec.digest.DigestUtils;
+import no.lau.MD5;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +50,7 @@ public class MP3SourceTest {
 			}
 		}
 
-		String md5 = DigestUtils.md5Hex(output.toByteArray());
+		String md5 = MD5.md5Hex(output.toByteArray());
 		assertEquals("d11e62df06d57b8b24e11770919a0e5e", md5);
 	}
 }

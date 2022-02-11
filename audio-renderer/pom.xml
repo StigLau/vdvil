@@ -34,13 +34,12 @@
             <artifactId>simple-cache</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <scope>test</scope>
+            <groupId>no.lau.vdvil</groupId>
+            <artifactId>common-test</artifactId>
         </dependency>
         <dependency>
             <groupId>no.lau.vdvil</groupId>
-            <artifactId>common-test</artifactId>
+            <artifactId>common-utils</artifactId>
         </dependency>
     </dependencies>
 </project>

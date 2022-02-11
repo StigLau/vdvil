@@ -1,7 +1,6 @@
 package no.lau.vdvil.cache;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
+import no.lau.MD5;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
@@ -46,7 +45,7 @@ public class CacheMetadataStorageAndLookup implements Serializable{
      * @return the file itself
      */
     public File fileLocation(URL url) {
-        String urlChecksum = DigestUtils.md5Hex(url.toString());
+        String urlChecksum = MD5.md5Hex(url.toString());
         return new File(storeLocation + "/files/" + urlChecksum + "/default");
     }
 
