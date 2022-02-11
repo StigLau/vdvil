@@ -25,10 +25,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-        </dependency>
-        <dependency>
             <groupId>no.lau.vdvil</groupId>
             <artifactId>common-utils</artifactId>
         </dependency>

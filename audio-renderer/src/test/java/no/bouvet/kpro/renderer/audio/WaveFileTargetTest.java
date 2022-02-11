@@ -6,7 +6,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.apache.commons.codec.digest.DigestUtils;
+import no.lau.MD5;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,7 @@ public class WaveFileTargetTest extends AudioTargetTest {
 		target.close();
 		target = null;
 
-        String md5 = DigestUtils.md5Hex(Files.readAllBytes(Paths.get(file.toURI())));
+        String md5 = MD5.md5Hex(Files.readAllBytes(Paths.get(file.toURI())));
 		assertEquals("f54fd889d8255823527e15cef4419189", md5);
 	}
 }

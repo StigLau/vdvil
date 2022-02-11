@@ -1,6 +1,6 @@
 package no.lau.vdvil.cache;
 
-import org.apache.commons.codec.digest.DigestUtils;
+import no.lau.MD5;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.*;
@@ -99,7 +99,7 @@ public class Store {
                     log.info("The file {} is confirmed in cache but has no MD5 checksum", fileRepresentation.remoteAddress());
                     return fileRepresentation;
                 } else {
-                    String fileChecksum = DigestUtils.md5Hex(Files.readAllBytes(Paths.get(fileRepresentation.localStorage().toURI())));
+                    String fileChecksum = MD5.md5Hex(Files.readAllBytes(Paths.get(fileRepresentation.localStorage().toURI())));
                     if (fileChecksum.equals(fileRepresentation.md5CheckSum())) {
                         log.debug("Checksum of {} confirmed", fileRepresentation);
                         return fileRepresentation;
