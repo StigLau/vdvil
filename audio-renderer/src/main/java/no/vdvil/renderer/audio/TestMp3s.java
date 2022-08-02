@@ -23,7 +23,7 @@ public class TestMp3s {
     public static final FileRepresentation not_aloneDvl =           createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/olive-youre_not_alone.dvl", "94d57a015484d1019f0458c575a199e3");
     public static final FileRepresentation scares_meDvl =           createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/christian_cambas-it_scares_me.dvl", "c65b216c36a7fe55df539142bcd9cf1b");
     public static final FileRepresentation spaceDvl =               createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/space_manoeuvres-stage_one_original.dvl", "8262405fb97d00ebdb0ba92fcf727e55");
-    public static final FileRepresentation surrenderDvl =           createFileRepresentation("https://raw.github.com/StigLau/vdvil/master/binding-layer/src/test/resources/Way_Out_West-Surrender-Eelke_Kleijn_Remix.dvl.xml", "e4d263440e684878cf3b7d3ec1c44b46");
+    public static final FileRepresentation surrenderDvl =           createFileRepresentation("https://raw.github.com/StigLau/vdvil/master/binding-layer/src/test/resources/Way_Out_West-Surrender-Eelke_Kleijn_Remix.dvl.xml", "fc75a9899ee6082d769ea35941d3a36a");
 
     private static FileRepresentation createFileRepresentation(String remoteLocation, String md5Checksum) {
         try {
