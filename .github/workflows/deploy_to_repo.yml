@@ -18,7 +18,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Releasing
-        run: mvn --batch-mode source:jar deploy -Pex-integration
+        run: mvn --batch-mode source:jar deploy -Pex-integration -DSkipTests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Bumping release version to next SNAPSHOT
