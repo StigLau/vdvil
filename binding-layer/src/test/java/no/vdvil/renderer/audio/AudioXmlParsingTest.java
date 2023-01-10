@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Tag;
 import java.io.IOException;
 import java.net.URL;
 
-import static no.lau.NullChecker.nullChecked;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -35,8 +34,8 @@ public class AudioXmlParsingTest {
 
     @Test
     public void audioXmlParsing() throws Exception {
-        URL url = nullChecked(ClassLoader.getSystemResource("audio/AudioExample.dvl.xml"));
-
+        URL url = ClassLoader.getSystemResource("audio/AudioExample.dvl.xml");
+        assertNotNull(url);
         String segmentId = "4336519975847252321";
         CompositionInstruction ci = new PartXML(segmentId, new Interval(-1, 0), new DvlXML(Store.get().cache(url, "a11234ac9dfcc7e0d0de1489fcd8d9ad")));
         AudioDescription audioDescription = audioXMLParser.parse(ci);

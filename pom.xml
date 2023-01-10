@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>no.lau.vdvil</groupId>
     <artifactId>vdvil</artifactId>
-    <version>0.19-SNAPSHOT</version>
+    <version>fi</version>
     <packaging>pom</packaging>
     <name>Vdvil Root</name>
     <description>Vdvil - Framework for multimedia structuring, composition and playback</description>
@@ -44,8 +44,6 @@
         <!-- <module>play-gui-webstart-distribution</module> Commented out until v1.0-snapshot-7 is released-->
         <!--<module>play-gui</module> -->
         <module>binding-layer</module>
-        <module>common-test</module>
-        <module>common-utils</module>
         <module>deprecated-utils</module>
         <!--    <module>play-per-view</module> -->
     </modules>
@@ -90,19 +88,8 @@
             </dependency>
             <dependency>
                 <groupId>no.lau.vdvil</groupId>
-                <artifactId>common-utils</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>no.lau.vdvil</groupId>
                 <artifactId>deprecated-utils</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>no.lau.vdvil</groupId>
-                <artifactId>common-test</artifactId>
-                <version>${project.version}</version>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>no.lau.vdvil</groupId>

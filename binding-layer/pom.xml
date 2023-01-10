@@ -8,7 +8,7 @@
     <parent>
         <groupId>no.lau.vdvil</groupId>
         <artifactId>vdvil</artifactId>
-        <version>0.19-SNAPSHOT</version>
+        <version>0.18.0</version>
     </parent>
 
     <dependencies>
@@ -35,10 +35,6 @@
         <dependency>
             <groupId>no.lau.vdvil</groupId>
             <artifactId>deprecated-utils</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>no.lau.vdvil</groupId>
-            <artifactId>common-test</artifactId>
         </dependency>
     </dependencies>
 </project>

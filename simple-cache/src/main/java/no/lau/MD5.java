@@ -1,7 +1,5 @@
 package no.lau;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -12,9 +10,6 @@ public class MD5 {
         return md5Hex(input.getBytes());
     }
 
-    public static String md5Hex(InputStream input) throws IOException {
-        return md5Hex(input.readAllBytes());
-    }
 
     public static String md5Hex(byte[] input) {
         try {

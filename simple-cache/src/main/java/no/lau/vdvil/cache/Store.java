@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import static no.lau.NullChecker.nullChecked;
 
 /**
  * @author Stig@Lau.no
@@ -71,14 +70,14 @@ public class Store {
     }
 
     public FileRepresentation cache(URL remoteURL) throws IOException {
-            return cache(cacheMetadataStorageAndLookup.findByRemoteURL(nullChecked(remoteURL)));
+            return cache(cacheMetadataStorageAndLookup.findByRemoteURL(remoteURL));
     }
 
     /**
      * Shorthand without using fileRepresentation
      */
     public FileRepresentation cache(URL remoteURL, String checksum) throws IOException {
-            return this.cache(createKey(nullChecked(remoteURL), checksum));
+            return this.cache(createKey(remoteURL, checksum));
     }
 
     /**
