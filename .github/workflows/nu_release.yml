@@ -1,20 +1,49 @@
-name: Publish package to GitHub Packages
+name: Deploying based on Closing PRs
 on:
-  release:
-    types: [created]
+  pull_request:
+    types:
+      - closed
+
 jobs:
-  publish:
+  if_merged:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
+    steps:
+      - run: |
+          echo The PR was merged
+  build:
+    needs: if_merged
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
         with:
-          java-version: '11'
-          distribution: 'adopt'
-      - name: Publish package
-        run: mvn --batch-mode deploy
+          java-version: 11
+          distribution: 'corretto'
+      - name: Building the app
+        run: mvn --batch-mode --file pom.xml --update-snapshots package -P ex-integration
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up corretto JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'corretto'
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          tag_name: v${{github.run_number}}
+          release_name: Release V${{github.run_number}}
+
+      - name: Update version
+        run: mvn -B versions:set -DnewVersion=v${{github.run_number}} -DgenerateBackupPoms=false
+
+      - name: Publish to GitHub Packages Apache Maven
+        run: mvn -B deploy -DskipTests --file pom.xml
+        env:
+          GITHUB_TOKEN: ${{ github.token }}

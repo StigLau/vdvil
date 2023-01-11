@@ -1,12 +1,13 @@
 Notes when programming Vdvil
 
-h2. Romjula 2009/2010
+# Romjula 2009/2010
+
  * Immense cleanup job of old KPRO2007 project
  * Removed lots of stale code
  * Simplifyed usage of Vaudeville renderers and playback to a sleek sexy API
  * Moved project from internal to GitHub repository
 
-Todo's
+### Todo's
  * TaggerGUIScala should use the new improved downloader to fetch files
  * Downloader should cater for .dvl's and mp3's, not songs. However, multiple songs should be added by outside GUI.. Not quite sure how to implement this...
  * Probable timing problem between different renderers. Need to implement functionality to synchronize renderers inter-vm or via HTTP.
@@ -14,11 +15,11 @@ Todo's
  * Implement new self-made multimedia/file-cache
  * Problem of architecture when closing renderer views because of images have stopped having have to be shown
 
-h2. Undoing releases
+## Undoing releases
 Deleting remote tags can be done with:  git push origin :root-0.7
 
 
-h2. Dirigent Architectural Description
+## Dirigent Architectural Description
 Dirigenten, which has not been implemented yet, is responsible for downloading, parsing and playing all the multimedia content.
 It is a higher-level concept which just holds together the major building blocks of Vdvil
 
@@ -28,7 +29,7 @@ Functions:
  * playbackSpeed (130.5 BPM)
  * loadComposition(url)
 
-h3. Downloaders
+### Downloaders
 Responsible for downloading files from different file transfer protocols
 Examples of systems:
  * httpCache
@@ -38,7 +39,7 @@ VdvilCache has the details
  * Note: Vdvil should preferrably have control of its own cache storage since not all downloaders have their own caching solution
  * Note: MimeType/HTTP Headers should be stored in cache!
 
- h3. Renderers
+ ### Renderers
   * MP3
   * JPG/image
   * Vdvil
@@ -51,7 +52,7 @@ Functions:
  * accepts(String mimeType)
 
 
- h2. Finished todos
+ ## Finished todos
 
   * Some tests depend on .dvl and .mp3 files that should be part of the project so anyone can build without errors in tests
    * Introduce Psylteflesk .dvl/.mp3
