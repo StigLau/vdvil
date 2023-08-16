@@ -15,7 +15,7 @@ public abstract class CompositionDemo {
     public static void main(String[] args) throws Exception {
         //FileRepresentation snap = store.cache(ClassLoader.getSystemResource("Snap_-_Rhythm_is_a_Dancer.mp3"));
         //FileRepresentation corona = store.cache(ClassLoader.getSystemResource("Corona_-_Baby_Baby.mp3"));
-        FileRepresentation corona = Store.get().cache(TestMp3s.coronamp3);
+        FileRepresentation corona = Store.get().cache(TestMp3s.coronamp3.toURL());
 		AudioSource sourceA = new MP3Source(corona);
 		AudioSource sourceB = new MP3Source(corona);
 

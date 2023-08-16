@@ -6,14 +6,11 @@ import no.vdvil.renderer.audio.Segment;
 import no.vdvil.renderer.audio.TestMp3s;
 import no.vdvil.renderer.audio.Track;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,15 +20,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class JsonParserTest {
 
     final String testJson = "{\"reference\":\"trackReference\",\"bpm\":123.0,\"mediaFile\":{\"fileName\":\"https://url.com\",\"startingOffset\":1000.0,\"checksum\":\"a checksum\"},\"segments\":[{\"id\":\"id1\",\"text\":\"hello\",\"start\":0,\"duration\":16,\"end\":16},{\"id\":\"id2\",\"text\":\"goodbye\",\"start\":16,\"duration\":16,\"end\":32}]}";
-    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Test
-    public void testWritingTrackToJson() throws MalformedURLException {
+    public void testWritingTrackToJson() throws URISyntaxException {
         List<Segment> segments = new ArrayList<>();
         segments.add(new Segment("id1", 0, "hello", 16));
         segments.add(new Segment("id2", 16, "goodbye", 16));
 
-        Track track = new Track("trackReference", 123F, new MediaFile(new URL("https://url.com"), 1000F, "a checksum"), segments);
+        Track track = new Track("trackReference", 123F, new MediaFile(new URI("https://url.com"), 1000F, "a checksum"), segments);
         Gson gson = new Gson();
         String jsonResult = gson.toJson(track);
         System.out.println(jsonResult);
@@ -39,11 +35,11 @@ public class JsonParserTest {
     }
 
     @Test
-    public void testParsingJson() throws MalformedURLException {
+    public void testParsingJson() throws URISyntaxException {
         AudioJsonParser audioJsonParser = new AudioJsonParser();
         Track track = audioJsonParser.parseJsonStringToTrack(new StringReader(testJson));
         assertEquals("trackReference", track.reference);
-        assertEquals(new URL("https://url.com"), track.mediaFile.fileName);
+        assertEquals(new URI("https://url.com"), track.mediaFile.fileName);
     }
     @Test
     public void jsonReturning() {
@@ -56,7 +52,7 @@ public class JsonParserTest {
         InputStreamReader reader = new InputStreamReader(stream);
         Track track = new AudioJsonParser().parseJsonStringToTrack(reader);
         printTrackProperties(track);
-        assertEquals(new Float(130.0F), track.bpm);
+        assertEquals(130F, track.bpm);
         assertEquals(15, track.segments.size());
 
         checkSegment(track.segments.get(0), "4336519975847252321", "low", 0, 64);

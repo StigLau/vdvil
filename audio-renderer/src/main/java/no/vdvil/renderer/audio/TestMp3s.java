@@ -8,13 +8,15 @@ import no.lau.vdvil.handler.persistence.PartXML;
 import no.lau.vdvil.instruction.Instruction;
 import no.lau.vdvil.timing.Interval;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TestMp3s {
-    public static final URL coronamp3 =             createURL("https://s3.amazonaws.com/dvl-test-music/music/Corona_-_Baby_Baby.mp3");
-    public static final URL returningMp3 =          createURL("https://s3.amazonaws.com/dvl-test-music/music/holden-nothing-93_returning_mix.mp3");
+    public static final URI coronamp3 =             createURL("https://s3.amazonaws.com/dvl-test-music/music/Corona_-_Baby_Baby.mp3");
+    public static final URI returningMp3 =          createURL("https://s3.amazonaws.com/dvl-test-music/music/holden-nothing-93_returning_mix.mp3");
 
     public static final FileRepresentation psylteDvl =              createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/loaderror-psylteflesk.dvl", "11qqw");
     public static final FileRepresentation returningDvl =           createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/dvl/holden-nothing-93_returning_mix.dvl", "7a7051b2295481de6d741c83fe194708");
@@ -37,15 +39,15 @@ public class TestMp3s {
     public static final FileRepresentation javaZoneComposition = createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/composition/javazone.dvl.composition.xml", "490aa410679405eebbe36b682db9547e");
     public static final FileRepresentation javaZoneCompositionJson = createFileRepresentation("https://heap.kompo.st/JavaZone_Demo", "45657af53365567c60e47410f4620678");
     public static final FileRepresentation javaZoneComposition_WithoutImages = createFileRepresentation("https://s3.amazonaws.com/dvl-test-music/composition/javazone.dvl.composition.xml", "c6c3b27b83e71c79574c1837062e2345");
-    public static final URL NULL = createURL("https://null.com");
+    public static final URI NULL = createURL("https://null.com");
 
     public static final Track returning = returning();
     public static final Track corona = corona();
 
-    private static URL createURL(String url) {
+    private static URI createURL(String url) {
         try {
-            return new URL(url);
-        } catch (MalformedURLException e) {
+            return new URI(url);
+        } catch (URISyntaxException e) {
             throw new RuntimeException("This should never happen!", e);
         }
     }

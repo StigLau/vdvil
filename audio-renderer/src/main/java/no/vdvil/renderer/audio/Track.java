@@ -2,6 +2,8 @@ package no.vdvil.renderer.audio;
 
 import no.lau.vdvil.cache.CacheMetaData;
 import no.lau.vdvil.cache.FileRepresentation;
+
+import java.net.MalformedURLException;
 import java.util.List;
 
 public class Track {
@@ -16,7 +18,11 @@ public class Track {
         this.bpm = bpm;
         this.mediaFile = mediaFile;
         this.segments = segments;
-        this.fileRepresentation = new CacheMetaData(mediaFile.fileName, mediaFile.checksum);
+        try {
+            this.fileRepresentation = new CacheMetaData(mediaFile.fileName.toURL(), mediaFile.checksum);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

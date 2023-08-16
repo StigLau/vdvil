@@ -1,14 +1,14 @@
 package no.vdvil.renderer.audio;
 
-import java.net.URL;
+import java.net.URI;
 
 public class MediaFile {
-    public final URL fileName;
+    public final URI fileName;
     public final Float startingOffset;
     public final String checksum;
 
-    public MediaFile(URL url, Float startingOffsetInMillis, String checksum) {
-        this.fileName = url;
+    public MediaFile(URI fileRef, Float startingOffsetInMillis, String checksum) {
+        this.fileName = fileRef;
         this.startingOffset = startingOffsetInMillis;
         this.checksum = checksum;
     }
