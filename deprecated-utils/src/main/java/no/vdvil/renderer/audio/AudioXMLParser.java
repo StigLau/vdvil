@@ -29,7 +29,7 @@ public class AudioXMLParser implements MultimediaParser {
         MultimediaReference dvl = compositionInstruction.dvl();
         FileRepresentation fileRepresentation = store.cache(dvl.url(), dvl.fileChecksum());
         Track track = (Track) xstream.fromXML(fileRepresentation.localStorage());
-        track.fileRepresentation = store.createKey(track.mediaFile.fileName, track.mediaFile.checksum);
+        track.fileRepresentation = store.createKey(track.mediaFile.fileName.toURL(), track.mediaFile.checksum);
         Segment segment = track.findSegment(compositionInstruction.id());
         return new AudioDescription(segment, compositionInstruction, track);
     }

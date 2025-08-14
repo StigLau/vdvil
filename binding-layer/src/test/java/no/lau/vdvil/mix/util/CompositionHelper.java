@@ -14,7 +14,8 @@ import no.vdvil.renderer.audio.Track;
 import no.vdvil.renderer.image.cacheinfrastructure.ImageDescription;
 import no.vdvil.renderer.lyric.LyricDescription;
 import java.io.IOException;
-import java.net.URL;
+import java.net.MalformedURLException;
+import java.net.URI;
 
 /**
  * @author Stig@Lau.no - 25/12/14.
@@ -36,7 +37,11 @@ public abstract class CompositionHelper implements Compositeur {
         return new ImageDescription(new PartXML(id, timeInterval, new DvlXML(id, null)), fileRepresentation);
     }
 
-    protected static MultimediaPart createPart(TimeInterval timeInterval, Segment segment, Track track, URL url) {
-        return new AudioDescription(segment, new PartXML(segment.id, timeInterval, new DvlXML("", url)), track);
+    protected static MultimediaPart createPart(TimeInterval timeInterval, Segment segment, Track track, URI uri) {
+        try {
+            return new AudioDescription(segment, new PartXML(segment.id, timeInterval, new DvlXML("", uri.toURL())), track);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

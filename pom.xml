@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>no.lau.vdvil</groupId>
     <artifactId>vdvil</artifactId>
-    <version>0.21-SNAPSHOT</version>
+    <version>0.23.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Vdvil Root</name>
     <description>Vdvil - Framework for multimedia structuring, composition and playback</description>
@@ -136,8 +136,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
     </properties>
 
     <build>
@@ -145,15 +145,20 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
+                <version>3.13.0</version>
             </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.13.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.0.0-M7</version>
+                    <version>3.3.1</version>
                     <configuration>
                         <excludedGroups>Deprecated</excludedGroups><!-- To be switched based on whether running on github/actions or naught -->
                     </configuration>
@@ -184,7 +189,7 @@
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-surefire-plugin</artifactId>
-                            <version>3.0.0-M5</version>
+                            <version>3.3.1</version>
                             <configuration>
                                 <excludedGroups>IntegrationTest</excludedGroups><!-- To be switched based on whether running on github/actions or naught -->
                             </configuration>
