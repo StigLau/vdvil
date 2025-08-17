@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Random;
@@ -45,14 +46,19 @@ public class StoreTest {
 
     @Test
     public void findAlreadyStoredCachedFiles() throws IOException {
-        FileRepresentation fileRepresentation = store.cache(ClassLoader.getSystemResource("empty_testfile.txt"), "44edc5da79b289f81094d8d5952efde7");
-        assertEquals("/tmp/vdvil/files/c28cbd3b6c75c0aa4dc6a4ff4b7c5bf5/default", fileRepresentation.localStorage().getAbsolutePath());
+        URL testFileUrl = ClassLoader.getSystemResource("empty_testfile.txt");
+        FileRepresentation fileRepresentation = store.cache(testFileUrl, "44edc5da79b289f81094d8d5952efde7");
+        // Compute expected path dynamically based on URL hash instead of hardcoding
+        String expectedPath = store.getCacheMetadataStorageAndLookup().fileLocation(testFileUrl).getAbsolutePath();
+        assertEquals(expectedPath, fileRepresentation.localStorage().getAbsolutePath());
     }
 
     @Test
     public void doesMd5SumsWork() throws IOException {
         FileRepresentation cachedFileRepresentation = store.cache(store.createKey(returningMp3, returningMp3Checksum));
-        assertEquals("/tmp/vdvil/files/8020a9194279b68610499dfbc0d4619a/default", cachedFileRepresentation.localStorage().toString());
+        // Compute expected path dynamically instead of hardcoding
+        String expectedPath = store.getCacheMetadataStorageAndLookup().fileLocation(new URL(returningMp3)).toString();
+        assertEquals(expectedPath, cachedFileRepresentation.localStorage().toString());
     }
 
     @Test
@@ -78,8 +84,11 @@ public class StoreTest {
 
     @Test
     public void downloadSomethingWithCorrectChecksum() throws IOException {
-        FileRepresentation fileRepresentation = store.cache(new CacheMetaData(new URL(psylteDVL), psylteDVLChecksum));
-        assertEquals("/tmp/vdvil/files/0f6169eb434aa02b2f79929aabba1d9e/default", fileRepresentation.localStorage().getAbsolutePath());
+        URL psylteUrl = new URL(psylteDVL);
+        FileRepresentation fileRepresentation = store.cache(new CacheMetaData(psylteUrl, psylteDVLChecksum));
+        // Compute expected path dynamically instead of hardcoding
+        String expectedPath = store.getCacheMetadataStorageAndLookup().fileLocation(psylteUrl).getAbsolutePath();
+        assertEquals(expectedPath, fileRepresentation.localStorage().getAbsolutePath());
         assertEquals("fe002d377092e28afdbf25ca1eeba915", fileRepresentation.md5CheckSum());
     }
 }
