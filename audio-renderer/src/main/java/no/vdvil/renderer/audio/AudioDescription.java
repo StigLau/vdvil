@@ -39,7 +39,7 @@ public class AudioDescription implements MultimediaPart, MutableInstruction {
         int _duration = calculate(compositionInstruction.duration() + bpmCueDifference, speedFactor, differenceBetweenMasterSongAndPart);
         int _end = _start + _duration;
         //The cue is where to start inside the mp3 sample
-        int _cue = new Float((segment.start + compositionInstruction.cueDifference()) * speedFactor + track.mediaFile.startingOffset * Instruction.RESOLUTION).intValue();
+        int _cue = (int) ((segment.start + compositionInstruction.cueDifference()) * speedFactor + track.mediaFile.startingOffset * Instruction.RESOLUTION);
 
         AudioInstruction audioInstruction = new AudioInstruction(_start, _end, _cue, _duration, fileRepresentation);
         //Set start and duration for logging purposes
@@ -52,7 +52,7 @@ public class AudioDescription implements MultimediaPart, MutableInstruction {
     }
 
     int calculate(int bpm, Float speedFactor, Float differenceBetweenMasterSongAndPart) {
-        return new Float(bpm * speedFactor * differenceBetweenMasterSongAndPart).intValue();
+        return (int) (bpm * speedFactor * differenceBetweenMasterSongAndPart);
     }
 
     public Instruction asV2Instruction() {

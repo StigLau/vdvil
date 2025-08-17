@@ -27,8 +27,8 @@ public class AudioInstructionV2 extends SuperInstruction{
         Float speedFactor = Instruction.RESOLUTION * 60 / track.bpm;
         Float differenceBetweenMasterSongAndPart = track.bpm / masterBpm;
         //Start and end come from the composition instructions
-        int _start = new Float(start() * speedFactor * differenceBetweenMasterSongAndPart).intValue();
-        int _end = new Float((start() + length()) * speedFactor * differenceBetweenMasterSongAndPart).intValue();
+        int _start = (int) (start() * speedFactor * differenceBetweenMasterSongAndPart);
+        int _end = (int) ((start() + length()) * speedFactor * differenceBetweenMasterSongAndPart);
         //The cue is where to start inside the mp3 sample
         Float _cue = (segmentStart + cueDifference) * speedFactor + track.mediaFile.startingOffset * Instruction.RESOLUTION;
         int _duration = _end - _start;
