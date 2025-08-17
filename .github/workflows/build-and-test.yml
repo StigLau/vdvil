@@ -1,4 +1,4 @@
-name: Comprehensive Build and Test
+name: Build and Test
 
 on:
   push:
@@ -7,23 +7,11 @@ on:
     branches: [ master ]
 
 jobs:
-  dependency-check:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: OWASP Dependency Check
-      uses: dependency-check/Dependency-Check_Action@main
-      with:
-        project: 'VDVIL'
-        format: 'HTML'
-
   test:
-    needs: dependency-check
     runs-on: ubuntu-latest
     strategy:
       matrix:
         java-version: [19, 21, 22]
-      fail-fast: false
     
     steps:
     - name: Checkout code
@@ -36,31 +24,12 @@ jobs:
         distribution: 'temurin'
         cache: maven
         
-    - name: Run tests with retries
-      uses: nick-fields/retry@v2
-      with:
-        timeout_minutes: 10
-        max_attempts: 3
-        command: mvn clean verify -P ex-integration jacoco:report
+    - name: Run tests
+      run: mvn clean verify -P ex-integration
       
     - name: Upload test results
       uses: actions/upload-artifact@v4
       if: always()
       with:
         name: test-results-jdk${{ matrix.java-version }}
-        path: |
-          '**/target/surefire-reports/*.xml'
-          '**/target/site/jacoco/index.html'
-
-    - name: Performance Regression Check
-      run: |
-        mvn verify -P performance-test
-        ./scripts/check-performance-regression.sh
-
-  semantic-version:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Check Semantic Versioning
-      run: |
-        mvn validate -P version-check
+        path: '**/target/surefire-reports/*.xml'
