@@ -16,8 +16,8 @@ public class ImageInstruction extends SuperInstruction {
 
     public static ImageInstruction create(MasterBeatPattern mbp, FileRepresentation fileRepresentation) {
         float speedFactor = Instruction.RESOLUTION * 60 / mbp.bpmAt(mbp.fromBeat);
-        int _start = new Float(mbp.fromBeat * speedFactor).intValue();
-        int _end = new Float(mbp.toBeat * speedFactor).intValue();
+        int _start = (int) (mbp.fromBeat * speedFactor);
+        int _end = (int) (mbp.toBeat * speedFactor);
         int lenght = _end - _start;
         return new ImageInstruction(_start, lenght, fileRepresentation);
     }

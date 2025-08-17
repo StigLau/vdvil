@@ -17,8 +17,8 @@ public class LyricInstruction extends SuperInstruction {
 
     public static LyricInstruction create(int start, int end, float bpm, final String text) {
         float speedFactor = Instruction.RESOLUTION * 60 / bpm;
-        int _start = new Float(start * speedFactor).intValue();
-        int _end = new Float(end * speedFactor).intValue();
+        int _start = (int) (start * speedFactor);
+        int _end = (int) (end * speedFactor);
         return new LyricInstruction(_start, _end-_start, text);
     }
 }
