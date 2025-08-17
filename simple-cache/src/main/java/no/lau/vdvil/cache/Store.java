@@ -156,4 +156,8 @@ public class Store {
         File fileLocation = cacheMetadataStorageAndLookup.fileLocation(fileRepresentation.remoteAddress());
         return fileLocation.exists();
     }
+
+    public CacheMetadataStorageAndLookup getCacheMetadataStorageAndLookup() {
+        return cacheMetadataStorageAndLookup;
+    }
 }
